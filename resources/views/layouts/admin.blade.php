@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    @vite('resources/css/app.css')
+    <!-- boxShadow: {
+            soft: "0 10px 30px rgba(2, 6, 23, 0.08)",
+          } -->
+</head>
+
+<body class="h-full bg-slate-50 text-slate-900">
+    @include('admin.partials.sidebar')
+    @include('admin.partials.topbar')
+
+    <!-- Main -->
+    <main class="pt-16 lg:pl-64">
+        <!-- Content wrapper -->
+        <div class="mx-auto min-h-[calc(100vh-4rem)] max-w-screen-2xl px-4 py-6">
+            @yield('content')
+        </div>
+    </main>
+
+    <!-- Main script, for folding sidebar -->
+    <script>
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("overlay");
+        const btnOpen = document.getElementById("btnOpen");
+
+        function openSidebar() {
+            sidebar.classList.remove("-translate-x-full");
+            overlay.classList.remove("hidden");
+            btnOpen.setAttribute("aria-expanded", "true");
+            document.body.classList.add("overflow-hidden"); // lock scroll (mobile)
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add("-translate-x-full");
+            overlay.classList.add("hidden");
+            btnOpen.setAttribute("aria-expanded", "false");
+            document.body.classList.remove("overflow-hidden");
+        }
+
+        btnOpen.addEventListener("click", () => {
+            const isClosed = sidebar.classList.contains("-translate-x-full");
+            isClosed ? openSidebar() : closeSidebar();
+        });
+
+        overlay.addEventListener("click", closeSidebar);
+
+        // ESC to close
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") closeSidebar();
+        });
+
+        // Kalau pindah ke desktop, pastikan overlay mati & body scroll balik normal
+        window.addEventListener("resize", () => {
+            if (window.matchMedia("(min-width: 1024px)").matches) {
+                overlay.classList.add("hidden");
+                document.body.classList.remove("overflow-hidden");
+                sidebar.classList.remove("-translate-x-full");
+                btnOpen.setAttribute("aria-expanded", "false");
+            } else {
+                // di mobile defaultnya tertutup
+                closeSidebar();
+            }
+        });
+    </script>
+</body>
+
+</html>
