@@ -43,55 +43,89 @@
       <!-- First row -->
       <div class="flex flex-col gap-1 col-span-2">
         <label for="job-id" class="text-sm">Job ID</label>
-        <input type="text" name="job-id" id="job-id" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
+        @error('job-id')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
+        <input type="text" name="job-id" id="job-id" value="{{ old('job-id') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-id') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
       <div class="flex flex-col gap-1 col-span-6">
         <label for="job-title" class="text-sm">Nama Job</label>
-        <input type="text" name="job-title" id="job-title" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
+        @error('job-title')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
+        <input type="text" name="job-title" id="job-title" value="{{ old('job-title') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-title') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
 
       <!-- Second row -->
       <div class="flex flex-col gap-1 col-span-2">
         <label for="company" class="text-sm">Nama Perusahaan</label>
-        <input type="text" name="company" id="company" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
+        @error('company')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
+        <input type="text" name="company" id="company" value="{{ old('company') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('company') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
       <div class="flex flex-col gap-1 col-span-2">
         <label for="job-placement" class="text-sm">Penempatan</label>
-        <input type="text" name="job-placement" id="job-placement" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
+        @error('job-placement')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
+        <input type="text" name="job-placement" id="job-placement" value="{{ old('job-placement') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-placement') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
       <div class="flex flex-col gap-1 col-span-2">
         <label for="job-type" class="text-sm">Jenis Pekerjaan</label>
-        <input type="text" name="job-type" id="job-type" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
+        @error('job-type')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
+        <input type="text" name="job-type" id="job-type" value="{{ old('job-type') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
       <div class="flex flex-col gap-1 col-span-2">
         <label for="job-sallary" class="text-sm">Gaji</label>
-        <input type="text" name="job-sallary" id="job-sallary" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all w-full">
+        @error('job-sallary')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
+        <input type="text" name="job-sallary" id="job-sallary" value="{{ old('job-sallary') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('job-sallary') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
         <span class="text-[10px] text-slate-400">Jika tidak ada, isi dengan -</span>
       </div>
 
       <!-- Third row -->
       <div class="flex flex-col gap-1 col-span-2">
         <label for="gender-requirement" class="text-sm">Persyaratan Gender</label>
+        @error('gender-requirement')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
         <select name="gender-requirement" id="gender-requirement" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
           <option value="">Pilih</option>
-          <option value="l">Laki-laki</option>
-          <option value="p">Perempuan</option>
+          <option value="l" @selected(old('gender-requirement') === 'l')>Laki-laki</option>
+          <option value="p" @selected(old('gender-requirement') === 'p')>Perempuan</option>
         </select>
       </div>
       <div class="flex flex-col gap-1 col-span-2">
         <label for="domicile-requirement" class="text-sm">Persyaratan Domisili</label>
+        @error('domicile-requirement')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
         <select name="domicile-requirement" id="domicile-requirement" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
           <option value="">Pilih</option>
-          <option value="kokunai">Khusus Jepang</option>
-          <option value="kokugai">Bebas (Di Luar Jepang)</option>
+          <option value="kokunai" @selected(old('domicile-requirement') === 'kokunai')>Khusus Jepang</option>
+          <option value="kokugai" @selected(old('domicile-requirement') === 'kokugai')>Bebas (Di Luar Jepang)</option>
         </select>
+      </div>
+      <div class="flex flex-col gap-1 col-span-2">
+        <label for="qty" class="text-sm">Kuantitas Dibutuhkan</label>
+        @error('qty')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
+        <input type="number" name="qty" id="qty" value="{{ old('qty') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('qty') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
 
       <!-- Fourth row -->
       <div class="flex flex-col gap-2 col-span-8 mt-5">
         <label for="additional-information" class="text-sm">Informasi Tambahan</label>
+        @error('additional-information')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
         <span class="text-xs text-slate-400">Tambahkan deskripsi pekerjaan, persyaratan khusus, bonus dan lain sebagainya</span>
-        <textarea rows="10" name="additional-information" id="additional-information" class="rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all"></textarea>
+        <textarea rows="10" name="additional-information" id="additional-information" class="rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('additional-information') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">{{ old('additional-information') }}</textarea>
       </div>
     </div>
 
