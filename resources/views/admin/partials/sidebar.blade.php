@@ -28,7 +28,7 @@
     <nav class="px-3 py-4">
         <p class="px-3 pb-2 text-xs font-medium uppercase tracking-wider text-slate-400">Menu</p>
 
-        <a href="#" class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">
+        <a href="/admin/jobs" class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">
             Manajemen Job
         </a>
     </nav>

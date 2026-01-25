@@ -12,94 +12,66 @@
 
       <li class="flex items-center gap-2">
         <span class="text-slate-400">/</span>
-        <a href="#" class="hover:text-slate-700">
-          Job
-        </a>
-      </li>
-
-      <li class="flex items-center gap-2">
-        <span class="text-slate-400">/</span>
         <span class="font-medium text-slate-700">
-          Buat Job
+          Job
         </span>
       </li>
     </ol>
   </nav>
-  <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-    Buat Job
-  </h1>
-  <p class="mt-2 text-sm text-slate-500">
-    Buat info lowongan terbaru
-  </p>
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+        Daftar Job
+      </h1>
+      <p class="mt-2 text-sm text-slate-500">
+        Kelola semua lowongan yang sudah diinput
+      </p>
+    </div>
+    <div>
+      <a href="/admin/jobs/create" class="inline-flex items-center justify-center rounded bg-slate-500 px-4 py-2 text-sm font-medium text-white hover:bg-slate-600">Tambah Job</a>
+    </div>
+  </div>
 </div>
 
-<div class="border rounded-lg border-slate-200 p-4 relative">
-  <div class="absolute top-0 inset-x-0 bg-slate-400 text-xs text-white rounded-b-none rounded p-1">Informasi Umum Job</div>
-
-  <form method="post" action="/admin/jobs/insert">
-    @csrf
-    <div class="block sm:grid grid-cols-8 gap-5 mt-8">
-
-      <!-- First row -->
-      <div class="flex flex-col gap-1 col-span-2">
-        <label for="job-id" class="text-sm">Job ID</label>
-        <input type="text" name="job-id" id="job-id" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
-      </div>
-      <div class="flex flex-col gap-1 col-span-6">
-        <label for="job-title" class="text-sm">Nama Job</label>
-        <input type="text" name="job-title" id="job-title" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
+<div class="border rounded-lg border-slate-200 p-3">
+  <div class="grid grid-cols-1 gap-2">
+    @forelse ($jobs as $job)
+    <div class="rounded-md border border-slate-200 px-3 py-2">
+      <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+        <div class="min-w-0">
+          <div class="text-xs text-slate-500">{{ $job->job_code }}</div>
+          <h3 class="truncate text-sm font-semibold text-slate-900">{{ $job->title }}</h3>
+          <p class="truncate text-xs text-slate-600">{{ $job->company_name }} • {{ $job->placement }}</p>
+        </div>
+        <div class="mt-1 text-xs text-slate-600 sm:mt-0">{{ $job->salary }}</div>
       </div>
 
-      <!-- Second row -->
-      <div class="flex flex-col gap-1 col-span-2">
-        <label for="company" class="text-sm">Nama Perusahaan</label>
-        <input type="text" name="company" id="company" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
-      </div>
-      <div class="flex flex-col gap-1 col-span-2">
-        <label for="job-placement" class="text-sm">Penempatan</label>
-        <input type="text" name="job-placement" id="job-placement" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
-      </div>
-      <div class="flex flex-col gap-1 col-span-2">
-        <label for="job-type" class="text-sm">Jenis Pekerjaan</label>
-        <input type="text" name="job-type" id="job-type" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
-      </div>
-      <div class="flex flex-col gap-1 col-span-2">
-        <label for="job-sallary" class="text-sm">Gaji</label>
-        <input type="text" name="job-sallary" id="job-sallary" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all w-full">
-        <span class="text-[10px] text-slate-400">Jika tidak ada, isi dengan -</span>
+      <div class="mt-2 flex flex-wrap gap-1 text-[11px] text-slate-600">
+        <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->job_type }}</span>
+        <span class="rounded bg-slate-100 px-2 py-0.5">Gender: {{ strtoupper($job->gender_requirement) }}</span>
+        <span class="rounded bg-slate-100 px-2 py-0.5">
+          Domisili: {{ $job->domicile_requirement === 'kokunai' ? 'Khusus Jepang' : 'Bebas' }}
+        </span>
+        <span class="rounded bg-slate-100 px-2 py-0.5">Qty: {{ $job->qty }}</span>
       </div>
 
-      <!-- Third row -->
-      <div class="flex flex-col gap-1 col-span-2">
-        <label for="gender-requirement" class="text-sm">Persyaratan Gender</label>
-        <select name="gender-requirement" id="gender-requirement" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
-          <option value="">Pilih</option>
-          <option value="l">Laki-laki</option>
-          <option value="p">Perempuan</option>
-        </select>
-      </div>
-      <div class="flex flex-col gap-1 col-span-2">
-        <label for="domicile-requirement" class="text-sm">Persyaratan Domisili</label>
-        <select name="domicile-requirement" id="domicile-requirement" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
-          <option value="">Pilih</option>
-          <option value="kokunai">Khusus Jepang</option>
-          <option value="kokugai">Bebas (Di Luar Jepang)</option>
-        </select>
-      </div>
-
-      <!-- Fourth row -->
-      <div class="flex flex-col gap-2 col-span-8 mt-5">
-        <label for="additional-information" class="text-sm">Informasi Tambahan</label>
-        <span class="text-xs text-slate-400">Tambahkan deskripsi pekerjaan, persyaratan khusus, bonus dan lain sebagainya</span>
-        <textarea rows="10" name="additional-information" id="additional-information" class="rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all"></textarea>
+      <div class="mt-2">
+        <a href="/admin/jobs/detail/{{ $job->job_code }}" class="text-xs font-medium text-slate-600 hover:text-slate-800">Detail</a>
+        <span class="mx-1 text-slate-300">•</span>
+        <a href="/admin/jobs/edit/{{ $job->job_code }}" class="text-xs font-medium text-slate-600 hover:text-slate-800">Edit</a>
+        <span class="mx-1 text-slate-300">•</span>
+        <form method="post" action="/admin/jobs/delete/{{ $job->job_code }}" class="inline">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="text-xs font-medium text-red-600 hover:text-red-700">Hapus</button>
+        </form>
       </div>
     </div>
-
-    <div class="block sm:grid grid-cols-8 gap-5 mt-2">
-      <div class="col-span-8">
-        <button type="submit" class="p-2 bg-slate-500 text-white w-full hover:bg-slate-600 active:scale-[0.98] active:bg-slate-600 transition-all">Simpan</button>
-      </div>
+    @empty
+    <div class="rounded-md border border-dashed border-slate-200 px-3 py-6 text-center text-sm text-slate-500">
+      Belum ada job yang diinput.
     </div>
-  </form>
+    @endforelse
+  </div>
 </div>
 @endsection
