@@ -56,12 +56,16 @@
                 </svg>
             </button>
 
-            <button
-                class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium hover:bg-slate-50 active:scale-[0.98]"
-                aria-label="Account">
-                <span class="hidden sm:inline">Bill</span>
-                <span class="h-7 w-7 rounded-full bg-slate-200"></span>
-            </button>
+            <form action="{{ route('admin.logout') }}" method="POST" class="inline js-logout-form">
+                @csrf
+                <button
+                    type="submit"
+                    class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium hover:bg-slate-50 active:scale-[0.98]"
+                    aria-label="Account">
+                    <span class="hidden sm:inline">{{ auth('admin')->user()->name }}</span>
+                    <span class="h-7 rounded-full bg-slate-200 px-2 py-1 text-xs font-semibold text-slate-700">Logout</span>
+                </button>
+            </form>
         </div>
     </div>
 </header>

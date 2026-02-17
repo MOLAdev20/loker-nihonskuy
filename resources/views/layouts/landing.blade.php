@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" class="scroll-smooth">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    @vite("resources/css/app.css")
+    @yield("header")
 </head>
 
-<body>
+<body class="bg-slate-50 text-slate-900 antialiased">
+    @include("components.topbar")
+    <main class="noise">
+
+        @yield("content")
+        @include("components.footer")
+
+    </main>
+    @yield("scripts")
 </body>
 
 </html>
