@@ -17,5 +17,7 @@ class JobListing extends Model
         'domicile_requirement',
         'qty',
         'additional_information',
+        'thumbnail_path',
+        'whatsapp_number',
     ];
 }

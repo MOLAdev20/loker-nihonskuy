@@ -1,5 +1,9 @@
 @extends('layouts.admin')
 
+@push('styles')
+<link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
+@endpush
+
 @section('content')
 <div class="mb-5">
   <nav class="mb-4 text-sm" aria-label="Breadcrumb">
@@ -84,6 +88,14 @@
         <input type="text" name="job-sallary" id="job-sallary" value="{{ old('job-sallary', $job->salary) }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('job-sallary') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
         <span class="text-[10px] text-slate-400">Jika tidak ada, isi dengan -</span>
       </div>
+      <div class="flex flex-col gap-1 col-span-2">
+        <label for="whatsapp-number" class="text-sm">Nomor WhatsApp</label>
+        @error('whatsapp-number')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
+        <input type="text" name="whatsapp-number" id="whatsapp-number" value="{{ old('whatsapp-number', $job->whatsapp_number) }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('whatsapp-number') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <span class="text-[10px] text-slate-400">Gunakan format internasional, contoh: 62812xxxxxxx</span>
+      </div>
 
       <!-- Third row -->
       <div class="flex flex-col gap-1 col-span-2">
@@ -123,7 +135,8 @@
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
         <span class="text-xs text-slate-400">Tambahkan deskripsi pekerjaan, persyaratan khusus, bonus dan lain sebagainya</span>
-        <textarea rows="10" name="additional-information" id="additional-information" class="rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('additional-information') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">{{ old('additional-information', $job->additional_information) }}</textarea>
+        <input type="hidden" name="additional-information" id="additional-information" value="{{ old('additional-information', $job->additional_information) }}">
+        <div id="additional-information-editor" class="rounded border text-sm {{ $errors->has('additional-information') ? 'border-red-500' : 'border-slate-300' }}"></div>
       </div>
     </div>
 
@@ -135,3 +148,59 @@
   </form>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
+<script>
+  const additionalInformationInput = document.getElementById("additional-information");
+  const additionalInformationEditor = document.getElementById("additional-information-editor");
+  const initialAdditionalInformation = @json(old('additional-information', $job->additional_information));
+
+  const quill = new Quill(additionalInformationEditor, {
+    theme: "snow",
+    placeholder: "Tulis deskripsi pekerjaan di sini...",
+    modules: {
+      toolbar: [
+        [{
+          header: [1, 2, 3, false]
+        }],
+        ["bold", "italic", "underline", "strike"],
+        [{
+          list: "ordered"
+        }, {
+          list: "bullet"
+        }],
+        ["blockquote", "link"],
+        ["clean"]
+      ]
+    }
+  });
+
+  const isValidDelta = (value) => {
+    return value && typeof value === "object" && Array.isArray(value.ops);
+  };
+
+  let parsedInitialValue = null;
+
+  if (typeof initialAdditionalInformation === "string" && initialAdditionalInformation.trim() !== "") {
+    try {
+      parsedInitialValue = JSON.parse(initialAdditionalInformation);
+    } catch (e) {
+      parsedInitialValue = null;
+    }
+  }
+
+  if (isValidDelta(parsedInitialValue)) {
+    quill.setContents(parsedInitialValue);
+  } else if (initialAdditionalInformation) {
+    quill.setText(initialAdditionalInformation);
+  }
+
+  const syncQuillDeltaToInput = () => {
+    additionalInformationInput.value = JSON.stringify(quill.getContents());
+  };
+
+  syncQuillDeltaToInput();
+  quill.on("text-change", syncQuillDeltaToInput);
+</script>
+@endpush

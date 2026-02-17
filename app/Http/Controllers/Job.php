@@ -4,9 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\JobListing;
+use Illuminate\Support\Facades\Storage;
 
 class Job extends Controller
 {
+    private function isEmptyQuillDelta(array $delta): bool
+    {
+        if (! isset($delta['ops']) || ! is_array($delta['ops'])) {
+            return true;
+        }
+
+        $plainText = '';
+
+        foreach ($delta['ops'] as $op) {
+            if (is_array($op) && isset($op['insert']) && is_string($op['insert'])) {
+                $plainText .= $op['insert'];
+            }
+        }
+
+        return trim($plainText) === '';
+    }
+
     public function index()
     {
         $jobs = JobListing::latest()->get();
@@ -31,10 +49,26 @@ class Job extends Controller
                 'job-placement' => ['required'],
                 'job-type' => ['required'],
                 'job-sallary' => ['required'],
+                'whatsapp-number' => ['required'],
                 'gender-requirement' => ['required'],
                 'domicile-requirement' => ['required'],
                 'qty' => ['required', 'integer', 'min:1'],
-                'additional-information' => ['required'],
+                'additional-information' => [
+                    'required',
+                    'json',
+                    function (string $attribute, mixed $value, \Closure $fail) {
+                        $delta = json_decode((string) $value, true);
+
+                        if (! is_array($delta) || ! isset($delta['ops']) || ! is_array($delta['ops'])) {
+                            $fail('Format deskripsi pekerjaan tidak valid.');
+                            return;
+                        }
+
+                        if ($this->isEmptyQuillDelta($delta)) {
+                            $fail('Informasi tambahan wajib diisi.');
+                        }
+                    },
+                ],
             ],
             [
                 'job-id.required' => 'Job ID wajib diisi.',
@@ -44,12 +78,14 @@ class Job extends Controller
                 'job-placement.required' => 'Penempatan wajib diisi.',
                 'job-type.required' => 'Jenis pekerjaan wajib diisi.',
                 'job-sallary.required' => 'Gaji wajib diisi.',
+                'whatsapp-number.required' => 'Nomor WhatsApp wajib diisi.',
                 'gender-requirement.required' => 'Persyaratan gender wajib diisi.',
                 'domicile-requirement.required' => 'Persyaratan domisili wajib diisi.',
                 'qty.required' => 'Kuantitas dibutuhkan wajib diisi.',
                 'qty.integer' => 'Kuantitas dibutuhkan harus berupa angka.',
                 'qty.min' => 'Kuantitas dibutuhkan minimal 1.',
                 'additional-information.required' => 'Informasi tambahan wajib diisi.',
+                'additional-information.json' => 'Format deskripsi pekerjaan tidak valid.',
             ]
         );
 
@@ -60,6 +96,7 @@ class Job extends Controller
             'placement' => $validated['job-placement'],
             'job_type' => $validated['job-type'],
             'salary' => $validated['job-sallary'],
+            'whatsapp_number' => $validated['whatsapp-number'],
             'gender_requirement' => $validated['gender-requirement'],
             'domicile_requirement' => $validated['domicile-requirement'],
             'qty' => $validated['qty'],
@@ -98,10 +135,26 @@ class Job extends Controller
                 'job-placement' => ['required'],
                 'job-type' => ['required'],
                 'job-sallary' => ['required'],
+                'whatsapp-number' => ['required'],
                 'gender-requirement' => ['required'],
                 'domicile-requirement' => ['required'],
                 'qty' => ['required', 'integer', 'min:1'],
-                'additional-information' => ['required'],
+                'additional-information' => [
+                    'required',
+                    'json',
+                    function (string $attribute, mixed $value, \Closure $fail) {
+                        $delta = json_decode((string) $value, true);
+
+                        if (! is_array($delta) || ! isset($delta['ops']) || ! is_array($delta['ops'])) {
+                            $fail('Format deskripsi pekerjaan tidak valid.');
+                            return;
+                        }
+
+                        if ($this->isEmptyQuillDelta($delta)) {
+                            $fail('Informasi tambahan wajib diisi.');
+                        }
+                    },
+                ],
             ],
             [
                 'job-title.required' => 'Nama job wajib diisi.',
@@ -109,12 +162,14 @@ class Job extends Controller
                 'job-placement.required' => 'Penempatan wajib diisi.',
                 'job-type.required' => 'Jenis pekerjaan wajib diisi.',
                 'job-sallary.required' => 'Gaji wajib diisi.',
+                'whatsapp-number.required' => 'Nomor WhatsApp wajib diisi.',
                 'gender-requirement.required' => 'Persyaratan gender wajib diisi.',
                 'domicile-requirement.required' => 'Persyaratan domisili wajib diisi.',
                 'qty.required' => 'Kuantitas dibutuhkan wajib diisi.',
                 'qty.integer' => 'Kuantitas dibutuhkan harus berupa angka.',
                 'qty.min' => 'Kuantitas dibutuhkan minimal 1.',
                 'additional-information.required' => 'Informasi tambahan wajib diisi.',
+                'additional-information.json' => 'Format deskripsi pekerjaan tidak valid.',
             ]
         );
 
@@ -124,10 +179,39 @@ class Job extends Controller
             'placement' => $validated['job-placement'],
             'job_type' => $validated['job-type'],
             'salary' => $validated['job-sallary'],
+            'whatsapp_number' => $validated['whatsapp-number'],
             'gender_requirement' => $validated['gender-requirement'],
             'domicile_requirement' => $validated['domicile-requirement'],
             'qty' => $validated['qty'],
             'additional_information' => $validated['additional-information'],
+        ]);
+
+        return redirect("/admin/jobs/detail/{$job->job_code}");
+    }
+
+    public function updateThumbnail(Request $req, $id)
+    {
+        $job = JobListing::where('job_code', $id)->firstOrFail();
+
+        $validated = $req->validate(
+            [
+                'thumbnail' => ['required', 'image', 'max:2048'],
+            ],
+            [
+                'thumbnail.required' => 'Thumbnail wajib diunggah.',
+                'thumbnail.image' => 'Thumbnail harus berupa gambar.',
+                'thumbnail.max' => 'Ukuran thumbnail maksimal 2MB.',
+            ]
+        );
+
+        if (! empty($job->thumbnail_path)) {
+            Storage::disk('public')->delete($job->thumbnail_path);
+        }
+
+        $path = $validated['thumbnail']->store('job-thumbnails', 'public');
+
+        $job->update([
+            'thumbnail_path' => $path,
         ]);
 
         return redirect("/admin/jobs/detail/{$job->job_code}");

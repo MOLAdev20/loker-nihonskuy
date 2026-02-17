@@ -60,7 +60,7 @@
         <span class="mx-1 text-slate-300">•</span>
         <a href="/admin/jobs/edit/{{ $job->job_code }}" class="text-xs font-medium text-slate-600 hover:text-slate-800">Edit</a>
         <span class="mx-1 text-slate-300">•</span>
-        <form method="post" action="/admin/jobs/delete/{{ $job->job_code }}" class="inline">
+        <form method="post" action="/admin/jobs/delete/{{ $job->job_code }}" class="inline js-delete-job-form">
           @csrf
           @method('DELETE')
           <button type="submit" class="text-xs font-medium text-red-600 hover:text-red-700">Hapus</button>
@@ -71,7 +71,43 @@
     <div class="rounded-md border border-dashed border-slate-200 px-3 py-6 text-center text-sm text-slate-500">
       Belum ada job yang diinput.
     </div>
-    @endforelse
+@endforelse
   </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+  const deleteJobForms = document.querySelectorAll(".js-delete-job-form");
+
+  deleteJobForms.forEach((form) => {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (typeof Swal === "undefined") {
+        if (confirm("Hapus Lowongan Ini?\\nYakin ingin menghapus lowongan ini?")) {
+          form.submit();
+        }
+
+        return;
+      }
+
+      const result = await Swal.fire({
+        title: "Hapus Lowongan Ini?",
+        text: "Yakin ingin menghapus lowongan ini?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, hapus",
+        cancelButtonText: "Batal",
+        confirmButtonColor: "#b91c1c",
+        cancelButtonColor: "#64748b",
+        reverseButtons: true,
+      });
+
+      if (result.isConfirmed) {
+        form.submit();
+      }
+    });
+  });
+</script>
 @endsection

@@ -19,8 +19,8 @@
             </svg>
         </div>
         <div class="leading-tight">
-            <p class="text-sm font-semibold">Marveluvs Admin</p>
-            <p class="text-xs text-slate-500">Minimal Dashboard</p>
+            <p class="text-sm font-semibold">NihonSkuy Admin</p>
+            <p class="text-xs text-slate-500">Admin Dashboard</p>
         </div>
     </div>
 
@@ -38,8 +38,8 @@
         <div class="flex items-center gap-3">
             <div class="h-9 w-9 rounded-full bg-slate-200"></div>
             <div class="min-w-0">
-                <p class="truncate text-sm font-semibold">Bill</p>
-                <p class="truncate text-xs text-slate-500">Admin</p>
+                <p class="truncate text-sm font-semibold">{{ auth('admin')->user()->name }}</p>
+                <p class="truncate text-xs text-slate-500">{{ auth('admin')->user()->email }}</p>
             </div>
         </div>
     </div>

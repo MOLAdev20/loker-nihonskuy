@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     @vite('resources/css/app.css')
-    <!-- boxShadow: {
-            soft: "0 10px 30px rgba(2, 6, 23, 0.08)",
-          } -->
+    @stack('styles')
 </head>
 
 <body class="h-full bg-slate-50 text-slate-900">
@@ -23,6 +21,7 @@
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Main script, for folding sidebar -->
     <script>
         const sidebar = document.getElementById("sidebar");
@@ -67,7 +66,40 @@
                 closeSidebar();
             }
         });
+
+        const logoutForms = document.querySelectorAll(".js-logout-form");
+
+        logoutForms.forEach((form) => {
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                if (typeof Swal === "undefined") {
+                    if (confirm("Yakin ingin logout?")) {
+                        form.submit();
+                    }
+
+                    return;
+                }
+
+                const result = await Swal.fire({
+                    title: "Logout?",
+                    text: "Anda yakin ingin logout?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Ya, logout",
+                    cancelButtonText: "Batal",
+                    confirmButtonColor: "#0f172a",
+                    cancelButtonColor: "#64748b",
+                    reverseButtons: true,
+                });
+
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
     </script>
+    @yield('scripts')
 </body>
 
 </html>
