@@ -1,37 +1,8 @@
 @extends("layouts/landing")
 
-@section("header")
-
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+@push("header")
 <title>NihonSkuy - Raih Pekerjaan Impianmu di Jepang!</title>
-
-<!-- Tailwind CDN -->
-@vite("resources/css/app.css")
-
-<!-- Tailwind config (opsional) -->
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        fontFamily: {
-          sans: ["ui-sans-serif", "system-ui", "Inter", "Segoe UI", "Roboto", "Arial", "sans-serif"],
-        },
-        boxShadow: {
-          soft: "0 10px 30px rgba(2,6,23,.08)",
-        },
-      },
-    },
-  };
-</script>
-
-<style>
-  .noise {
-    background-image: radial-gradient(rgba(15, 23, 42, 0.05) 1px, transparent 1px);
-    background-size: 18px 18px;
-  }
-</style>
-@endsection
+@endpush
 
 
 @php
@@ -61,10 +32,11 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
 
       <!-- Search box -->
       <div class="mt-6 rounded-2xl border border-slate-200 bg-white p-3 shadow-soft">
-        <form method="GET" action="/jobs" class="flex justify-center gap-3">
+        <form method="GET" action="/jobs" class="flex flex-col sm:flex-row justify-center gap-2">
+
           <label>
             <span class="sr-only">Kata kunci</span>
-            <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2">
+            <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 active:ring-2 active:ring-slate-300 focus-within:ring-2 focus-within:ring-slate-300 transition-all">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-slate-400">
                 <path
                   d="M21 21l-4.3-4.3m1.8-5.2a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
@@ -82,7 +54,7 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
 
           <label>
             <span class="sr-only">Lokasi</span>
-            <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2">
+            <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 active:ring-slate-300 focus-within:ring-2 focus-within:ring-slate-300 transition-all">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-slate-400">
                 <path
                   d="M12 22s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z"
@@ -104,7 +76,7 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
           <label>
             <button
               type="submit"
-              class="flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">
+              class="flex sm:w-auto w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 active:ring-slate-300 focus-within:ring-2 focus-within:ring-slate-300 transition-all cursor-pointer">
               Cari
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                 <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
@@ -198,8 +170,7 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
     <div>
       <h2 class="text-2xl font-semibold tracking-tight">Tentang Kami</h2>
       <p class="mt-2 text-sm leading-relaxed text-slate-600">
-        Layanan job seeker yang menghubungkan kamu dengan perusahaan penyedia lowongan kerja di Jepang.
-        Lowongan kerja yang kami tampilkan sudah melalui proses seleksi agar sesuai dengan kebutuhan dan preferensi kamu.
+        <span class="font-bold">NihonSkuy</span> adalah portal lowongan kerja yang berfokus membantu pencari kerja di Indonesia menemukan peluang karier di Jepang. Kami percaya proses mencari kerja seharusnya mudah, cepat, dan transparan. Melalui lowongan yang telah dikurasi dengan informasi lengkap mulai dari gaji, lokasi, hingga persyaratan domisili serta fitur filter yang memudahkan pencarian, kami menghadirkan pengalaman yang lebih efisien dan terarah. Dengan demikian, Anda dapat lebih fokus mempersiapkan diri untuk meraih karier impian di Jepang.
       </p>
 
       <div class="mt-6 space-y-3">
@@ -366,15 +337,6 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
 @section("scripts")
 <script>
   // Mobile menu toggle
-  const btn = document.getElementById("menuBtn");
-  const menu = document.getElementById("mobileMenu");
-
-  btn?.addEventListener("click", () => {
-    const isOpen = !menu.classList.contains("hidden");
-    menu.classList.toggle("hidden");
-    btn.setAttribute("aria-expanded", String(!isOpen));
-  });
-
   fetch('/japan.json')
     .then(response => response.json())
     .then(data => {

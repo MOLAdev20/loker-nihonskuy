@@ -150,7 +150,11 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
 
           @php
           $whatsappNumber = preg_replace('/\D+/', '', $job->whatsapp_number ?? '');
-          $whatsappLink = $whatsappNumber ? 'https://wa.me/' . $whatsappNumber : '#';
+          $whatsappLink = $whatsappNumber
+          ? 'https://wa.me/' . $whatsappNumber . '?text=' . urlencode(
+          'Halo, saya berminat untuk apply job ' . $job->title.' ('.$job->job_code.')'
+          )
+          : '#';
           @endphp
 
           <div class="mt-6 grid gap-2">
