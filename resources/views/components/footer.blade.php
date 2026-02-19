@@ -11,11 +11,9 @@
                         <div class="text-xs text-slate-500">Temukan karir impianmu di Jepang</div>
                     </div>
                 </div>
-                <p class="mt-4 max-w-md text-sm leading-relaxed text-slate-600">Central Business District (SCBD)
-                    JL. Jenderal Sudirman Kav 52 – 53 Jakarta 12190 - Indonesia
-                </p>
+                <p class="mt-4 max-w-md text-sm leading-relaxed text-slate-600">Komplek Griya Bandung Asri III Blok A11 No.08 Kelurahan Cipagalo, Kecamatan Bojongsoang, Kabupaten Bandung</p>
 
-                <form class="mt-5 flex max-w-md gap-2" onsubmit="event.preventDefault();">
+                <!-- <form class="mt-5 flex max-w-md gap-2" onsubmit="event.preventDefault();">
                     <input
                         type="email"
                         required
@@ -29,7 +27,7 @@
                 <div class="mt-4 flex flex-wrap gap-2 text-xs text-slate-500">
                     <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">No spam</span>
                     <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">Unsubscribe anytime</span>
-                </div>
+                </div> -->
             </div>
 
             <div>
@@ -43,11 +41,12 @@
             </div>
 
             <div>
-                <div class="text-sm font-semibold">Contact</div>
+                <div class="text-sm font-semibold">Kontak & Sosial Media</div>
                 <ul class="mt-3 space-y-2 text-sm text-slate-600">
-                    <li><a class="hover:text-slate-900" href="#">minskuy@nihonskuy.com</a></li>
-                    <li><a class="hover:text-slate-900" href="#">+62 831-4031-8095</a></li>
-                    <li class="pt-2">
+                    <li><a class="hover:text-slate-900" href="mailto:nihonskuy@gmail.com">nihonskuy@gmail.com</a></li>
+                    <li><a class="hover:text-slate-900" href="https://wa.me/+6289514161277">+62 895-1416-1277</a></li>
+                    <li><a class="hover:text-slate-900" href="https://instagram.com/nihonskuy">Instagram Nihonskuy</a></li>
+                    <!-- <li class="pt-2">
                         <div class="text-xs text-slate-500">Social</div>
                         <div class="mt-2 flex gap-2">
                             <a
@@ -100,7 +99,7 @@
                                 </svg>
                             </a>
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
