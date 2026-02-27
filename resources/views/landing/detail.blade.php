@@ -93,7 +93,13 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
             <div>
               <div class="text-xs text-slate-500">{{ $job->job_code }}</div>
               <h1 class="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">{{ $job->title }}</h1>
-              <p class="mt-1 text-sm text-slate-600">{{ $job->company_name }} • {{ $job->placement }}</p>
+              <p class="mt-1 text-sm text-slate-600 flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin-icon lucide-map-pin">
+                  <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                {{ $job->placement }}
+              </p>
             </div>
             <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">{{ $job->job_type }}</span>
           </div>
@@ -113,10 +119,32 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
                 {{ $job->domicile_requirement === 'kokunai' ? 'Khusus Jepang' : 'Bebas (Di Luar Jepang)' }}
               </div>
             </div>
+
+            <div class="col-span-3 mt-3 mb-3">
+              <h1 class="font-medium">Benefit & Fasilitas</h1>
+              <div class="mt-3 flex flex-wrap gap-2" id="benefit">
+                @php
+                $benefits = $job->benefit ? array_filter(explode('|', $job->benefit)) : [];
+                @endphp
+                @if (count($benefits))
+                @foreach ($benefits as $benefit)
+                <span class="inline-block rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600">
+                  {{ $benefit }}
+                </span>
+                @endforeach
+                @else
+                <span class="text-xs text-slate-400">Benefit & fasilitas tidak dicantumkan</span>
+                @endif
+              </div>
+            </div>
+          </div>
+
+          <div class="">
+
           </div>
 
           <div class="mt-5 rounded-2xl border border-slate-200 bg-white p-5">
-            <div class="text-sm font-semibold text-slate-900">Informasi Tambahan</div>
+            <div class="font-medium text-slate-900">Informasi Tambahan</div>
             @if($additionalInformationDelta)
             <div id="job-detail-description-viewer" class="mt-2 text-sm leading-relaxed text-slate-700"></div>
             @else
@@ -161,8 +189,15 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
             <a href="{{ $whatsappLink }}" target="_blank" rel="noopener" class="rounded-xl bg-slate-900 px-4 py-2 text-center text-sm font-medium text-white hover:bg-slate-800">
               Lamar Sekarang
             </a>
-            <a href="/" class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-center text-sm font-medium text-slate-700 hover:bg-slate-50">
-              Kembali ke daftar
+            <a
+              href="{{ $job->source ?: '/' }}"
+              class="rounded-xl border flex items-center justify-center gap-1 border-blue-200 bg-blue-500 text-white px-4 py-2 text-center text-sm font-medium hover:bg-blue-800"
+              @if($job->source) target="_blank" rel="noopener noreferrer" title="{{ $job->source }}" @endif>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+              </svg>
+              <span>Sumber Original</span>
             </a>
           </div>
 

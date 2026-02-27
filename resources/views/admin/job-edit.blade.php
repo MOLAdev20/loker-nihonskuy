@@ -46,19 +46,39 @@
     <div class="block sm:grid grid-cols-8 gap-5 mt-8">
 
       <!-- First row -->
-      <div class="flex flex-col gap-1 col-span-8">
+      <div class="flex flex-col gap-1 col-span-2">
         <label class="text-sm">Job ID</label>
         <input type="text" value="{{ $job->job_code }}" class="rounded outline-none border border-slate-200 py-1 px-2 text-sm bg-slate-50" disabled>
       </div>
-      <div class="flex flex-col gap-1 col-span-8">
+      <div class="flex flex-col gap-1 col-span-4">
         <label for="job-title" class="text-sm">Nama Job</label>
         @error('job-title')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
         <input type="text" name="job-title" id="job-title" value="{{ old('job-title', $job->title) }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-title') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
+      <div class="flex flex-col gap-1 col-span-2">
+        <label for="job-type" class="text-sm">Jenis Pekerjaan</label>
+        @error('job-type')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
+        <input type="text" name="job-type" id="job-type" value="{{ old('job-type', $job->job_type) }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+      </div>
 
       <!-- Second row -->
+      <div class="flex flex-col gap-1 col-span-2">
+        <label for="job-placement" class="text-sm">Penempatan</label>
+        @error('job-placement')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
+        <select
+          name="job-placement"
+          id="job-placement"
+          data-selected="{{ old('job-placement', $job->placement) }}"
+          class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-placement') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+          <option value="">Pilih</option>
+        </select>
+      </div>
       <div class="flex flex-col gap-1 col-span-2">
         <label for="company" class="text-sm">Nama Perusahaan</label>
         @error('company')
@@ -67,18 +87,11 @@
         <input type="text" name="company" id="company" value="{{ old('company', $job->company_name) }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('company') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
       <div class="flex flex-col gap-1 col-span-2">
-        <label for="job-placement" class="text-sm">Penempatan</label>
-        @error('job-placement')
+        <label for="source" class="text-sm">Salinan Asli</label>
+        @error('source')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="text" name="job-placement" id="job-placement" value="{{ old('job-placement', $job->placement) }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-placement') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
-      </div>
-      <div class="flex flex-col gap-1 col-span-2">
-        <label for="job-type" class="text-sm">Jenis Pekerjaan</label>
-        @error('job-type')
-        <span class="text-[10px] text-red-600">{{ $message }}</span>
-        @enderror
-        <input type="text" name="job-type" id="job-type" value="{{ old('job-type', $job->job_type) }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <input type="url" name="source" id="source" value="{{ old('source', $job->source) }}" placeholder="https://drive.google.com/..." class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('source') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
       <div class="flex flex-col gap-1 col-span-2">
         <label for="job-sallary" class="text-sm">Gaji</label>
@@ -107,6 +120,7 @@
           <option value="">Pilih</option>
           <option value="l" @selected(old('gender-requirement', $job->gender_requirement) === 'l')>Laki-laki</option>
           <option value="p" @selected(old('gender-requirement', $job->gender_requirement) === 'p')>Perempuan</option>
+          <option value="a" @selected(old('gender-requirement', $job->gender_requirement) === 'a')>Laki-laki & Perempuan</option>
         </select>
       </div>
       <div class="flex flex-col gap-1 col-span-2">
@@ -129,6 +143,47 @@
       </div>
 
       <!-- Fourth row -->
+      <div class="gap-2 col-span-8 mt-5">
+        <label class="text-sm">Benefit & Fasilitas</label>
+        @php
+        $selectedBenefits = old('benefit', $job->benefit ? explode('|', $job->benefit) : []);
+        $selectedBenefits = is_array($selectedBenefits) ? $selectedBenefits : [];
+        @endphp
+        <div>
+          <input type="checkbox" id="sallary" value="Gaji" name="benefit[]" @checked(in_array('Gaji', $selectedBenefits, true))>
+          <label for="sallary">Gaji</label>
+        </div>
+        <div>
+          <input type="checkbox" id="bonus" value="Bonus" name="benefit[]" @checked(in_array('Bonus', $selectedBenefits, true))>
+          <label for="bonus">Bonus</label>
+        </div>
+        <div>
+          <input type="checkbox" id="free-meal" value="Makan Gratis" name="benefit[]" @checked(in_array('Makan Gratis', $selectedBenefits, true))>
+          <label for="free-meal">Makan Gratis</label>
+        </div>
+        <div>
+          <input type="checkbox" id="dorm" value="Asrama" name="benefit[]" @checked(in_array('Asrama', $selectedBenefits, true))>
+          <label for="dorm">Asrama</label>
+        </div>
+        <div>
+          <input type="checkbox" id="dorm-allowance" value="Tunjangan Asrama" name="benefit[]" @checked(in_array('Tunjangan Asrama', $selectedBenefits, true))>
+          <label for="dorm-allowance">Tunjangan Asrama</label>
+        </div>
+        <div>
+          <input type="checkbox" id="vehicle-allowance" value="Tunjangan Kendaraan" name="benefit[]" @checked(in_array('Tunjangan Kendaraan', $selectedBenefits, true))>
+          <label for="vehicle-allowance">Tunjangan Kendaraan</label>
+        </div>
+        <div>
+          <input type="checkbox" id="pig-tollerant" value="Toleransi Babi" name="benefit[]" @checked(in_array('Toleransi Babi', $selectedBenefits, true))>
+          <label for="pig-tollerant">Toleransi Babi</label>
+        </div>
+        <div>
+          <input type="checkbox" id="pray-tollerant" value="Toleransi Ibadah" name="benefit[]" @checked(in_array('Toleransi Ibadah', $selectedBenefits, true))>
+          <label for="pray-tollerant">Toleransi Ibadah</label>
+        </div>
+      </div>
+
+      <!-- Fivth row -->
       <div class="flex flex-col gap-2 col-span-8 mt-5">
         <label for="additional-information" class="text-sm">Informasi Tambahan</label>
         @error('additional-information')
@@ -149,12 +204,17 @@
 </div>
 @endsection
 
-@push('scripts')
+@section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
+
+@php
+$jobInformation = $job->additional_information
+@endphp
+
 <script>
   const additionalInformationInput = document.getElementById("additional-information");
   const additionalInformationEditor = document.getElementById("additional-information-editor");
-  const initialAdditionalInformation = @json(old('additional-information', $job->additional_information));
+  const initialAdditionalInformation = @json(old('additional-information', $jobInformation));
 
   const quill = new Quill(additionalInformationEditor, {
     theme: "snow",
@@ -202,5 +262,24 @@
 
   syncQuillDeltaToInput();
   quill.on("text-change", syncQuillDeltaToInput);
+
+  const placementSelect = document.getElementById("job-placement");
+  if (placementSelect) {
+    const selectedPlacement = (placementSelect.dataset.selected || "").trim().toLowerCase();
+    fetch("/japan.json")
+      .then((response) => response.json())
+      .then((data) => {
+        const prefectures = Array.isArray(data.japan_prefectures) ? data.japan_prefectures : [];
+        prefectures.forEach((prefecture) => {
+          const option = document.createElement("option");
+          option.value = prefecture;
+          option.textContent = prefecture;
+          if (String(prefecture).trim().toLowerCase() === selectedPlacement) {
+            option.selected = true;
+          }
+          placementSelect.appendChild(option);
+        });
+      });
+  }
 </script>
-@endpush
+@endsection

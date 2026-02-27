@@ -36,7 +36,7 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
 
           <label>
             <span class="sr-only">Kata kunci</span>
-            <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 active:ring-2 active:ring-slate-300 focus-within:ring-2 focus-within:ring-slate-300 transition-all">
+            <div class="flex items-cente md:w-52 gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 active:ring-2 active:ring-slate-300 focus-within:ring-2 focus-within:ring-slate-300 transition-all">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-slate-400">
                 <path
                   d="M21 21l-4.3-4.3m1.8-5.2a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
@@ -54,7 +54,7 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
 
           <label>
             <span class="sr-only">Lokasi</span>
-            <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 active:ring-slate-300 focus-within:ring-2 focus-within:ring-slate-300 transition-all">
+            <div id="select-location" class="relative md:w-52 flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 active:ring-slate-300 focus-within:ring-2 focus-within:ring-slate-300 transition-all hover:bg-slate-50">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-slate-400">
                 <path
                   d="M12 22s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z"
@@ -67,9 +67,35 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
                   stroke-width="2"
                   stroke-linecap="round" />
               </svg>
-              <select id="japan-pref-filter" name="location" class="w-full bg-transparent text-sm text-slate-900 focus:outline-none">
-
-              </select>
+              <div class="w-full" id="japan-pref-wrapper">
+                <input type="hidden" id="japan-pref-value" name="location" value="">
+                <button
+                  type="button"
+                  id="japan-pref-toggle"
+                  class="flex w-full items-center justify-between gap-2 bg-transparent text-sm text-slate-900 focus:outline-none cursor-pointer"
+                  aria-haspopup="listbox"
+                  aria-expanded="false">
+                  <span id="japan-pref-label" class="text-slate-400">Semua prefektur</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="text-slate-400">
+                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  </svg>
+                </button>
+              </div>
+              <div
+                id="japan-pref-panel"
+                class="absolute left-0 right-0 top-full z-20 mt-2 hidden rounded-xl border border-slate-200 bg-white p-2 shadow-soft">
+                <input
+                  id="japan-pref-search"
+                  type="text"
+                  placeholder="Cari prefektur..."
+                  class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200" />
+                <ul
+                  id="japan-pref-list"
+                  class="mt-2 max-h-56 overflow-auto text-sm text-slate-900"
+                  role="listbox"
+                  aria-label="Daftar prefektur">
+                </ul>
+              </div>
             </div>
           </label>
 
@@ -166,44 +192,40 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
 
 <!-- About Us -->
 <section id="about" class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+  <h2 class="text-2xl font-semibold tracking-tight">Tentang Kami</h2>
   <div class="grid items-start gap-10 lg:grid-cols-2">
+    <div class="rounded-3xl p-6 shadow-soft">
+      <img src="./artwork.png" alt="">
+    </div>
     <div>
-      <h2 class="text-2xl font-semibold tracking-tight">Tentang Kami</h2>
-      <p class="mt-2 text-sm leading-relaxed text-slate-600">
+      <p class="mt-2 leading-relaxed text-slate-600 text-justify">
         <span class="font-bold">NihonSkuy</span> adalah portal lowongan kerja yang berfokus membantu pencari kerja di Indonesia menemukan peluang karier di Jepang. Kami percaya proses mencari kerja seharusnya mudah, cepat, dan transparan. Melalui lowongan yang telah dikurasi dengan informasi lengkap mulai dari gaji, lokasi, hingga persyaratan domisili serta fitur filter yang memudahkan pencarian, kami menghadirkan pengalaman yang lebih efisien dan terarah. Dengan demikian, Anda dapat lebih fokus mempersiapkan diri untuk meraih karier impian di Jepang.
       </p>
 
       <div class="mt-6 space-y-3">
         <div class="flex gap-3">
           <div class="mt-0.5 grid h-8 w-8 place-items-center rounded-xl border border-slate-200 bg-white shadow-sm">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-slate-900">
-              <path
-                d="M20 7l-8.5 10L4 12"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-badge-check-icon lucide-badge-check">
+              <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+              <path d="m9 12 2 2 4-4" />
             </svg>
           </div>
           <div>
-            <div class="text-sm font-semibold">Kurasi yang masuk akal</div>
-            <div class="text-sm text-slate-600">Bukan sekadar banyak—tapi relevan & mudah dipindai.</div>
+            <div class="text-sm font-semibold">Lowongan Kerja Aman & Terpercaya</div>
+            <div class="text-sm text-slate-600">Info loker sudah dicek dan diverifikasi keasliannya oleh tim Minskuy</div>
           </div>
         </div>
 
         <div class="flex gap-3">
           <div class="mt-0.5 grid h-8 w-8 place-items-center rounded-xl border border-slate-200 bg-white shadow-sm">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-slate-900">
-              <path
-                d="M12 22s7-4 7-11a7 7 0 1 0-14 0c0 7 7 11 7 11Z"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headset-icon lucide-headset">
+              <path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z" />
+              <path d="M21 16v2a4 4 0 0 1-4 4h-5" />
             </svg>
           </div>
           <div>
-            <div class="text-sm font-semibold">Filter jelas</div>
-            <div class="text-sm text-slate-600">Remote/Hybrid, level, stack, salary range, dan tipe kerja.</div>
+            <div class="text-sm font-semibold">Dukungan dari Tim Nihonskuy 24/7</div>
+            <div class="text-sm text-slate-600">Butuh bantuan atau sekedar tanya-tanya? Minskuy siap membantu</div>
           </div>
         </div>
 
@@ -224,8 +246,8 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
             </svg>
           </div>
           <div>
-            <div class="text-sm font-semibold">Cepat</div>
-            <div class="text-sm text-slate-600">Kamu bisa scroll 10–15 job dalam beberapa detik tanpa capek.</div>
+            <div class="text-sm font-semibold">Mudah & Cepat</div>
+            <div class="text-sm text-slate-600">Lamar kerja cukup klik sekali, dan Minskuy akan mengubungi kamu</div>
           </div>
         </div>
       </div>
@@ -237,45 +259,6 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
         <a href="#footer" class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-center text-sm font-medium text-slate-700 hover:bg-slate-50">
           Hubungi kami
         </a>
-      </div>
-    </div>
-
-    <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-soft">
-      <div class="flex items-start justify-between gap-3">
-        <div>
-          <div class="text-xs font-medium text-slate-500">Pencapaian</div>
-          <h3 class="mt-1 text-lg font-semibold">Angka yang bikin percaya diri</h3>
-        </div>
-        <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-700">2026</span>
-      </div>
-
-      <div class="mt-5 grid gap-3 sm:grid-cols-2">
-        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <div class="text-xs text-slate-500">Registered Candidates</div>
-          <div class="mt-1 text-2xl font-semibold">12k+</div>
-        </div>
-        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <div class="text-xs text-slate-500">Hiring Partners</div>
-          <div class="mt-1 text-2xl font-semibold">30+</div>
-        </div>
-        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <div class="text-xs text-slate-500">Interview Scheduled</div>
-          <div class="mt-1 text-2xl font-semibold">4.2k+</div>
-        </div>
-        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <div class="text-xs text-slate-500">Offer Accepted</div>
-          <div class="mt-1 text-2xl font-semibold">980+</div>
-        </div>
-      </div>
-
-      <div class="mt-5 rounded-2xl border border-slate-200 bg-white p-4">
-        <div class="flex items-center justify-between">
-          <div class="text-sm font-semibold">Kenapa minimalis?</div>
-          <div class="text-xs text-slate-500">Less noise, more signal</div>
-        </div>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">
-          Banyak job portal itu berat karena kebanyakan elemen. Di sini kita fokus: headline jelas, trust badges, job cards rapi, CTA gampang.
-        </p>
       </div>
     </div>
   </div>
@@ -340,12 +323,87 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
   fetch('/japan.json')
     .then(response => response.json())
     .then(data => {
-      const select = document.getElementById('japan-pref-filter');
-      data.japan_prefectures.forEach(prefecture => {
-        const option = document.createElement('option');
-        option.value = prefecture;
-        option.textContent = prefecture;
-        select.appendChild(option);
+      const wrapper = document.getElementById('select-location');
+      const toggle = document.getElementById('japan-pref-toggle');
+      const panel = document.getElementById('japan-pref-panel');
+      const search = document.getElementById('japan-pref-search');
+      const list = document.getElementById('japan-pref-list');
+      const valueInput = document.getElementById('japan-pref-value');
+      const label = document.getElementById('japan-pref-label');
+      const allPrefectures = Array.isArray(data.japan_prefectures) ? data.japan_prefectures : [];
+
+      const renderOptions = (items) => {
+        list.innerHTML = '';
+        const allItem = document.createElement('button');
+        allItem.type = 'button';
+        allItem.className = 'w-full text-left cursor-pointer rounded-lg px-3 py-2 hover:bg-slate-100';
+        allItem.textContent = 'Semua prefektur';
+        allItem.dataset.value = '';
+        list.appendChild(allItem);
+
+        items.forEach(prefecture => {
+          const item = document.createElement('button');
+          item.type = 'button';
+          item.className = 'w-full text-left cursor-pointer rounded-lg px-3 py-2 hover:bg-slate-100';
+          item.textContent = prefecture;
+          item.dataset.value = prefecture;
+          list.appendChild(item);
+        });
+      };
+
+      renderOptions(allPrefectures);
+
+      search.addEventListener('input', () => {
+        const query = search.value.trim().toLowerCase();
+        if (!query) {
+          renderOptions(allPrefectures);
+          return;
+        }
+        const filtered = allPrefectures.filter((prefecture) =>
+          String(prefecture).toLowerCase().includes(query)
+        );
+        renderOptions(filtered);
+      });
+
+      const openPanel = () => {
+        panel.classList.remove('hidden');
+        toggle.setAttribute('aria-expanded', 'true');
+        search.focus();
+      };
+
+      const closePanel = () => {
+        panel.classList.add('hidden');
+        toggle.setAttribute('aria-expanded', 'false');
+        search.value = '';
+        renderOptions(allPrefectures);
+      };
+
+      toggle.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (panel.classList.contains('hidden')) {
+          openPanel();
+        } else {
+          closePanel();
+        }
+      });
+
+      list.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const target = event.target.closest('button');
+        if (!target) return;
+        const value = target.dataset.value || '';
+        valueInput.value = value;
+        label.textContent = value || 'Semua prefektur';
+        label.classList.toggle('text-slate-400', !value);
+        label.classList.toggle('text-slate-900', !!value);
+        closePanel();
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!wrapper.contains(event.target)) {
+          closePanel();
+        }
       });
     });
 

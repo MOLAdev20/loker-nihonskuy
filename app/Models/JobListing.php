@@ -16,6 +16,8 @@ class JobListing extends Model
         'gender_requirement',
         'domicile_requirement',
         'qty',
+        'source',
+        'benefit',
         'additional_information',
         'thumbnail_path',
         'whatsapp_number',
