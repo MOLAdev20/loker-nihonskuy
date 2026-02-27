@@ -7,15 +7,15 @@
 <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/70 backdrop-blur">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <a href="/#" class="flex items-center gap-2">
-            <img src="/logo.png" width="15px" alt="logo">
-            <span class="text-sm font-semibold tracking-tight">NihonSkuy</span>
+            <img src="/logo.png" width="20px" alt="logo">
+            <span class="text-lg font-semibold tracking-tight">NihonSkuy</span>
         </a>
 
         <nav class="hidden items-center gap-6 md:flex">
-            <a href="/#jobs" class="text-sm text-slate-600 hover:text-slate-900">Info Loker</a>
-            <a href="/#about" class="text-sm text-slate-600 hover:text-slate-900">Tentang</a>
-            <a href="/#testimonials" class="text-sm text-slate-600 hover:text-slate-900">Testimoni</a>
-            <a href="/#footer" class="text-sm text-slate-600 hover:text-slate-900">Kontak</a>
+            <a href="/#jobs" class=" text-slate-600 hover:text-slate-900">Info Loker</a>
+            <a href="/#about" class=" text-slate-600 hover:text-slate-900">Tentang</a>
+            <a href="/#testimonials" class=" text-slate-600 hover:text-slate-900">Testimoni</a>
+            <a href="/#footer" class=" text-slate-600 hover:text-slate-900">Kontak</a>
         </nav>
 
         <!-- <div class="hidden items-center gap-2 md:flex">

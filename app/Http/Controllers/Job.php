@@ -53,6 +53,9 @@ class Job extends Controller
                 'gender-requirement' => ['required'],
                 'domicile-requirement' => ['required'],
                 'qty' => ['required', 'integer', 'min:1'],
+                'source' => ['nullable', 'url'],
+                'benefit' => ['nullable', 'array'],
+                'benefit.*' => ['string'],
                 'additional-information' => [
                     'required',
                     'json',
@@ -89,6 +92,8 @@ class Job extends Controller
             ]
         );
 
+        $benefits = $validated['benefit'] ?? [];
+
         $job = JobListing::create([
             'job_code' => $validated['job-id'],
             'title' => $validated['job-title'],
@@ -100,6 +105,8 @@ class Job extends Controller
             'gender_requirement' => $validated['gender-requirement'],
             'domicile_requirement' => $validated['domicile-requirement'],
             'qty' => $validated['qty'],
+            'source' => $validated['source'] ?? null,
+            'benefit' => count($benefits) ? implode('|', $benefits) : null,
             'additional_information' => $validated['additional-information'],
         ]);
 
@@ -139,6 +146,9 @@ class Job extends Controller
                 'gender-requirement' => ['required'],
                 'domicile-requirement' => ['required'],
                 'qty' => ['required', 'integer', 'min:1'],
+                'source' => ['nullable', 'url'],
+                'benefit' => ['nullable', 'array'],
+                'benefit.*' => ['string'],
                 'additional-information' => [
                     'required',
                     'json',
@@ -173,6 +183,8 @@ class Job extends Controller
             ]
         );
 
+        $benefits = $validated['benefit'] ?? [];
+
         $job->update([
             'title' => $validated['job-title'],
             'company_name' => $validated['company'],
@@ -183,6 +195,8 @@ class Job extends Controller
             'gender_requirement' => $validated['gender-requirement'],
             'domicile_requirement' => $validated['domicile-requirement'],
             'qty' => $validated['qty'],
+            'source' => $validated['source'] ?? null,
+            'benefit' => count($benefits) ? implode('|', $benefits) : null,
             'additional_information' => $validated['additional-information'],
         ]);
 

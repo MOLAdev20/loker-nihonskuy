@@ -120,6 +120,25 @@
 
     <!-- Fourth row -->
     <div class="flex flex-col gap-2 col-span-8 mt-5">
+      <span class="text-sm text-slate-500">Benefit & Fasilitas</span>
+      @php
+      $benefits = $job->benefit ? array_filter(explode('|', $job->benefit)) : [];
+      @endphp
+      @if (count($benefits))
+      <div class="flex flex-wrap gap-2">
+        @foreach ($benefits as $benefit)
+        <span class="inline-block rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600">
+          {{ $benefit }}
+        </span>
+        @endforeach
+      </div>
+      @else
+      <span class="text-xs text-slate-400">Belum ada benefit.</span>
+      @endif
+    </div>
+
+    <!-- Fifth row -->
+    <div class="flex flex-col gap-2 col-span-8 mt-5">
       <span class="text-sm text-slate-500">Informasi Tambahan</span>
       @php
       $additionalInformationRaw = $job->additional_information;
@@ -144,7 +163,7 @@
 </div>
 @endsection
 
-@push('scripts')
+@section('scripts')
 @if($additionalInformationDelta)
 <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
 <script>
@@ -162,4 +181,4 @@
   quillViewer.setContents(descriptionDelta);
 </script>
 @endif
-@endpush
+@endsection
