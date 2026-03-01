@@ -13,7 +13,7 @@
       <li class="flex items-center gap-2">
         <span class="text-slate-400">/</span>
         <span class="font-medium text-slate-700">
-          Job
+          Loker
         </span>
       </li>
     </ol>
@@ -21,10 +21,10 @@
   <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <div>
       <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-        Daftar Job
+        Lowongan Kerja
       </h1>
       <p class="mt-2 text-sm text-slate-500">
-        Kelola semua lowongan yang sudah diinput
+        Kelola semua lowongan kerja
       </p>
     </div>
     <div>
@@ -41,18 +41,18 @@
         <div class="min-w-0">
           <div class="text-xs text-slate-500">{{ $job->job_code }}</div>
           <h3 class="truncate text-sm font-semibold text-slate-900">{{ $job->title }}</h3>
-          <p class="truncate text-xs text-slate-600">{{ $job->company_name }} • {{ $job->placement }}</p>
+          <p class="truncate text-xs text-slate-600">{{ $job->placement }}</p>
         </div>
-        <div class="mt-1 text-xs text-slate-600 sm:mt-0">{{ $job->salary }}</div>
+        <div class="mt-1 text-xs text-slate-600 sm:mt-0">{{ \App\Support\Currency::yen($job->salary) }}</div>
       </div>
 
       <div class="mt-2 flex flex-wrap gap-1 text-[11px] text-slate-600">
         <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->job_type }}</span>
-        <span class="rounded bg-slate-100 px-2 py-0.5">Gender: {{ strtoupper($job->gender_requirement) }}</span>
+        <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->gender_requirement == 'p' ? 'Perempuan' : 'Laki-laki' }}</span>
         <span class="rounded bg-slate-100 px-2 py-0.5">
-          Domisili: {{ $job->domicile_requirement === 'kokunai' ? 'Khusus Jepang' : 'Bebas' }}
+          {{ $job->domicile_requirement === 'kokunai' ? 'Khusus Jepang' : 'Bebas' }}
         </span>
-        <span class="rounded bg-slate-100 px-2 py-0.5">Qty: {{ $job->qty }}</span>
+        <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->qty }} Orang</span>
       </div>
 
       <div class="mt-2">
@@ -71,7 +71,7 @@
     <div class="rounded-md border border-dashed border-slate-200 px-3 py-6 text-center text-sm text-slate-500">
       Belum ada job yang diinput.
     </div>
-@endforelse
+    @endforelse
   </div>
 </div>
 @endsection

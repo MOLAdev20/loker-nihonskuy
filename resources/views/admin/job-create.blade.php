@@ -16,24 +16,24 @@
 
       <li class="flex items-center gap-2">
         <span class="text-slate-400">/</span>
-        <a href="#" class="hover:text-slate-700">
-          Job
+        <a href="/admin/jobs" class="hover:text-slate-700">
+          Loker
         </a>
       </li>
 
       <li class="flex items-center gap-2">
         <span class="text-slate-400">/</span>
         <span class="font-medium text-slate-700">
-          Buat Job
+          Buat Loker
         </span>
       </li>
     </ol>
   </nav>
   <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-    Buat Job
+    Buat Loker
   </h1>
   <p class="mt-2 text-sm text-slate-500">
-    Buat info lowongan terbaru
+    Buat info lowongan kerja terbaru
   </p>
 </div>
 
@@ -86,7 +86,19 @@
         @error('job-type')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="text" name="job-type" id="job-type" value="{{ old('job-type') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <select
+          name="job-type"
+          id="job-type"
+          class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+          <option value="">Pilih</option>
+          <option value="Pengolahan Makanan" @selected(old('job-type')==='Pengolahan Makanan' )>Pengolahan Makanan</option>
+          <option value="Perhotelan" @selected(old('job-type')==='Perhotelan' )>Perhotelan</option>
+          <option value="Perikanan" @selected(old('job-type')==='Perikanan' )>Perikanan</option>
+          <option value="Driver" @selected(old('job-type')==='Driver' )>Driver</option>
+          <option value="Pertanian" @selected(old('job-type')==='Pertanian' )>Pertanian</option>
+          <option value="Kaigo" @selected(old('job-type')==='Kaigo' )>Kaigo</option>
+          <option value="Lainnya" @selected(old('job-type')==='Lainnya' )>Lainnya</option>
+        </select>
       </div>
       <div class="flex flex-col gap-1 col-span-2">
         <label for="source" class="text-sm">Salinan Asli</label>
@@ -100,7 +112,7 @@
         @error('job-sallary')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="text" name="job-sallary" id="job-sallary" value="{{ old('job-sallary') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('job-sallary') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <input type="number" name="job-sallary" id="job-sallary" value="{{ old('job-sallary') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('job-sallary') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
         <span class="text-[10px] text-slate-400">Jika tidak ada, isi dengan -</span>
       </div>
       <div class="flex flex-col gap-1 col-span-2">
