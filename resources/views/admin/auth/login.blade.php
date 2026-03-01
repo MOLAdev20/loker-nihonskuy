@@ -41,13 +41,28 @@
 
                     <div>
                         <label for="password" class="mb-2 block text-sm font-medium">Password</label>
-                        <input
-                            id="password"
-                            name="password"
-                            type="password"
-                            required
-                            autocomplete="current-password"
-                            class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200" />
+                        <div class="relative">
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                required
+                                autocomplete="current-password"
+                                class="w-full rounded-xl border border-slate-300 px-4 py-2.5 pr-12 text-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200" />
+                            <button
+                                type="button"
+                                class="absolute inset-y-0 right-3 flex items-center text-xs font-semibold text-slate-600 transition hover:text-slate-900"
+                                data-toggle-password
+                                aria-pressed="false"
+                                aria-label="Tampilkan password">
+                                <span class="icon-eye">
+                                    <x-icons.eye />
+                                </span>
+                                <span class="icon-eye-slash hidden">
+                                    <x-icons.eyeSlash />
+                                </span>
+                            </button>
+                        </div>
                     </div>
 
                     <label class="flex items-center gap-2 text-sm text-slate-600">
@@ -95,6 +110,22 @@
                     confirmButtonColor: "#0f172a",
                 });
             }
+        }
+
+
+        const togglePasswordButton = document.querySelector('[data-toggle-password]');
+        const passwordInput = document.getElementById('password');
+        if (togglePasswordButton && passwordInput) {
+            const eye = btn.querySelector('.icon-eye');
+            const eyeSlash = btn.querySelector('.icon-eye-slash');
+            togglePasswordButton.addEventListener('click', () => {
+                const isHidden = passwordInput.getAttribute('type') === 'password';
+                passwordInput.setAttribute('type', isHidden ? 'text' : 'password');
+                togglePasswordButton.setAttribute('aria-pressed', String(isHidden));
+                togglePasswordButton.setAttribute('aria-label', isHidden ? 'Sembunyikan password' : 'Tampilkan password');
+                eye.classList.toggle('hidden', !isHidden);
+                eyeSlash.classList.toggle('hidden', isHidden);
+            });
         }
     </script>
 </body>

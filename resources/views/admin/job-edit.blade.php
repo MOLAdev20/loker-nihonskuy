@@ -62,7 +62,19 @@
         @error('job-type')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="text" name="job-type" id="job-type" value="{{ old('job-type', $job->job_type) }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <select
+          name="job-type"
+          id="job-type"
+          class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+          <option value="">Pilih</option>
+          <option value="Pengolahan Makanan" @selected(old('job-type', $job->job_type)==='Pengolahan Makanan')>Pengolahan Makanan</option>
+          <option value="Perhotelan" @selected(old('job-type', $job->job_type)==='Perhotelan')>Perhotelan</option>
+          <option value="Perikanan" @selected(old('job-type', $job->job_type)==='Perikanan')>Perikanan</option>
+          <option value="Driver" @selected(old('job-type', $job->job_type)==='Driver')>Driver</option>
+          <option value="Pertanian" @selected(old('job-type', $job->job_type)==='Pertanian')>Pertanian</option>
+          <option value="Kaigo" @selected(old('job-type', $job->job_type)==='Kaigo')>Kaigo</option>
+          <option value="Lainnya" @selected(old('job-type', $job->job_type)==='Lainnya')>Lainnya</option>
+        </select>
       </div>
 
       <!-- Second row -->

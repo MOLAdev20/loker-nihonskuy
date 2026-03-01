@@ -47,27 +47,13 @@ $additionalInformationDelta = $decoded;
 </style>
 @endsection
 
-@php
-$formatYen = function ($value) {
-$value = (string) $value;
-if (preg_match_all('/\d+/', $value, $matches) && count($matches[0]) > 1) {
-$parts = array_map(function ($n) {
-return '¥' . number_format((int) $n);
-}, $matches[0]);
-return implode('–', $parts);
-}
-$num = preg_replace('/\D+/', '', $value);
-return $num !== '' ? '¥' . number_format((int) $num) : $value;
-};
-@endphp
-
 @section("content")
 <section class="mx-auto max-w-6xl px-4 pb-14 pt-10 sm:px-6 sm:pt-14">
   <div class="flex flex-col gap-6">
     <div class="inline-flex items-center gap-2 text-xs text-slate-600">
-      <a href="/" class="rounded-full border border-slate-200 bg-white px-3 py-1 shadow-sm hover:bg-slate-50">Back to Jobs</a>
+      <a href="/" class="rounded-full border border-slate-200 bg-white px-3 py-1 shadow-sm hover:bg-slate-50">Beranda</a>
       <span class="text-slate-400">/</span>
-      <span class="font-medium text-slate-700">Detail Job</span>
+      <span class="font-medium text-slate-700">Detail Lowongan</span>
     </div>
 
     @php
@@ -107,7 +93,7 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
           <div class="mt-6 grid gap-3 sm:grid-cols-3">
             <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <div class="text-xs text-slate-500">Gaji</div>
-              <div class="mt-1 text-base font-semibold">{{ $formatYen($job->salary) }}</div>
+              <div class="mt-1 text-base font-semibold">{{ \App\Support\Currency::yen($job->salary) }}</div>
             </div>
             <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <div class="text-xs text-slate-500">Kuantitas</div>

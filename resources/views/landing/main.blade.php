@@ -4,21 +4,6 @@
 <title>NihonSkuy - Raih Pekerjaan Impianmu di Jepang!</title>
 @endpush
 
-
-@php
-$formatYen = function ($value) {
-$value = (string) $value;
-if (preg_match_all('/\d+/', $value, $matches) && count($matches[0]) > 1) {
-$parts = array_map(function ($n) {
-return '¥' . number_format((int) $n);
-}, $matches[0]);
-return implode('–', $parts);
-}
-$num = preg_replace('/\D+/', '', $value);
-return $num !== '' ? '¥' . number_format((int) $num) : $value;
-};
-@endphp
-
 <!-- Hero -->
 @section("content")
 <section class="px-4 pb-14 pt-10 sm:px-6 sm:pt-14">
@@ -114,11 +99,11 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
       </div>
 
       <!-- Stats -->
-      <div class="mt-6 grid grid-cols-3 gap-3">
+      <div class="mt-6 hidden md:grid grid-cols-3 gap-3">
         <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-          <div class="text-xs text-slate-500">Trusted</div>
+          <div class="text-xs text-slate-500">Telah Dipercaya</div>
           <div class="mt-1 text-lg font-semibold">30+</div>
-          <div class="text-xs text-slate-500">Company partners</div>
+          <div class="text-xs text-slate-500">Perusahaan & TSK Jepang</div>
         </div>
         <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
           <div class="text-xs text-slate-500">Biaya</div>
@@ -151,7 +136,7 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
       <div class="flex items-start justify-between gap-3">
         <div class="min-w-0">
           <h3 class="truncate text-base font-semibold"><a href="/jobs/{{ $job->job_code }}">{{ $job->title }}</a></h3>
-          <p class="mt-1 text-sm text-slate-600">{{ $job->company_name }} • {{ $job->placement }}</p>
+          <p class="mt-1 text-sm text-slate-600 flex items-center"><x-icons.map size="15" />{{ $job->placement }}</p>
         </div>
         <span class="rounded-full flex justify-center items-center bg-emerald-50 h-7 w-7 text-[11px] font-medium text-emerald-700">
           {{ collect(explode(' ', $job->job_type))->map(fn($word) => strtoupper($word[0]))->implode('') }}
@@ -169,7 +154,7 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
         </span>
       </div>
       <div class="mt-4 flex items-center justify-between">
-        <div class="text-sm font-semibold">{{ $formatYen($job->salary) }}</div>
+        <div class="text-sm font-semibold">{{ \App\Support\Currency::yen($job->salary) }}</div>
         <a href="/jobs/{{ $job->job_code }}" class="text-sm font-medium text-slate-900 underline-offset-4 hover:underline">Detail</a>
       </div>
     </article>
