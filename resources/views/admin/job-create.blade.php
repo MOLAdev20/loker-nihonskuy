@@ -91,13 +91,25 @@
           id="job-type"
           class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
           <option value="">Pilih</option>
+          <option value="Restoran" @selected(old('job-type')==='Restoran' )>Restoran</option>
+          <option value="Perawat Lansia" @selected(old('job-type')==='Perawat Lansia' )>Perawat Lansia</option>
+          <option value="Perawat Disabilitas" @selected(old('job-type')==='Perawat Disabilitas' )>Perawat Disabilitas</option>
           <option value="Pengolahan Makanan" @selected(old('job-type')==='Pengolahan Makanan' )>Pengolahan Makanan</option>
+          <option value="Pertanian (Pertanian Tanaman)" @selected(old('job-type')==='Pertanian (Pertanian Tanaman)' )>Pertanian (Pertanian Tanaman)</option>
+          <option value="Pertanian (Peternakan)" @selected(old('job-type')==='Pertanian (Peternakan)' )>Pertanian (Peternakan)</option>
           <option value="Perhotelan" @selected(old('job-type')==='Perhotelan' )>Perhotelan</option>
+          <option value="Pembersihan Gedung" @selected(old('job-type')==='Pembersihan Gedung' )>Pembersihan Gedung</option>
+          <option value="Manufaktur Produk Industri" @selected(old('job-type')==='Manufaktur Produk Industri' )>Manufaktur Produk Industri</option>
+          <option value="Konstruksi" @selected(old('job-type')==='Konstruksi' )>Konstruksi</option>
+          <option value="Pembuatan Kapal & Industri Kelautan" @selected(old('job-type')==='Pembuatan Kapal & Industri Kelautan' )>Pembuatan Kapal & Industri Kelautan</option>
+          <option value="Perawatan Otomotif" @selected(old('job-type')==='Perawatan Otomotif' )>Perawatan Otomotif</option>
+          <option value="Penerbangan" @selected(old('job-type')==='Penerbangan' )>Penerbangan</option>
           <option value="Perikanan" @selected(old('job-type')==='Perikanan' )>Perikanan</option>
-          <option value="Driver" @selected(old('job-type')==='Driver' )>Driver</option>
-          <option value="Pertanian" @selected(old('job-type')==='Pertanian' )>Pertanian</option>
-          <option value="Kaigo" @selected(old('job-type')==='Kaigo' )>Kaigo</option>
-          <option value="Lainnya" @selected(old('job-type')==='Lainnya' )>Lainnya</option>
+          <option value="Transportasi otomotif" @selected(old('job-type')==='Transportasi otomotif' )>Transportasi otomotif</option>
+          <option value="Perkeretaapian" @selected(old('job-type')==='Perkeretaapian' )>Perkeretaapian</option>
+          <option value="Kehutanan" @selected(old('job-type')==='Kehutanan' )>Kehutanan</option>
+          <option value="Industri Kayu" @selected(old('job-type')==='Industri Kayu' )>Industri Kayu</option>
+          <option value="Visa Kerja Tetap" @selected(old('job-type')==='Visa Kerja Tetap' )>Visa Kerja Tetap</option>
         </select>
       </div>
       <div class="flex flex-col gap-1 col-span-2">

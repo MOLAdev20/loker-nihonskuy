@@ -64,9 +64,9 @@ $additionalInformationDelta = $decoded;
       <img
         src="{{ $thumbnailUrl }}"
         alt="Banner {{ $job->title }}"
-        class="h-56 w-full object-cover sm:h-72">
+        class="w-full aspect-auto object-cover" />
       @else
-      <div class="flex h-56 items-center justify-center text-sm text-slate-400 sm:h-72">
+      <div class="flex w-full aspect-auto items-center justify-center text-sm text-slate-400">
         No thumbnail available
       </div>
       @endif
