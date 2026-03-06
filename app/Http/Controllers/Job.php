@@ -45,7 +45,7 @@ class Job extends Controller
             [
                 'job-id' => ['required', 'unique:job_listings,job_code'],
                 'job-title' => ['required'],
-                'company' => ['required'],
+                'visa-type' => ['required'],
                 'job-placement' => ['required'],
                 'job-type' => ['required'],
                 'job-sallary' => ['required'],
@@ -77,7 +77,7 @@ class Job extends Controller
                 'job-id.required' => 'Job ID wajib diisi.',
                 'job-id.unique' => 'Job ID sudah digunakan.',
                 'job-title.required' => 'Nama job wajib diisi.',
-                'company.required' => 'Nama perusahaan wajib diisi.',
+                'visa-type.required' => 'Visa type wajib diisi.',
                 'job-placement.required' => 'Penempatan wajib diisi.',
                 'job-type.required' => 'Jenis pekerjaan wajib diisi.',
                 'job-sallary.required' => 'Gaji wajib diisi.',
@@ -97,7 +97,7 @@ class Job extends Controller
         $job = JobListing::create([
             'job_code' => $validated['job-id'],
             'title' => $validated['job-title'],
-            'company_name' => $validated['company'],
+            'visa_type' => $validated['visa-type'],
             'placement' => $validated['job-placement'],
             'job_type' => $validated['job-type'],
             'salary' => $validated['job-sallary'],
@@ -138,7 +138,7 @@ class Job extends Controller
         $validated = $req->validate(
             [
                 'job-title' => ['required'],
-                'company' => ['required'],
+                'visa-type' => ['required'],
                 'job-placement' => ['required'],
                 'job-type' => ['required'],
                 'job-sallary' => ['required'],
@@ -168,7 +168,7 @@ class Job extends Controller
             ],
             [
                 'job-title.required' => 'Nama job wajib diisi.',
-                'company.required' => 'Nama perusahaan wajib diisi.',
+                'visa-type.required' => 'Tipe VISA wajib diisi.',
                 'job-placement.required' => 'Penempatan wajib diisi.',
                 'job-type.required' => 'Jenis pekerjaan wajib diisi.',
                 'job-sallary.required' => 'Gaji wajib diisi.',
@@ -187,7 +187,7 @@ class Job extends Controller
 
         $job->update([
             'title' => $validated['job-title'],
-            'company_name' => $validated['company'],
+            'visa_type' => $validated['visa-type'],
             'placement' => $validated['job-placement'],
             'job_type' => $validated['job-type'],
             'salary' => $validated['job-sallary'],

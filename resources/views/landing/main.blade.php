@@ -136,22 +136,37 @@
       <div class="flex items-start justify-between gap-3">
         <div class="min-w-0">
           <h3 class="truncate text-base font-semibold"><a href="/jobs/{{ $job->job_code }}">{{ $job->title }}</a></h3>
-          <p class="mt-1 text-sm text-slate-600 flex items-center"><x-icons.map size="15" />{{ $job->placement }}</p>
+          <p class="mt-1 text-sm text-slate-600 flex items-center gap-2"><x-icons.map size="15" />{{ $job->placement }}</p>
+          <p class="mt-1 text-sm text-slate-600 flex items-center gap-2"><x-icons.folderInput size="15" />{{ $job->visa_type }}</p>
         </div>
-        <span class="rounded-full flex justify-center items-center bg-emerald-50 h-7 w-7 text-[11px] font-medium text-emerald-700">
-          {{ collect(explode(' ', $job->job_type))->map(fn($word) => strtoupper($word[0]))->implode('') }}
-        </span>
       </div>
-      <div class="mt-3 flex flex-wrap gap-2">
-        <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
-          Domisili: {{ $job->domicile_requirement }}
-        </span>
-        <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
-          Gender: {{ $job->gender_requirement }}
-        </span>
-        <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
-          Qty: {{ $job->qty }}
-        </span>
+      <div class="border-t border-dashed border-slate-300 mt-3">
+        <div class="mt-1">
+          <p class="text-xs text-slate-600">Syarat & Benefit</p>
+          <div class="flex flex-wrap gap-2 mt-2">
+            <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
+              {{ $job->domicile_requirement == "kokunai" ? "Hanya di Jepang" : "Domisili Bebas" }}
+            </span>
+            <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
+              {{ $job->gender_requirement == "p" ? "Perempuan" : ($job->gender_requirement == "a" ? "Semua Gender" : "Laki-laki") }}
+            </span>
+            <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
+              {{ $job->qty }} orang
+            </span>
+          </div>
+        </div>
+        @php
+        $benefits = $job->benefit ? array_filter(explode('|', $job->benefit)) : [];
+        @endphp
+        @if (count($benefits))
+        <ul class="mt-3">
+          @foreach ($benefits as $benefit)
+          <li class="text-xs text-slate-600 ml-3 list-disc">
+            {{ $benefit }}
+          </li>
+          @endforeach
+        </ul>
+        @endif
       </div>
       <div class="mt-4 flex items-center justify-between">
         <div class="text-sm font-semibold">{{ \App\Support\Currency::yen($job->salary) }}</div>
