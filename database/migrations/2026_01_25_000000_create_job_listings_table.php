@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('job_code')->unique();
             $table->string('title');
-            $table->string('company_name');
+            $table->string('visa_type');
             $table->string('placement');
             $table->string('job_type');
             $table->string('salary');

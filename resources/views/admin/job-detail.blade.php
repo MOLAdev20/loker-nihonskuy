@@ -88,8 +88,8 @@
 
     <!-- Second row -->
     <div class="flex flex-col gap-1 col-span-2">
-      <span class="text-sm text-slate-500">Nama Perusahaan</span>
-      <span class="text-sm font-medium text-slate-900">{{ $job->company_name }}</span>
+      <span class="text-sm text-slate-500">Tipe Visa</span>
+      <span class="text-sm font-medium text-slate-900">{{ $job->visa_type }}</span>
     </div>
     <div class="flex flex-col gap-1 col-span-2">
       <span class="text-sm text-slate-500">Penempatan</span>

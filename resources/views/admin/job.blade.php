@@ -36,12 +36,14 @@
 <div class="border rounded-lg border-slate-200 p-3">
   <div class="grid grid-cols-1 gap-2">
     @forelse ($jobs as $job)
-    <div class="rounded-md border border-slate-200 px-3 py-2">
+    <div class="rounded-md border border-slate-200 px-3 py-2 bg-white">
       <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
         <div class="min-w-0">
           <div class="text-xs text-slate-500">{{ $job->job_code }}</div>
-          <h3 class="truncate text-sm font-semibold text-slate-900">{{ $job->title }}</h3>
-          <p class="truncate text-xs text-slate-600">{{ $job->placement }}</p>
+          <a href="/admin/jobs/detail/{{ $job->job_code }}">
+            <h3 class="truncate text-sm font-semibold text-slate-900">{{ $job->title }}</h3>
+          </a>
+          <p class="truncate text-xs text-slate-600">{{ $job->visa_type ." - ". $job->placement }}</p>
         </div>
         <div class="mt-1 text-xs text-slate-600 sm:mt-0">{{ \App\Support\Currency::yen($job->salary) }}</div>
       </div>

@@ -92,11 +92,11 @@
         </select>
       </div>
       <div class="flex flex-col gap-1 col-span-2">
-        <label for="company" class="text-sm">Nama Perusahaan</label>
-        @error('company')
+        <label for="visa-type" class="text-sm">Tipe Visa</label>
+        @error('visa-type')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="text" name="company" id="company" value="{{ old('company', $job->company_name) }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('company') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <input type="text" name="visa-type" id="visa-type" value="{{ old('visa-type', $job->visa_type) }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('visa-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
       <div class="flex flex-col gap-1 col-span-2">
         <label for="source" class="text-sm">Salinan Asli</label>

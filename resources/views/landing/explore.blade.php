@@ -52,7 +52,7 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
       <div>
         <p class="text-xs font-medium uppercase tracking-[0.2em] text-slate-500">Explore Jobs</p>
         <h1 class="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Semua Info Lowongan Kerja Jepang</h1>
-        <p class="mt-2 text-sm text-slate-600">Temukan lowongan yang cocok berdasarkan posisi, perusahaan, tipe kerja, dan lokasi.</p>
+        <p class="mt-2 text-sm text-slate-600">Temukan lowongan yang cocok berdasarkan posisi, tipe visa, tipe kerja, dan lokasi.</p>
       </div>
 
       <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
@@ -69,7 +69,7 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
           name="q"
           value="{{ request('q') }}"
           class="w-full bg-transparent text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"
-          placeholder="Cari posisi, company, tipe kerja..."
+          placeholder="Cari posisi, tipe visa, tipe kerja..."
           type="text" />
       </label>
 
@@ -107,21 +107,40 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
       <div class="flex items-start justify-between gap-3">
         <div class="min-w-0">
           <h3 class="truncate text-base font-semibold"><a href="/jobs/{{ $job->job_code }}">{{ $job->title }}</a></h3>
-          <p class="mt-1 text-sm text-slate-600">{{ $job->company_name }} • {{ $job->placement }}</p>
+          <p class="mt-1 text-sm text-slate-600 flex items-center gap-2"><x-icons.map size="15" />{{ $job->placement }}</p>
+          <p class="mt-1 text-sm text-slate-600 flex items-center gap-2"><x-icons.folderInput size="15" />{{ $job->visa_type }}</p>
         </div>
-        <span class="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-50 text-[11px] font-medium text-emerald-700">
-          {{ collect(explode(' ', $job->job_type))->map(fn($word) => strtoupper($word[0]))->implode('') }}
-        </span>
       </div>
-
-      <div class="mt-3 flex flex-wrap gap-2">
-        <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">Domisili: {{ $job->domicile_requirement }}</span>
-        <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">Gender: {{ $job->gender_requirement }}</span>
-        <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">Qty: {{ $job->qty }}</span>
+      <div class="border-t border-dashed border-slate-300 mt-3">
+        <div class="mt-1">
+          <p class="text-xs text-slate-600">Syarat & Benefit</p>
+          <div class="flex flex-wrap gap-2 mt-2">
+            <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
+              {{ $job->domicile_requirement == "kokunai" ? "Hanya di Jepang" : "Domisili Bebas" }}
+            </span>
+            <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
+              {{ $job->gender_requirement == "p" ? "Perempuan" : ($job->gender_requirement == "a" ? "Semua Gender" : "Laki-laki") }}
+            </span>
+            <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
+              {{ $job->qty }} orang
+            </span>
+          </div>
+        </div>
+        @php
+        $benefits = $job->benefit ? array_filter(explode('|', $job->benefit)) : [];
+        @endphp
+        @if (count($benefits))
+        <ul class="mt-3">
+          @foreach ($benefits as $benefit)
+          <li class="text-xs text-slate-600 ml-3 list-disc">
+            {{ $benefit }}
+          </li>
+          @endforeach
+        </ul>
+        @endif
       </div>
-
       <div class="mt-4 flex items-center justify-between">
-        <div class="text-sm font-semibold">{{ $formatYen($job->salary) }}</div>
+        <div class="text-sm font-semibold">{{ \App\Support\Currency::yen($job->salary) }}</div>
         <a href="/jobs/{{ $job->job_code }}" class="text-sm font-medium text-slate-900 underline-offset-4 hover:underline">Detail</a>
       </div>
     </article>

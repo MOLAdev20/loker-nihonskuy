@@ -9,7 +9,7 @@ class JobListing extends Model
     protected $fillable = [
         'job_code',
         'title',
-        'company_name',
+        'visa_type',
         'placement',
         'job_type',
         'salary',
