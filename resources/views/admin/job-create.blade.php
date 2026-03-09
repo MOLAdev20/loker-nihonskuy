@@ -164,6 +164,26 @@
           <label for="sallary">Gaji</label>
         </div>
         <div>
+          <input type="checkbox" id="sallary-upgradable" value="Kenaikan Gaji" name="benefit[]">
+          <label for="sallary-upgradable">Kenaikan Gaji</label>
+        </div>
+        <div>
+          <input type="checkbox" id="paid-overtime" value="Lembur" name="benefit[]">
+          <label for="paid-overtime">Lembur</label>
+        </div>
+        <div>
+          <input type="checkbox" id="night-shift" value="Shift Malam" name="benefit[]">
+          <label for="night-shift">Shift Malam</label>
+        </div>
+        <div>
+          <input type="checkbox" id="tg2-support" value="Support TG2" name="benefit[]">
+          <label for="tg2-support">Support TG2</label>
+        </div>
+        <div>
+          <input type="checkbox" id="kaigo-support" value="Support Kaigo" name="benefit[]">
+          <label for="kaigo-support">Support Kaigo</label>
+        </div>
+        <div>
           <input type="checkbox" id="bonus" value="Bonus" name="benefit[]">
           <label for="bonus">Bonus</label>
         </div>

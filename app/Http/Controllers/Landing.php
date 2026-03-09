@@ -24,6 +24,7 @@ class Landing extends Controller
             $keyword = $request->string('q')->toString();
             $query->where(function ($builder) use ($keyword) {
                 $builder->where('title', 'like', "%{$keyword}%")
+                    ->orWhere('job_code', 'like', "%{$keyword}%")
                     ->orWhere('visa_type', 'like', "%{$keyword}%")
                     ->orWhere('job_type', 'like', "%{$keyword}%")
                     ->orWhere('placement', 'like', "%{$keyword}%");

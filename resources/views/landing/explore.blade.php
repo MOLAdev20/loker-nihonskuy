@@ -116,7 +116,7 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
           <p class="text-xs text-slate-600">Syarat & Benefit</p>
           <div class="flex flex-wrap gap-2 mt-2">
             <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
-              {{ $job->domicile_requirement == "kokunai" ? "Hanya di Jepang" : "Domisili Bebas" }}
+              {{ $job->domicile_requirement == "kokunai" ? "Domisili Jepang" : "Domisili Indonesia" }}
             </span>
             <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
               {{ $job->gender_requirement == "p" ? "Perempuan" : ($job->gender_requirement == "a" ? "Semua Gender" : "Laki-laki") }}

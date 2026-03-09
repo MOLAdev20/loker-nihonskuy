@@ -149,7 +149,7 @@ $additionalInformationDelta = $decoded;
             <div class="flex items-center justify-between text-sm">
               <span class="text-slate-500">Gender</span>
               <span class="font-medium">
-                {{ $job->gender_requirement === 'l' ? 'Laki-laki' : 'Perempuan' }}
+                {{ $job->gender_requirement == 'p' ? 'Perempuan' : ($job->gender_requirement == 'a' ? 'Laki-laki & Perempuan' : 'Laki-laki') }}
               </span>
             </div>
             <div class="flex items-center justify-between text-sm">

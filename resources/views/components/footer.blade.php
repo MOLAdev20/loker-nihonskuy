@@ -11,7 +11,7 @@
                         <div class="text-xs text-slate-500">Temukan karir impianmu di Jepang</div>
                     </div>
                 </div>
-                <p class="mt-4 max-w-md text-sm leading-relaxed text-slate-600">Komplek Griya Bandung Asri III Blok A11 No.08 Kelurahan Cipagalo, Kecamatan Bojongsoang, Kabupaten Bandung</p>
+                <p class="mt-4 max-w-md text-sm leading-relaxed text-slate-600">愛知県名古屋市南区白雲町 457 -0025</p>
 
                 <!-- <form class="mt-5 flex max-w-md gap-2" onsubmit="event.preventDefault();">
                     <input
