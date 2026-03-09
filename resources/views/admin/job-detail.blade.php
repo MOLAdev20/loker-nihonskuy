@@ -107,7 +107,7 @@
     <!-- Third row -->
     <div class="flex flex-col gap-1 col-span-2">
       <span class="text-sm text-slate-500">Persyaratan Gender</span>
-      <span class="text-sm font-medium text-slate-900">{{ $job->gender_requirement === 'l' ? 'Laki-laki' : 'Perempuan' }}</span>
+      <span class="text-sm font-medium text-slate-900">{{ $job->gender_requirement == 'p' ? 'Perempuan' : ($job->gender_requirement == 'a' ? 'Laki-laki & Perempuan' : 'Laki-laki') }}</span>
     </div>
     <div class="flex flex-col gap-1 col-span-2">
       <span class="text-sm text-slate-500">Persyaratan Domisili</span>

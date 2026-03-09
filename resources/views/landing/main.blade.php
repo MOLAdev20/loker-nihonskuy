@@ -145,7 +145,7 @@
           <p class="text-xs text-slate-600">Syarat & Benefit</p>
           <div class="flex flex-wrap gap-2 mt-2">
             <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
-              {{ $job->domicile_requirement == "kokunai" ? "Hanya di Jepang" : "Domisili Bebas" }}
+              {{ $job->domicile_requirement == "kokunai" ? "Domisili Jepang" : "Domisili Indonesia" }}
             </span>
             <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
               {{ $job->gender_requirement == "p" ? "Perempuan" : ($job->gender_requirement == "a" ? "Semua Gender" : "Laki-laki") }}
@@ -204,7 +204,7 @@
 
       <div class="mt-6 space-y-3">
         <div class="flex gap-3">
-          <div class="mt-0.5 grid h-8 w-8 place-items-center rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div class="mt-0.5 grid h-8 w-8 place-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-badge-check-icon lucide-badge-check">
               <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
               <path d="m9 12 2 2 4-4" />
@@ -217,7 +217,7 @@
         </div>
 
         <div class="flex gap-3">
-          <div class="mt-0.5 grid h-8 w-8 place-items-center rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div class="mt-0.5 grid h-8 w-8 place-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headset-icon lucide-headset">
               <path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z" />
               <path d="M21 16v2a4 4 0 0 1-4 4h-5" />
@@ -230,8 +230,8 @@
         </div>
 
         <div class="flex gap-3">
-          <div class="mt-0.5 grid h-8 w-8 place-items-center rounded-xl border border-slate-200 bg-white shadow-sm">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-slate-900">
+          <div class="mt-0.5 grid h-8 w-8 place-items-center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-slate-900">
               <path
                 d="M12 8v4l3 3"
                 stroke="currentColor"

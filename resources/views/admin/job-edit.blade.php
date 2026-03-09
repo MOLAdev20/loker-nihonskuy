@@ -178,6 +178,26 @@
           <label for="sallary">Gaji</label>
         </div>
         <div>
+          <input type="checkbox" id="sallary-upgradable" value="Kenaikan Gaji" name="benefit[]" @checked(in_array('Kenaikan Gaji', $selectedBenefits, true))>
+          <label for="sallary-upgradable">Kenaikan Gaji</label>
+        </div>
+        <div>
+          <input type="checkbox" id="paid-overtime" value="Lembur" name="benefit[]" @checked(in_array('Lembur', $selectedBenefits, true))>
+          <label for="paid-overtime">Lembur</label>
+        </div>
+        <div>
+          <input type="checkbox" id="night-shift" value="Shift Malam" name="benefit[]" @checked(in_array('Shift Malam', $selectedBenefits, true))>
+          <label for="night-shift">Shift Malam</label>
+        </div>
+        <div>
+          <input type="checkbox" id="tg2-support" value="Support TG2" name="benefit[]" @checked(in_array('Support TG2', $selectedBenefits, true))>
+          <label for="tg2-support">Support TG2</label>
+        </div>
+        <div>
+          <input type="checkbox" id="kaigo-support" value="Support Kaigo" name="benefit[]" @checked(in_array('Support Kaigo', $selectedBenefits, true))>
+          <label for="kaigo-support">Support Kaigo</label>
+        </div>
+        <div>
           <input type="checkbox" id="bonus" value="Bonus" name="benefit[]" @checked(in_array('Bonus', $selectedBenefits, true))>
           <label for="bonus">Bonus</label>
         </div>

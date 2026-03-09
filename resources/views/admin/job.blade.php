@@ -50,7 +50,7 @@
 
       <div class="mt-2 flex flex-wrap gap-1 text-[11px] text-slate-600">
         <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->job_type }}</span>
-        <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->gender_requirement == 'p' ? 'Perempuan' : 'Laki-laki' }}</span>
+        <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->gender_requirement == 'p' ? 'Perempuan' : ($job->gender_requirement == 'a' ? 'Laki-laki & Perempuan' : 'Laki-laki') }}</span>
         <span class="rounded bg-slate-100 px-2 py-0.5">
           {{ $job->domicile_requirement === 'kokunai' ? 'Khusus Jepang' : 'Bebas' }}
         </span>
