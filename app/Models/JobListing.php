@@ -20,6 +20,7 @@ class JobListing extends Model
         'benefit',
         'additional_information',
         'thumbnail_path',
+        'status',
         'whatsapp_number',
     ];
 }

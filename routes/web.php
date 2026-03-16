@@ -28,6 +28,7 @@ Route::prefix("admin")->group(function () {
             Route::put("/update/{id}", [Job::class, "update"]);
             Route::post("/{id}/thumbnail", [Job::class, "updateThumbnail"]);
             Route::delete("/delete/{id}", [Job::class, "destroy"]);
+            Route::get("/change-status/{id}", [Job::class, "changeStatus"]);
         });
     });
 });

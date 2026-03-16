@@ -25,12 +25,14 @@ class Job extends Controller
         return trim($plainText) === '';
     }
 
-    public function index()
+    public function index(Request $req)
     {
-        $jobs = JobListing::latest()->get();
+        $status = $req->query('status');
+        $jobs = JobListing::where('status', $status ?? 1);
 
         return view('admin.job', [
-            'jobs' => $jobs,
+            'jobs' => $jobs->latest()->get(),
+            'status' => $status,
         ]);
     }
 
@@ -237,5 +239,16 @@ class Job extends Controller
         $job->delete();
 
         return redirect("/admin/jobs");
+    }
+
+    public function changeStatus($id)
+    {
+        $job = JobListing::where('job_code', $id)->firstOrFail();
+
+        $job->update([
+            'status' => $job->status ? 0 : 1,
+        ]);
+
+        return redirect("/admin/jobs/detail/" . $job->job_code);
     }
 }
