@@ -172,9 +172,15 @@ $additionalInformationDelta = $decoded;
           @endphp
 
           <div class="mt-6 grid gap-2">
+            @if ($job->status)
             <a href="{{ $whatsappLink }}" target="_blank" rel="noopener" class="rounded-xl bg-slate-900 px-4 py-2 text-center text-sm font-medium text-white hover:bg-slate-800">
               Lamar Sekarang
             </a>
+            @else
+            <a href="#" rel="noopener" class="rounded-xl bg-slate-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-slate-800">
+              Lowongan ini sudah berakhir
+            </a>
+            @endif
             <a
               href="{{ $job->source ?: '/' }}"
               class="rounded-xl border flex items-center justify-center gap-1 border-blue-200 bg-blue-500 text-white px-4 py-2 text-center text-sm font-medium hover:bg-blue-800"

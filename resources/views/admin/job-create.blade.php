@@ -108,12 +108,23 @@
         <input type="url" name="source" id="source" value="{{ old('source') }}" placeholder="https://drive.google.com/..." class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('source') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
       <div class="flex flex-col gap-1 col-span-2">
-        <label for="job-sallary" class="text-sm">Gaji</label>
-        @error('job-sallary')
-        <span class="text-[10px] text-red-600">{{ $message }}</span>
-        @enderror
-        <input type="number" name="job-sallary" id="job-sallary" value="{{ old('job-sallary') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('job-sallary') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
-        <span class="text-[10px] text-slate-400">Jika tidak ada, isi dengan -</span>
+        <label for="job-sallary" class="text-sm">Range Gaji</label>
+        <div class="flex gap-2">
+          <div>
+            @error('job-sallary')
+            <span class="text-[10px] text-red-600">{{ $message }}</span>
+            @enderror
+            <input type="number" name="job-sallary" id="job-sallary" value="{{ old('job-sallary') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('job-sallary') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+            <span class="text-[10px] text-slate-400">Mulai dari</span>
+          </div>
+          <div>
+            @error('job-sallary')
+            <span class="text-[10px] text-red-600">{{ $message }}</span>
+            @enderror
+            <input type="number" name="job-sallary" id="job-sallary" value="{{ old('job-sallary') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('job-sallary') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+            <span class="text-[10px] text-slate-400">Sampai dengan</span>
+          </div>
+        </div>
       </div>
       <div class="flex flex-col gap-1 col-span-2">
         <label for="whatsapp-number" class="text-sm">Nomor WhatsApp</label>

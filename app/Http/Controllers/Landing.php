@@ -9,7 +9,7 @@ class Landing extends Controller
 {
     public function index()
     {
-        $jobs = JobListing::latest()->take(6)->get();
+        $jobs = JobListing::where(['status' => 1])->latest()->take(6)->get();
 
         return view('landing.main', [
             'jobs' => $jobs,
@@ -36,7 +36,7 @@ class Landing extends Controller
             $query->where('placement', 'like', "%{$location}%");
         }
 
-        $jobs = $query->latest()->paginate(12)->withQueryString();
+        $jobs = $query->where(['status' => 1])->latest()->paginate(12)->withQueryString();
 
         return view('landing.explore', [
             'jobs' => $jobs,

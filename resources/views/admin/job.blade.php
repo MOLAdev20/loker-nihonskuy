@@ -34,9 +34,11 @@
 </div>
 
 <div class="border rounded-lg border-slate-200 p-3">
-  <div class="grid grid-cols-1 gap-2">
+  <a href="?status=1" class="p-2 {{ $status == 1 ? 'bg-blue-500 text-white' : '' }} rounded text-sm">Aktif</a>
+  <a href="?status=0" class="p-2 {{ $status == 0 ? 'bg-blue-500 text-white' : '' }} rounded text-sm">Nonaktif</a>
+  <div class="grid grid-cols-1 gap-2 mt-3">
     @forelse ($jobs as $job)
-    <div class="rounded-md border border-slate-200 px-3 py-2 bg-white">
+    <div class="rounded-md border border-l-5 border-l-slate-200 border-slate-200 px-3 py-2 bg-white">
       <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
         <div class="min-w-0">
           <div class="text-xs text-slate-500">{{ $job->job_code }}</div>

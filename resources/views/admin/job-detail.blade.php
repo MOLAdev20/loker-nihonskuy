@@ -117,6 +117,15 @@
       <span class="text-sm text-slate-500">Kuantitas Dibutuhkan</span>
       <span class="text-sm font-medium text-slate-900">{{ $job->qty }}</span>
     </div>
+    <div class="flex flex-col gap-1 col-span-2">
+      <span class="text-sm text-slate-500">Status Lowongan</span>
+      @php
+        if($job->status){ @endphp
+          <a href="/admin/jobs/change-status/{{ $job->job_code }}" class='text-sm flex items-center gap-1 font-medium text-green-600'><x-icons.pause size="15"/> Aktif</a>
+        @php }else{ @endphp
+          <a href="/admin/jobs/change-status/{{ $job->job_code }}" class='text-sm flex items-center gap-1 font-medium text-red-600'><x-icons.play size="15"/> Tidak Aktif</a>
+        @php } @endphp
+    </div>
 
     <!-- Fourth row -->
     <div class="flex flex-col gap-2 col-span-8 mt-5">
