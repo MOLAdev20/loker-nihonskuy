@@ -241,14 +241,14 @@ class Job extends Controller
         return redirect("/admin/jobs");
     }
 
-    public function changeStatus($id)
-    {
-        $job = JobListing::where('job_code', $id)->firstOrFail();
+    // public function changeStatus($id)
+    // {
+    //     $job = JobListing::where('job_code', $id)->firstOrFail();
 
-        $job->update([
-            'status' => $job->status ? 0 : 1,
-        ]);
+    //     $job->update([
+    //         'status' => $job->status ? 0 : 1,
+    //     ]);
 
-        return redirect("/admin/jobs/detail/" . $job->job_code);
-    }
+    //     return redirect("/admin/jobs/detail/" . $job->job_code);
+    // }
 }

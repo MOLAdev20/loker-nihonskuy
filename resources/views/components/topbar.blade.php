@@ -16,6 +16,7 @@
             <a href="/#about" class=" text-slate-600 hover:text-slate-900">Tentang</a>
             <a href="/#testimonials" class=" text-slate-600 hover:text-slate-900">Testimoni</a>
             <a href="/#footer" class=" text-slate-600 hover:text-slate-900">Kontak</a>
+            <a href="/sign-up" class=" text-slate-600 hover:text-slate-900">Sign Up</a>
         </nav>
 
         <!-- <div class="hidden items-center gap-2 md:flex">

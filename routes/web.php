@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Landing;
 use App\Http\Controllers\Job;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\User\AccountController;
+use App\Http\Controllers\User\ProfileController;
 
 Route::get("/", [Landing::class, "index"]);
 Route::get("/jobs", [Landing::class, "explore"]);
@@ -31,4 +33,15 @@ Route::prefix("admin")->group(function () {
             Route::get("/change-status/{id}", [Job::class, "changeStatus"]);
         });
     });
+});
+
+Route::get("sign-in", [AccountController::class, "signIn"]);
+Route::post("sign-in", [AccountController::class, "validateAccount"]);
+Route::get("sign-up", [AccountController::class, "signUp"]);
+Route::post("sign-up", [AccountController::class, "createAccount"]);
+
+Route::prefix("my")->group(function () {
+    Route::get("/", [ProfileController::class, "showProfile"]);
+    Route::get("/fill-profile", [ProfileController::class, "showProfileForm"])->name("my.fill-profile");
+    Route::post("store-profile", [ProfileController::class, "storeProfile"]);
 });
