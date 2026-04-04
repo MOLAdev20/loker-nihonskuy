@@ -17,20 +17,20 @@
       <li class="flex items-center gap-2">
         <span class="text-slate-400">/</span>
         <a href="#" class="hover:text-slate-700">
-          Job
+          Loker
         </a>
       </li>
 
       <li class="flex items-center gap-2">
         <span class="text-slate-400">/</span>
         <span class="font-medium text-slate-700">
-          Edit Job
+          Edit Loker
         </span>
       </li>
     </ol>
   </nav>
   <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-    Edit Job
+    Edit Loker
   </h1>
   <p class="mt-2 text-sm text-slate-500">
     Perbarui info lowongan
@@ -40,22 +40,22 @@
 <div class="border rounded-lg border-slate-200 p-4 relative">
   <div class="absolute top-0 inset-x-0 bg-slate-400 text-xs text-white rounded-b-none rounded p-1">Informasi Umum Job</div>
 
-  <form method="post" action="/admin/jobs/update/{{ $job->job_code }}">
+  <form method="post" action="{{ route('admin.vacancy.update', $job->job_code) }}">
     @csrf
     @method('PUT')
     <div class="block sm:grid grid-cols-8 gap-5 mt-8">
 
       <!-- First row -->
       <div class="flex flex-col gap-1 col-span-2">
-        <label class="text-sm">Job ID</label>
-        <input type="text" value="{{ $job->job_code }}" class="rounded outline-none border border-slate-200 py-1 px-2 text-sm bg-slate-50" disabled>
+        <label class="text-sm">Job ID / Kode Lowongan</label>
+        <input type="text" value="{{ $job->job_code }}" class="bg-white rounded outline-none border border-slate-200 py-1 px-2 text-sm disabled:bg-slate-200 disabled:cursor-not-allowed" disabled>
       </div>
       <div class="flex flex-col gap-1 col-span-4">
-        <label for="job-title" class="text-sm">Nama Job</label>
+        <label for="job-title" class="text-sm">Nama Pekerjaan</label>
         @error('job-title')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="text" name="job-title" id="job-title" value="{{ old('job-title', $job->title) }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-title') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <input type="text" name="job-title" id="job-title" value="{{ old('job-title', $job->title) }}" class=" bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-title') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
       <div class="flex flex-col gap-1 col-span-2">
         <label for="job-type" class="text-sm">Jenis Pekerjaan</label>
@@ -65,7 +65,7 @@
         <select
           name="job-type"
           id="job-type"
-          class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+          class=" bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
           <option value="">Pilih</option>
           <option value="Restoran" @selected(old('job-type', $job->job_type)==='Restoran')>Restoran</option>
           <option value="Perawat Lansia" @selected(old('job-type', $job->job_type)==='Perawat Lansia')>Perawat Lansia</option>
@@ -99,30 +99,45 @@
           name="job-placement"
           id="job-placement"
           data-selected="{{ old('job-placement', $job->placement) }}"
-          class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-placement') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+          class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-placement') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
           <option value="">Pilih</option>
         </select>
       </div>
       <div class="flex flex-col gap-1 col-span-2">
-        <label for="company" class="text-sm">Nama Perusahaan</label>
-        @error('company')
+        <label for="visa-type" class="text-sm">Jenis VISA</label>
+        @error('visa-type')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="text" name="company" id="company" value="{{ old('company', $job->company_name) }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('company') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <input type="text" name="visa-type" id="visa-type" value="{{ old('visa-type', $job->visa_type) }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('visa-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
       <div class="flex flex-col gap-1 col-span-2">
         <label for="source" class="text-sm">Salinan Asli</label>
         @error('source')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="url" name="source" id="source" value="{{ old('source', $job->source) }}" placeholder="https://drive.google.com/..." class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('source') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <input type="url" name="source" id="source" value="{{ old('source', $job->source) }}" placeholder="https://drive.google.com/..." class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('source') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
       <div class="flex flex-col gap-1 col-span-2">
-        <label for="job-sallary" class="text-sm">Gaji</label>
-        @error('job-sallary')
-        <span class="text-[10px] text-red-600">{{ $message }}</span>
-        @enderror
-        <input type="text" name="job-sallary" id="job-sallary" value="{{ old('job-sallary', $job->salary) }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('job-sallary') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <label for="job-sallary" class="text-sm">Range Gaji</label>
+        <div class="flex gap-1">
+          @php
+            $salary = explode('-', $job->salary);
+            $salaryFrom = empty($salary[0]) ? '' : $salary[0];
+            $salaryTo = empty($salary[1]) ? '' : $salary[1];
+          @endphp
+          <div>
+            <input type="number" name="salary-from" value="{{ $salaryFrom }}" id="salary-from" value="{{ old('salary-from') }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('salary-from') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+            @error('salary-from')
+            <span class="text-[10px] text-red-600">{{ $message }}</span>
+            @enderror
+          </div>
+          <div>
+            @error('salary-to')
+            <span class="text-[10px] text-red-600">{{ $message }}</span>
+            @enderror
+            <input type="number" name="salary-to" value="{{ $salaryTo }}" id="salary-to" value="{{ old('salary-to') }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('salary-to') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+          </div>
+        </div>
         <span class="text-[10px] text-slate-400">Jika tidak ada, isi dengan -</span>
       </div>
       <div class="flex flex-col gap-1 col-span-2">
@@ -130,7 +145,7 @@
         @error('whatsapp-number')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="text" name="whatsapp-number" id="whatsapp-number" value="{{ old('whatsapp-number', $job->whatsapp_number) }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('whatsapp-number') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <input type="text" name="whatsapp-number" id="whatsapp-number" value="{{ old('whatsapp-number', $job->whatsapp_number) }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('whatsapp-number') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
         <span class="text-[10px] text-slate-400">Gunakan format internasional, contoh: 62812xxxxxxx</span>
       </div>
 
@@ -140,7 +155,7 @@
         @error('gender-requirement')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <select name="gender-requirement" id="gender-requirement" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
+        <select name="gender-requirement" id="gender-requirement" class="bg-white rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
           <option value="">Pilih</option>
           <option value="l" @selected(old('gender-requirement', $job->gender_requirement) === 'l')>Laki-laki</option>
           <option value="p" @selected(old('gender-requirement', $job->gender_requirement) === 'p')>Perempuan</option>
@@ -152,7 +167,7 @@
         @error('domicile-requirement')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <select name="domicile-requirement" id="domicile-requirement" class=" rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
+        <select name="domicile-requirement" id="domicile-requirement" class="bg-white rounded outline-none border border-slate-300 py-1 px-2 text-sm focus:border-slate-500 focus:border transition-all">
           <option value="">Pilih</option>
           <option value="kokunai" @selected(old('domicile-requirement', $job->domicile_requirement) === 'kokunai')>Khusus Jepang</option>
           <option value="kokugai" @selected(old('domicile-requirement', $job->domicile_requirement) === 'kokugai')>Bebas (Di Luar Jepang)</option>
@@ -163,48 +178,79 @@
         @error('qty')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="number" name="qty" id="qty" value="{{ old('qty', $job->qty) }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('qty') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <input type="number" name="qty" id="qty" value="{{ old('qty', $job->qty) }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('qty') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
 
       <!-- Fourth row -->
-      <div class="gap-2 col-span-8 mt-5">
+      <div class="gap-2 col-span-2 mt-5">
         <label class="text-sm">Benefit & Fasilitas</label>
         @php
         $selectedBenefits = old('benefit', $job->benefit ? explode('|', $job->benefit) : []);
         $selectedBenefits = is_array($selectedBenefits) ? $selectedBenefits : [];
         @endphp
-        <div>
-          <input type="checkbox" id="sallary" value="Gaji" name="benefit[]" @checked(in_array('Gaji', $selectedBenefits, true))>
-          <label for="sallary">Gaji</label>
+
+        <div class="gap-2 col-span-8 mt-5">
+          <label for="additional-information" class="text-sm">Benefit & Fasilitas</label>
+          <div>
+            <input type="checkbox" id="sallary" value="Gaji" name="benefit[]" @checked(in_array('Gaji', $selectedBenefits, true))>
+            <label for="sallary">Gaji</label>
+          </div>
+          <div>
+            <input type="checkbox" id="sallary-upgradable" value="Kenaikan Gaji" name="benefit[]" @checked(in_array('Kenaikan Gaji', $selectedBenefits, true))>
+            <label for="sallary-upgradable">Kenaikan Gaji</label>
+          </div>
+          <div>
+            <input type="checkbox" id="paid-overtime" value="Lembur" name="benefit[]" @checked(in_array('Lembur', $selectedBenefits, true))>
+            <label for="paid-overtime">Lembur</label>
+          </div>
+          <div>
+            <input type="checkbox" id="night-shift" value="Shift Malam" name="benefit[]" @checked(in_array('Shift Malam', $selectedBenefits, true))>
+            <label for="night-shift">Shift Malam</label>
+          </div>
+          <div>
+            <input type="checkbox" id="tg2-support" value="Support TG2" name="benefit[]" @checked(in_array('Support TG2', $selectedBenefits, true))>
+            <label for="tg2-support">Support TG2</label>
+          </div>
+          <div>
+            <input type="checkbox" id="kaigo-support" value="Support Kaigo" name="benefit[]" @checked(in_array('Support Kaigo', $selectedBenefits, true))>
+            <label for="kaigo-support">Support Kaigo</label>
+          </div>
+          <div>
+            <input type="checkbox" id="bonus" value="Bonus" name="benefit[]" @checked(in_array('Bonus', $selectedBenefits, true))>
+            <label for="bonus">Bonus</label>
+          </div>
+          <div>
+            <input type="checkbox" id="free-meal" value="Makan Gratis" name="benefit[]" @checked(in_array('Makan Gratis', $selectedBenefits, true))>
+            <label for="free-meal">Makan Gratis</label>
+          </div>
+          <div>
+            <input type="checkbox" id="dorm" value="Asrama" name="benefit[]" @checked(in_array('Asrama', $selectedBenefits, true))>
+            <label for="dorm">Asrama</label>
+          </div>
+          <div>
+            <input type="checkbox" id="dorm-allowance" value="Tunjangan Asrama" name="benefit[]" @checked(in_array('Tunjangan Asrama', $selectedBenefits, true))>
+            <label for="dorm-allowance">Tunjangan Asrama</label>
+          </div>
+          <div>
+            <input type="checkbox" id="vehicle-allowance" value="Tunjangan Kendaraan" name="benefit[]" @checked(in_array('Tunjangan Kendaraan', $selectedBenefits, true))>
+            <label for="vehicle-allowance">Tunjangan Kendaraan</label>
+          </div>
+          <div>
+            <input type="checkbox" id="pig-tollerant" value="Toleransi Babi" name="benefit[]" @checked(in_array('Toleransi Babi', $selectedBenefits, true))>
+            <label for="pig-tollerant">Toleransi Babi</label>
+          </div>
+          <div>
+            <input type="checkbox" id="pray-tollerant" value="Toleransi Ibadah" name="benefit[]" @checked(in_array('Toleransi Ibadah', $selectedBenefits, true))>
+            <label for="pray-tollerant">Toleransi Ibadah</label>
+          </div>
         </div>
-        <div>
-          <input type="checkbox" id="bonus" value="Bonus" name="benefit[]" @checked(in_array('Bonus', $selectedBenefits, true))>
-          <label for="bonus">Bonus</label>
-        </div>
-        <div>
-          <input type="checkbox" id="free-meal" value="Makan Gratis" name="benefit[]" @checked(in_array('Makan Gratis', $selectedBenefits, true))>
-          <label for="free-meal">Makan Gratis</label>
-        </div>
-        <div>
-          <input type="checkbox" id="dorm" value="Asrama" name="benefit[]" @checked(in_array('Asrama', $selectedBenefits, true))>
-          <label for="dorm">Asrama</label>
-        </div>
-        <div>
-          <input type="checkbox" id="dorm-allowance" value="Tunjangan Asrama" name="benefit[]" @checked(in_array('Tunjangan Asrama', $selectedBenefits, true))>
-          <label for="dorm-allowance">Tunjangan Asrama</label>
-        </div>
-        <div>
-          <input type="checkbox" id="vehicle-allowance" value="Tunjangan Kendaraan" name="benefit[]" @checked(in_array('Tunjangan Kendaraan', $selectedBenefits, true))>
-          <label for="vehicle-allowance">Tunjangan Kendaraan</label>
-        </div>
-        <div>
-          <input type="checkbox" id="pig-tollerant" value="Toleransi Babi" name="benefit[]" @checked(in_array('Toleransi Babi', $selectedBenefits, true))>
-          <label for="pig-tollerant">Toleransi Babi</label>
-        </div>
-        <div>
-          <input type="checkbox" id="pray-tollerant" value="Toleransi Ibadah" name="benefit[]" @checked(in_array('Toleransi Ibadah', $selectedBenefits, true))>
-          <label for="pray-tollerant">Toleransi Ibadah</label>
-        </div>
+      </div>
+      <div class="flex flex-col gap-1 col-span-2 mt-5">
+        <label for="expiration-date" class="text-sm">Tenggat Postingan</label>
+        @error('expiration-date')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
+        <input type="date" name="expiration-date" id="expiration-date" value="{{ old('expiration-date', date('Y-m-d', $job->expiration_date)) }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('expiration-date') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
 
       <!-- Fivth row -->

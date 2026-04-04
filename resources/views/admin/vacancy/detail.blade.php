@@ -181,4 +181,12 @@
   quillViewer.setContents(descriptionDelta);
 </script>
 @endif
+
+@vite('resources/js/swal.js')
+<script type="module">
+  @if(session('msg'))
+  const config = @js(session('msg'));
+  Swal.fire(config[1], config[2], config[0]);
+  @endif
+</script>
 @endsection

@@ -28,7 +28,7 @@
       </p>
     </div>
     <div>
-      <a href="/admin/jobs/create" class="inline-flex items-center justify-center rounded bg-slate-500 px-4 py-2 text-sm font-medium text-white hover:bg-slate-600">Tambah Job</a>
+      <a href="/admin/vacancy/create" class="inline-flex items-center justify-center rounded bg-slate-500 px-4 py-2 text-sm font-medium text-white hover:bg-slate-600">Tambah Job</a>
     </div>
   </div>
 </div>
@@ -56,9 +56,9 @@
       </div>
 
       <div class="mt-2">
-        <a href="/admin/jobs/detail/{{ $job->job_code }}" class="text-xs font-medium text-slate-600 hover:text-slate-800">Detail</a>
+        <a href="{{ route('admin.vacancy.detail', $job->job_code) }}" class="text-xs font-medium text-slate-600 hover:text-slate-800">Detail</a>
         <span class="mx-1 text-slate-300">•</span>
-        <a href="/admin/jobs/edit/{{ $job->job_code }}" class="text-xs font-medium text-slate-600 hover:text-slate-800">Edit</a>
+        <a href="{{ route("admin.vacancy.edit", $job->job_code) }}" class="text-xs font-medium text-slate-600 hover:text-slate-800">Edit</a>
         <span class="mx-1 text-slate-300">•</span>
         <form method="post" action="/admin/jobs/delete/{{ $job->job_code }}" class="inline js-delete-job-form">
           @csrf

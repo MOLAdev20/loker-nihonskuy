@@ -1,0 +1,15 @@
+/* Styling kotak utamanya biar mirip inputan lu */
+.choices__inner {
+    background-color: white !important;
+    border-radius: 0.25rem !important; /* rounded */
+    border: 1px solid #cbd5e1 !important; /* border-slate-300 */
+    padding-top: 0.25rem !important; /* py-1 */
+    padding-bottom: 0.25rem !important;
+    padding-left: 0.5rem !important; /* px-2 */
+    padding-right: 0.5rem !important;
+    font-size: 0.875rem !important; /* text-sm */
+    transition-property: all !important;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition-duration: 150ms !important;
+    min-height: auto !important;
+}

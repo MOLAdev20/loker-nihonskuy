@@ -4,22 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class JobListing extends Model
+class Vacancy extends Model
 {
+    protected $table = 'vacancies';
+
     protected $fillable = [
         'job_code',
         'title',
-        'company_name',
+        'visa_type',
         'placement',
         'job_type',
+        'source',
         'salary',
+        'whatsapp_number',
         'gender_requirement',
         'domicile_requirement',
         'qty',
-        'source',
         'benefit',
         'additional_information',
         'thumbnail_path',
-        'whatsapp_number',
+        'expired_at'
     ];
 }

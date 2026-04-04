@@ -11,18 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('job_listings', function (Blueprint $table) {
+        Schema::create('vacancies', function (Blueprint $table) {
             $table->id();
             $table->string('job_code')->unique();
             $table->string('title');
-            $table->string('company_name');
+            $table->string('visa_type');
             $table->string('placement');
             $table->string('job_type');
+            $table->string('source');
             $table->string('salary');
+            $table->string('whatsapp_number');
             $table->char('gender_requirement', 1);
             $table->string('domicile_requirement');
             $table->integer('qty');
+            $table->text('benefit')->nullable();
             $table->longText('additional_information');
+            $table->string("thumbnail_path")->nullable();
+            $table->timestamp('expired_at');
             $table->timestamps();
         });
     }

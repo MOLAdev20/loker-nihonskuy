@@ -2,12 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Landing;
-use App\Http\Controllers\Job;
+use App\Http\Controllers\VacancyController;
 use App\Http\Controllers\Admin\AuthController;
 
 Route::get("/", [Landing::class, "index"]);
-Route::get("/jobs", [Landing::class, "explore"]);
-Route::get("/jobs/{id}", [Landing::class, "detail"]);
+Route::get("/vacancies", [Landing::class, "explore"]);
+Route::get("/vacancy/{id}", [Landing::class, "detail"]);
 
 Route::prefix("admin")->group(function () {
     Route::middleware("admin.guest")->group(function () {
@@ -17,17 +17,17 @@ Route::prefix("admin")->group(function () {
     });
 
     Route::middleware("admin.auth")->group(function () {
-        Route::post("/logout", [AuthController::class, "logout"])->name("admin.logout");
+        Route::get("/logout", [AuthController::class, "logout"])->name("admin.logout");
 
-        Route::prefix("jobs")->group(function () {
-            Route::get("/", [Job::class, "index"]);
-            Route::get("create", [Job::class, "create"]);
-            Route::get("/detail/{id}", [Job::class, "detail"]);
-            Route::get("/edit/{id}", [Job::class, "edit"]);
-            Route::post("insert", [Job::class, "store"]);
-            Route::put("/update/{id}", [Job::class, "update"]);
-            Route::post("/{id}/thumbnail", [Job::class, "updateThumbnail"]);
-            Route::delete("/delete/{id}", [Job::class, "destroy"]);
+        Route::prefix("vacancy")->group(function () {
+            Route::get("/", [VacancyController::class, "index"])->name("admin.vacancies");
+            Route::get("create", [VacancyController::class, "create"]);
+            Route::get("/detail/{id}", [VacancyController::class, "detail"])->name("admin.vacancy.detail");
+            Route::get("/edit/{id}", [VacancyController::class, "edit"])->name("admin.vacancy.edit");
+            Route::post("insert", [VacancyController::class, "store"]);
+            Route::put("/update/{id}", [VacancyController::class, "update"])->name("admin.vacancy.update");
+            Route::post("/{id}/thumbnail", [VacancyController::class, "updateThumbnail"]);
+            Route::delete("/delete/{id}", [VacancyController::class, "destroy"]);
         });
     });
 });
