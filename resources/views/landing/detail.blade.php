@@ -1,4 +1,4 @@
-@extends("layouts/landing")
+@extends("layouts.landing")
 
 @section("header")
 
@@ -93,7 +93,7 @@ $additionalInformationDelta = $decoded;
           <div class="mt-6 grid gap-3 sm:grid-cols-3">
             <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <div class="text-xs text-slate-500">Gaji</div>
-              <div class="mt-1 text-base font-semibold">{{ \App\Support\Currency::yen($job->salary) }}</div>
+              <div class="mt-1 text-base font-semibold">{{ $job->salary_range }}</div>
             </div>
             <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <div class="text-xs text-slate-500">Kuantitas</div>

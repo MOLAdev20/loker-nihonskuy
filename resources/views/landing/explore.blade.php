@@ -1,49 +1,8 @@
-@extends("layouts/landing")
+@extends("layouts.landing")
 
 @section("header")
-
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Semua Lowongan | NihonSkuy</title>
-
-@vite("resources/css/app.css")
-
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        fontFamily: {
-          sans: ["ui-sans-serif", "system-ui", "Inter", "Segoe UI", "Roboto", "Arial", "sans-serif"],
-        },
-        boxShadow: {
-          soft: "0 10px 30px rgba(2,6,23,.08)",
-        },
-      },
-    },
-  };
-</script>
-
-<style>
-  .noise {
-    background-image: radial-gradient(rgba(15, 23, 42, 0.05) 1px, transparent 1px);
-    background-size: 18px 18px;
-  }
-</style>
 @endsection
-
-@php
-$formatYen = function ($value) {
-$value = (string) $value;
-if (preg_match_all('/\d+/', $value, $matches) && count($matches[0]) > 1) {
-$parts = array_map(function ($n) {
-return '¥' . number_format((int) $n);
-}, $matches[0]);
-return implode('–', $parts);
-}
-$num = preg_replace('/\D+/', '', $value);
-return $num !== '' ? '¥' . number_format((int) $num) : $value;
-};
-@endphp
 
 @section("content")
 <section class="mx-auto max-w-6xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
@@ -54,13 +13,9 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
         <h1 class="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Semua Info Lowongan Kerja Jepang</h1>
         <p class="mt-2 text-sm text-slate-600">Temukan lowongan yang cocok berdasarkan posisi, tipe visa, tipe kerja, dan lokasi.</p>
       </div>
-
-      <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
-        Total lowongan aktif: <span class="font-semibold">{{ number_format($totalJobs) }}</span>
-      </div>
     </div>
 
-    <form method="GET" action="/jobs" class="mt-6 grid gap-3 md:grid-cols-[1fr_220px_120px]">
+    <form method="GET" action="{{ route('vacancies') }}" class="mt-6 grid gap-1 md:grid-cols-[1fr_220px_120px]">
       <label class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-slate-400">
           <path d="M21 21l-4.3-4.3m1.8-5.2a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
@@ -73,17 +28,51 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
           type="text" />
       </label>
 
-      <label class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-slate-400">
-          <path d="M12 22s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          <path d="M12 11.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-        </svg>
-        <input
-          name="location"
-          value="{{ request('location') }}"
-          class="w-full bg-transparent text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"
-          placeholder="Lokasi (contoh: Tokyo)"
-          type="text" />
+      <label>
+        <span class="sr-only">Lokasi</span>
+        <div id="select-location" class="relative md:w-52 flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 active:ring-slate-300 focus-within:ring-2 focus-within:ring-slate-300 transition-all hover:bg-slate-50">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-slate-400">
+            <path
+              d="M12 22s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round" />
+            <path
+              d="M12 11.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round" />
+          </svg>
+          <div class="w-full" id="japan-pref-wrapper">
+            <input type="hidden" id="japan-pref-value" name="location" value="">
+            <button
+              type="button"
+              id="japan-pref-toggle"
+              class="flex w-full items-center justify-between gap-2 bg-transparent text-sm text-slate-900 focus:outline-none cursor-pointer"
+              aria-haspopup="listbox"
+              aria-expanded="false">
+              <span id="japan-pref-label" class="text-slate-400">Semua prefektur</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="text-slate-400">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
+          </div>
+          <div
+            id="japan-pref-panel"
+            class="absolute left-0 right-0 top-full z-20 mt-2 hidden rounded-xl border border-slate-200 bg-white p-2 shadow-soft">
+            <input
+              id="japan-pref-search"
+              type="text"
+              placeholder="Cari prefektur..."
+              class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200" />
+            <ul
+              id="japan-pref-list"
+              class="mt-2 max-h-56 overflow-auto text-sm text-slate-900"
+              role="listbox"
+              aria-label="Daftar prefektur">
+            </ul>
+          </div>
+        </div>
       </label>
 
       <button
@@ -103,47 +92,7 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
 
   <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
     @forelse ($jobs as $job)
-    <article class="group rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-soft">
-      <div class="flex items-start justify-between gap-3">
-        <div class="min-w-0">
-          <h3 class="truncate text-base font-semibold"><a href="/jobs/{{ $job->job_code }}">{{ $job->title }}</a></h3>
-          <p class="mt-1 text-sm text-slate-600 flex items-center gap-2"><x-icons.map size="15" />{{ $job->placement }}</p>
-          <p class="mt-1 text-sm text-slate-600 flex items-center gap-2"><x-icons.folderInput size="15" />{{ $job->visa_type }}</p>
-        </div>
-      </div>
-      <div class="border-t border-dashed border-slate-300 mt-3">
-        <div class="mt-1">
-          <p class="text-xs text-slate-600">Syarat & Benefit</p>
-          <div class="flex flex-wrap gap-2 mt-2">
-            <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
-              {{ $job->domicile_requirement == "kokunai" ? "Domisili Jepang" : "Domisili Indonesia" }}
-            </span>
-            <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
-              {{ $job->gender_requirement == "p" ? "Perempuan" : ($job->gender_requirement == "a" ? "Semua Gender" : "Laki-laki") }}
-            </span>
-            <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
-              {{ $job->qty }} orang
-            </span>
-          </div>
-        </div>
-        @php
-        $benefits = $job->benefit ? array_filter(explode('|', $job->benefit)) : [];
-        @endphp
-        @if (count($benefits))
-        <ul class="mt-3">
-          @foreach ($benefits as $benefit)
-          <li class="text-xs text-slate-600 ml-3 list-disc">
-            {{ $benefit }}
-          </li>
-          @endforeach
-        </ul>
-        @endif
-      </div>
-      <div class="mt-4 flex items-center justify-between">
-        <div class="text-sm font-semibold">{{ \App\Support\Currency::yen($job->salary) }}</div>
-        <a href="/jobs/{{ $job->job_code }}" class="text-sm font-medium text-slate-900 underline-offset-4 hover:underline">Detail</a>
-      </div>
-    </article>
+    <x-job-card :dataJob="$job" />
     @empty
     <div class="rounded-3xl border border-dashed border-slate-300 bg-white p-6 text-center text-sm text-slate-600 sm:col-span-2 lg:col-span-3">
       Lowongan belum tersedia untuk filter yang dipilih.
@@ -163,6 +112,94 @@ return $num !== '' ? '¥' . number_format((int) $num) : $value;
 <script>
   const btn = document.getElementById("menuBtn");
   const menu = document.getElementById("mobileMenu");
+
+  fetch('/japan.json')
+    .then(response => response.json())
+    .then(data => {
+      const wrapper = document.getElementById('select-location');
+      const toggle = document.getElementById('japan-pref-toggle');
+      const panel = document.getElementById('japan-pref-panel');
+      const search = document.getElementById('japan-pref-search');
+      const list = document.getElementById('japan-pref-list');
+      const valueInput = document.getElementById('japan-pref-value');
+      const label = document.getElementById('japan-pref-label');
+      const allPrefectures = Array.isArray(data.japan_prefectures) ? data.japan_prefectures : [];
+
+      const renderOptions = (items) => {
+        list.innerHTML = '';
+        const allItem = document.createElement('button');
+        allItem.type = 'button';
+        allItem.className = 'w-full text-left cursor-pointer rounded-lg px-3 py-2 hover:bg-slate-100';
+        allItem.textContent = 'Semua prefektur';
+        allItem.dataset.value = '';
+        list.appendChild(allItem);
+
+        items.forEach(prefecture => {
+          const item = document.createElement('button');
+          item.type = 'button';
+          item.className = 'w-full text-left cursor-pointer rounded-lg px-3 py-2 hover:bg-slate-100';
+          item.textContent = prefecture;
+          item.dataset.value = prefecture;
+          list.appendChild(item);
+        });
+      };
+
+      renderOptions(allPrefectures);
+
+      search.addEventListener('input', () => {
+        const query = search.value.trim().toLowerCase();
+        if (!query) {
+          renderOptions(allPrefectures);
+          return;
+        }
+        const filtered = allPrefectures.filter((prefecture) =>
+          String(prefecture).toLowerCase().includes(query)
+        );
+        renderOptions(filtered);
+      });
+
+      const openPanel = () => {
+        panel.classList.remove('hidden');
+        toggle.setAttribute('aria-expanded', 'true');
+        search.focus();
+      };
+
+      const closePanel = () => {
+        panel.classList.add('hidden');
+        toggle.setAttribute('aria-expanded', 'false');
+        search.value = '';
+        renderOptions(allPrefectures);
+      };
+
+      toggle.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (panel.classList.contains('hidden')) {
+          openPanel();
+        } else {
+          closePanel();
+        }
+      });
+
+      list.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const target = event.target.closest('button');
+        if (!target) return;
+        const value = target.dataset.value || '';
+        valueInput.value = value;
+        label.textContent = value || 'Semua prefektur';
+        label.classList.toggle('text-slate-400', !value);
+        label.classList.toggle('text-slate-900', !!value);
+        closePanel();
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!wrapper.contains(event.target)) {
+          closePanel();
+        }
+      });
+    });
+
 
   btn?.addEventListener("click", () => {
     const isOpen = !menu.classList.contains("hidden");

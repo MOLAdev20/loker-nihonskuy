@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\JobListing;
+use App\Models\Vacancy;
 use Illuminate\Http\Request;
 
-class Landing extends Controller
+class LandingController extends Controller
 {
     public function index()
     {
-        $jobs = JobListing::where(['status' => 1])->latest()->take(6)->get();
+        $jobs = Vacancy::latest()->take(6)->get();
 
         return view('landing.main', [
             'jobs' => $jobs,
@@ -18,7 +18,7 @@ class Landing extends Controller
 
     public function explore(Request $request)
     {
-        $query = JobListing::query();
+        $query = Vacancy::query();
 
         if ($request->filled('q')) {
             $keyword = $request->string('q')->toString();
@@ -40,13 +40,13 @@ class Landing extends Controller
 
         return view('landing.explore', [
             'jobs' => $jobs,
-            'totalJobs' => JobListing::count(),
+            'totalJobs' => Vacancy::count(),
         ]);
     }
 
     public function detail($id)
     {
-        $job = JobListing::where('job_code', $id)->firstOrFail();
+        $job = Vacancy::where('job_code', $id)->firstOrFail();
 
         return view('landing.detail', [
             'job' => $job,

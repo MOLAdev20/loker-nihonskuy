@@ -1,5 +1,3 @@
-// import './bootstrap';
-
 // Mobil menu toggle logic
 (() => {
     const btn = document.getElementById("menu-btn");

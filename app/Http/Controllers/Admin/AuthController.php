@@ -15,7 +15,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate(
+        $validation = $request->validate(
             [
                 'email' => ['required', 'email'],
                 'password' => ['required'],
@@ -29,7 +29,7 @@ class AuthController extends Controller
 
         $remember = $request->boolean('remember');
 
-        if (! Auth::guard('admin')->attempt($credentials, $remember)) {
+        if (! Auth::guard('admin')->attempt($validation, $remember)) {
             return back()
                 ->with('auth_error', 'Email atau password salah.')
                 ->withInput($request->only('email', 'remember'));
@@ -37,7 +37,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended('/admin/jobs');
+        return redirect()->intended('/admin/vacancy');
     }
 
     public function logout(Request $request)

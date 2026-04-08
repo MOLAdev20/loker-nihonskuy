@@ -29,22 +29,6 @@
         <!-- Spacer -->
         <div class="flex-1"></div>
 
-        <!-- Search (desktop-ish) -->
-        <div class="hidden w-90 sm:block">
-            <label class="relative block">
-                <span class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-400">
-                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="7" />
-                        <path d="M21 21l-4.3-4.3" />
-                    </svg>
-                </span>
-                <input
-                    class="w-full rounded-xl border border-slate-200 bg-white px-10 py-2 text-sm outline-none placeholder:text-slate-400 focus:border-slate-300 focus:ring-4 focus:ring-slate-100"
-                    placeholder="Search..."
-                    type="text" />
-            </label>
-        </div>
-
         <!-- Right actions -->
         <div class="flex items-center gap-2">
             <button

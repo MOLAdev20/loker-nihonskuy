@@ -1,5 +1,9 @@
 @extends('layouts.admin')
 
+@push("title")
+<title>NihonSkuy - Buat Loker</title>
+@endpush
+
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
 @endpush
@@ -16,7 +20,7 @@
 
       <li class="flex items-center gap-2">
         <span class="text-slate-400">/</span>
-        <a href="/admin/jobs" class="hover:text-slate-700">
+        <a href="{{ route('admin.vacancies') }}" class="hover:text-slate-700">
           Loker
         </a>
       </li>
@@ -40,47 +44,27 @@
 <div class="border rounded-lg border-slate-200 p-4 relative">
   <div class="absolute top-0 inset-x-0 bg-slate-400 text-xs text-white rounded-b-none rounded p-1">Informasi Umum Job</div>
 
-  <form method="post" action="/admin/jobs/insert">
+  <form method="post" action="/admin/vacancy/insert">
     @csrf
     <div class="block sm:grid grid-cols-8 gap-5 mt-8">
 
       <!-- First row -->
       <div class="flex flex-col gap-1 col-span-2">
-        <label for="job-id" class="text-sm">Job ID</label>
+        <label for="job-id" class="text-sm">Job ID / Kode Lowongan</label>
         @error('job-id')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="text" name="job-id" id="job-id" value="{{ old('job-id') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-id') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <input type="text" name="job-id" id="job-id" value="{{ old('job-id') }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-id') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
       <div class="flex flex-col gap-1 col-span-4">
-        <label for="job-title" class="text-sm">Nama Job</label>
+        <label for="job-title" class="text-sm">Nama Pekerjaan</label>
         @error('job-title')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="text" name="job-title" id="job-title" value="{{ old('job-title') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-title') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <input type="text" placeholder="Cth: Pengolahan Makanan Kaleng" name="job-title" id="job-title" value="{{ old('job-title') }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-title') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
 
       <!-- Second row -->
-      <div class="flex flex-col gap-1 col-span-2">
-        <label for="visa-type" class="text-sm">Tipe Visa</label>
-        @error('visa-type')
-        <span class="text-[10px] text-red-600">{{ $message }}</span>
-        @enderror
-        <input type="text" name="visa-type" id="visa-type" value="{{ old('visa-type') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('visa-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
-      </div>
-      <div class="flex flex-col gap-1 col-span-2">
-        <label for="job-placement" class="text-sm">Penempatan</label>
-        @error('job-placement')
-        <span class="text-[10px] text-red-600">{{ $message }}</span>
-        @enderror
-        <select
-          name="job-placement"
-          id="job-placement"
-          data-selected="{{ old('job-placement') }}"
-          class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-placement') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
-          <option value="">Pilih</option>
-        </select>
-      </div>
       <div class="flex flex-col gap-1 col-span-2">
         <label for="job-type" class="text-sm">Jenis Pekerjaan</label>
         @error('job-type')
@@ -89,7 +73,7 @@
         <select
           name="job-type"
           id="job-type"
-          class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+          class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
           <option value="">Pilih</option>
           <option value="Restoran" @selected(old('job-type')==='Restoran' )>Restoran</option>
           <option value="Perawat Lansia" @selected(old('job-type')==='Perawat Lansia' )>Perawat Lansia</option>
@@ -113,37 +97,55 @@
         </select>
       </div>
       <div class="flex flex-col gap-1 col-span-2">
+        <label for="job-placement" class="text-sm">Penempatan</label>
+        @error('job-placement')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
+        <select
+          name="job-placement"
+          id="job-placement"
+          data-selected="{{ old('job-placement') }}">
+          <option value="">Pilih</option>
+        </select>
+      </div>
+      <div class="flex flex-col gap-1 col-span-2">
+        <label for="visa-type" class="text-sm">Jenis VISA</label>
+        @error('visa-type')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
+        <input type="text" name="visa-type" id="visa-type" value="{{ old('visa-type') }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('visa-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+      </div>
+      <div class="flex flex-col gap-1 col-span-2">
         <label for="source" class="text-sm">Salinan Asli</label>
         @error('source')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="url" name="source" id="source" value="{{ old('source') }}" placeholder="https://drive.google.com/..." class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('source') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <input type="url" name="source" id="source" value="{{ old('source') }}" placeholder="https://drive.google.com/..." class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('source') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
       <div class="flex flex-col gap-1 col-span-2">
         <label for="job-sallary" class="text-sm">Range Gaji</label>
-        <div class="flex gap-2">
+        <div class="flex gap-1">
           <div>
-            @error('job-sallary')
+            <input type="number" name="salary-from" id="salary-from" value="{{ old('salary-from') }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('salary-from') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+            @error('salary-from')
             <span class="text-[10px] text-red-600">{{ $message }}</span>
             @enderror
-            <input type="number" name="job-sallary" id="job-sallary" value="{{ old('job-sallary') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('job-sallary') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
-            <span class="text-[10px] text-slate-400">Mulai dari</span>
           </div>
           <div>
-            @error('job-sallary')
+            @error('salary-to')
             <span class="text-[10px] text-red-600">{{ $message }}</span>
             @enderror
-            <input type="number" name="job-sallary" id="job-sallary" value="{{ old('job-sallary') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('job-sallary') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
-            <span class="text-[10px] text-slate-400">Sampai dengan</span>
+            <input type="number" name="salary-to" id="salary-to" value="{{ old('salary-to') }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('salary-to') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
           </div>
         </div>
+        <span class="text-[10px] text-slate-400">Jika tidak ada, isi dengan -</span>
       </div>
       <div class="flex flex-col gap-1 col-span-2">
         <label for="whatsapp-number" class="text-sm">Nomor WhatsApp</label>
         @error('whatsapp-number')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="text" name="whatsapp-number" id="whatsapp-number" value="{{ old('whatsapp-number') }}" class="rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('whatsapp-number') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <input type="text" name="whatsapp-number" id="whatsapp-number" value="{{ old('whatsapp-number') }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('whatsapp-number') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
         <span class="text-[10px] text-slate-400">Gunakan format internasional, contoh: 62812xxxxxxx</span>
       </div>
 
@@ -176,7 +178,7 @@
         @error('qty')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="number" name="qty" id="qty" value="{{ old('qty') }}" class=" rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('qty') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <input type="number" name="qty" id="qty" value="{{ old('qty') }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('qty') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
 
       <!-- Fourth row -->
@@ -235,6 +237,13 @@
           <label for="pray-tollerant">Toleransi Ibadah</label>
         </div>
       </div>
+      <div class="flex flex-col gap-1 col-span-2 mt-5">
+        <label for="expiration-date" class="text-sm">Tenggat Postingan</label>
+        @error('expiration-date')
+        <span class="text-[10px] text-red-600">{{ $message }}</span>
+        @enderror
+        <input type="date" name="expiration-date" id="expiration-date" value="{{ old('expiration-date') }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('expiration-date') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+      </div>
 
       <!-- Fivth row -->
       <div class="flex flex-col gap-2 col-span-8">
@@ -258,6 +267,7 @@
 @endsection
 
 @section('scripts')
+@vite('resources/js/vacancy.js')
 <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
 <script>
   const additionalInformationInput = document.getElementById("additional-information");

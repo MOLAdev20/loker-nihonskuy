@@ -1,4 +1,4 @@
-@extends("layouts/landing")
+@extends("layouts.landing")
 
 @push("header")
 <title>NihonSkuy - Raih Pekerjaan Impianmu di Jepang!</title>
@@ -8,7 +8,6 @@
 @section("content")
 <section class="px-4 pb-14 pt-10 sm:px-6 sm:pt-14">
   <div class="gap-8 flex justify-center text-center">
-    <!-- Left -->
     <div class="items-center">
       <h1 class="text-3xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
         Siap Berkarir di Jepang?
@@ -17,8 +16,7 @@
 
       <!-- Search box -->
       <div class="mt-6 rounded-2xl border border-slate-200 bg-white p-3 shadow-soft">
-        <form method="GET" action="/jobs" class="flex flex-col sm:flex-row justify-center gap-2">
-
+        <form method="GET" action="{{ route("vacancies") }}" class="flex flex-col sm:flex-row justify-center gap-2">
           <label>
             <span class="sr-only">Kata kunci</span>
             <div class="flex items-cente md:w-52 gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 active:ring-2 active:ring-slate-300 focus-within:ring-2 focus-within:ring-slate-300 transition-all">
@@ -101,18 +99,18 @@
       <!-- Stats -->
       <div class="mt-6 hidden md:grid grid-cols-3 gap-3">
         <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-          <div class="text-xs text-slate-500">Telah Dipercaya</div>
-          <div class="mt-1 text-lg font-semibold">30+</div>
+          <div class="text-xs text-slate-500">Kerja Sama Dengan</div>
+          <div class="my-2 text-2xl font-semibold">30+</div>
           <div class="text-xs text-slate-500">Perusahaan & TSK Jepang</div>
         </div>
         <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-          <div class="text-xs text-slate-500">Biaya</div>
-          <div class="mt-1 text-lg font-semibold">0</div>
+          <div class="text-xs text-slate-500">Total Pelamar</div>
+          <div class="my-2 text-2xl font-semibold">500+</div>
           <div class="text-xs text-slate-500">Untuk jobseeker</div>
         </div>
         <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
           <div class="text-xs text-slate-500">Support</div>
-          <div class="mt-1 text-lg font-semibold">Full</div>
+          <div class="my-2 text-2xl font-semibold">Full</div>
           <div class="text-xs text-slate-500">CV • Interview</div>
         </div>
       </div>
@@ -132,47 +130,7 @@
 
   <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
     @forelse ($jobs as $job)
-    <article class="group rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-soft">
-      <div class="flex items-start justify-between gap-3">
-        <div class="min-w-0">
-          <h3 class="truncate text-base font-semibold"><a href="/jobs/{{ $job->job_code }}">{{ $job->title }}</a></h3>
-          <p class="mt-1 text-sm text-slate-600 flex items-center gap-2"><x-icons.map size="15" />{{ $job->placement }}</p>
-          <p class="mt-1 text-sm text-slate-600 flex items-center gap-2"><x-icons.folderInput size="15" />{{ $job->visa_type }}</p>
-        </div>
-      </div>
-      <div class="border-t border-dashed border-slate-300 mt-3">
-        <div class="mt-1">
-          <p class="text-xs text-slate-600">Syarat & Benefit</p>
-          <div class="flex flex-wrap gap-2 mt-2">
-            <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
-              {{ $job->domicile_requirement == "kokunai" ? "Domisili Jepang" : "Domisili Indonesia" }}
-            </span>
-            <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
-              {{ $job->gender_requirement == "p" ? "Perempuan" : ($job->gender_requirement == "a" ? "Semua Gender" : "Laki-laki") }}
-            </span>
-            <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
-              {{ $job->qty }} orang
-            </span>
-          </div>
-        </div>
-        @php
-        $benefits = $job->benefit ? array_filter(explode('|', $job->benefit)) : [];
-        @endphp
-        @if (count($benefits))
-        <ul class="mt-3">
-          @foreach ($benefits as $benefit)
-          <li class="text-xs text-slate-600 ml-3 list-disc">
-            {{ $benefit }}
-          </li>
-          @endforeach
-        </ul>
-        @endif
-      </div>
-      <div class="mt-4 flex items-center justify-between">
-        <div class="text-sm font-semibold">{{ \App\Support\Currency::yen($job->salary) }}</div>
-        <a href="/jobs/{{ $job->job_code }}" class="text-sm font-medium text-slate-900 underline-offset-4 hover:underline">Detail</a>
-      </div>
-    </article>
+    <x-job-card :dataJob="$job" />
     @empty
     <div class="rounded-3xl border border-dashed border-slate-300 bg-white p-6 text-center text-sm text-slate-600 sm:col-span-2 lg:col-span-3">
       Belum ada job yang tersedia.
@@ -182,7 +140,7 @@
   @if ($jobs->count() > 0)
   <div class="mt-8 flex justify-center">
     <a
-      href="/jobs"
+      href="{{ route("vacancies") }}"
       class="rounded-xl bg-slate-900 px-4 py-2 text-center text-sm font-medium text-white hover:bg-slate-800">
       Lihat semua lowongan
     </a>

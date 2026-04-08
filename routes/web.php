@@ -1,19 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Landing;
-use App\Http\Controllers\Job;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\VacancyController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\User\AccountController;
 use App\Http\Controllers\User\ProfileController;
 
-Route::get("/", [Landing::class, "index"]);
-Route::get("/jobs", [Landing::class, "explore"]);
-Route::get("/jobs/{id}", [Landing::class, "detail"]);
+Route::get("/", [LandingController::class, "index"])->name("home");
+Route::get("/vacancies", [LandingController::class, "explore"])->name("vacancies");
+Route::get("/vacancy/{id}", [LandingController::class, "detail"])->name("vacancy.detail");
 
 Route::prefix("admin")->group(function () {
     Route::middleware("admin.guest")->group(function () {
-        Route::get("/", [AuthController::class, "showLoginForm"]);
         Route::get("/login", [AuthController::class, "showLoginForm"])->name("admin.login");
         Route::post("/login", [AuthController::class, "login"])->name("admin.login.post");
     });
@@ -21,16 +20,18 @@ Route::prefix("admin")->group(function () {
     Route::middleware("admin.auth")->group(function () {
         Route::post("/logout", [AuthController::class, "logout"])->name("admin.logout");
 
-        Route::prefix("jobs")->group(function () {
-            Route::get("/", [Job::class, "index"]);
-            Route::get("create", [Job::class, "create"]);
-            Route::get("/detail/{id}", [Job::class, "detail"]);
-            Route::get("/edit/{id}", [Job::class, "edit"]);
-            Route::post("insert", [Job::class, "store"]);
-            Route::put("/update/{id}", [Job::class, "update"]);
-            Route::post("/{id}/thumbnail", [Job::class, "updateThumbnail"]);
-            Route::delete("/delete/{id}", [Job::class, "destroy"]);
-            Route::get("/change-status/{id}", [Job::class, "changeStatus"]);
+        Route::prefix("vacancy")->group(function () {
+            Route::get("/", [VacancyController::class, "index"])->name("admin.vacancies");
+            Route::get("create", [VacancyController::class, "create"]);
+            Route::get("/detail/{id}", [VacancyController::class, "detail"])->name("admin.vacancy.detail");
+            Route::get("/edit/{id}", [VacancyController::class, "edit"])->name("admin.vacancy.edit");
+            Route::post("insert", [VacancyController::class, "store"]);
+            Route::put("/update/{id}", [VacancyController::class, "update"])->name("admin.vacancy.update");
+            // Route::post("upload-thumbnail/temp-store", [VacancyController::class, "storeTempThumbnail"])->name("admin.vacancy.upload-thumbnail.temp-store");
+            // Route::post("upload-thumbnail/temp-delete", [VacancyController::class, "deleteTempThumbnail"])->name("admin.vacancy.upload-thumbnail.temp-delete");
+            Route::post("/upload-thumbnail/{id}", [VacancyController::class, "updateThumbnail"])->name("admin.vacancy.upload-thumbnail");
+            Route::delete("/delete/{id}", [VacancyController::class, "destroy"])->name("admin.vacancy.delete");
+            Route::post("/change-status/{id}", [VacancyController::class, "changeStatus"])->name("admin.vacancy.change-status");
         });
     });
 });
