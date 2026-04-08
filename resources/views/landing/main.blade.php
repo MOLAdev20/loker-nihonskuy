@@ -1,4 +1,4 @@
-@extends("layouts/landing")
+@extends("layouts.landing")
 
 @push("header")
 <title>NihonSkuy - Raih Pekerjaan Impianmu di Jepang!</title>
@@ -8,7 +8,6 @@
 @section("content")
 <section class="px-4 pb-14 pt-10 sm:px-6 sm:pt-14">
   <div class="gap-8 flex justify-center text-center">
-    <!-- Left -->
     <div class="items-center">
       <h1 class="text-3xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
         Siap Berkarir di Jepang?
@@ -17,8 +16,7 @@
 
       <!-- Search box -->
       <div class="mt-6 rounded-2xl border border-slate-200 bg-white p-3 shadow-soft">
-        <form method="GET" action="/jobs" class="flex flex-col sm:flex-row justify-center gap-2">
-
+        <form method="GET" action="{{ route("vacancies") }}" class="flex flex-col sm:flex-row justify-center gap-2">
           <label>
             <span class="sr-only">Kata kunci</span>
             <div class="flex items-cente md:w-52 gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 active:ring-2 active:ring-slate-300 focus-within:ring-2 focus-within:ring-slate-300 transition-all">
@@ -101,18 +99,18 @@
       <!-- Stats -->
       <div class="mt-6 hidden md:grid grid-cols-3 gap-3">
         <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-          <div class="text-xs text-slate-500">Telah Dipercaya</div>
-          <div class="mt-1 text-lg font-semibold">30+</div>
+          <div class="text-xs text-slate-500">Kerja Sama Dengan</div>
+          <div class="my-2 text-2xl font-semibold">30+</div>
           <div class="text-xs text-slate-500">Perusahaan & TSK Jepang</div>
         </div>
         <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-          <div class="text-xs text-slate-500">Biaya</div>
-          <div class="mt-1 text-lg font-semibold">0</div>
+          <div class="text-xs text-slate-500">Total Pelamar</div>
+          <div class="my-2 text-2xl font-semibold">500+</div>
           <div class="text-xs text-slate-500">Untuk jobseeker</div>
         </div>
         <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
           <div class="text-xs text-slate-500">Support</div>
-          <div class="mt-1 text-lg font-semibold">Full</div>
+          <div class="my-2 text-2xl font-semibold">Full</div>
           <div class="text-xs text-slate-500">CV • Interview</div>
         </div>
       </div>
@@ -132,32 +130,7 @@
 
   <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
     @forelse ($jobs as $job)
-    <article class="group rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-soft">
-      <div class="flex items-start justify-between gap-3">
-        <div class="min-w-0">
-          <h3 class="truncate text-base font-semibold"><a href="/jobs/{{ $job->job_code }}">{{ $job->title }}</a></h3>
-          <p class="mt-1 text-sm text-slate-600 flex items-center"><x-icons.map size="15" />{{ $job->placement }}</p>
-        </div>
-        <span class="rounded-full flex justify-center items-center bg-emerald-50 h-7 w-7 text-[11px] font-medium text-emerald-700">
-          {{ collect(explode(' ', $job->job_type))->map(fn($word) => strtoupper($word[0]))->implode('') }}
-        </span>
-      </div>
-      <div class="mt-3 flex flex-wrap gap-2">
-        <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
-          Domisili: {{ $job->domicile_requirement }}
-        </span>
-        <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
-          Gender: {{ $job->gender_requirement }}
-        </span>
-        <span class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
-          Qty: {{ $job->qty }}
-        </span>
-      </div>
-      <div class="mt-4 flex items-center justify-between">
-        <div class="text-sm font-semibold">{{ \App\Support\Currency::yen($job->salary) }}</div>
-        <a href="/jobs/{{ $job->job_code }}" class="text-sm font-medium text-slate-900 underline-offset-4 hover:underline">Detail</a>
-      </div>
-    </article>
+    <x-job-card :dataJob="$job" />
     @empty
     <div class="rounded-3xl border border-dashed border-slate-300 bg-white p-6 text-center text-sm text-slate-600 sm:col-span-2 lg:col-span-3">
       Belum ada job yang tersedia.
@@ -167,7 +140,7 @@
   @if ($jobs->count() > 0)
   <div class="mt-8 flex justify-center">
     <a
-      href="/jobs"
+      href="{{ route("vacancies") }}"
       class="rounded-xl bg-slate-900 px-4 py-2 text-center text-sm font-medium text-white hover:bg-slate-800">
       Lihat semua lowongan
     </a>
@@ -189,7 +162,7 @@
 
       <div class="mt-6 space-y-3">
         <div class="flex gap-3">
-          <div class="mt-0.5 grid h-8 w-8 place-items-center rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div class="mt-0.5 grid h-8 w-8 place-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-badge-check-icon lucide-badge-check">
               <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
               <path d="m9 12 2 2 4-4" />
@@ -202,7 +175,7 @@
         </div>
 
         <div class="flex gap-3">
-          <div class="mt-0.5 grid h-8 w-8 place-items-center rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div class="mt-0.5 grid h-8 w-8 place-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headset-icon lucide-headset">
               <path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z" />
               <path d="M21 16v2a4 4 0 0 1-4 4h-5" />
@@ -215,8 +188,8 @@
         </div>
 
         <div class="flex gap-3">
-          <div class="mt-0.5 grid h-8 w-8 place-items-center rounded-xl border border-slate-200 bg-white shadow-sm">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-slate-900">
+          <div class="mt-0.5 grid h-8 w-8 place-items-center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-slate-900">
               <path
                 d="M12 8v4l3 3"
                 stroke="currentColor"

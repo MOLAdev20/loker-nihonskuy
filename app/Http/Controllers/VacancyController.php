@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Vacancy;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class VacancyController extends Controller
@@ -25,12 +26,41 @@ class VacancyController extends Controller
         return trim($plainText) === '';
     }
 
-    public function index()
+    public function index(Request $req)
     {
-        $jobs = Vacancy::latest()->get();
+        $filter = $req->query('filter');
+        $queryFilter = $req->query('q');
+
+        $jobs = Vacancy::latest();
+
+        if ($filter == "on-going-expired") {
+            $jobs = Vacancy::where(['status' => 1])->whereBetween('expired_at', [
+                Carbon::today(),
+                Carbon::today()->addDays(config("app.vacancy_expired"))
+            ]);
+        } else if ($filter == "inactive") {
+            $jobs = Vacancy::where(['status' => 0]);
+        } else if ($filter == "active") {
+            $jobs = Vacancy::where(['status' => 1]);
+        }
+
+        if ($queryFilter) {
+            $jobs = $jobs->where(function ($query) use ($queryFilter) {
+                $query->where('title', 'like', "%{$queryFilter}%")
+                    ->orWhere('job_code', 'like', "%{$queryFilter}%")
+                    ->orWhere('placement', 'like', "%{$queryFilter}%");
+            });
+        }
 
         return view('admin.vacancy.all', [
-            'jobs' => $jobs,
+            'jobs' => $jobs->get(),
+            'totalJobs' => Vacancy::count(),
+            'totalActiveJobs' => Vacancy::where(['status' => 1])->count(),
+            'totalInactiveJobs' => Vacancy::where(['status' => 0])->count(),
+            'onGoingExpired' => Vacancy::whereBetween('expired_at', [
+                Carbon::today(),
+                Carbon::today()->addDays(config("app.vacancy_expired"))
+            ])->count(),
         ]);
     }
 
@@ -43,7 +73,7 @@ class VacancyController extends Controller
     {
         $validated = $req->validate(
             [
-                'job-id' => ['required', 'unique:vacancies,job_code'],
+                'job-id' => ['required', 'unique:vacancies,job_code', 'min:3', 'max:12'],
                 'job-title' => ['required'],
                 'visa-type' => ['required'],
                 'job-placement' => ['required'],
@@ -78,6 +108,8 @@ class VacancyController extends Controller
             [
                 'job-id.required' => 'Job ID wajib diisi.',
                 'job-id.unique' => 'Job ID sudah digunakan.',
+                'job-id.min' => 'Job ID minimal 3 karakter.',
+                'job-id.max' => 'Job ID maksimal 12 karakter.',
                 'job-title.required' => 'Nama job wajib diisi.',
                 'visa-type.required' => 'Jenis VISA wajib diisi.',
                 'job-placement.required' => 'Penempatan wajib diisi.',
@@ -250,14 +282,51 @@ class VacancyController extends Controller
             'thumbnail_path' => $path,
         ]);
 
-        return redirect("/admin/jobs/detail/{$job->job_code}");
+        return redirect()
+            ->route("admin.vacancy.detail", $job->job_code)
+            ->with("msg", ["success", "Berhasil Upload", "Thumbnail berhasil diupload"]);
     }
 
     public function destroy($id)
     {
         $job = Vacancy::where('job_code', $id)->firstOrFail();
+
+        if ($job->thumbnail_path) {
+            Storage::disk('public')->delete($job->thumbnail_path);
+        }
+
         $job->delete();
 
-        return redirect("/admin/jobs");
+        return redirect()->route("admin.vacancies")->with("msg", ["success", "Loker Dihapus", "Loker berhasil dihapus"]);
     }
+
+    public function changeStatus($id)
+    {
+        $job = Vacancy::where('job_code', $id)->firstOrFail();
+
+        $job->update([
+            'status' => $job->status ? 0 : 1,
+        ]);
+
+        $title = $job->status ? 'Lowongan Dibuka' : 'Lowongan Ditutup';
+        $msg = $job->status ? 'Pendaftaran berhasil dibuka' : 'Pendaftaran berhasil ditutup';
+
+        return redirect()->route("admin.vacancy.detail", $job->job_code)->with("msg", ["success", $title, $msg]);
+    }
+
+    // public function storeTempThumbnail(Request $request)
+    // {
+    //     if ($request->hasFile('thumbnail')) {
+    //         $file = $request->file('thumbnail');
+    //         $folder = uniqid('post-', true);
+    //         $filename = $file->getClientOriginalName();
+
+    //         // Simpen di folder temporary
+    //         $file->storeAs('public/tmp/' . $folder, $filename);
+
+    //         // Balikin folder ID biar FilePond nyimpen ID ini di hidden input
+    //         return $folder;
+    //     }
+    //     return response()->json(['error' => 'Gagal upload'], 400);
+    // }
 }

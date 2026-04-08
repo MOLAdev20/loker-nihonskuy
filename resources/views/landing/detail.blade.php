@@ -1,4 +1,4 @@
-@extends("layouts/landing")
+@extends("layouts.landing")
 
 @section("header")
 
@@ -93,7 +93,7 @@ $additionalInformationDelta = $decoded;
           <div class="mt-6 grid gap-3 sm:grid-cols-3">
             <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <div class="text-xs text-slate-500">Gaji</div>
-              <div class="mt-1 text-base font-semibold">{{ \App\Support\Currency::yen($job->salary) }}</div>
+              <div class="mt-1 text-base font-semibold">{{ $job->salary_range }}</div>
             </div>
             <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <div class="text-xs text-slate-500">Kuantitas</div>
@@ -149,7 +149,7 @@ $additionalInformationDelta = $decoded;
             <div class="flex items-center justify-between text-sm">
               <span class="text-slate-500">Gender</span>
               <span class="font-medium">
-                {{ $job->gender_requirement === 'l' ? 'Laki-laki' : 'Perempuan' }}
+                {{ $job->gender_requirement == 'p' ? 'Perempuan' : ($job->gender_requirement == 'a' ? 'Laki-laki & Perempuan' : 'Laki-laki') }}
               </span>
             </div>
             <div class="flex items-center justify-between text-sm">
@@ -172,9 +172,15 @@ $additionalInformationDelta = $decoded;
           @endphp
 
           <div class="mt-6 grid gap-2">
+            @if ($job->status)
             <a href="{{ $whatsappLink }}" target="_blank" rel="noopener" class="rounded-xl bg-slate-900 px-4 py-2 text-center text-sm font-medium text-white hover:bg-slate-800">
               Lamar Sekarang
             </a>
+            @else
+            <a href="#" rel="noopener" class="rounded-xl bg-slate-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-slate-800">
+              Lowongan ini sudah berakhir
+            </a>
+            @endif
             <a
               href="{{ $job->source ?: '/' }}"
               class="rounded-xl border flex items-center justify-center gap-1 border-blue-200 bg-blue-500 text-white px-4 py-2 text-center text-sm font-medium hover:bg-blue-800"

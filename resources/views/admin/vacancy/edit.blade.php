@@ -246,11 +246,11 @@
         </div>
       </div>
       <div class="flex flex-col gap-1 col-span-2 mt-5">
-        <label for="expiration-date" class="text-sm">Tenggat Postingan</label>
+        <label for="expiration-date" class="text-sm">Tenggat Lamaran</label>
         @error('expiration-date')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
-        <input type="date" name="expiration-date" id="expiration-date" value="{{ old('expiration-date', date('Y-m-d', $job->expiration_date)) }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('expiration-date') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+        <input type="date" name="expiration-date" id="expiration-date" value="{{ old('expiration-date', date('Y-m-d', strtotime($job->expired_at))) }}" class="bg-white rounded outline-none border py-1 px-2 text-sm focus:border transition-all w-full {{ $errors->has('expiration-date') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
       </div>
 
       <!-- Fivth row -->

@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string("thumbnail_path")->nullable();
             $table->timestamp('expired_at');
             $table->timestamps();
+            $table->boolean("status")->default(1);
         });
     }
 

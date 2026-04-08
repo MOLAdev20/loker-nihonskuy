@@ -1,7 +1,13 @@
 @extends('layouts.admin')
 
+@push("title")
+<title>NihonSkuy - Detail Loker</title>
+@endpush
+
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.bubble.css" rel="stylesheet">
+{{-- <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet"> --}}
 @endpush
 
 @section('content')
@@ -16,144 +22,165 @@
 
       <li class="flex items-center gap-2">
         <span class="text-slate-400">/</span>
-        <a href="#" class="hover:text-slate-700">
-          Job
+        <a href="{{ route("admin.vacancies") }}" class="hover:text-slate-700">
+          Loker
         </a>
       </li>
 
       <li class="flex items-center gap-2">
         <span class="text-slate-400">/</span>
         <span class="font-medium text-slate-700">
-          Detail Job
+          Detail Loker
         </span>
       </li>
     </ol>
   </nav>
   <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-    Detail Job
+    Detail Loker
   </h1>
   <p class="mt-2 text-sm text-slate-500">
     Ringkasan informasi lowongan
   </p>
 </div>
 
+{{-- <div class="absolute inset-0 backdrop-blur-sm z-50">
+  <div class="bg-white border absolute inset-1/12 z-50">
+    asdasd
+  </div>
+</div> --}}
+
 <div class="border rounded-lg border-slate-200 p-4 relative">
   <div class="absolute top-0 inset-x-0 bg-slate-400 text-xs text-white rounded-b-none rounded p-1">Informasi Umum Job</div>
 
-  <div class="block sm:grid grid-cols-8 gap-5 mt-8">
-    <!-- Thumbnail row -->
-    <div class="flex flex-col gap-3 col-span-8">
-      <span class="text-sm text-slate-500">Thumbnail</span>
-      @if($job->thumbnail_path)
-      <div class="overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
-        <img
-          src="{{ asset('storage/' . $job->thumbnail_path) }}"
-          alt="Thumbnail {{ $job->title }}"
-          class="h-56 w-full object-cover">
-      </div>
-      @else
-      <div class="flex h-40 items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50 text-sm text-slate-400">
-        Belum ada thumbnail
-      </div>
-      @endif
-
-      <form method="post" action="/admin/jobs/{{ $job->job_code }}/thumbnail" enctype="multipart/form-data" class="flex flex-col gap-2">
-        @csrf
-        <label for="thumbnail" class="text-sm font-medium text-slate-600">Upload thumbnail baru</label>
-        @error('thumbnail')
-        <span class="text-[10px] text-red-600">{{ $message }}</span>
-        @enderror
-        <input
-          type="file"
-          name="thumbnail"
-          id="thumbnail"
-          accept="image/*"
-          class="rounded border border-slate-300 bg-white px-3 py-2 text-sm">
-        <span class="text-xs text-slate-400">Format: jpg, png, webp. Maks 2MB.</span>
-        <button type="submit" class="mt-2 w-fit rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
-          Simpan Thumbnail
-        </button>
-      </form>
+  <!-- Thumbnail row -->
+  <div class="flex flex-col gap-3 mt-4">
+    @if($job->thumbnail_path)
+    <div onclick="document.getElementById('thumbnail').click()" class="overflow-hidden rounded-xl border border-slate-200 bg-slate-50 cursor-pointer">
+      <img
+        src="{{ asset('storage/' . $job->thumbnail_path) }}"
+        alt="Thumbnail {{ $job->title }}"
+        class="h-56 w-full object-cover">
     </div>
+    @else
+    <div onclick="document.getElementById('thumbnail').click()" class="flex flex-col h-40 items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50 text-sm text-slate-400 cursor-pointer">
+      <p>Belum ada thumbnail.</p>
+      <p class="font-medium text-blue-400">Klik untuk upload</p>
+      <span class="mt-3 text-xs text-slate-400">Format: jpg, png, webp. Maks 2MB.</span>
+    </div>
+    @endif
 
+    <form method="post" action="{{ route("admin.vacancy.upload-thumbnail", $job->job_code) }}" enctype="multipart/form-data" class="flex flex-col gap-2">
+      @csrf
+      @error('thumbnail')
+      <span class="text-[10px] text-red-600">{{ $message }}</span>
+      @enderror
+      <input
+        type="file"
+        name="thumbnail"
+        id="thumbnail"
+        accept="image/*"
+        class="rounded border border-slate-300 bg-white px-3 py-2 text-sm hidden"
+        onchange="this.form.submit()"
+        >
+    </form>
+  </div>
+
+  <div class="sm:grid grid-cols-8 gap-3 bg-white p-3 rounded-lg border border-slate-200 shadow">
     <!-- First row -->
     <div class="flex flex-col gap-1 col-span-2">
-      <span class="text-sm text-slate-500">Job ID</span>
+      <span class="text-sm text-slate-500">Job ID / Kode Lowongan</span>
       <span class="text-sm font-medium text-slate-900">{{ $job->job_code }}</span>
     </div>
-    <div class="flex flex-col gap-1 col-span-6">
-      <span class="text-sm text-slate-500">Nama Job</span>
+    <div class="flex flex-col gap-1 col-span-2">
+      <span class="text-sm text-slate-500">Nama Pekerjaan</span>
       <span class="text-sm font-medium text-slate-900">{{ $job->title }}</span>
     </div>
 
     <!-- Second row -->
     <div class="flex flex-col gap-1 col-span-2">
-      <span class="text-sm text-slate-500">Nama Perusahaan</span>
-      <span class="text-sm font-medium text-slate-900">{{ $job->company_name }}</span>
+      <span class="text-sm text-slate-500">Jenis Pekerjaan</span>
+      <span class="text-sm font-medium text-slate-900">{{ $job->job_type }}</span>
     </div>
     <div class="flex flex-col gap-1 col-span-2">
       <span class="text-sm text-slate-500">Penempatan</span>
       <span class="text-sm font-medium text-slate-900">{{ $job->placement }}</span>
     </div>
     <div class="flex flex-col gap-1 col-span-2">
-      <span class="text-sm text-slate-500">Jenis Pekerjaan</span>
-      <span class="text-sm font-medium text-slate-900">{{ $job->job_type }}</span>
+      <span class="text-sm text-slate-500">Jenis VISA</span>
+      <span class="text-sm font-medium text-slate-900">{{ $job->visa_type }}</span>
     </div>
     <div class="flex flex-col gap-1 col-span-2">
-      <span class="text-sm text-slate-500">Gaji</span>
-      <span class="text-sm font-medium text-slate-900">{{ $job->salary }}</span>
+      <span class="text-sm text-slate-500">Range Gaji</span>
+      <span class="text-sm font-medium text-slate-900">{{ $job->salary_range }}</span>
     </div>
 
     <!-- Third row -->
     <div class="flex flex-col gap-1 col-span-2">
       <span class="text-sm text-slate-500">Persyaratan Gender</span>
-      <span class="text-sm font-medium text-slate-900">{{ $job->gender_requirement === 'l' ? 'Laki-laki' : 'Perempuan' }}</span>
+      <span class="text-sm font-medium text-slate-900">{{ $job->gender }}</span>
     </div>
     <div class="flex flex-col gap-1 col-span-2">
       <span class="text-sm text-slate-500">Persyaratan Domisili</span>
-      <span class="text-sm font-medium text-slate-900">{{ $job->domicile_requirement === 'kokunai' ? 'Khusus Jepang' : 'Bebas (Di Luar Jepang)' }}</span>
+      <span class="text-sm font-medium text-slate-900">{{ $job->domicile }}</span>
     </div>
     <div class="flex flex-col gap-1 col-span-2">
       <span class="text-sm text-slate-500">Kuantitas Dibutuhkan</span>
-      <span class="text-sm font-medium text-slate-900">{{ $job->qty }}</span>
+      <span class="text-sm font-medium text-slate-900">{{ $job->qty }} Orang</span>
+    </div>
+    <div class="flex flex-col gap-1 col-span-2">
+      <span class="text-sm text-slate-500">Batas Waktu Pendaftaran</span>
+      <span class="text-sm font-medium {{ $job->days_left < 0 ? "text-red-500" : "text-slate-900" }}">
+        {{ date('d F Y', strtotime($job->expired_at)) }}
+      </span>
+      @if($job->days_left < 0)
+      <small class="text-xs -mt-1 text-red-300">Lowongan ini sudah mencapai tenggat waktu</small>
+      @else
+      <small class="text-xs -mt-1 text-red-300">{{ $job->days_left }} Hari lagi sebelum ditutup</small>
+      @endif
+    </div>
+    <div class="flex flex-col gap-1 col-span-2">
+      <span class="text-sm text-slate-500">Status Lowongan</span>
+      <form
+        method="post"
+        action="{{ route("admin.vacancy.change-status", $job->job_code) }}"
+        id="change-status-{{  $job->job_code }}"
+        >
+          @csrf
+      </form>
+      <button 
+        type="button" 
+        onclick="confirmChangeStatus('change-status-{{  $job->job_code }}')" 
+        class='text-sm flex items-center gap-1 font-medium {{ $job->status ? "text-green-600" : "text-red-600" }}  cursor-pointer'>
+          @if($job->status)
+          <x-icons.pause size="15"/> Aktif
+          @else
+          <x-icons.play size="15"/> Tidak Aktif
+          @endif
+      </button>
     </div>
 
     <!-- Fourth row -->
     <div class="flex flex-col gap-2 col-span-8 mt-5">
       <span class="text-sm text-slate-500">Benefit & Fasilitas</span>
       @php
-      $benefits = $job->benefit ? array_filter(explode('|', $job->benefit)) : [];
+      
       @endphp
-      @if (count($benefits))
       <div class="flex flex-wrap gap-2">
-        @foreach ($benefits as $benefit)
+        @forelse ($job->benefit_and_facility as $benefit)
         <span class="inline-block rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600">
           {{ $benefit }}
         </span>
-        @endforeach
+        @empty
+        <span class="text-xs text-slate-400">Belum ada benefit.</span>
+        @endforelse
       </div>
-      @else
-      <span class="text-xs text-slate-400">Belum ada benefit.</span>
-      @endif
     </div>
 
     <!-- Fifth row -->
     <div class="flex flex-col gap-2 col-span-8 mt-5">
       <span class="text-sm text-slate-500">Informasi Tambahan</span>
-      @php
-      $additionalInformationRaw = $job->additional_information;
-      $additionalInformationDelta = null;
 
-      if (is_string($additionalInformationRaw)) {
-      $decoded = json_decode($additionalInformationRaw, true);
-
-      if (is_array($decoded) && isset($decoded['ops']) && is_array($decoded['ops'])) {
-      $additionalInformationDelta = $decoded;
-      }
-      }
-      @endphp
-
-      @if($additionalInformationDelta)
+      @if($job->additional_information_delta)
       <div id="job-description-viewer" class="rounded border border-slate-200 bg-slate-50 p-3 text-sm"></div>
       @else
       <p class="text-sm text-slate-900 whitespace-pre-line">{!! nl2br(e($job->additional_information)) !!}</p>
@@ -164,11 +191,32 @@
 @endsection
 
 @section('scripts')
-@if($additionalInformationDelta)
+{{-- <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond/dist/filepond.js"></script> --}}
+{{-- <script>
+  // Registrasi plugin preview biar bisa liat gambar sebelum upload
+  FilePond.registerPlugin(FilePondPluginImagePreview);
+
+  // Ambil element input
+  const inputElement = document.querySelector('#thumbnail');
+
+  // Create FilePond instance
+  const pond = FilePond.create(inputElement, {
+      server: {
+          url: '/admin/vacancy/upload-thumbnail', // Base URL route lu
+          process: "/temp-store", // Ke mana file dikirim pas user pilih file
+          revert: '/temp-delete', // Ke mana file dihapus kalo user klik 'cancel'
+          headers: {
+              'X-CSRF-TOKEN': '{{ csrf_token() }}' // WAJIB! Biar nggak kena 419 Page Expired
+          }
+      }
+  });
+</script> --}}
+@if($job->additionalInformationDelta)
 <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
 <script>
   const viewerTarget = document.getElementById("job-description-viewer");
-  const descriptionDelta = @json($additionalInformationDelta);
+  const descriptionDelta = @json($job->additionalInformationDelta);
 
   const quillViewer = new Quill(viewerTarget, {
     theme: "bubble",
@@ -182,11 +230,29 @@
 </script>
 @endif
 
-@vite('resources/js/swal.js')
 <script type="module">
   @if(session('msg'))
   const config = @js(session('msg'));
   Swal.fire(config[1], config[2], config[0]);
   @endif
+</script>
+
+<script>
+  function confirmChangeStatus(id){
+    Swal.fire({
+      title: "Ubah Status Lowongan?",
+      text: "Status lowongan akan diubah",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Ya, ubah",
+      cancelButtonText: "Batal",
+      confirmButtonColor: "#52a447",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById(id).submit();
+      }
+    });
+  }
 </script>
 @endsection

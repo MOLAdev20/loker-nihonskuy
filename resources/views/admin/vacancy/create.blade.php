@@ -1,5 +1,9 @@
 @extends('layouts.admin')
 
+@push("title")
+<title>NihonSkuy - Buat Loker</title>
+@endpush
+
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
 @endpush
@@ -16,7 +20,7 @@
 
       <li class="flex items-center gap-2">
         <span class="text-slate-400">/</span>
-        <a href="/admin/jobs" class="hover:text-slate-700">
+        <a href="{{ route('admin.vacancies') }}" class="hover:text-slate-700">
           Loker
         </a>
       </li>

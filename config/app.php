@@ -123,4 +123,17 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Env
+    |--------------------------------------------------------------------------
+    |
+    | Th
+    |
+    | Supported drivers: "file", "cache"
+    |
+    */
+
+    'vacancy_expired' => (int) env('APP_VACANCY_EXPIRED', 7),
+
 ];

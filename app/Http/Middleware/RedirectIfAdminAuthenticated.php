@@ -12,7 +12,7 @@ class RedirectIfAdminAuthenticated
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::guard('admin')->check()) {
-            return redirect('/admin/jobs');
+            return redirect()->route("admin.vacancies");
         }
 
         return $next($request);
