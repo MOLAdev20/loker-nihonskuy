@@ -21,7 +21,7 @@ jobs:
             cd /var/www/loker-nihonskuy
             
             # Tarik kode terbaru dari GitHub
-            git pull origin main
+            git pull origin master
             
             # Install dependency PHP tanpa interaksi
             composer install --no-interaction --prefer-dist --optimize-autoloader
@@ -36,5 +36,5 @@ jobs:
             php artisan view:cache
             
             # Kalo lu ada build aset frontend (React/Vite), uncomment dua baris di bawah:
-            npm install
-            npm run build
+            /root/.nvm/versions/node/v24.13.1/bin/npm install
+            /root/.nvm/versions/node/v24.13.1/bin/npm run build
