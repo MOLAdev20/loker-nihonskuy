@@ -3,7 +3,7 @@ name: Deploy Laravel to VPS
 on:
   push:
     branches:
-      - main # Script ini bakal jalan otomatis tiap kali ada push ke branch main
+      - master # Script ini bakal jalan otomatis tiap kali ada push ke branch main
 
 jobs:
   deploy:
