@@ -35,6 +35,10 @@ jobs:
             php artisan route:cache
             php artisan view:cache
             
+            # --- 2 BARIS AJAIB BUAT NGASIH TAU LETAK NODE & NPM ---
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
             # Kalo lu ada build aset frontend (React/Vite), uncomment dua baris di bawah:
-            /root/.nvm/versions/node/v24.13.1/bin/npm install
-            /root/.nvm/versions/node/v24.13.1/bin/npm run build
+            npm install
+            npm run build
