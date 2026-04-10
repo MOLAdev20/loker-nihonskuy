@@ -98,6 +98,40 @@
       </div>
       <div class="flex flex-col gap-1 col-span-2">
         <label for="job-placement" class="text-sm">Penempatan</label>
+        <div id="select-location" class="bg-white relative rounded outline-none border py-1 px-2 text-sm focus:border transition-all {{ $errors->has('job-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }}">
+          <div class="w-full" id="japan-pref-wrapper">
+            <input type="hidden" id="japan-pref-value" name="job-placement" value="">
+            <button
+              type="button"
+              id="japan-pref-toggle"
+              class="flex w-full items-center justify-between gap-2 bg-transparent text-sm text-slate-900 focus:outline-none cursor-pointer"
+              aria-haspopup="listbox"
+              aria-expanded="false">
+              <span id="japan-pref-label" class="text-slate-400">Semua prefektur</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="text-slate-400">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
+          </div>
+          <div
+            id="japan-pref-panel"
+            class="absolute left-0 right-0 top-full z-20 mt-2 hidden rounded-xl border border-slate-200 bg-white p-2 shadow-soft">
+            <input
+              id="japan-pref-search"
+              type="text"
+              placeholder="Cari prefektur..."
+              class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200" />
+            <ul
+              id="japan-pref-list"
+              class="mt-2 max-h-56 overflow-auto text-sm text-slate-900"
+              role="listbox"
+              aria-label="Daftar prefektur">
+            </ul>
+          </div>
+        </div>
+      </div>
+      {{-- <div class="flex flex-col gap-1 col-span-2">
+        <label for="job-placement" class="text-sm">Penempatan</label>
         @error('job-placement')
         <span class="text-[10px] text-red-600">{{ $message }}</span>
         @enderror
@@ -107,7 +141,7 @@
           data-selected="{{ old('job-placement') }}">
           <option value="">Pilih</option>
         </select>
-      </div>
+      </div> --}}
       <div class="flex flex-col gap-1 col-span-2">
         <label for="visa-type" class="text-sm">Jenis VISA</label>
         @error('visa-type')
@@ -267,7 +301,6 @@
 @endsection
 
 @section('scripts')
-@vite('resources/js/vacancy.js')
 <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
 <script>
   const additionalInformationInput = document.getElementById("additional-information");
@@ -320,23 +353,91 @@
   syncQuillDeltaToInput();
   quill.on("text-change", syncQuillDeltaToInput);
 
-  const placementSelect = document.getElementById("job-placement");
-  if (placementSelect) {
-    const selectedPlacement = placementSelect.dataset.selected || "";
-    fetch("/japan.json")
-      .then((response) => response.json())
-      .then((data) => {
-        const prefectures = Array.isArray(data.japan_prefectures) ? data.japan_prefectures : [];
-        prefectures.forEach((prefecture) => {
-          const option = document.createElement("option");
-          option.value = prefecture;
-          option.textContent = prefecture;
-          if (prefecture === selectedPlacement) {
-            option.selected = true;
-          }
-          placementSelect.appendChild(option);
+  fetch('/japan.json')
+    .then(response => response.json())
+    .then(data => {
+      const wrapper = document.getElementById('select-location');
+      const toggle = document.getElementById('japan-pref-toggle');
+      const panel = document.getElementById('japan-pref-panel');
+      const search = document.getElementById('japan-pref-search');
+      const list = document.getElementById('japan-pref-list');
+      const valueInput = document.getElementById('japan-pref-value');
+      const label = document.getElementById('japan-pref-label');
+      const allPrefectures = Array.isArray(data.japan_prefectures) ? data.japan_prefectures : [];
+
+      const renderOptions = (items) => {
+        list.innerHTML = '';
+        const allItem = document.createElement('button');
+        allItem.type = 'button';
+        allItem.className = 'w-full text-left cursor-pointer rounded-lg px-3 py-2 hover:bg-slate-100';
+        allItem.textContent = 'Semua prefektur';
+        allItem.dataset.value = '';
+        list.appendChild(allItem);
+
+        items.forEach(prefecture => {
+          const item = document.createElement('button');
+          item.type = 'button';
+          item.className = 'w-full text-left cursor-pointer rounded-lg px-3 py-2 hover:bg-slate-100';
+          item.textContent = prefecture;
+          item.dataset.value = prefecture;
+          list.appendChild(item);
         });
+      };
+
+      renderOptions(allPrefectures);
+
+      search.addEventListener('input', () => {
+        const query = search.value.trim().toLowerCase();
+        if (!query) {
+          renderOptions(allPrefectures);
+          return;
+        }
+        const filtered = allPrefectures.filter((prefecture) =>
+          String(prefecture).toLowerCase().includes(query)
+        );
+        renderOptions(filtered);
       });
-  }
+
+      const openPanel = () => {
+        panel.classList.remove('hidden');
+        toggle.setAttribute('aria-expanded', 'true');
+        search.focus();
+      };
+
+      const closePanel = () => {
+        panel.classList.add('hidden');
+        toggle.setAttribute('aria-expanded', 'false');
+        search.value = '';
+        renderOptions(allPrefectures);
+      };
+
+      toggle.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (panel.classList.contains('hidden')) {
+          openPanel();
+        } else {
+          closePanel();
+        }
+      });
+
+      list.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const target = event.target.closest('button');
+        if (!target) return;
+        const value = target.dataset.value || '';
+        valueInput.value = value;
+        label.textContent = value || 'Semua prefektur';
+        label.classList.toggle('text-slate-400', !value);
+        label.classList.toggle('text-slate-900', !!value);
+        closePanel();
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!wrapper.contains(event.target)) {
+          closePanel();
+        }
+      });
+    });
 </script>
 @endsection
