@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserEducationHistoryRequest;
 use App\Models\User\UserEducationHistory;
 use App\Models\User\UserProfile;
+use App\Models\User\WorkExperience;
+use App\Support\FormWizardBuilder;
 
 class EducationController extends Controller
 {
@@ -15,10 +17,18 @@ class EducationController extends Controller
         $educationHistories = UserEducationHistory::where('user_id', auth()->id())
             ->orderByDesc('id')
             ->get();
+        $workExperiencesCount = WorkExperience::where('user_id', auth()->id())->count();
+        $wizardSteps = FormWizardBuilder::buildSteps(
+            'education',
+            (bool) $profile,
+            $educationHistories->isNotEmpty(),
+            $workExperiencesCount > 0
+        );
 
         return view('user.education-history-form', [
             'profile' => $profile,
             'educationHistories' => $educationHistories,
+            'wizardSteps' => $wizardSteps,
         ]);
     }
 

@@ -7,6 +7,7 @@ use App\Http\Requests\User\StoreUserWorkExperienceRequest;
 use App\Models\User\UserEducationHistory;
 use App\Models\User\UserProfile;
 use App\Models\User\WorkExperience;
+use App\Support\FormWizardBuilder;
 
 class WorkExperienceController extends Controller
 {
@@ -19,11 +20,18 @@ class WorkExperienceController extends Controller
         $workExperiences = WorkExperience::where('user_id', auth()->id())
             ->orderByDesc('id')
             ->get();
+        $wizardSteps = FormWizardBuilder::buildSteps(
+            'workExperience',
+            (bool) $profile,
+            $educationHistories->isNotEmpty(),
+            $workExperiences->isNotEmpty()
+        );
 
         return view('user.working-experience-form', [
             'profile' => $profile,
             'educationHistories' => $educationHistories,
             'workExperiences' => $workExperiences,
+            'wizardSteps' => $wizardSteps,
         ]);
     }
 
@@ -74,7 +82,6 @@ class WorkExperienceController extends Controller
     {
         return [
             'field_of_work' => $validatedData['fieldOfWork'],
-            'company_name' => $validatedData['companyName'],
             'location' => $validatedData['location'],
             'date_of_join' => $validatedData['dateOfJoin'],
             'date_of_resign' => $validatedData['dateOfResign'] ?? null,

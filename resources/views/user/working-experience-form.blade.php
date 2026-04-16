@@ -24,35 +24,9 @@
         'magang' => 'Magang',
     ];
 
-    $isProfileCompleted = (bool) $profile;
-    $isEducationCompleted = $educationHistories->isNotEmpty();
-    $isWorkingExperienceCompleted = $workExperiences->isNotEmpty();
-    $wizardSteps = [
-        [
-            'number' => 1,
-            'label' => 'Informasi Pribadi',
-            'route' => route('user.profile.form'),
-            'isActive' => request()->routeIs('user.profile.form'),
-            'isCompleted' => $isProfileCompleted,
-        ],
-        [
-            'number' => 2,
-            'label' => 'Riwayat Pendidikan',
-            'route' => route('user.education-history'),
-            'isActive' => request()->routeIs('user.education-history'),
-            'isCompleted' => $isEducationCompleted,
-        ],
-        [
-            'number' => 3,
-            'label' => 'Riwayat Pekerjaan',
-            'route' => route('user.working-experience'),
-            'isActive' => request()->routeIs('user.working-experience'),
-            'isCompleted' => $isWorkingExperienceCompleted,
-        ],
-    ];
-
     $hasValidationError = $errors->any();
     $shouldOpenCreateModal = $hasValidationError && old('formMode') === 'create';
+    $canGoNext = $workExperiences->isNotEmpty();
   @endphp
 
   @if (session('status'))
@@ -62,35 +36,7 @@
     </div>
   @endif
 
-  <nav aria-label="Progress form profile"
-    class="mb-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-    <ol class="grid grid-cols-1 gap-3 sm:grid-cols-3">
-      @foreach ($wizardSteps as $step)
-        @php
-          $circleClass = 'border-slate-300 text-slate-500';
-          $stepLabelClass = 'text-slate-500';
-
-          if ($step['isCompleted']) {
-              $circleClass = 'border-emerald-500 bg-emerald-500 text-white';
-              $stepLabelClass = 'text-emerald-700';
-          } elseif ($step['isActive']) {
-              $circleClass = 'border-emerald-500 text-emerald-600';
-              $stepLabelClass = 'text-emerald-700';
-          }
-        @endphp
-        <li>
-          <a href="{{ $step['route'] }}"
-            class="group flex items-center gap-3 rounded-xl border border-transparent px-2 py-2 transition hover:border-slate-200 hover:bg-slate-50">
-            <span
-              class="{{ $circleClass }} inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border-2 text-sm font-semibold">
-              {{ $step['number'] }}
-            </span>
-            <span class="{{ $stepLabelClass }} text-sm font-medium">{{ $step['label'] }}</span>
-          </a>
-        </li>
-      @endforeach
-    </ol>
-  </nav>
+  <x-form-wizard :steps="$wizardSteps" />
 
   <section class="rounded-2xl border border-slate-200 bg-white shadow-sm">
     <header
@@ -114,10 +60,6 @@
             <th
               class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 sm:px-6">
               Bidang Pekerjaan
-            </th>
-            <th
-              class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 sm:px-6">
-              Nama Perusahaan
             </th>
             <th
               class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 sm:px-6">
@@ -146,9 +88,6 @@
             <tr>
               <td class="px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
                 {{ $workExperience->field_of_work }}
-              </td>
-              <td class="px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                {{ $workExperience->company_name }}
               </td>
               <td class="px-4 py-4 text-sm text-slate-700 sm:px-6">{{ $workExperience->location }}
               </td>
@@ -196,6 +135,25 @@
     </div>
   </section>
 
+  <div
+    class="mt-4 flex flex-col-reverse gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:justify-between sm:p-5">
+    <a href="{{ route('user.education-history') }}"
+      class="inline-flex items-center justify-center rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50">
+      Sebelumnya: Riwayat Pendidikan
+    </a>
+    @if ($canGoNext)
+      <a href="{{ route('user.profile.form') }}"
+        class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800">
+        Selanjutnya: Review Data Pribadi
+      </a>
+    @else
+      <button type="button" disabled
+        class="inline-flex cursor-not-allowed items-center justify-center rounded-xl bg-slate-300 px-4 py-2.5 text-sm font-semibold text-white">
+        Selanjutnya: Review Data Pribadi
+      </button>
+    @endif
+  </div>
+
   <x-modal name="work-experience-create-modal" :show="$shouldOpenCreateModal" maxWidth="2xl" focusable>
     <div class="p-5 sm:p-6">
       <div class="mb-4">
@@ -218,18 +176,6 @@
               class="{{ $inputClass }} @error('fieldOfWork') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
               placeholder="Cth: Industri Textile, Pendidikan, Migas, Pertanian">
             @error('fieldOfWork')
-              <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-            @enderror
-          </div>
-
-          <div>
-            <label class="{{ $labelClass }}" for="create_companyName">Nama Perusahaan <span
-                class="text-red-600">*</span></label>
-            <input id="create_companyName" name="companyName" type="text"
-              value="{{ old('formMode') === 'create' ? old('companyName') : '' }}"
-              class="{{ $inputClass }} @error('companyName') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
-              placeholder="">
-            @error('companyName')
               <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
             @enderror
           </div>

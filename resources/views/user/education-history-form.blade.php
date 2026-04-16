@@ -18,34 +18,9 @@
         'droppedOut' => 'Mengundurkan Diri',
     ];
 
-    $isProfileCompleted = (bool) $profile;
-    $isEducationCompleted = $educationHistories->isNotEmpty();
-    $wizardSteps = [
-        [
-            'number' => 1,
-            'label' => 'Informasi Pribadi',
-            'route' => route('user.profile.form'),
-            'isActive' => request()->routeIs('user.profile.form'),
-            'isCompleted' => $isProfileCompleted,
-        ],
-        [
-            'number' => 2,
-            'label' => 'Riwayat Pendidikan',
-            'route' => route('user.education-history'),
-            'isActive' => request()->routeIs('user.education-history'),
-            'isCompleted' => $isEducationCompleted,
-        ],
-        [
-            'number' => 3,
-            'label' => 'Riwayat Pekerjaan',
-            'route' => route('user.working-experience'),
-            'isActive' => request()->routeIs('user.working-experience'),
-            'isCompleted' => false,
-        ],
-    ];
-
     $hasValidationError = $errors->any();
     $shouldOpenCreateModal = $hasValidationError && old('formMode') === 'create';
+    $canGoNext = $educationHistories->isNotEmpty();
   @endphp
 
   @if (session('status'))
@@ -55,35 +30,7 @@
     </div>
   @endif
 
-  <nav aria-label="Progress form profile"
-    class="mb-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-    <ol class="grid grid-cols-1 gap-3 sm:grid-cols-3">
-      @foreach ($wizardSteps as $step)
-        @php
-          $circleClass = 'border-slate-300 text-slate-500';
-          $stepLabelClass = 'text-slate-500';
-
-          if ($step['isCompleted']) {
-              $circleClass = 'border-emerald-500 bg-emerald-500 text-white';
-              $stepLabelClass = 'text-emerald-700';
-          } elseif ($step['isActive']) {
-              $circleClass = 'border-emerald-500 text-emerald-600';
-              $stepLabelClass = 'text-emerald-700';
-          }
-        @endphp
-        <li>
-          <a href="{{ $step['route'] }}"
-            class="group flex items-center gap-3 rounded-xl border border-transparent px-2 py-2 transition hover:border-slate-200 hover:bg-slate-50">
-            <span
-              class="{{ $circleClass }} inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border-2 text-sm font-semibold">
-              {{ $step['number'] }}
-            </span>
-            <span class="{{ $stepLabelClass }} text-sm font-medium">{{ $step['label'] }}</span>
-          </a>
-        </li>
-      @endforeach
-    </ol>
-  </nav>
+  <x-form-wizard :steps="$wizardSteps" />
 
   <section class="rounded-2xl border border-slate-200 bg-white shadow-sm">
     <header
@@ -188,6 +135,25 @@
       </table>
     </div>
   </section>
+
+  <div
+    class="mt-4 flex flex-col-reverse gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:justify-between sm:p-5">
+    <a href="{{ route('user.profile.form') }}"
+      class="inline-flex items-center justify-center rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50">
+      Sebelumnya: Informasi Pribadi
+    </a>
+    @if ($canGoNext)
+      <a href="{{ route('user.working-experience') }}"
+        class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800">
+        Selanjutnya: Riwayat Pekerjaan
+      </a>
+    @else
+      <button type="button" disabled
+        class="inline-flex cursor-not-allowed items-center justify-center rounded-xl bg-slate-300 px-4 py-2.5 text-sm font-semibold text-white">
+        Selanjutnya: Riwayat Pekerjaan
+      </button>
+    @endif
+  </div>
 
   <x-modal name="education-history-create-modal" :show="$shouldOpenCreateModal" maxWidth="2xl" focusable>
     <div class="p-5 sm:p-6">

@@ -4,7 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserProfileRequest;
+use App\Models\User\UserEducationHistory;
 use App\Models\User\UserProfile;
+use App\Models\User\WorkExperience;
+use App\Support\FormWizardBuilder;
 
 /** @var \App\Models\User $user */
 
@@ -22,9 +25,18 @@ class ProfileController extends Controller
     public function showProfileForm()
     {
         $profile = UserProfile::where('user_id', auth()->id())->first();
+        $educationHistoriesCount = UserEducationHistory::where('user_id', auth()->id())->count();
+        $workExperiencesCount = WorkExperience::where('user_id', auth()->id())->count();
+        $wizardSteps = FormWizardBuilder::buildSteps(
+            'profile',
+            (bool) $profile,
+            $educationHistoriesCount > 0,
+            $workExperiencesCount > 0
+        );
 
         return view('user.profile-form', [
             'profile' => $profile,
+            'wizardSteps' => $wizardSteps,
         ]);
     }
 
@@ -38,7 +50,7 @@ class ProfileController extends Controller
         );
 
         return redirect()
-            ->route('user.profile.form')
+            ->route('user.education-history')
             ->with('status', 'Data profil berhasil disimpan.');
     }
 
