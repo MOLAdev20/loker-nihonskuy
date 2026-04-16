@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Vacancy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class LandingController extends Controller
 {
     public function index()
     {
-        $jobs = Vacancy::latest()->take(6)->get();
+        $jobs = Vacancy::where(["status" => 1])->latest()->take(6)->get();
 
         return view('landing.main', [
             'jobs' => $jobs,

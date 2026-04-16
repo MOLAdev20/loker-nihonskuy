@@ -1,0 +1,26 @@
+Buatkan dokumen plan di plan/user-dashboard-setup.md
+
+Buatkan UI admin dashboard untuk user dengan spesifikasi dan ketentuan sebagai berikut:
+
+Bahan:
+- Blade, tailwindcss, svg icon on components/icons. Reference on https://lucide.dev/icons/
+
+Style:
+- Modern, 
+- Minimalist,
+- Smooth, 
+- light shadow, 
+- responsive, 
+- mobile first, 
+- dominan warna putih
+
+Spek Komponen:
+- Topbar: 
+warna putih, kiri logo + collapsible sidebar on mobile view (show on mobile screen), kanan email dan profile pict
+- Sidebar: 
+Warna slate, tulisan menu dan icon putih, buatkan grouping (4) menu, menu with sub menu (animate expand), collapse ketika mode mobile, dimunculkan ketika button collapsible sidebar on topbar diklik. Muncul dari kiri ke kanan dengan efek smooth animasi
+- Content: warna putih (like topbar), add header and subheader as a title of content, sediakan bagian dalam konten untuk dapat diisi sesuai yang dimau.
+- Modal: popup with flexible content inside and smooth popup faded animation, sebagai contoh masukan 4 field input data diri sederhana
+Kerjakan sesuai dengan scope yang sudah diinstruksikan, jangan ngide mengerjakan di luar instruksi!
+
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah
