@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/admin.js',
+                'resources/js/pages/landing.js',
                 'resources/js/user-dashboard.js',
             ],
             refresh: true,

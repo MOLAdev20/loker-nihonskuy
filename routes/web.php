@@ -49,6 +49,8 @@ Route::middleware('auth')->group(function () {
 Route::prefix('my')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get("/dashboard", [ProfileController::class, "showProfile"])->name("user.dashboard");
+        Route::get('/profile', [ProfileController::class, 'showProfileForm'])->name('user.profile.form');
+        Route::post('/fill-profile', [ProfileController::class, 'storeProfile'])->name('user.profile.store');
     });
 });
 
