@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\User\AccountController;
 use App\Http\Controllers\User\EducationController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\WorkExperienceController;
 
 Route::get("/", [LandingController::class, "index"])->name("home");
 Route::get("/vacancies", [LandingController::class, "explore"])->name("vacancies");
@@ -45,9 +46,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/my/education-history', [EducationController::class, 'store'])->name('user.education-history.store');
     Route::put('/my/education-history/{id}', [EducationController::class, 'update'])->name('user.education-history.update');
     Route::delete('/my/education-history/{id}', [EducationController::class, 'destroy'])->name('user.education-history.destroy');
-    Route::get('/working-experience', function () {
-        return response('Halaman riwayat pekerjaan belum tersedia.', 501);
-    })->name('user.working-experience');
+    Route::get('/my/working-experience', [WorkExperienceController::class, 'index'])->name('user.working-experience');
+    Route::post('/my/working-experience', [WorkExperienceController::class, 'store'])->name('user.working-experience.store');
+    Route::put('/my/working-experience/{id}', [WorkExperienceController::class, 'update'])->name('user.working-experience.update');
+    Route::delete('/my/working-experience/{id}', [WorkExperienceController::class, 'destroy'])->name('user.working-experience.destroy');
 });
 
 require __DIR__ . '/auth.php';

@@ -1,0 +1,48 @@
+Buatkan document plan/create-working-experience-form-setup.md
+
+(scope) pembuatan UI, business logic (validation, insert to database, etc..) form input user working experience history dan memasukan data request user ke tabel user_working_experience dengan pendekatan arsitektur MVC
+
+Tempatkan process logic controller, model ke controller dan model yang terpisah
+- controller : User/WorkExperienceController.php
+- model : User/WorkExperience.php
+
+Form input untuk route "/working-experience"
+view: user/working-experience-form.blade.php
+Layout base menyesuaikan dengan profile.blade.php pada bagian section konten/content
+
+Mekanisme input dan edit:
+ - 1 user bisa memasukan lebih dari satu data riwayat pengalaman kerja mereka.
+ - Bisa menghapus/mengedit (data riwayat pengalaman kerja) satu row data yang telah mereka input
+ - Saat tombol tambah riwayat pekerjaan diklik, maka komponen modal (components/modal.blade.php) akan muncul berisi form input. Jika user mengklik simpan, maka modal otomatis terutup dan data riwayat pekerjaan yang baru diinput akan tampil di bagian konten view halaman working-experience-form. Sesuaikan layout untuk menampilkan data yang diinput, entah itu bentuk tabel, grid atau lainnya (pilihkan yang terbaik)
+ - Setiap data memiliki button hapus atau edit, berdasarkan id dari setiap datanya. Gunakan confirm untuk mengkonfirmasi perintah hapus!
+
+
+form inputnya adalah sebagai berikut:
+
+POST /my/working-experience
+
+field_of_work : Text, min 3, max 255, required, label title: "Bidang Pekerjaan", placeholder: "Cth: Industri Textile, Pendidikan, Migas, Pertanian"
+location : Text, required, label title: "Lokasi Kerja/Perusahaan".
+date_of_join : Date, required, label title: "Tanggal Bergabung".
+date_of_resign : Date, required, label title: "Tanggal Resign/Berhenti".
+employment_status : Radio [Karyawan Tetap, Karyawan Kontrak, Full Time, Part Time, Freelance], required, label title: "Status Kepegawaian".
+visa_type, Select Option (Pililh Jenis Visa, Tokutei Ginou, Gijinkoku, Magang), label title: "Jenis Visa (Wajib diisi jika lokasi kerja di Jepang)"
+
+requirement form input:
+
+- Validasi input di sisi server, tampilkan ke user kesalahan Validasi
+- Teks kesalahan (text-xs) validasi diletakan di bawah di setiap inputan
+- Validasi gagal, maka tampilkan pesan kesalahan dalam bahasa Indonesia formal singkat (sesuai dengan jenis kesalahan di atas). Ubah border input menjadi merah.
+- Setiap input dibuat dengan Tailwind CSS dengan desain modern, minimalist dan soft. Reference: Bootstrap CSS style input
+- Tata letak harus responsive
+ - Grid untuk medium-large
+ - Block (atas ke bawah) berurutan setiap form untuk tampilan mobile
+
+other requirement:
+- naming variabel, function etc harus camelCase
+
+
+*catatan:
+
+- Kerjakan Instruksi sesuai dengan scope yang dijelaskan pada dokumen ini. Jangan mengerjakan di luar scope Instruksi yang diberikan!.
+- Tempatkan diri anda sebagai technical architect / PM / senior fullstack developer. Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior fullstack programmer atau Program AI Model yang murah
