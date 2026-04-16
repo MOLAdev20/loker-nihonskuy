@@ -1,0 +1,13 @@
+Revisi dokumen plan di plan/setup-create-education-history-form
+
+Bagian yang di revisi:
+
+- Tempatkan process logic controller yang sebelumnya ada di User/ProfileController ke User/EducationController
+
+- Ubah Flow menjadi:
+ - 1 user bisa memasukan lebih dari satu data riwayat pendidikan mereka.
+ - Bisa menghapus/mengedit (data riwayat pendidikan) satu row data yang telah mereka input
+
+- Mekanisme input dan edit:
+ - Saat tombol tambah riwayat pendidikan diklik, maka komponen modal (components/modal.blade.php) akan muncul berisi form input. Jika user mengklik simpan, maka modal otomatis terutup dan data pendidikan yang baru diinput akan tampil di bagian konten view halaman education-history-form. Sesuaikan layout untuk menampilkan data yang diinput, entah itu bentuk tabel, grid atau lainnya (pilihkan yang terbaik)
+ - Setiap data memiliki button hapus atau edit, berdasarkan id dari setiap datanya. Gunakan confirm untuk mengkonfirmasi perintah hapus!

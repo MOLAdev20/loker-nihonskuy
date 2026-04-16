@@ -5,7 +5,6 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserProfileRequest;
 use App\Models\User\UserProfile;
-use Illuminate\Support\Facades\Session;
 
 /** @var \App\Models\User $user */
 
@@ -71,4 +70,5 @@ class ProfileController extends Controller
             'technical_experience' => $validatedData['technicalExperience'],
         ];
     }
+
 }

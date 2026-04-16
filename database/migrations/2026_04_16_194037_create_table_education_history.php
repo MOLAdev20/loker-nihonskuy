@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("institution");
             $table->string("location");
             $table->date("date_of_entry");
-            $table->date("date_of_graduation");
+            $table->date("date_of_graduation")->nullable();
             $table->date("date_of_dropped_out")->nullable()->comment("Tahun dan bulan jika berhenti sekolah");
             $table->string("status")->comment("Status di jenjang tersebut");
             $table->timestamps();

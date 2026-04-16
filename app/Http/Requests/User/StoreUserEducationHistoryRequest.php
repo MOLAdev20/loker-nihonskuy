@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Http\Requests\User;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreUserEducationHistoryRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'education' => ['required', 'in:SMP,SMK,SMA,D1,D2,D3,D4,S1,S2,S3'],
+            'institution' => ['required', 'string', 'min:3', 'max:255'],
+            'location' => ['required', 'string'],
+            'dateOfEntry' => ['required', 'date'],
+            'dateOfGraduation' => ['nullable', 'date', 'after_or_equal:dateOfEntry'],
+            'dateOfDroppedOut' => ['nullable', 'date', 'after_or_equal:dateOfEntry'],
+            'status' => ['required', 'in:graduated,studying,droppedOut'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'required' => ':attribute wajib diisi.',
+            'string' => ':attribute harus berupa teks.',
+            'min.string' => ':attribute minimal :min karakter.',
+            'max.string' => ':attribute maksimal :max karakter.',
+            'date' => ':attribute harus berupa tanggal yang valid.',
+            'in' => 'Pilihan :attribute tidak valid.',
+            'after_or_equal' => ':attribute tidak boleh lebih awal dari :date.',
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'education' => 'Jenjang Pendidikan',
+            'institution' => 'Nama Institusi/Sekolah/Perguruan',
+            'location' => 'Lokasi Institusi/Sekolah/Perguruan',
+            'dateOfEntry' => 'Tanggal Masuk',
+            'dateOfGraduation' => 'Tanggal Lulus',
+            'dateOfDroppedOut' => 'Tanggal Berhenti/Putus Sekolah',
+            'status' => 'Status',
+        ];
+    }
+}

@@ -5,6 +5,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\VacancyController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\User\AccountController;
+use App\Http\Controllers\User\EducationController;
 use App\Http\Controllers\User\ProfileController;
 
 Route::get("/", [LandingController::class, "index"])->name("home");
@@ -40,9 +41,10 @@ Route::middleware('auth')->group(function () {
     Route::get("/dashboard", [ProfileController::class, "showProfile"])->name("user.dashboard");
     Route::get('/profile', [ProfileController::class, 'showProfileForm'])->name('user.profile.form');
     Route::post('/fill-profile', [ProfileController::class, 'storeProfile'])->name('user.profile.store');
-    Route::get('/education-history', function () {
-        return response('Halaman riwayat pendidikan belum tersedia.', 501);
-    })->name('user.education-history');
+    Route::get('/my/education-history', [EducationController::class, 'index'])->name('user.education-history');
+    Route::post('/my/education-history', [EducationController::class, 'store'])->name('user.education-history.store');
+    Route::put('/my/education-history/{id}', [EducationController::class, 'update'])->name('user.education-history.update');
+    Route::delete('/my/education-history/{id}', [EducationController::class, 'destroy'])->name('user.education-history.destroy');
     Route::get('/working-experience', function () {
         return response('Halaman riwayat pekerjaan belum tersedia.', 501);
     })->name('user.working-experience');
