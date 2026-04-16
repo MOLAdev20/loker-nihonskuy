@@ -36,13 +36,20 @@ Route::prefix("admin")->group(function () {
     });
 });
 
-Route::get("sign-in", [AccountController::class, "signIn"]);
-Route::post("sign-in", [AccountController::class, "validateAccount"]);
-Route::get("sign-up", [AccountController::class, "signUp"]);
-Route::post("sign-up", [AccountController::class, "createAccount"]);
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::prefix("my")->group(function () {
-    Route::get("/", [ProfileController::class, "showProfile"]);
-    Route::get("/fill-profile", [ProfileController::class, "showProfileForm"])->name("my.fill-profile");
-    Route::post("store-profile", [ProfileController::class, "storeProfile"]);
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::prefix('my')->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get("/dashboard", [ProfileController::class, "showProfile"])->name("user.dashboard");
+    });
+});
+
+require __DIR__ . '/auth.php';

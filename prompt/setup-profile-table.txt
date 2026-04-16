@@ -1,0 +1,39 @@
+Buatkan document plan plan/profile-table-migration-setup.md
+
+(scope) berisi pembuatan migration database create-user-profile
+
+requirement tabelnya adalah sebagai berikut:
+
+table name: user_profile
+
+id (int, pk, unique, auto increment)
+user_id, (int FK, Relasi ke tabel users).
+profile_picture (VARCHAR(255), desc: Foto Profile atau Pas Foto (氏名))
+full_name (VARCHAR(255), desc: Nama lengkap (氏名)).
+furigana_name (VARCHAR(255), desc: Nama lengkap dalam bahasa Jepang (フリガナ)).
+birth_date (DATE, desc: Tanggal lahir (生年月日)).
+gender (ENUM('male', 'female'), desc: Jenis kelamin (性別)).
+marital_status (ENUM('single', 'married', 'divorce'), desc: Status pernikahan (婚姻)).
+nationality (VARCHAR(100), desc: Kewarganegaraan (国籍)).
+place_of_origin, (VARCHAR(255), desc: Tempat asal (出身地)).
+current_address, (TEXT, desc: Alamat sekarang (現住所)).
+religion, (VARCHAR(50), desc: Agama (宗教)).
+is_wearing_hijab (VARCHAR(255), desc: Pakai hijab atau tidak (ヒジャブ)).
+prayer_requirement (TEXT, desc: Kebutuhan waktu ibadah (お祈り)).
+pork_tolerance (TEXT, desc: Skala toleransi babi)
+alcohol_tolerance, (TEXT, desc: Skala toleransi alkohol (飲酒への許容度)).
+entry_date,(DATE, desc: Tanggal masuk Jepang (入国日)).
+visa_expiry_date, (DATE, desc: Masa berlaku visa (在留カードの期限)).
+current_visa_type, (VARCHAR(100), desc: Jenis visa saat ini (現在の在留資格)).
+jlpt_level, ("ENUM('N1', 'N2', 'N3', 'N4', 'N5', 'none')", desc: Level bahasa Jepang (日本語能力)).
+has_driver_license, (BOOLEAN, desc: Punya SIM atau enggak (運転免許有無)).
+work_start_date, (DATE, desc: Kapan siap mulai kerja (就労開始可能日)).
+technical_experience, (TEXT, desc: Detail pengalaman magang/skill (技能実習経験)).
+created_at, (TIMESTAMP, default current_timestamp, desc:Record data dibuat).
+updated_at, (TIMESTAMP, default current_timestamp, desc:Record data diupdate).
+
+*catatan:
+
+- Seluruh kolom wajib ada deskripsi sesuai yang sudah ditentukan (desc: ***)
+- Tempatkan diri anda sebagai senior database expert / senior fullstack developer. Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah
+- Seluruh kolom sifatnya wajib diisi.
