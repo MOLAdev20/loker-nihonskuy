@@ -36,22 +36,16 @@ Route::prefix("admin")->group(function () {
     });
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::prefix('my')->group(function () {
-    Route::middleware('auth')->group(function () {
-        Route::get("/dashboard", [ProfileController::class, "showProfile"])->name("user.dashboard");
-        Route::get('/profile', [ProfileController::class, 'showProfileForm'])->name('user.profile.form');
-        Route::post('/fill-profile', [ProfileController::class, 'storeProfile'])->name('user.profile.store');
-    });
+    Route::get("/dashboard", [ProfileController::class, "showProfile"])->name("user.dashboard");
+    Route::get('/profile', [ProfileController::class, 'showProfileForm'])->name('user.profile.form');
+    Route::post('/fill-profile', [ProfileController::class, 'storeProfile'])->name('user.profile.store');
+    Route::get('/education-history', function () {
+        return response('Halaman riwayat pendidikan belum tersedia.', 501);
+    })->name('user.education-history');
+    Route::get('/working-experience', function () {
+        return response('Halaman riwayat pekerjaan belum tersedia.', 501);
+    })->name('user.working-experience');
 });
 
 require __DIR__ . '/auth.php';

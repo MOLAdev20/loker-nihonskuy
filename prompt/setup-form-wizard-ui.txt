@@ -1,0 +1,20 @@
+Buatkan dokumen plan di plan/setup-form-wizard-ui.md
+
+Tambahkan komponen form wizard (input step) berbentuk angka dengan ketentuan sebagai berikut:
+
+- Tempatkan wizard step di atas section atau group komponen form input
+
+Step Wizard (beserta rute jika salah satunya diklik):
+  1. Informasi Pribadi (sudah ada rute /my/profile) 
+  2. Riwayat Pendidikan (belum ada rute /my/education-history)
+  3. Riwayat Pekerjaan (belum ada rute /my/working-experience)
+
+- Tiap step dibuat dengan bentuk garis lingkaran dengan angka di tengahnya.
+- Jika belum diisi, warna garis lingkarannya slate (or recomendation disabled indicator)
+- Jika belum diisi tapi aktif (dibuka halamannya), warna garis lingkaran dan angkanya hijau
+- Jika sudah diisi, warna lingkaran seutuhnya hijau dan warna angkanya putih
+
+*notes
+Kerjakan sesuai notes, jangan melewati scope instruksi.
+Jika rutenya belum ada, sediakan saja di web.php (tanpa membuat controller. model, view atau bisnis logic apapun. Ingat scope pekerjaan!)
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah

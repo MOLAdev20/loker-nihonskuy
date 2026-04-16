@@ -11,6 +11,30 @@
     $inputClass =
         'mt-2 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:outline-none focus:ring-2';
     $labelClass = 'text-sm font-medium text-slate-700';
+    $isProfileCompleted = (bool) $profile;
+    $wizardSteps = [
+        [
+            'number' => 1,
+            'label' => 'Informasi Pribadi',
+            'route' => route('user.profile.form'),
+            'isActive' => request()->routeIs('user.profile.form'),
+            'isCompleted' => $isProfileCompleted,
+        ],
+        [
+            'number' => 2,
+            'label' => 'Riwayat Pendidikan',
+            'route' => route('user.education-history'),
+            'isActive' => request()->routeIs('user.education-history'),
+            'isCompleted' => false,
+        ],
+        [
+            'number' => 3,
+            'label' => 'Riwayat Pekerjaan',
+            'route' => route('user.working-experience'),
+            'isActive' => request()->routeIs('user.working-experience'),
+            'isCompleted' => false,
+        ],
+    ];
   @endphp
 
   @if (session('status'))
@@ -19,6 +43,36 @@
       {{ session('status') }}
     </div>
   @endif
+
+  <nav aria-label="Progress form profile"
+    class="mb-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+    <ol class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      @foreach ($wizardSteps as $step)
+        @php
+          $circleClass = 'border-slate-300 text-slate-500';
+          $stepLabelClass = 'text-slate-500';
+
+          if ($step['isCompleted']) {
+              $circleClass = 'border-emerald-500 bg-emerald-500 text-white';
+              $stepLabelClass = 'text-emerald-700';
+          } elseif ($step['isActive']) {
+              $circleClass = 'border-emerald-500 text-emerald-600';
+              $stepLabelClass = 'text-emerald-700';
+          }
+        @endphp
+        <li>
+          <a href="{{ $step['route'] }}"
+            class="group flex items-center gap-3 rounded-xl border border-transparent px-2 py-2 transition hover:border-slate-200 hover:bg-slate-50">
+            <span
+              class="{{ $circleClass }} inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 text-sm font-semibold">
+              {{ $step['number'] }}
+            </span>
+            <span class="{{ $stepLabelClass }} text-sm font-medium">{{ $step['label'] }}</span>
+          </a>
+        </li>
+      @endforeach
+    </ol>
+  </nav>
 
   <form method="POST" action="{{ route('user.profile.store') }}"
     class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">

@@ -4,15 +4,16 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserProfileRequest;
-use App\Models\User\Profile;
 use App\Models\User\UserProfile;
 use Illuminate\Support\Facades\Session;
+
+/** @var \App\Models\User $user */
 
 class ProfileController extends Controller
 {
     public function showProfile()
     {
-        $profile = UserProfile::where('user_id', Session::get('account_id'))->first();
+        $profile = UserProfile::where('user_id', auth()->id())->first();
 
         return view("user.profile", [
             "profile" => $profile
