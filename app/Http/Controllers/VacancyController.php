@@ -314,19 +314,32 @@ class VacancyController extends Controller
         return redirect()->route("admin.vacancy.detail", $job->job_code)->with("msg", ["success", $title, $msg]);
     }
 
-    // public function storeTempThumbnail(Request $request)
-    // {
-    //     if ($request->hasFile('thumbnail')) {
-    //         $file = $request->file('thumbnail');
-    //         $folder = uniqid('post-', true);
-    //         $filename = $file->getClientOriginalName();
+    public function updateJobCode(Request $req, $id)
+    {
+        $job = Vacancy::where('job_code', $id)->firstOrFail();
+        $newJobCode = $req->input('job_code');
 
-    //         // Simpen di folder temporary
-    //         $file->storeAs('public/tmp/' . $folder, $filename);
+        if ($newJobCode === $job->job_code) {
+            return response()->json(['status' => 'unchanged']);
+        }
 
-    //         // Balikin folder ID biar FilePond nyimpen ID ini di hidden input
-    //         return $folder;
-    //     }
-    //     return response()->json(['error' => 'Gagal upload'], 400);
-    // }
+        $req->validate([
+            'job_code' => ['required', 'min:3', 'max:12', 'unique:vacancies,job_code'],
+        ], [
+            'job_code.required' => 'Job ID wajib diisi.',
+            'job_code.unique' => 'Job ID sudah digunakan.',
+            'job_code.min' => 'Job ID minimal 3 karakter.',
+            'job_code.max' => 'Job ID maksimal 12 karakter.',
+        ]);
+
+        $job->update([
+            'job_code' => $newJobCode,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'job_code' => $newJobCode,
+            'message' => 'ID berhasil dirubah',
+        ]);
+    }
 }

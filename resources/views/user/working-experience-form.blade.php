@@ -59,6 +59,10 @@
           <tr>
             <th
               class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 sm:px-6">
+              Nama Perusahaan
+            </th>
+            <th
+              class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 sm:px-6">
               Bidang Pekerjaan
             </th>
             <th
@@ -86,6 +90,9 @@
         <tbody class="divide-y divide-slate-200 bg-white">
           @forelse ($workExperiences as $workExperience)
             <tr>
+              <td class="px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
+                {{ $workExperience->company_name }}
+              </td>
               <td class="px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
                 {{ $workExperience->field_of_work }}
               </td>
@@ -176,6 +183,18 @@
               class="{{ $inputClass }} @error('fieldOfWork') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
               placeholder="Cth: Industri Textile, Pendidikan, Migas, Pertanian">
             @error('fieldOfWork')
+              <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+            @enderror
+          </div>
+
+          <div>
+            <label class="{{ $labelClass }}" for="create_companyName">Nama Perusahaan <span
+                class="text-red-600">*</span></label>
+            <input id="create_companyName" name="companyName" type="text"
+              value="{{ old('formMode') === 'create' ? old('companyName') : '' }}"
+              class="{{ $inputClass }} @error('companyName') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
+              placeholder="Cth: Industri Textile, Pendidikan, Migas, Pertanian">
+            @error('companyName')
               <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
             @enderror
           </div>
@@ -276,6 +295,9 @@
       $editFieldOfWorkValue = $isCurrentEditModal
           ? old('fieldOfWork')
           : $workExperience->field_of_work;
+      $editCompanyNameValue = $isCurrentEditModal
+          ? old('companyName')
+          : $workExperience->company_name;
       $editLocationValue = $isCurrentEditModal ? old('location') : $workExperience->location;
       $editDateOfJoinValue = $isCurrentEditModal
           ? old('dateOfJoin')
@@ -304,7 +326,7 @@
           <input type="hidden" name="workExperienceId" value="{{ $workExperience->id }}">
 
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div class="md:col-span-2">
+            <div>
               <label class="{{ $labelClass }}"
                 for="edit_fieldOfWork_{{ $workExperience->id }}">Bidang
                 Pekerjaan <span class="text-red-600">*</span></label>
@@ -313,6 +335,19 @@
                 class="{{ $inputClass }} @error('fieldOfWork') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
                 placeholder="Cth: Industri Textile, Pendidikan, Migas, Pertanian">
               @error('fieldOfWork')
+                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+              @enderror
+            </div>
+
+            <div>
+              <label class="{{ $labelClass }}"
+                for="edit_companyName_{{ $workExperience->id }}">Nama Perusahaan <span
+                  class="text-red-600">*</span></label>
+              <input id="edit_companyName_{{ $workExperience->id }}" name="companyName"
+                type="text" value="{{ $editCompanyNameValue }}"
+                class="{{ $inputClass }} @error('companyName') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
+                placeholder="Cth: Industri Textile, Pendidikan, Migas, Pertanian">
+              @error('companyName')
                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
               @enderror
             </div>

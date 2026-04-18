@@ -9,7 +9,7 @@
   @stack('styles')
 </head>
 
-<body class="min-h-screen bg-slate-100 text-slate-900">
+<body class="min-h-screen bg-[#f7f7f5] text-slate-900">
   @include('user.partials.dashboard-sidebar')
   @include('user.partials.dashboard-topbar')
 

@@ -43,12 +43,6 @@
   </p>
 </div>
 
-{{-- <div class="absolute inset-0 backdrop-blur-sm z-50">
-  <div class="bg-white border absolute inset-1/12 z-50">
-    asdasd
-  </div>
-</div> --}}
-
 <div class="border rounded-lg border-slate-200 p-4 relative">
   <div class="absolute top-0 inset-x-0 bg-slate-400 text-xs text-white rounded-b-none rounded p-1">Informasi Umum Job</div>
 
@@ -89,7 +83,19 @@
     <!-- First row -->
     <div class="flex flex-col gap-1 col-span-2">
       <span class="text-sm text-slate-500">Job ID / Kode Lowongan</span>
-      <span class="text-sm font-medium text-slate-900">{{ $job->job_code }}</span>
+      <div class="flex items-center gap-2 group" id="job-code-container">
+        <span id="job-code-text" class="text-sm font-medium text-slate-900">{{ $job->job_code }}</span>
+        <button type="button" onclick="toggleEditJobCode()" class="text-slate-400 hover:text-slate-600 transition-colors">
+            <x-icons.pencil size="14" />
+        </button>
+      </div>
+      <div id="job-code-edit-container" class="hidden flex flex-col gap-1">
+          <input type="text" id="job-code-input" value="{{ $job->job_code }}" 
+                 class="text-sm font-medium text-slate-900 border border-slate-300 rounded px-2 py-1 outline-none focus:border-slate-500 w-full"
+                 onkeydown="handleJobCodeKeydown(event)">
+          <span id="job-code-error" class="text-[10px] text-red-600 hidden"></span>
+          <span id="job-code-success" class="text-[10px] text-green-600 hidden"></span>
+      </div>
     </div>
     <div class="flex flex-col gap-1 col-span-2">
       <span class="text-sm text-slate-500">Nama Pekerjaan</span>
@@ -162,9 +168,6 @@
     <!-- Fourth row -->
     <div class="flex flex-col gap-2 col-span-8 mt-5">
       <span class="text-sm text-slate-500">Benefit & Fasilitas</span>
-      @php
-      
-      @endphp
       <div class="flex flex-wrap gap-2">
         @forelse ($job->benefit_and_facility as $benefit)
         <span class="inline-block rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600">
@@ -191,27 +194,6 @@
 @endsection
 
 @section('scripts')
-{{-- <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-<script src="https://unpkg.com/filepond/dist/filepond.js"></script> --}}
-{{-- <script>
-  // Registrasi plugin preview biar bisa liat gambar sebelum upload
-  FilePond.registerPlugin(FilePondPluginImagePreview);
-
-  // Ambil element input
-  const inputElement = document.querySelector('#thumbnail');
-
-  // Create FilePond instance
-  const pond = FilePond.create(inputElement, {
-      server: {
-          url: '/admin/vacancy/upload-thumbnail', // Base URL route lu
-          process: "/temp-store", // Ke mana file dikirim pas user pilih file
-          revert: '/temp-delete', // Ke mana file dihapus kalo user klik 'cancel'
-          headers: {
-              'X-CSRF-TOKEN': '{{ csrf_token() }}' // WAJIB! Biar nggak kena 419 Page Expired
-          }
-      }
-  });
-</script> --}}
 @if($job->additionalInformationDelta)
 <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
 <script>
@@ -238,6 +220,99 @@
 </script>
 
 <script>
+  let currentJobCode = '{{ $job->job_code }}';
+
+  function toggleEditJobCode() {
+    const textContainer = document.getElementById('job-code-container');
+    const editContainer = document.getElementById('job-code-edit-container');
+    const input = document.getElementById('job-code-input');
+    
+    textContainer.classList.add('hidden');
+    editContainer.classList.remove('hidden');
+    input.focus();
+    input.select();
+  }
+
+  function hideEditJobCode() {
+    const textContainer = document.getElementById('job-code-container');
+    const editContainer = document.getElementById('job-code-edit-container');
+    const errorSpan = document.getElementById('job-code-error');
+    const input = document.getElementById('job-code-input');
+    
+    textContainer.classList.remove('hidden');
+    editContainer.classList.add('hidden');
+    errorSpan.classList.add('hidden');
+    input.value = currentJobCode;
+  }
+
+  function handleJobCodeKeydown(event) {
+    if (event.key === 'Enter') {
+      submitJobCodeUpdate();
+    } else if (event.key === 'Escape') {
+      hideEditJobCode();
+    }
+  }
+
+  function submitJobCodeUpdate() {
+    const input = document.getElementById('job-code-input');
+    const newJobCode = input.value.trim();
+    const errorSpan = document.getElementById('job-code-error');
+    const successSpan = document.getElementById('job-code-success');
+    const textSpan = document.getElementById('job-code-text');
+
+    if (newJobCode === currentJobCode) {
+      hideEditJobCode();
+      return;
+    }
+
+    errorSpan.classList.add('hidden');
+    successSpan.classList.add('hidden');
+
+    const baseUrl = "{{ route('admin.vacancy.update-job-code', 'PLACEHOLDER') }}";
+    const updateUrl = baseUrl.replace('PLACEHOLDER', currentJobCode);
+
+    fetch(updateUrl, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ job_code: newJobCode })
+    })
+    .then(async response => {
+      const data = await response.json();
+      if (response.ok) {
+        if (data.status === 'success') {
+          const oldJobCode = currentJobCode;
+          currentJobCode = data.job_code;
+          textSpan.innerText = currentJobCode;
+          successSpan.innerText = 'ID berhasil dirubah';
+          successSpan.classList.remove('hidden');
+          
+          setTimeout(() => {
+            hideEditJobCode();
+            successSpan.classList.add('hidden');
+            
+            // Update URL without refresh
+            const newUrl = window.location.pathname.replace(oldJobCode, currentJobCode);
+            window.history.replaceState(null, '', newUrl);
+          }, 1000);
+        } else if (data.status === 'unchanged') {
+          hideEditJobCode();
+        }
+      } else {
+        errorSpan.innerText = data.errors?.job_code?.[0] || 'Gagal mengubah ID';
+        errorSpan.classList.remove('hidden');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      errorSpan.innerText = 'Terjadi kesalahan sistem';
+      errorSpan.classList.remove('hidden');
+    });
+  }
+
   function confirmChangeStatus(id){
     Swal.fire({
       title: "Ubah Status Lowongan?",

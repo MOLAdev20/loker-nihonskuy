@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register - Zen Minimalist</title>
+  <title>Daftar Akun - Nihonskuy</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -28,9 +28,8 @@
     class="relative z-10 my-auto w-full max-w-md rounded-3xl border border-white/50 bg-white/70 p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-md">
 
     <div class="mb-8 text-center">
-      <h1 class="mb-2 text-4xl font-bold tracking-widest text-slate-800">登録</h1>
-      <p class="text-xs font-medium uppercase tracking-[0.3em] text-slate-500">Hajimemashite (Nice
-        to meet you)</p>
+      <h1 class="mb-2 text-4xl font-bold tracking-widest text-slate-800">Register</h1>
+      <p class="text-xs font-medium uppercase tracking-[0.3em] text-slate-500">はじめまして</p>
     </div>
 
     <form action="{{ route('register') }}" method="POST" class="space-y-5">

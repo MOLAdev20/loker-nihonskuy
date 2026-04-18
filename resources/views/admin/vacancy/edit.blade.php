@@ -47,12 +47,6 @@
       <div class="mt-8 block grid-cols-8 gap-5 sm:grid">
 
         <!-- First row -->
-        <div class="col-span-2 flex flex-col gap-1">
-          <label class="text-sm">Job ID / Kode Lowongan</label>
-          <input type="text" value="{{ $job->job_code }}"
-            class="rounded border border-slate-200 bg-white px-2 py-1 text-sm outline-none disabled:cursor-not-allowed disabled:bg-slate-200"
-            disabled>
-        </div>
         <div class="col-span-4 flex flex-col gap-1">
           <label for="job-title" class="text-sm">Nama Pekerjaan</label>
           @error('job-title')
@@ -62,7 +56,7 @@
             value="{{ old('job-title', $job->title) }}"
             class="{{ $errors->has('job-title') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }} rounded border bg-white px-2 py-1 text-sm outline-none transition-all focus:border">
         </div>
-        <div class="col-span-2 flex flex-col gap-1">
+        <div class="col-span-4 flex flex-col gap-1">
           <label for="job-type" class="text-sm">Jenis Pekerjaan</label>
           @error('job-type')
             <span class="text-[10px] text-red-600">{{ $message }}</span>

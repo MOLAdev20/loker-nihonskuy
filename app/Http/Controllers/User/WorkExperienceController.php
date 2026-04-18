@@ -82,6 +82,7 @@ class WorkExperienceController extends Controller
     {
         return [
             'field_of_work' => $validatedData['fieldOfWork'],
+            'company_name' => $validatedData['companyName'],
             'location' => $validatedData['location'],
             'date_of_join' => $validatedData['dateOfJoin'],
             'date_of_resign' => $validatedData['dateOfResign'] ?? null,

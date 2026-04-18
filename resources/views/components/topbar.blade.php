@@ -20,14 +20,37 @@
       <a href="/#footer" class="text-slate-600 hover:text-slate-900">Kontak</a>
     </nav>
 
-    <!-- <div class="hidden items-center gap-2 md:flex">
-        <a
-          href="#"
+
+    @guest
+      <div class="hidden items-center gap-2 md:flex">
+        <a href="/login"
           class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">Masuk</a>
-        <a
-          href="#"
-          class="rounded-xl bg-slate-900 px-3 py-2 text-sm font-medium text-white hover:bg-slate-800">Post a Job</a>
-      </div> -->
+        <a href="/register"
+          class="rounded-xl bg-slate-900 px-3 py-2 text-sm font-medium text-white hover:bg-slate-800">Daftar</a>
+      </div>
+    @endguest
+
+    @auth
+      @php
+        $currentUser = auth()->user();
+        $displayName = trim($currentUser->name ?? '');
+        $sourceName = $displayName !== '' ? $displayName : $currentUser->email ?? 'User';
+        $initialParts = preg_split('/\s+/', $sourceName, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        $avatarInitial = collect(array_slice($initialParts, 0, 2))
+            ->map(fn($part) => strtoupper(substr($part, 0, 1)))
+            ->implode('');
+      @endphp
+      <div class="hidden items-center gap-3 md:flex">
+        <div
+          class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold tracking-wide text-white">
+          {{ $avatarInitial !== '' ? $avatarInitial : 'U' }}
+        </div>
+        <div class="text-right leading-tight">
+          <p class="max-w-48 truncate text-lg font-medium text-slate-800">{{ $currentUser->email }}
+          </p>
+        </div>
+      </div>
+    @endauth
 
     <button id="menu-btn"
       class="inline-flex cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white p-2 text-slate-700 hover:bg-slate-50 active:bg-slate-100 md:hidden"
@@ -51,14 +74,29 @@
         class="rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">Testimoni</a>
       <a href="#footer"
         class="rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">Kontak</a>
-      <!-- <div class="mt-2 grid grid-cols-2 gap-2">
-                <a
-                    href="#"
-                    class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-center text-sm font-medium text-slate-700 hover:bg-slate-50">Masuk</a>
-                <a
-                    href="#"
-                    class="rounded-xl bg-slate-900 px-3 py-2 text-center text-sm font-medium text-white hover:bg-slate-800">Post a Job</a>
-            </div> -->
+
+      @guest
+        <div class="mt-2 grid grid-cols-2 gap-2">
+          <a href="/login"
+            class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-center text-sm font-medium text-slate-700 hover:bg-slate-50">Masuk</a>
+          <a href="/register"
+            class="rounded-xl bg-slate-900 px-3 py-2 text-center text-sm font-medium text-white hover:bg-slate-800">Daftar</a>
+        </div>
+      @endguest
+
+      @auth
+        <div
+          class="flex cursor-pointer items-center gap-3 rounded px-3 py-2 hover:bg-slate-50 md:hidden">
+          <div
+            class="flex h-7 w-7 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold tracking-wide text-white">
+            {{ $avatarInitial !== '' ? $avatarInitial : 'U' }}
+          </div>
+          <div class="text-right leading-tight">
+            <p class="max-w-48 truncate font-medium text-slate-800">{{ $currentUser->email }}
+            </p>
+          </div>
+        </div>
+      @endauth
     </div>
   </div>
 </header>
