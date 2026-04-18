@@ -1,0 +1,66 @@
+Buatkan dokumen plan di plan/setup-resume-excel.md
+
+Berisi brief membuat excel report dengan data dari database.
+
+Ketentuan:
+- Gunakan library laravel excel (https://github.com/SpartnerNL/Laravel-Excel).
+- Sediakan route /print-resume sebagai pemicu excel diproses dan didownload.
+- Laporan akan melibatkan tabel user_profile, user_education_history dan user_working_experience.
+
+Bentuk laporan excel yang diinginkan:
+- A1 sampai I1 dan A2 sampai I2 kosong
+- E3 - F3 merge, text " 履歴書 " 16pt center text and middle align
+- H3 - I3 merge, masukan gambar yang ada di "public/nihonskuy-cv.png" sesuaikan ukurannya agar pas
+- G4 Text "Tanggal :" rata kanan, H4-I4 merge, Text tanggalSekarang() center text and middle align
+- B5 sampai B15 text dari sel atas (B5) ke bawah (B15) secara berurut ["フリガナ", "氏名", "生年月日", "国籍", "現住所", "ヒジャブ*", "豚肉への許容度*", "入国日**", "在留カードの期限**", "日本語能力", "運転免許有無"]
+- C5 dimerge dengan D5 begitu seterusnya sampai C15 dan D15. Setiap merge sel itu berisi tabel dari user_profile. Isinya dari atas ke bawah:
+  - C5 merge D5 : furigana_name
+  - C6 merge D6 : full_name
+  - C7 merge D7 : birth_date
+  - C8 merge D8 : nationality
+  - C9 merge D9 : current_address
+  - C10 merge D10 : is_wearing_hijab
+  - C11 merge D11 : pork_tolerance
+  - C12 merge D12 : entry_date
+  - C13 merge D13 : visa_expiry_date
+  - C14 merge D14 : jlpt_level
+  - C15 merge D15 : has_driver_license
+- E5 sampai E14 text dari sel atas (E5) ke bawah (E14) secara berurut ["性別", "婚姻", "年齢", "出身地", "宗教", "お祈り*", "飲酒への許容度*", "現在の在留資格**", "就労開始可能日***", "技能試験 &技能実習経験"]
+- F5 dimerge dengan G5 begitu seterusnya sampai F5 dan G15. Setiap merge sel itu berisi tabel dari user_profile. Isinya dari atas ke bawah:
+  - F5 merge G5 : gender
+  - F6 merge G6 : marital_status
+  - F7 merge G7 : hitungUmur(birth_date) (misal: 34)
+  - F8 merge G8 : place_of_origin
+  - F9 merge G9 : religion
+  - F10 merge G10 : prayer_requirement
+  - F11 merge G11 : alcohol_tolerance
+  - F12 merge G12 : current_visa_type
+  - F13 merge G13 : work_start_date
+  - F14 merge G14 : technical_experience
+  - F15 merge G15 : sel kosong
+
+- sel H5 - I15 dimerge semua sehingga menjadi satu sel kotak besar (untuk menyimpan pas foto)
+
+- B16 sampai I16 merge, text "学歴" rata tengah
+- B17 - C17 merge, text "学校名" lanjut dibawahnya B18 merge C18 hingga B-n_C-n ambil kolom education dari tabel user_education_history get by user_id.
+- D17, text "学校種別" lanjut dibawahnya D18 hingga D-n ambil kolom institution dari tabel user_education_history get by user_id.
+- E17, text "学校所在地" lanjut dibawahnya E18 hingga E-n ambil kolom location dari tabel user_education_history get by user_id.
+- F17, text "学校所在地" lanjut dibawahnya F18 hingga F-n ambil kolom date_of_entry dari tabel user_education_history get by user_id.
+- G17, text "卒業年月（中退年月）" lanjut dibawahnya G18 hingga G-n ambil kolom date_of_graduation dari tabel user_education_history get by user_id.
+- H17 - I17 merge, text "状況" lanjut dibawahnya H18 merge I18 hingga H-n_I-n ambil kolom status dari tabel user_education_history get by user_id.
+
+- B21 sampai I21 merge, text "職歴" rata tengah
+
+- B22 - C22 merge, text "会社名" lanjut dibawahnya B23 merge C23 hingga B-n_C-n ambil kolom company_name dari tabel user_working_experience get by user_id.
+- D22, text "職種" lanjut dibawahnya D22 hingga D-n ambil kolom field_of_work dari tabel user_working_experience get by user_id.
+
+- E22, text "会社所在地" lanjut dibawahnya E22 hingga E-n ambil kolom location dari tabel user_working_experience get by user_id.
+- F22, text "入社年月" lanjut dibawahnya F22 hingga F-n ambil kolom date_of_join dari tabel user_working_experience get by user_id.
+- G22, text "退職年月" lanjut dibawahnya G22 hingga G-n ambil kolom date_of_resign dari tabel user_working_experience get by user_id.
+
+- H22, text "雇用形態" lanjut dibawahnya H22 hingga H-n ambil kolom employment_status dari tabel user_working_experience get by user_id.
+- I22, text "在留資格" lanjut dibawahnya I22 hingga I-n ambil kolom visa_type dari tabel user_working_experience get by user_id.
+
+*notes
+Kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Zen Minimalist</title>
+  <title>Masuk Akun - Nihonskuy</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -27,8 +27,8 @@
     class="relative z-10 w-full max-w-md rounded-3xl border border-white/50 bg-white/70 p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-md">
 
     <div class="mb-10 text-center">
-      <h1 class="mb-2 text-4xl font-bold tracking-widest text-slate-800">ログイン</h1>
-      <p class="text-xs font-medium uppercase tracking-[0.3em] text-slate-500">Okaeri (Welcome Back)
+      <h1 class="mb-2 text-4xl font-bold tracking-widest text-slate-800">Login</h1>
+      <p class="text-xs font-medium uppercase tracking-[0.3em] text-slate-500">おかえり
       </p>
     </div>
 

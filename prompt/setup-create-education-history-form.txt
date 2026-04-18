@@ -1,0 +1,38 @@
+Buatkan document plan/create-education-history-form-setup.md
+
+(scope) pembuatan UI, business logic (validation, insert to database, etc..) form input user education history dan memasukan data request user ke tabel user_education_history dengan pendekatan arsitektur MVC
+
+Form input untuk route "/my/education-history"
+view: user/education-history-form.blade.php
+Layout base menyesuaikan dengan profile.blade.php pada bagian section konten/content
+
+form inputnya adalah sebagai berikut:
+
+POST /my/education-history
+
+education : Select Option (Pilih Jenjang Pendidikan, [SMP, SMK, SMA, D1, D2, D3, D4, S1, S2, S3]), required, label title : Jenjang Pendidikan.
+institution : Text, min 3, max 255, required, label title: "Nama Institusi/Sekolah/Perguruan".
+location : Text, required, label title: "Lokasi Institusi/Sekolah/Perguruan".
+date_of_entry : Date, required, label title: "Tanggal Masuk".
+date_of_graduation : Date, label title: "Tanggal Lulus".
+date_of_dropped_out : Date, label title: "Tanggal Berhenti/Putus Sekolah (Jika ada)".
+status : Radio [Lulus, Masih Sekolah/Berkuliah, Mengundurkan Diri], required, label title: "Status".
+
+requirement form input:
+
+- Validasi input di sisi server, tampilkan ke user kesalahan Validasi
+- Teks kesalahan (text-xs) validasi diletakan di bawah di setiap inputan
+- Validasi gagal, maka tampilkan pesan kesalahan dalam bahasa Indonesia formal singkat (sesuai dengan jenis kesalahan di atas). Ubah border input menjadi merah.
+- Setiap input dibuat dengan Tailwind CSS dengan desain modern, minimalist dan soft. Reference: Bootstrap CSS style input
+- Tata letak harus responsive
+ - Grid untuk medium-large
+ - Block (atas ke bawah) berurutan setiap form untuk tampilan mobile
+
+other requirement:
+- naming variabel, function etc harus camelCase
+
+
+*catatan:
+
+- Kerjakan Instruksi sesuai dengan scope yang dijelaskan pada dokumen ini. Jangan mengerjakan di luar scope Instruksi yang diberikan!.
+- Tempatkan diri anda sebagai technical architect / PM / senior fullstack developer. Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior fullstack programmer atau Program AI Model yang murah

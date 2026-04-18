@@ -1,0 +1,52 @@
+Buatkan document plan plan/create-profile-form-setup.md
+
+(scope) pembuatan UI form input user profile dan memasukan data request user ke tabel user_profile dengan pendekatan arsitektur MVC
+
+Form input untuk route "/my/profile"
+view: user/profile-form.blade.php
+Layout base menyesuaikan dengan profile.blade.php pada bagian section konten/content
+
+form inputnya adalah sebagai berikut:
+
+POST /my/fill-profile
+
+full_name : Text, min 3, max 255, required, label title: "Nama Lengkap"
+furigana_name : Text, min 3, max 255, required, label title: "Furigana".
+birth_date : Date, required, label title: "Tanggal Lahir".
+gender : Radio [Laki-laki: (val) male, Perempuan: (val) female], label title: "Jenis Kelamin".
+height : Number, required, label title: "Tinggi Badan".
+weight : Number, required, label title: "Berat Badan".
+marital_status : Radio [Belum Menikah: (val) single, Menikah: (val) married, Cerai (divorce)], required, label title: "Status Pernikahan"
+nationality Text, min 3, max 255, required, label title: "Kewarganegaraan".
+place_of_origin, Text, min 3, max 255, required, label title: "Tempat Asal".
+current_address, Text Area, min 3, max 255, required, label title: "Alamat Saat Ini".
+religion, Select Option (Pilih agama, 5 agama yang ada di Indonesia), required, label title : Agama.
+is_wearing_hijab Text, min 3, max 255, required, label title: "Apakah Menggunakan Hijab?".
+prayer_requirement Text, min 3, max 255, required, label title: "Kebutuhan Ibadah".
+pork_tolerance Text, min 3, max 255, required, label title: "Toleransi Terhadap Daging Babi"
+alcohol_tolerance, Text, min 3, max 255, required, label title: "Toleransi Terhadap Alkohol".
+entry_date, Date, label title: "Tanggal Masuk Jepang".
+visa_expiry_date, Date, label title : "Masa Berlaku VISA".
+current_visa_type, Text, min 3, max 255, required, label title: "Jenis Visa Saat Ini".
+jlpt_level, Select Option (Pilih Kemampuan, N1, N2, N3, N4, N5, Belum Ada), required, label title : Level Kemampuan Bahasa Jepang (JLPT).
+has_driver_license, Text, min 3, max 255, required, label title: "Memiliki SIM?".
+work_start_date, Date, required, label title: "Tanggal Siap Mulai Kerja".
+technical_experience, TEXT AREA, required, label title: Detail Pengalaman Magang/Skill.
+
+requirement form input:
+
+- Validasi input di sisi server, tampilkan ke user kesalahan Validasi
+- Teks kesalahan (text-xs) validasi diletakan di bawah di setiap inputan
+- Validasi gagal, maka tampilkan pesan kesalahan dalam bahasa Indonesia formal singkat (sesuai dengan jenis kesalahan di atas). Ubah border input menjadi merah.
+- Setiap input dibuat dengan Tailwind CSS dengan desain modern, minimalist dan soft. Reference: Bootstrap CSS style input
+- Tata letak harus responsive
+ - Grid untuk medium-large
+ - Block (atas ke bawah) berurutan setiap form untuk tampilan mobile
+
+other requirement:
+- naming variabel, function etc harus camelCase
+
+
+*catatan:
+
+- Tempatkan diri anda sebagai technical architect / PM / senior fullstack developer. Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior fullstack programmer atau Program AI Model yang murah

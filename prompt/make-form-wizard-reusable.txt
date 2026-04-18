@@ -1,0 +1,24 @@
+Buatkan dokumen plan di plan/setup-reusable-form-wizard-ui.md
+
+Buat agar komponen form wizard (input step) menjadi reusable dan cukup mudah dipanggil atau digunakan pada setiap view blade yang mau menggunakannya.
+Terutama pada beberapa view blade yang saat ini sudah menerapkan form wizard ini.
+- user/profile-form.blade.php
+- user/education-history-form.blade.php
+- user/working-experience-form.blade.php
+
+Rules tambahan:
+- Nyalakan indikator aktif jika suatu step sudah diisi, atau dipenuhi. Misalnya:
+ - User sudah isi riwayat pekerjaan, saat ini user sedang mereview data profilenya. Maka indikator riwayat pekerjaan itu aktif (full hijau dengan tulisan putih)
+- Blok akses jika suatu step belum selesai diisi. Misalnya:
+ - User masih proses pengisian step 1. User mengklik step 3 untuk menuju step 3, tapi di tolak atau href="#"
+
+Jadikan tombol simpan di setiap step itu sebagai langkah menuju step selanjutnya.
+- Save di data pribadi menuju step 2 (riwayat pendidikan)
+
+Kecuali di step 2 dan 3 (riwayat pendidikan & pengalaman kerja), tambahkan button selanjutnya dan sebelumnya.
+Rules button selanjutnya di halaman riwayat pendidikan & pengalaman kerja:
+- Aktif/berfungsi jika sudah memasukan minimal 1 saja data.
+
+*notes
+Kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah

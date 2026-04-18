@@ -39,8 +39,8 @@
       <div class="mt-2 overflow-hidden transition-all duration-300 ease-out"
         data-submenu="profile-menu">
         <div class="space-y-1 border-l border-slate-600 pl-5">
-          <a href="{{ route('user.dashboard') }}"
-            class="block rounded-lg px-3 py-2 text-sm text-slate-200 transition hover:bg-slate-700/70">Profil
+          <a href="{{ route('user.profile.form') }}"
+            class="{{ request()->routeIs('user.profile.form') ? 'bg-slate-700 text-white' : 'text-slate-200 hover:bg-slate-700/70' }} block rounded-lg px-3 py-2 text-sm transition">Profil
             Saya</a>
           <a href="#"
             class="block rounded-lg px-3 py-2 text-sm text-slate-200 transition hover:bg-slate-700/70">Dokumen</a>

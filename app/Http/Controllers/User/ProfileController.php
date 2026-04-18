@@ -3,15 +3,19 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\User\Profile;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use App\Http\Requests\User\StoreUserProfileRequest;
+use App\Models\User\UserEducationHistory;
+use App\Models\User\UserProfile;
+use App\Models\User\WorkExperience;
+use App\Support\FormWizardBuilder;
+
+/** @var \App\Models\User $user */
 
 class ProfileController extends Controller
 {
     public function showProfile()
     {
-        $profile = Profile::where('account_id', Session::get('account_id'))->first();
+        $profile = UserProfile::where('user_id', auth()->id())->first();
 
         return view("user.profile", [
             "profile" => $profile
@@ -20,52 +24,63 @@ class ProfileController extends Controller
 
     public function showProfileForm()
     {
-        $profile = Profile::where('account_id', Session::get('account_id'))->first();
+        $profile = UserProfile::where('user_id', auth()->id())->first();
+        $educationHistoriesCount = UserEducationHistory::where('user_id', auth()->id())->count();
+        $workExperiencesCount = WorkExperience::where('user_id', auth()->id())->count();
+        $wizardSteps = FormWizardBuilder::buildSteps(
+            'profile',
+            (bool) $profile,
+            $educationHistoriesCount > 0,
+            $workExperiencesCount > 0
+        );
 
-        if (empty($profile)) {
-            return view("user.profile-form");
-        }
-
-        return view("user.edit-profile-form", [
-            "profile" => $profile
+        return view('user.profile-form', [
+            'profile' => $profile,
+            'wizardSteps' => $wizardSteps,
         ]);
     }
 
-    public function storeProfile(Request $req)
+    public function storeProfile(StoreUserProfileRequest $request)
     {
-        try {
-            $validated = $req->validate(
-                [
-                    'furigana' => ['nullable', 'string', 'max:255'],
-                    'nama_lengkap' => ['required', 'string', 'max:255'],
-                    'tanggal_lahir' => ['nullable', 'date'],
-                    'jenis_kelamin' => ['nullable', 'string', 'max:50'],
-                    'status_pernikahan' => ['nullable', 'string', 'max:100'],
-                    'kewarganegaraan' => ['nullable', 'string', 'max:100'],
-                    'tempat_asal' => ['nullable', 'string', 'max:255'],
-                    'alamat_sekarang' => ['nullable', 'string'],
-                    'agama' => ['nullable', 'string', 'max:100'],
-                    'hijab' => ['nullable', 'string', 'max:100'],
-                    'salat' => ['nullable', 'string', 'max:100'],
-                    'toleransi_babi' => ['nullable', 'string', 'max:100'],
-                    'toleransi_alkohol' => ['nullable', 'string', 'max:100'],
-                    'tanggal_masuk_jepang' => ['nullable', 'date'],
-                    'status_izin_tinggal' => ['nullable', 'string', 'max:255'],
-                    'masa_berlaku_kartu' => ['nullable', 'date'],
-                    'tanggal_mulai_kerja' => ['nullable', 'date'],
-                    'kemampuan_bahasa' => ['nullable', 'string'],
-                    'ujian_keterampilan' => ['nullable', 'string'],
-                    'kepemilikan_sim' => ['nullable', 'string', 'max:100'],
-                ]
-            );
+        $profilePayload = $this->mapProfilePayload($request->validated());
 
-            $validated['account_id'] = Session::get('account_id');
+        UserProfile::updateOrCreate(
+            ['user_id' => auth()->id()],
+            $profilePayload
+        );
 
-            Profile::create($validated);
-
-            return response()->json(['message' => 'Profile created successfully'], 201);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        return redirect()
+            ->route('user.education-history')
+            ->with('status', 'Data profil berhasil disimpan.');
     }
+
+    private function mapProfilePayload(array $validatedData): array
+    {
+        return [
+            'profile_picture' => "default.jpg",
+            'full_name' => $validatedData['fullName'],
+            'furigana_name' => $validatedData['furiganaName'],
+            'birth_date' => $validatedData['birthDate'],
+            'gender' => $validatedData['gender'],
+            'height' => $validatedData['height'],
+            'weight' => $validatedData['weight'],
+            'marital_status' => $validatedData['maritalStatus'],
+            'nationality' => $validatedData['nationality'],
+            'place_of_origin' => $validatedData['placeOfOrigin'],
+            'current_address' => $validatedData['currentAddress'],
+            'religion' => $validatedData['religion'],
+            'is_wearing_hijab' => $validatedData['isWearingHijab'],
+            'prayer_requirement' => $validatedData['prayerRequirement'],
+            'pork_tolerance' => $validatedData['porkTolerance'],
+            'alcohol_tolerance' => $validatedData['alcoholTolerance'],
+            'entry_date' => $validatedData['entryDate'] ?? null,
+            'visa_expiry_date' => $validatedData['visaExpiryDate'] ?? null,
+            'current_visa_type' => $validatedData['currentVisaType'],
+            'jlpt_level' => $validatedData['jlptLevel'],
+            'has_driver_license' => $validatedData['hasDriverLicense'],
+            'work_start_date' => $validatedData['workStartDate'],
+            'technical_experience' => $validatedData['technicalExperience'],
+        ];
+    }
+
 }
