@@ -9,7 +9,8 @@
       <h3 class="runcate mb-2 text-wrap text-lg font-semibold"><a
           href="/jobs/{{ $dataJob->job_code }}">{{ $dataJob->title }}</a></h3>
       <p class="mt-1 flex items-center gap-2 text-sm text-slate-600"><x-icons.map
-          size="15" />{{ $dataJob->placement }}</p>
+          size="15" />{{ $dataJob->placement . ($dataJob->placement_branch ? ' - ' . $dataJob->placement_branch : '') }}
+      </p>
       <p class="mt-1 flex items-center gap-2 text-sm text-slate-600"><x-icons.folderInput
           size="15" />{{ $dataJob->visa_type }}</p>
     </div>
@@ -20,7 +21,7 @@
       <div class="mt-2 flex flex-wrap gap-2">
         <span
           class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
-          {{ $dataJob->domicile_requirement == 'kokunai' ? 'Domisili Jepang' : 'Domisili Indonesia' }}
+          {{ $dataJob->domicile }}
         </span>
         <span
           class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">

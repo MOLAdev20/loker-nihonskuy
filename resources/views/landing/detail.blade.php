@@ -89,7 +89,20 @@
                     <div>
                       <div>
                         <h3 class="font-bold">Penempatan</h3>
-                        <p class="text-sm font-medium">{{ $job->placement }}</p>
+                        <p class="text-sm font-medium">
+                          {{ $job->placement . ($job->placement_branch ? ' - ' . $job->placement_branch : '') }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-4 rounded-lg">
+                    <div class="rounded-full bg-green-200 p-2">
+                      <x-icons.map size="17" />
+                    </div>
+                    <div>
+                      <div>
+                        <h3 class="font-bold">Cabang Penempatan</h3>
+                        <p class="text-sm font-medium">{{ $job->placement_branch ?: '-' }}</p>
                       </div>
                     </div>
                   </div>
