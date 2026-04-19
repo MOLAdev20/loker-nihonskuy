@@ -111,7 +111,9 @@
             <div class="min-w-0">
               <div class="text-xs text-slate-500">{{ $job->job_code }}</div>
               <h3 class="truncate text-sm font-semibold text-slate-900">{{ $job->title }}</h3>
-              <p class="truncate text-xs text-slate-600">{{ $job->placement }}</p>
+              <p class="truncate text-xs text-slate-600">
+                {{ $job->placement . ($job->placement_branch ? ' - ' . $job->placement_branch : '') }}
+              </p>
               @if ($job->days_left > 0)
                 <p class="truncate text-xs text-green-600">{{ $job->days_left }} hari lagi sebelum
                   ditutup</p>

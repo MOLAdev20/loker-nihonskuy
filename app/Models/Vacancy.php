@@ -14,6 +14,7 @@ class Vacancy extends Model
         'title',
         'visa_type',
         'placement',
+        'placement_branch',
         'job_type',
         'source',
         'salary',
@@ -48,10 +49,13 @@ class Vacancy extends Model
     // Assesor
     public function getDomicileAttribute()
     {
-        return [
+        $domicileLabels = [
             'kokunai' => 'Khusus Jepang',
             'kokugai' => 'Bebas (Di Luar Jepang)',
-        ][$this->domicile_requirement];
+            'kokunai-to-kokugai' => 'Domisili Bebas',
+        ];
+
+        return $domicileLabels[$this->domicile_requirement] ?? 'Tidak ditentukan';
     }
 
     // Assesor

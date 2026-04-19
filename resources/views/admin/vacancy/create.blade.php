@@ -155,6 +155,15 @@
             class="{{ $errors->has('visa-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }} rounded border bg-white px-2 py-1 text-sm outline-none transition-all focus:border">
         </div>
         <div class="col-span-2 flex flex-col gap-1">
+          <label for="placement-branch" class="text-sm">Cabang Penempatan</label>
+          @error('placement-branch')
+            <span class="text-[10px] text-red-600">{{ $message }}</span>
+          @enderror
+          <input type="text" name="placement-branch" id="placement-branch"
+            value="{{ old('placement-branch') }}" placeholder="Opsional"
+            class="{{ $errors->has('placement-branch') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }} rounded border bg-white px-2 py-1 text-sm outline-none transition-all focus:border">
+        </div>
+        <div class="col-span-2 flex flex-col gap-1">
           <label for="source" class="text-sm">Salinan Asli</label>
           @error('source')
             <span class="text-[10px] text-red-600">{{ $message }}</span>
@@ -221,19 +230,11 @@
             <option value="">Pilih</option>
             <option value="kokunai" @selected(old('domicile-requirement') === 'kokunai')>Khusus Jepang</option>
             <option value="kokugai" @selected(old('domicile-requirement') === 'kokugai')>Bebas (Di Luar Jepang)</option>
+            <option value="kokunai-to-kokugai" @selected(old('domicile-requirement') === 'kokunai-to-kokugai')>Domisili Luar & Dalam
+              Jepang</option>
           </select>
         </div>
-        <div class="col-span-2 flex flex-col gap-1">
-          <label for="qty" class="text-sm">Kuantitas Dibutuhkan</label>
-          @error('qty')
-            <span class="text-[10px] text-red-600">{{ $message }}</span>
-          @enderror
-          <input type="number" name="qty" id="qty" value="{{ old('qty') }}"
-            class="{{ $errors->has('qty') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }} rounded border bg-white px-2 py-1 text-sm outline-none transition-all focus:border">
-        </div>
-
-        <!-- Fourth row -->
-        <div class="col-span-8 mt-5 gap-2">
+        <div class="col-span-2 mt-5 gap-2">
           <label for="additional-information" class="text-sm">Benefit & Fasilitas</label>
           <div>
             <input type="checkbox" id="sallary" value="Gaji" name="benefit[]">
@@ -289,7 +290,18 @@
             <label for="pray-tollerant">Toleransi Ibadah</label>
           </div>
         </div>
-        <div class="col-span-2 mt-5 flex flex-col gap-1">
+        <div class="col-span-2 flex flex-col gap-1">
+          <label for="qty" class="text-sm">Kuantitas Dibutuhkan</label>
+          @error('qty')
+            <span class="text-[10px] text-red-600">{{ $message }}</span>
+          @enderror
+          <input type="number" name="qty" id="qty" value="{{ old('qty') }}"
+            class="{{ $errors->has('qty') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }} rounded border bg-white px-2 py-1 text-sm outline-none transition-all focus:border">
+        </div>
+
+        <!-- Fourth row -->
+
+        <div class="col-span-2 flex flex-col gap-1">
           <label for="expiration-date" class="text-sm">Tenggat Postingan</label>
           @error('expiration-date')
             <span class="text-[10px] text-red-600">{{ $message }}</span>

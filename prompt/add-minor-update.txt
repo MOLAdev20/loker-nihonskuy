@@ -1,0 +1,15 @@
+Buatkan dokumen plan di plan/add-minor-update.md
+
+Tujuan / akan ditambah / diubah:
+- Tambah informasi cabang penempatan di informasi lowongan kerja sifatnya opsional
+- Tambah opsi pilihan "Domisili Luar & Dalam Jepang" dengan Value "kokunai-to-kokugai" pada field "Persyaratan Domisili"
+
+Alur kerja:
+- Buat migration add_branch_in_vacancies nama kolomnya placement_branch STRING 255, nullable.
+- Tambah field input "Cabang Penempatan" di halaman form create atau update loker
+- Tambah opsi pilihan "Domisili Luar & Dalam Jepang" dengan Value "kokunai-to-kokugai" pada field "Persyaratan Domisili" di halaman form create atau update loker
+- Tampilkan kokunai-to-kokugai di displayed data sebagai "Domisili Bebas"
+
+*notes
+Kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah
