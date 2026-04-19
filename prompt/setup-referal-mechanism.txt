@@ -1,0 +1,20 @@
+Buatkan dokumen plan di plan/setup-referal-mechanism.md
+
+Tujuan:
+- Akun baru yang mendaftar dapat memasukan kode referal.
+- Yang memiliki kode referal akan mendapat bonus insentif jika ada akun yang mendaftar dengan memasukan kode referal
+
+Alur kerja:
+- Buat database migration (add_ref_code_in_users) untuk menambah kolom ref_code (opsional/nullable, string 12) di tabel users
+
+- Tambah input untuk kode referal pada view auth/register.blade.php di bawah field input "Konfirmasi Kata Sandi"
+
+- Buat mekanisme pengecekan menggunakan Ajax. Aturannya:
+ - Cek ketersediaan kode referal pada referal.json. 
+ - Jika tersedia, berikan indikator border hijau pada input referal. 
+ - Jika tidak tersedia, berikan indikator border merah pada input referal
+ - Berikan juga tulisan kecil dalam bahasa formal di bawah field input sesuai dengan kondisi response.
+
+*notes
+Kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah
