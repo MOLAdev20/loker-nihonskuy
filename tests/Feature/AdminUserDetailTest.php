@@ -42,6 +42,10 @@ class AdminUserDetailTest extends TestCase
         $response->assertSee("SMAN 1 Jakarta");
         $response->assertSee("PT Retail Maju");
         $response->assertSee("Completed");
+        $response->assertSee("Ubah Data");
+        $response->assertSee(route("admin.users.profile.form", $user->id), false);
+        $response->assertSee(route("admin.users.education.index", $user->id), false);
+        $response->assertSee(route("admin.users.working-experience.index", $user->id), false);
     }
 
     public function test_admin_user_detail_shows_placeholder_when_relation_data_empty(): void
