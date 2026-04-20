@@ -4,6 +4,15 @@
     aria-hidden="true">
 </div>
 
+@php
+    $vacancyLinkClasses = request()->routeIs('admin.vacancies') || request()->routeIs('admin.vacancy.*')
+        ? 'bg-slate-100 text-slate-900'
+        : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900';
+    $userLinkClasses = request()->routeIs('admin.users*')
+        ? 'bg-slate-100 text-slate-900'
+        : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900';
+@endphp
+
 <!-- Sidebar -->
 <aside
     id="sidebar"
@@ -28,8 +37,13 @@
     <nav class="px-3 py-4">
         <p class="px-3 pb-2 text-xs font-medium uppercase tracking-wider text-slate-400">Menu</p>
 
-        <a href="{{ route('admin.vacancies') }}" class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900">
+        <a href="{{ route('admin.vacancies') }}"
+            class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium {{ $vacancyLinkClasses }}">
             <x-icons.briefcase />Lowongan Kerja
+        </a>
+        <a href="{{ route('admin.users') }}"
+            class="group mt-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium {{ $userLinkClasses }}">
+            <x-icons.users />Users
         </a>
     </nav>
 

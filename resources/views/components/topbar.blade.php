@@ -46,8 +46,9 @@
           {{ $avatarInitial !== '' ? $avatarInitial : 'U' }}
         </div>
         <div class="text-right leading-tight">
-          <p class="max-w-48 truncate text-lg font-medium text-slate-800">{{ $currentUser->email }}
-          </p>
+          <a href={{ route('user.dashboard') }}
+            class="max-w-48 truncate text-lg font-medium text-slate-800">{{ $currentUser->email }}
+          </a>
         </div>
       </div>
     @endauth
