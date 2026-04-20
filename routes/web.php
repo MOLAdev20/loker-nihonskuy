@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacancyController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\User\ResumeController;
@@ -34,6 +35,11 @@ Route::prefix("admin")->group(function () {
             Route::delete("/delete/{id}", [VacancyController::class, "destroy"])->name("admin.vacancy.delete");
             Route::post("/change-status/{id}", [VacancyController::class, "changeStatus"])->name("admin.vacancy.change-status");
             Route::patch("/update-job-code/{id}", [VacancyController::class, "updateJobCode"])->name("admin.vacancy.update-job-code");
+        });
+
+        Route::prefix("users")->group(function () {
+            Route::get("/", [UserController::class, "index"])->name("admin.users");
+            Route::get("/{id}", [UserController::class, "showAccountDetail"])->name("admin.users.detail");
         });
     });
 });

@@ -1,121 +1,134 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="mb-5">
-  <nav class="mb-4 text-sm" aria-label="Breadcrumb">
-    <ol class="flex items-center gap-2 text-slate-500">
-      <li>
-        <a href="#" class="hover:text-slate-700">
-          Dashboard
-        </a>
-      </li>
-
-      <li class="flex items-center gap-2">
-        <span class="text-slate-400">/</span>
-        <span class="font-medium text-slate-700">
-          Loker
-        </span>
-      </li>
-    </ol>
-  </nav>
-  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-    <div>
-      <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-        Lowongan Kerja
-      </h1>
-      <p class="mt-2 text-sm text-slate-500">
-        Kelola semua lowongan kerja
-      </p>
-    </div>
-    <div>
-      <a href="/admin/jobs/create" class="inline-flex items-center justify-center rounded bg-slate-500 px-4 py-2 text-sm font-medium text-white hover:bg-slate-600">Tambah Job</a>
-    </div>
-  </div>
-</div>
-
-<div class="border rounded-lg border-slate-200 p-3">
-  @php
-    $currentStatus = $status ?? request()->query('status');
-    $currentStatus = $currentStatus === null ? null : (string) $currentStatus;
-  @endphp
-  <a href="?status=1" class="p-2 {{ $currentStatus === null || $currentStatus === '1' ? 'bg-blue-500 text-white' : '' }} rounded text-sm">Aktif</a>
-  <a href="?status=0" class="p-2 {{ $currentStatus === '0' ? 'bg-blue-500 text-white' : '' }} rounded text-sm">Nonaktif</a>
-  <div class="grid grid-cols-1 gap-2 mt-3">
-    @forelse ($jobs as $job)
-    <div class="rounded-md border border-l-5 border-l-slate-200 border-slate-200 px-3 py-2 bg-white">
-      <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-        <div class="min-w-0">
-          <div class="text-xs text-slate-500">{{ $job->job_code }}</div>
-          <a href="/admin/jobs/detail/{{ $job->job_code }}">
-            <h3 class="truncate text-sm font-semibold text-slate-900">{{ $job->title }}</h3>
+  <div class="mb-5">
+    <nav class="mb-4 text-sm" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-2 text-slate-500">
+        <li>
+          <a href="#" class="hover:text-slate-700">
+            Dashboard
           </a>
-          <p class="truncate text-xs text-slate-600">{{ $job->visa_type ." - ". $job->placement }}</p>
-        </div>
-        <div class="mt-1 text-xs text-slate-600 sm:mt-0">{{ \App\Support\Currency::yen($job->salary) }}</div>
-      </div>
+        </li>
 
-      <div class="mt-2 flex flex-wrap gap-1 text-[11px] text-slate-600">
-        <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->job_type }}</span>
-        <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->gender_requirement == 'p' ? 'Perempuan' : ($job->gender_requirement == 'a' ? 'Laki-laki & Perempuan' : 'Laki-laki') }}</span>
-        <span class="rounded bg-slate-100 px-2 py-0.5">
-          {{ $job->domicile_requirement === 'kokunai' ? 'Khusus Jepang' : 'Bebas' }}
-        </span>
-        <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->qty }} Orang</span>
+        <li class="flex items-center gap-2">
+          <span class="text-slate-400">/</span>
+          <span class="font-medium text-slate-700">
+            Loker
+          </span>
+        </li>
+      </ol>
+    </nav>
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+          Lowongan Kerja
+        </h1>
+        <p class="mt-2 text-sm text-slate-500">
+          Kelola semua lowongan kerja
+        </p>
       </div>
-
-      <div class="mt-2">
-        <a href="/admin/jobs/detail/{{ $job->job_code }}" class="text-xs font-medium text-slate-600 hover:text-slate-800">Detail</a>
-        <span class="mx-1 text-slate-300">•</span>
-        <a href="/admin/jobs/edit/{{ $job->job_code }}" class="text-xs font-medium text-slate-600 hover:text-slate-800">Edit</a>
-        <span class="mx-1 text-slate-300">•</span>
-        <form method="post" action="/admin/jobs/delete/{{ $job->job_code }}" class="inline js-delete-job-form">
-          @csrf
-          @method('DELETE')
-          <button type="submit" class="text-xs font-medium text-red-600 hover:text-red-700">Hapus</button>
-        </form>
+      <div>
+        <a href="/admin/jobs/create"
+          class="inline-flex items-center justify-center rounded bg-slate-500 px-4 py-2 text-sm font-medium text-white hover:bg-slate-600">Tambah
+          Job</a>
       </div>
     </div>
-    @empty
-    <div class="rounded-md border border-dashed border-slate-200 px-3 py-6 text-center text-sm text-slate-500">
-      Belum ada job yang diinput.
-    </div>
-    @endforelse
   </div>
-</div>
+
+  <div class="rounded-lg border border-slate-200 p-3">
+    @php
+      $currentStatus = $status ?? request()->query('status');
+      $currentStatus = $currentStatus === null ? null : (string) $currentStatus;
+    @endphp
+    <a href="?status=1"
+      class="{{ $currentStatus === null || $currentStatus === '1' ? 'bg-blue-500 text-white' : '' }} rounded p-2 text-sm">Aktif</a>
+    <a href="?status=0"
+      class="{{ $currentStatus === '0' ? 'bg-blue-500 text-white' : '' }} rounded p-2 text-sm">Nonaktif</a>
+    <div class="mt-3 grid grid-cols-1 gap-2">
+      @forelse ($jobs as $job)
+        <div
+          class="border-l-5 rounded-md border border-slate-200 border-l-slate-200 bg-white px-3 py-2">
+          <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+            <div class="min-w-0">
+              <div class="text-xs text-slate-500">{{ $job->job_code }}</div>
+              <a href="/admin/jobs/detail/{{ $job->job_code }}">
+                <h3 class="truncate text-sm font-semibold text-slate-900">{{ $job->title }}</h3>
+              </a>
+              <p class="truncate text-xs text-slate-600">{{ $job->visa_type . ' - ' . $job->placement }}
+              </p>
+            </div>
+            <div class="mt-1 text-xs text-slate-600 sm:mt-0">
+              {{ \App\Support\Currency::yen($job->salary) }}</div>
+          </div>
+
+          <div class="mt-2 flex flex-wrap gap-1 text-[11px] text-slate-600">
+            <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->job_type }}</span>
+            <span
+              class="rounded bg-slate-100 px-2 py-0.5">{{ $job->gender_requirement == 'p' ? 'Perempuan' : ($job->gender_requirement == 'a' ? 'Laki-laki & Perempuan' : 'Laki-laki') }}</span>
+            <span class="rounded bg-slate-100 px-2 py-0.5">
+              {{ $job->domicile_requirement === 'kokunai' ? 'Khusus Jepang' : 'Bebas' }}
+            </span>
+            <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->qty }} Orang</span>
+          </div>
+
+          <div class="mt-2">
+            <a href="/admin/jobs/detail/{{ $job->job_code }}"
+              class="text-xs font-medium text-slate-600 hover:text-slate-800">Detail</a>
+            <span class="mx-1 text-slate-300">•</span>
+            <a href="/admin/jobs/edit/{{ $job->job_code }}"
+              class="text-xs font-medium text-slate-600 hover:text-slate-800">Edit</a>
+            <span class="mx-1 text-slate-300">•</span>
+            <form method="post" action="/admin/jobs/delete/{{ $job->job_code }}"
+              class="js-delete-job-form inline">
+              @csrf
+              @method('DELETE')
+              <button type="submit"
+                class="text-xs font-medium text-red-600 hover:text-red-700">Hapus</button>
+            </form>
+          </div>
+        </div>
+      @empty
+        <div
+          class="rounded-md border border-dashed border-slate-200 px-3 py-6 text-center text-sm text-slate-500">
+          Belum ada job yang diinput.
+        </div>
+      @endforelse
+    </div>
+  </div>
 @endsection
 
 @section('scripts')
-<script>
-  const deleteJobForms = document.querySelectorAll(".js-delete-job-form");
+  <script>
+    const deleteJobForms = document.querySelectorAll(".js-delete-job-form");
 
-  deleteJobForms.forEach((form) => {
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
+    deleteJobForms.forEach((form) => {
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
 
-      if (typeof Swal === "undefined") {
-        if (confirm("Hapus Lowongan Ini?\\nYakin ingin menghapus lowongan ini?")) {
-          form.submit();
+        if (typeof Swal === "undefined") {
+          if (confirm("Hapus Lowongan Ini?\\nYakin ingin menghapus lowongan ini?")) {
+            form.submit();
+          }
+
+          return;
         }
 
-        return;
-      }
+        const result = await Swal.fire({
+          title: "Hapus Lowongan Ini?",
+          text: "Yakin ingin menghapus lowongan ini?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Ya, hapus",
+          cancelButtonText: "Batal",
+          confirmButtonColor: "#b91c1c",
+          cancelButtonColor: "#64748b",
+          reverseButtons: true,
+        });
 
-      const result = await Swal.fire({
-        title: "Hapus Lowongan Ini?",
-        text: "Yakin ingin menghapus lowongan ini?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Ya, hapus",
-        cancelButtonText: "Batal",
-        confirmButtonColor: "#b91c1c",
-        cancelButtonColor: "#64748b",
-        reverseButtons: true,
+        if (result.isConfirmed) {
+          form.submit();
+        }
       });
-
-      if (result.isConfirmed) {
-        form.submit();
-      }
     });
-  });
-</script>
+  </script>
 @endsection

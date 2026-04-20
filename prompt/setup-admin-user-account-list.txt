@@ -1,0 +1,60 @@
+Buatkan document plan plan/create-admin-user-account-list.md
+
+Tujuan (scope):
+Membuat UI / view baru (views/admin/user/users.blade.php) pada admin dashboard untuk menampilkan daftar akun user yang ada di tabel `users`
+
+Ketentuan:
+- tampilkan daftar pengguna (table `users` left join with table user_profile) kolom name, email, status (apakah user sudah mengisi profilenya?) dalam bentuk tabel.
+- dengan pagination
+- order by users.id desc
+- ada pencarian berdasarkan nama lengkap (query like)
+- Menggunakan pola MVC
+
+Alur kerja:
+- Route di setting ke group route /admin/users/ -> sudah disiapkan
+- Menggunakan controller Controllers/UserController -> sudah disiapkan
+- Menggunakan model Models/User -> sudah disiapkan
+
+
+
+other requirement:
+- naming variabel, function etc harus camelCase
+
+
+*catatan:
+
+- Kerjakan requirement sesuai scope dan context. Tempatkan diri anda sebagai technical architect / PM / senior fullstack developer. Buat dokumen plan ini dengan Instruksi high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior fullstack programmer atau Program AI Model yang murah
+
+====== English Version
+
+Generate a document plan: plan/create-admin-user-account-list.md
+
+Objective (Scope):
+Create a new UI/view (views/admin/user/users.blade.php) in the admin dashboard to display the user list from the users table.
+
+Requirements:
+
+Data Fetching: Display users in a table using a leftJoin between users and user_profile.
+
+Columns: Name, email, and status (indicator of whether the user has completed their profile).
+
+Features: Implement pagination and a search feature by full name (using LIKE query).
+
+Sorting: Order by users.id DESC.
+
+Pattern: Strictly follow the MVC pattern.
+
+Workflow:
+
+Route: Use the existing /admin/users/ route group.
+
+Controller: Use the existing Controllers/UserController.
+
+Model: Use the existing Models/User.
+
+Coding Standards:
+
+Use camelCase for all variables, functions, and parameters.
+
+Note for Implementation:
+Act as a Technical Architect / Senior Fullstack Developer. Provide high-level instructions and logic flow only. Avoid low-level code snippets, as this plan will be executed by a junior developer or a budget AI model.
