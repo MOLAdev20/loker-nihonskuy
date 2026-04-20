@@ -1,0 +1,46 @@
+Buatkan document plan plan/setup-admin-edit-profile-user.md
+
+Tujuan (scope):
+Admin dapat menginput atau mengedit profil pribadi (user_profile), riwayat pendidikan (user_education_history) maupun riwayat pengalaman kerja (user_working_experience) user (based on user_id).
+
+Ketentuan:
+
+- Tambah tombol icon pensil/edit dengan tex ubah data pada detail profile (views/admin/user/detail.blade.php)
+
+- Sudah ada 3 prefix/group route yang disediakan pada admin/users/* :
+  - Route::prefix("education")->group(function () {});
+
+  - Route::prefix("profile")->group(function () {});
+
+  - Route::prefix("working-experience")->group(function () {});
+
+- Manfaatkan ketiga route itu sesuai dengan proses dan keperluan yang sesuai. Misal untuk input riwayat pendidikan, masuk ke education, dan sebagainya
+
+- Gunakan pola MVC.
+ - Controller : Controllers/UserProfileController, Controllers/UserEducationController dan Controllers/UserWorkingExpController (Manfaatkan ketiga controller itu sesuai dengan proses dan keperluan yang sesuai. Misal untuk proses riwayat pendidikan (tambah, hapus, edit), ada di controller Controllers/UserEducationController, dan sebagainya)
+
+ - Model -> Sudah disediakan
+
+ - View: 
+  - Buat view masing masing untuk menginput data (misal view admin/user/profile-form.blade.php untuk memodifikasi/input data profile user)
+  - Ketentuan nama view : admin/user/profile-form.blade.php, admin/user/education-history-form.php, admin/user/working-experience-form.blade.php.
+
+  - Untuk mekanisme input, hapus dan edit data yang memiliki lebih dari satu seperti riwayat pendidikan dan pekerjaan, mengacu pada user/education-history-form.php dan user/working-experience-form.blade.php (modal based input)
+
+  - Tambahkan wizard / step pengisian
+
+
+Alur kerja:
+- Route di setting ke group route /admin/users/(:id)
+- Menggunakan controller Controllers/UserController -> sudah disiapkan, method ShowAccountDetail
+- Menggunakan model Models/User -> sudah disiapkan
+
+
+
+other requirement:
+- naming variabel, function etc harus camelCase
+
+
+*catatan:
+
+- Kerjakan requirement sesuai scope dan context. Tempatkan diri anda sebagai technical architect / PM / senior fullstack developer. Buat dokumen plan ini dengan Instruksi high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior fullstack programmer atau Program AI Model yang murah

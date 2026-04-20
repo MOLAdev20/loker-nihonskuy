@@ -129,9 +129,19 @@
     </section>
 
     <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">
-        Profile Detail
-      </h2>
+      <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500">
+          Profile Detail
+        </h2>
+        <a href="{{ route('admin.users.profile.form', $user->id) }}"
+          class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 20h9" />
+            <path d="m16.5 3.5 4 4L7 21H3v-4L16.5 3.5Z" />
+          </svg>
+          Ubah Data
+        </a>
+      </div>
 
       @if ($profile)
         <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
@@ -235,9 +245,19 @@
     </section>
 
     <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">
-        Education History
-      </h2>
+      <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500">
+          Education History
+        </h2>
+        <a href="{{ route('admin.users.education.index', $user->id) }}"
+          class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 20h9" />
+            <path d="m16.5 3.5 4 4L7 21H3v-4L16.5 3.5Z" />
+          </svg>
+          Ubah Data
+        </a>
+      </div>
 
       @if ($educationHistories->isNotEmpty())
         <div class="space-y-3">
@@ -274,9 +294,19 @@
     </section>
 
     <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">
-        Work Experience
-      </h2>
+      <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500">
+          Work Experience
+        </h2>
+        <a href="{{ route('admin.users.working-experience.index', $user->id) }}"
+          class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 20h9" />
+            <path d="m16.5 3.5 4 4L7 21H3v-4L16.5 3.5Z" />
+          </svg>
+          Ubah Data
+        </a>
+      </div>
 
       @if ($workExperiences->isNotEmpty())
         <div class="space-y-3">

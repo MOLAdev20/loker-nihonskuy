@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserEducationController;
+use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\UserWorkingExpController;
 use App\Http\Controllers\VacancyController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\User\ResumeController;
@@ -39,7 +42,29 @@ Route::prefix("admin")->group(function () {
 
         Route::prefix("users")->group(function () {
             Route::get("/", [UserController::class, "index"])->name("admin.users");
-            Route::get("/{id}", [UserController::class, "showAccountDetail"])->name("admin.users.detail");
+
+            Route::prefix("{id}")->whereNumber("id")->group(function () {
+                Route::prefix("education")->group(function () {
+                    Route::get("/", [UserEducationController::class, "index"])->name("admin.users.education.index");
+                    Route::post("/", [UserEducationController::class, "store"])->name("admin.users.education.store");
+                    Route::put("/{educationHistoryId}", [UserEducationController::class, "update"])->name("admin.users.education.update");
+                    Route::delete("/{educationHistoryId}", [UserEducationController::class, "destroy"])->name("admin.users.education.destroy");
+                });
+
+                Route::prefix("profile")->group(function () {
+                    Route::get("/", [UserProfileController::class, "showForm"])->name("admin.users.profile.form");
+                    Route::post("/", [UserProfileController::class, "store"])->name("admin.users.profile.store");
+                });
+
+                Route::prefix("working-experience")->group(function () {
+                    Route::get("/", [UserWorkingExpController::class, "index"])->name("admin.users.working-experience.index");
+                    Route::post("/", [UserWorkingExpController::class, "store"])->name("admin.users.working-experience.store");
+                    Route::put("/{workExperienceId}", [UserWorkingExpController::class, "update"])->name("admin.users.working-experience.update");
+                    Route::delete("/{workExperienceId}", [UserWorkingExpController::class, "destroy"])->name("admin.users.working-experience.destroy");
+                });
+
+                Route::get("/", [UserController::class, "showAccountDetail"])->name("admin.users.detail");
+            });
         });
     });
 });
