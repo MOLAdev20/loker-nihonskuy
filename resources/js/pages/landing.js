@@ -1,7 +1,57 @@
 import InitSearchableSelect from "../components/searchable-select";
+import Swiper from "swiper";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 document.addEventListener("DOMContentLoaded", () => {
     InitSearchableSelect();
+
+    (() => {
+        const urgentJobsSwiper = document.querySelector(".urgent-jobs-swiper");
+        const urgentJobsPrevButton = document.querySelector(".urgent-jobs-swiper-prev");
+        const urgentJobsNextButton = document.querySelector(".urgent-jobs-swiper-next");
+        const urgentJobsPagination = document.querySelector(".urgent-jobs-swiper-pagination");
+
+        if (!urgentJobsSwiper || !urgentJobsPrevButton || !urgentJobsNextButton || !urgentJobsPagination) {
+            return;
+        }
+
+        const slideCount = urgentJobsSwiper.querySelectorAll(".swiper-slide").length;
+        const isLoopEnabled = slideCount > 3;
+
+        new Swiper(urgentJobsSwiper, {
+            modules: [Autoplay, Navigation, Pagination],
+            slidesPerView: 1,
+            spaceBetween: 16,
+            loop: isLoopEnabled,
+            autoplay: slideCount > 1 ? {
+                delay: 2500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            } : false,
+            navigation: {
+                prevEl: urgentJobsPrevButton,
+                nextEl: urgentJobsNextButton,
+            },
+            pagination: {
+                el: urgentJobsPagination,
+                clickable: true,
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
+                },
+                1280: {
+                    slidesPerView: 3,
+                },
+            },
+        });
+    })();
 
     // Mobil menu toggle logic
     (() => {

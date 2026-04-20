@@ -88,6 +88,8 @@ class VacancyController extends Controller
                 'salary-to' => ['nullable'],
                 'benefit' => ['nullable', 'array'],
                 'benefit.*' => ['string'],
+                'special-tag' => ['nullable', 'array'],
+                'special-tag.*' => ['string', 'in:urgent'],
                 'expiration-date' => ['required'],
                 'additional-information' => [
                     'required',
@@ -129,6 +131,7 @@ class VacancyController extends Controller
         );
 
         $benefits = $validated['benefit'] ?? [];
+        $tags = $validated['special-tag'] ?? [];
 
         $salary = $validated['salary-from'];
 
@@ -150,6 +153,7 @@ class VacancyController extends Controller
             'qty' => $validated['qty'],
             'source' => $validated['source'] ?? null,
             'benefit' => count($benefits) ? implode('|', $benefits) : null,
+            'tags' => $this->normalizeTags($tags),
             'expired_at' => $validated['expiration-date'],
             'additional_information' => $validated['additional-information'],
         ]);
@@ -197,6 +201,8 @@ class VacancyController extends Controller
                 'source' => ['nullable', 'url'],
                 'benefit' => ['nullable', 'array'],
                 'benefit.*' => ['string'],
+                'special-tag' => ['nullable', 'array'],
+                'special-tag.*' => ['string', 'in:urgent'],
                 'expiration-date' => ['required'],
                 'additional-information' => [
                     'required',
@@ -234,6 +240,7 @@ class VacancyController extends Controller
         );
 
         $benefits = $validated['benefit'] ?? [];
+        $tags = $validated['special-tag'] ?? [];
 
         $salary = $validated['salary-from'];
 
@@ -254,6 +261,7 @@ class VacancyController extends Controller
             'qty' => $validated['qty'],
             'source' => $validated['source'] ?? null,
             'benefit' => count($benefits) ? implode('|', $benefits) : null,
+            'tags' => $this->normalizeTags($tags),
             'additional_information' => $validated['additional-information'],
             'expired_at' => $validated['expiration-date'],
         ]);
@@ -345,5 +353,16 @@ class VacancyController extends Controller
             'job_code' => $newJobCode,
             'message' => 'ID berhasil dirubah',
         ]);
+    }
+
+    private function normalizeTags(array $rawTags): ?string
+    {
+        $validTagList = ['urgent'];
+        $filteredTags = array_values(array_unique(array_filter(
+            $rawTags,
+            fn ($tag) => is_string($tag) && in_array($tag, $validTagList, true)
+        )));
+
+        return count($filteredTags) ? implode('|', $filteredTags) : null;
     }
 }

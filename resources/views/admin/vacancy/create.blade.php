@@ -290,6 +290,24 @@
             <label for="pray-tollerant">Toleransi Ibadah</label>
           </div>
         </div>
+        <div class="col-span-2 mt-5 gap-2">
+          <label class="text-sm">Tag Khusus</label>
+          @error('special-tag')
+            <span class="block text-[10px] text-red-600">{{ $message }}</span>
+          @enderror
+          @error('special-tag.*')
+            <span class="block text-[10px] text-red-600">{{ $message }}</span>
+          @enderror
+          @php
+            $selectedSpecialTags = old('special-tag', []);
+            $selectedSpecialTags = is_array($selectedSpecialTags) ? $selectedSpecialTags : [];
+          @endphp
+          <div>
+            <input type="checkbox" id="special-tag-urgent" value="urgent" name="special-tag[]"
+              @checked(in_array('urgent', $selectedSpecialTags, true))>
+            <label for="special-tag-urgent">Dibutuhkan Segera</label>
+          </div>
+        </div>
         <div class="col-span-2 flex flex-col gap-1">
           <label for="qty" class="text-sm">Kuantitas Dibutuhkan</label>
           @error('qty')
