@@ -1,0 +1,25 @@
+Buatkan document plan plan/setup-show-profile-user.md
+
+Tujuan (scope):
+Membuat UI / view baru (views/admin/user/detail.blade.php) pada admin dashboard untuk menampilkan detail  user yang sudah mendaftar (baik itu yang sudah mengisi data profile, riwayat pendidikan dan riwayat pekerjaan).
+
+Ketentuan:
+- tampilkan detail pengguna secara keseluruhan (table `users` joint with table `user_profile`, show all `user_education_history` and `user_working_experience`).
+- Style card
+
+- Menggunakan pola MVC
+
+Alur kerja:
+- Route di setting ke group route /admin/users/(:id)
+- Menggunakan controller Controllers/UserController -> sudah disiapkan, method ShowAccountDetail
+- Menggunakan model Models/User -> sudah disiapkan
+
+
+
+other requirement:
+- naming variabel, function etc harus camelCase
+
+
+*catatan:
+
+- Kerjakan requirement sesuai scope dan context. Tempatkan diri anda sebagai technical architect / PM / senior fullstack developer. Buat dokumen plan ini dengan Instruksi high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior fullstack programmer atau Program AI Model yang murah
