@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 class Vacancy extends Model
@@ -23,6 +24,7 @@ class Vacancy extends Model
         'domicile_requirement',
         'qty',
         'benefit',
+        'tags',
         'additional_information',
         'thumbnail_path',
         'expired_at',
@@ -64,6 +66,11 @@ class Vacancy extends Model
         return $this->benefit ? array_filter(explode('|', $this->benefit)) : [];
     }
 
+    public function getTagListAttribute(): array
+    {
+        return $this->tags ? array_values(array_filter(explode('|', $this->tags))) : [];
+    }
+
     // Assesor additional information
     public function getAdditionalInformationDeltaAttribute()
     {
@@ -91,5 +98,15 @@ class Vacancy extends Model
         }
 
         return $salaryRange;
+    }
+
+    public function scopeWithTag(Builder $query, string $tag): Builder
+    {
+        return $query->where(function (Builder $builder) use ($tag) {
+            $builder->where('tags', $tag)
+                ->orWhere('tags', 'like', $tag . '|%')
+                ->orWhere('tags', 'like', '%|' . $tag . '|%')
+                ->orWhere('tags', 'like', '%|' . $tag);
+        });
     }
 }

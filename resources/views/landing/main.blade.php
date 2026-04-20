@@ -75,6 +75,50 @@
     </div>
   </section>
 
+  @if ($urgentJobs->isNotEmpty())
+    <section class="sm:mt-15 mx-auto max-w-6xl px-4 pb-14 sm:px-6">
+      <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-center">
+        <div class="text-center">
+          <h2 class="text-2xl font-semibold tracking-tight">🔥 Dibutuhkan Segera</h2>
+          <p class="mt-1 text-sm text-slate-600">Perusahaan ini sedang secepatnya membutuhkan
+            kandidat!</p>
+        </div>
+      </div>
+
+      <div class="urgent-jobs-swiper swiper mt-6">
+        <div class="swiper-wrapper pb-2">
+          @foreach ($urgentJobs as $urgentJob)
+            <div class="swiper-slide h-auto">
+              <x-job-card :dataJob="$urgentJob" />
+            </div>
+          @endforeach
+        </div>
+      </div>
+
+      <div class="mt-5 flex items-center justify-between">
+        <div class="urgent-jobs-swiper-pagination"></div>
+        <div class="flex items-center gap-2">
+          <button type="button"
+            class="urgent-jobs-swiper-prev inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50"
+            aria-label="Slide sebelumnya">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <button type="button"
+            class="urgent-jobs-swiper-next inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50"
+            aria-label="Slide berikutnya">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+  @endif
+
   <!-- Top 6 Jobs -->
   <section id="jobs" class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
     <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-center">
@@ -158,7 +202,8 @@
             </div>
             <div>
               <div class="text-sm font-semibold">Dukungan dari Tim Nihonskuy 24/7</div>
-              <div class="text-sm text-slate-600">Butuh bantuan atau sekedar tanya-tanya? Minskuy siap
+              <div class="text-sm text-slate-600">Butuh bantuan atau sekedar tanya-tanya? Minskuy
+                siap
                 membantu</div>
             </div>
           </div>

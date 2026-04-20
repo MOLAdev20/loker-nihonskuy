@@ -1,0 +1,68 @@
+Buatkan dokumen plan di plan/add-tag-in-vacancy.md
+
+Tujuan / akan ditambah / diubah:
+- Membuat klasifikasi khusus untuk data loker (Dibutuhkan Secepatnya, Prioritas, dan sebagainya)
+- Sehingga data loker bisa ditampilkan di tempat - tempat yang strategis, misalnya main public page
+- Menambahkan section "Urgently Needed" di halaman public utama (landing/main.blade.php)
+
+Alur kerja:
+- Buat migration add_tag_in_vacancies nama kolomnya tags STRING 255, nullable.
+- Tambah field berupa checkbox bernama "Tag Khusus" berisi satu pilihan saja (sementara ini) bernama "Dibutuhkan Segera (value: urgent)" di halaman form create atau update loker
+- Request dari user berupa string (urgent|tag1|tag2|tagn...)
+- Buat section "Urgently Needed" di halaman public utama (landing/main.blade.php) di bawah section "Paling banyak dilamar"
+- Section "Urgently Needed" bertuliskan "🔥 Dibutuhkan Segera" dengan subjudul "Perusahaan ini sedang secepatnya membutuhkan kandidat!" berisi satu atau lebih loker yang memiliki tag "urgent".
+- Job card / data loker yang diinput, berlayout 1 * 4 dengan efek animasi slide persection yang jalan/ngeslide secara otomatis (Gunakan swiper.js https://swiperjs.com/)
+- Gunakan elemen/komponen job card yang sudah ada di views/components/job-card.blade.php
+
+*notes
+Kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah
+
+== Revisi
+
+Revisi pada bagian "Urgently Needed" di halaman public main page (views/landing/main.blade.php)
+
+- Layout job 1 * 3
+- Berikan indikator switch slide, dan tombol kiri kanan untuk mengatur arah slide
+
+== English Ver
+
+
+Create Document Plan in plan/add-tag-in-vacancy.md
+
+Objective:
+Implement a tagging system for job vacancies to allow strategic classification (e.g., "Urgently Needed") and display them on the landing page.
+
+Technical Requirements:
+
+Database: Create a migration to add a nullable tags column (STRING) to the vacancies table.
+
+Admin Implementation:
+
+Add a "Special Tag" checkbox in the Create/Update vacancy forms.
+
+Initially, provide one option: "Dibutuhkan Segera" (Value: urgent).
+
+Store the tags as a delimited string (e.g., urgent|tag2).
+
+Data Fetching: Update the Landing Page Controller to fetch vacancies where the tags column contains urgent.
+
+UI Implementation (landing/main.blade.php):
+
+Add an "Urgently Needed" section below the "Most Applied" section.
+
+Title: "🔥 Dibutuhkan Segera" with a descriptive subtitle.
+
+Layout: 1x4 grid display.
+
+Component: Reuse views/components/job-card.blade.php.
+
+Animation: Implement an auto-sliding/carousel effect for this section (use swiper.js https://swiperjs.com/).
+
+Workflow Constraints:
+
+Follow MVC patterns.
+
+Variable and function naming must use camelCase.
+
+Instructions are high-level; implement efficient logic for string-based tag filtering.
