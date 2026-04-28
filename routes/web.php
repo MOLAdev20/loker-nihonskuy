@@ -15,6 +15,7 @@ use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\WorkExperienceController;
 
 Route::get("/", [LandingController::class, "index"])->name("home");
+Route::get("/matching-job", [LandingController::class, "matchingJob"])->name("matching.job");
 Route::get("/vacancies", [LandingController::class, "explore"])->name("vacancies");
 Route::get("/vacancy/{id}", [LandingController::class, "detail"])->name("vacancy.detail");
 
