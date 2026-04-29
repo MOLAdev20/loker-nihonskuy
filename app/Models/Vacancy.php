@@ -22,6 +22,7 @@ class Vacancy extends Model
         'whatsapp_number',
         'gender_requirement',
         'domicile_requirement',
+        'jlpt_requirement',
         'qty',
         'benefit',
         'tags',
@@ -58,6 +59,20 @@ class Vacancy extends Model
         ];
 
         return $domicileLabels[$this->domicile_requirement] ?? 'Tidak ditentukan';
+    }
+
+    public function getJlptRequirementLabelAttribute(): string
+    {
+        $jlptLabels = [
+            'n5' => 'N5',
+            'n4' => 'N4',
+            'n3' => 'N3',
+            'n2' => 'N2',
+            'n1' => 'N1',
+            'all' => 'Bebas',
+        ];
+
+        return $jlptLabels[$this->jlpt_requirement] ?? '-';
     }
 
     // Assesor

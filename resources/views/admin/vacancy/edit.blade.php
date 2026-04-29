@@ -201,6 +201,22 @@
               Jepang</option>
           </select>
         </div>
+        <div class="col-span-2 flex flex-col gap-1">
+          <label for="jlpt-requirement" class="text-sm">Persyaratan JLPT</label>
+          @error('jlpt-requirement')
+            <span class="text-[10px] text-red-600">{{ $message }}</span>
+          @enderror
+          <select name="jlpt-requirement" id="jlpt-requirement"
+            class="{{ $errors->has('jlpt-requirement') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }} rounded border bg-white px-2 py-1 text-sm outline-none transition-all focus:border">
+            <option value="">Pilih</option>
+            <option value="n5" @selected(old('jlpt-requirement', $job->jlpt_requirement) === 'n5')>N5</option>
+            <option value="n4" @selected(old('jlpt-requirement', $job->jlpt_requirement) === 'n4')>N4</option>
+            <option value="n3" @selected(old('jlpt-requirement', $job->jlpt_requirement) === 'n3')>N3</option>
+            <option value="n2" @selected(old('jlpt-requirement', $job->jlpt_requirement) === 'n2')>N2</option>
+            <option value="n1" @selected(old('jlpt-requirement', $job->jlpt_requirement) === 'n1')>N1</option>
+            <option value="all" @selected(old('jlpt-requirement', $job->jlpt_requirement) === 'all')>Bebas</option>
+          </select>
+        </div>
         <div class="col-span-2 mt-5 gap-2">
           <label class="text-sm">Benefit & Fasilitas</label>
           @php
