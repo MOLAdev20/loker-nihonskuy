@@ -131,6 +131,9 @@
             <span class="rounded bg-slate-100 px-2 py-0.5">
               {{ $job->domicile }}
             </span>
+            <span class="rounded bg-slate-100 px-2 py-0.5">
+              JLPT {{ $job->jlpt_requirement_label }}
+            </span>
             <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->qty }} Orang</span>
           </div>
 

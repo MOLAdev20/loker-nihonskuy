@@ -4,15 +4,21 @@
   class="hover:shadow-soft group relative rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5">
   <a href="{{ route('vacancy.detail', $dataJob->job_code) }}"
     class="absolute inset-0 z-10 opacity-0"></a>
-  <div class="flex items-start justify-between gap-3">
-    <div class="min-w-0">
-      <h3 class="runcate mb-2 text-wrap text-lg font-semibold"><a
-          href="/jobs/{{ $dataJob->job_code }}">{{ $dataJob->title }}</a></h3>
+  <div>
+    <h3 class="runcate mb-2 text-wrap text-lg font-semibold"><a
+        href="/jobs/{{ $dataJob->job_code }}">{{ $dataJob->title }}</a></h3>
+    <div class="flex items-start justify-between gap-3">
+      <div class="min-w-0 flex-1">
       <p class="mt-1 flex items-center gap-2 text-sm text-slate-600"><x-icons.map
           size="15" />{{ $dataJob->placement . ($dataJob->placement_branch ? ' - ' . $dataJob->placement_branch : '') }}
       </p>
       <p class="mt-1 flex items-center gap-2 text-sm text-slate-600"><x-icons.folderInput
-          size="15" />{{ $dataJob->visa_type }}</p>
+          size="15" />{{ $dataJob->job_type }}</p>
+      </div>
+      <span
+        class="inline-flex shrink-0 items-center rounded-full bg-green-600 px-3 py-1 text-xs font-semibold text-white">
+        {{ $dataJob->jlpt_requirement_label }}
+      </span>
     </div>
   </div>
   <div class="mt-3 border-t border-dashed border-slate-300">
