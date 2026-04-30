@@ -15,10 +15,19 @@ class ProfileController extends Controller
 {
     public function showProfile()
     {
-        $profile = UserProfile::where('user_id', auth()->id())->first();
+        $userId = auth()->id();
+        $profile = UserProfile::where('user_id', $userId)->first();
+        $educationHistories = UserEducationHistory::where('user_id', $userId)
+            ->orderByDesc('date_of_entry')
+            ->get();
+        $workExperiences = WorkExperience::where('user_id', $userId)
+            ->orderByDesc('date_of_join')
+            ->get();
 
         return view("user.profile", [
-            "profile" => $profile
+            "profile" => $profile,
+            "educationHistories" => $educationHistories,
+            "workExperiences" => $workExperiences,
         ]);
     }
 
@@ -82,5 +91,4 @@ class ProfileController extends Controller
             'technical_experience' => $validatedData['technicalExperience'],
         ];
     }
-
 }
