@@ -250,6 +250,21 @@
             <option value="all" @selected(old('jlpt-requirement') === 'all')>Bebas</option>
           </select>
         </div>
+        <div class="col-span-2 flex flex-col gap-1">
+          <label for="kaiwa-requirement" class="text-sm">Level Kaiwa</label>
+          @error('kaiwa-requirement')
+            <span class="text-[10px] text-red-600">{{ $message }}</span>
+          @enderror
+          <select name="kaiwa-requirement" id="kaiwa-requirement"
+            class="{{ $errors->has('kaiwa-requirement') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }} rounded border bg-white px-2 py-1 text-sm outline-none transition-all focus:border">
+            <option value="">Pilih</option>
+            <option value="n5" @selected(old('kaiwa-requirement') === 'n5')>N5</option>
+            <option value="n4" @selected(old('kaiwa-requirement') === 'n4')>N4</option>
+            <option value="n3" @selected(old('kaiwa-requirement') === 'n3')>N3</option>
+            <option value="n2" @selected(old('kaiwa-requirement') === 'n2')>N2</option>
+            <option value="n1" @selected(old('kaiwa-requirement') === 'n1')>N1</option>
+          </select>
+        </div>
         <div class="col-span-2 mt-5 gap-2">
           <label for="additional-information" class="text-sm">Benefit & Fasilitas</label>
           <div>

@@ -15,16 +15,35 @@
       <p class="mt-1 flex items-center gap-2 text-sm text-slate-600"><x-icons.folderInput
           size="15" />{{ $dataJob->job_type }}</p>
       </div>
-      <span
-        class="inline-flex shrink-0 items-center rounded-full bg-green-600 px-3 py-1 text-xs font-semibold text-white">
-        {{ $dataJob->jlpt_requirement_label }}
-      </span>
     </div>
   </div>
   <div class="mt-3 border-t border-dashed border-slate-300">
     <div class="mt-1">
       <p class="text-xs text-slate-600">Syarat & Benefit</p>
       <div class="mt-2 flex flex-wrap gap-2">
+        @php
+          $jlptBadgeClass = [
+              'n1' => 'border-amber-300 bg-amber-100 text-amber-800',
+              'n2' => 'border-slate-300 bg-slate-200 text-slate-700',
+              'n3' => 'border-blue-300 bg-blue-100 text-blue-800',
+              'n4' => 'border-rose-300 bg-rose-100 text-rose-800',
+              'n5' => 'border-emerald-300 bg-emerald-100 text-emerald-800',
+          ][$dataJob->jlpt_requirement] ?? 'border-slate-300 bg-slate-100 text-slate-700';
+
+          $kaiwaBadgeClass = [
+              'n4' => 'border-rose-300 bg-rose-100 text-rose-800',
+              'n3' => 'border-blue-300 bg-blue-100 text-blue-800',
+              'n2' => 'border-slate-300 bg-slate-200 text-slate-700',
+          ][$dataJob->kaiwa_requirement] ?? 'border-cyan-300 bg-cyan-100 text-cyan-800';
+        @endphp
+        <span
+          class="rounded-full border px-2.5 py-1 text-[11px] font-medium {{ $jlptBadgeClass }}">
+          JLPT {{ $dataJob->jlpt_requirement_label }}
+        </span>
+        <span
+          class="rounded-full border px-2.5 py-1 text-[11px] font-medium {{ $kaiwaBadgeClass }}">
+          Kaiwa {{ $dataJob->kaiwa_requirement_label }}
+        </span>
         <span
           class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
           {{ $dataJob->domicile }}

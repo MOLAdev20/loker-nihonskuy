@@ -156,6 +156,17 @@
                     </div>
                     <div>
                       <div>
+                        <h3 class="text-sm font-bold">Level Kaiwa</h3>
+                        <p class="text-xs font-medium">{{ $job->kaiwa_requirement_label }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-4 rounded-lg">
+                    <div class="rounded-full bg-green-200 p-2">
+                      <x-icons.users size="15" />
+                    </div>
+                    <div>
+                      <div>
                         <h3 class="text-sm font-bold">Jumlah Dibutuhkan</h3>
                         <p class="text-xs font-medium">{{ $job->qty }} Orang</p>
                       </div>
