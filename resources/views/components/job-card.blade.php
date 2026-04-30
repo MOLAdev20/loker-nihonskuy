@@ -13,7 +13,7 @@
           size="15" />{{ $dataJob->placement . ($dataJob->placement_branch ? ' - ' . $dataJob->placement_branch : '') }}
       </p>
       <p class="mt-1 flex items-center gap-2 text-sm text-slate-600"><x-icons.folderInput
-          size="15" />{{ $dataJob->job_type }}</p>
+          size="15" />{{ $dataJob->visa_type }}</p>
       </div>
     </div>
   </div>
