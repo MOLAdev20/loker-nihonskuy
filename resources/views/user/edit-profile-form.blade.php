@@ -63,31 +63,37 @@
                         <input type="text" name="agama" class="mt-2 w-full rounded-lg border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:border-slate-400 focus:ring-0" placeholder="Islam" value="{{ old('agama') }}" />
                     </div>
                     <div>
-                        <label class="text-sm font-medium text-slate-700">Hijab</label>
+                        <label class="text-sm font-medium text-slate-700">Apakah Menggunakan Hijab?</label>
                         <select name="hijab" class="mt-2 w-full rounded-lg border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:border-slate-400 focus:ring-0">
-                            <option value="Ya" @selected(old('hijab') === 'Ya')>Ya</option>
-                            <option value="Tidak" @selected(old('hijab') === 'Tidak')>Tidak</option>
+                            <option value="Saya ingin memakai jilbab" @selected(old('hijab') === 'Saya ingin memakai jilbab')>Saya ingin memakai jilbab</option>
+                            <option value="Saya bisa menyesuaikan situasi" @selected(old('hijab') === 'Saya bisa menyesuaikan situasi')>Saya bisa menyesuaikan situasi</option>
+                            <option value="Saya tidak berencana memakainya" @selected(old('hijab') === 'Saya tidak berencana memakainya')>Saya tidak berencana memakainya</option>
                         </select>
                     </div>
                     <div>
-                        <label class="text-sm font-medium text-slate-700">Salat</label>
+                        <label class="text-sm font-medium text-slate-700">Kebutuhan Ibadah</label>
                         <select name="salat" class="mt-2 w-full rounded-lg border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:border-slate-400 focus:ring-0">
-                            <option value="Ya" @selected(old('salat') === 'Ya')>Ya</option>
-                            <option value="Tidak" @selected(old('salat') === 'Tidak')>Tidak</option>
+                            <option value="Saya sangat membutuhkan fasilitas ibadah" @selected(old('salat') === 'Saya sangat membutuhkan fasilitas ibadah')>Saya sangat membutuhkan fasilitas ibadah</option>
+                            <option value="Bisa menyesuaikan kondisi" @selected(old('salat') === 'Bisa menyesuaikan kondisi')>Bisa menyesuaikan kondisi</option>
+                            <option value="Saya tidak membutuhkannya" @selected(old('salat') === 'Saya tidak membutuhkannya')>Saya tidak membutuhkannya</option>
                         </select>
                     </div>
                     <div>
-                        <label class="text-sm font-medium text-slate-700">Toleransi Babi</label>
+                        <label class="text-sm font-medium text-slate-700">Toleransi terhadap daging babi</label>
                         <select name="toleransi_babi" class="mt-2 w-full rounded-lg border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:border-slate-400 focus:ring-0">
-                            <option value="Ya" @selected(old('toleransi_babi') === 'Ya')>Ya</option>
-                            <option value="Tidak" @selected(old('toleransi_babi') === 'Tidak')>Tidak</option>
+                            <option value="Tidak boleh ada keterlibatan dengan babi sama sekali" @selected(old('toleransi_babi') === 'Tidak boleh ada keterlibatan dengan babi sama sekali')>Tidak boleh ada keterlibatan dengan babi sama sekali</option>
+                            <option value="Boleh memasak, tapi tidak mencicipi/mengonsumsi" @selected(old('toleransi_babi') === 'Boleh memasak, tapi tidak mencicipi/mengonsumsi')>Boleh memasak, tapi tidak mencicipi/mengonsumsi</option>
+                            <option value="Boleh memasak & mencicipi, tapi tidak mengonsumsi" @selected(old('toleransi_babi') === 'Boleh memasak & mencicipi, tapi tidak mengonsumsi')>Boleh memasak & mencicipi, tapi tidak mengonsumsi</option>
+                            <option value="Tidak ada batasan terkait daging babi (bebas)" @selected(old('toleransi_babi') === 'Tidak ada batasan terkait daging babi (bebas)')>Tidak ada batasan terkait daging babi (bebas)</option>
                         </select>
                     </div>
                     <div>
-                        <label class="text-sm font-medium text-slate-700">Toleransi Alkohol</label>
+                        <label class="text-sm font-medium text-slate-700">Toleransi terhadap Alkohol</label>
                         <select name="toleransi_alkohol" class="mt-2 w-full rounded-lg border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:border-slate-400 focus:ring-0">
-                            <option value="Ya" @selected(old('toleransi_alkohol') === 'Ya')>Ya</option>
-                            <option value="Tidak" @selected(old('toleransi_alkohol') === 'Tidak')>Tidak</option>
+                            <option value="Tidak boleh ada keterlibatan alkohol sama sekali" @selected(old('toleransi_alkohol') === 'Tidak boleh ada keterlibatan alkohol sama sekali')>Tidak boleh ada keterlibatan alkohol sama sekali</option>
+                            <option value="Boleh menyiapkan, tapi tidak mencicipi/minum" @selected(old('toleransi_alkohol') === 'Boleh menyiapkan, tapi tidak mencicipi/minum')>Boleh menyiapkan, tapi tidak mencicipi/minum</option>
+                            <option value="Boleh menyiapkan & mencicipi, tapi tidak minum" @selected(old('toleransi_alkohol') === 'Boleh menyiapkan & mencicipi, tapi tidak minum')>Boleh menyiapkan & mencicipi, tapi tidak minum</option>
+                            <option value="Tidak ada batasan terkait alkohol (bebas)" @selected(old('toleransi_alkohol') === 'Tidak ada batasan terkait alkohol (bebas)')>Tidak ada batasan terkait alkohol (bebas)</option>
                         </select>
                     </div>
                     <div>
