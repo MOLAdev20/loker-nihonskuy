@@ -112,9 +112,14 @@
           @error('visa-type')
             <span class="text-[10px] text-red-600">{{ $message }}</span>
           @enderror
-          <input type="text" name="visa-type" id="visa-type"
-            value="{{ old('visa-type', $job->visa_type) }}"
+          <select name="visa-type" id="visa-type"
             class="{{ $errors->has('visa-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }} rounded border bg-white px-2 py-1 text-sm outline-none transition-all focus:border">
+            <option value="">Pilih</option>
+            <option value="Tokutei Ginou 1" @selected(old('visa-type', $job->visa_type) === 'Tokutei Ginou 1')>Tokutei Ginou 1</option>
+            <option value="Tokutei Ginou 2" @selected(old('visa-type', $job->visa_type) === 'Tokutei Ginou 2')>Tokutei Ginou 2</option>
+            <option value="Kaigo Visa" @selected(old('visa-type', $job->visa_type) === 'Kaigo Visa')>Kaigo Visa</option>
+            <option value="GIjinkoku" @selected(old('visa-type', $job->visa_type) === 'GIjinkoku')>GIjinkoku</option>
+          </select>
         </div>
         <div class="col-span-2 flex flex-col gap-1">
           <label for="placement-branch" class="text-sm">Cabang Penempatan</label>
