@@ -23,6 +23,7 @@ class Vacancy extends Model
         'gender_requirement',
         'domicile_requirement',
         'jlpt_requirement',
+        'kaiwa_requirement',
         'qty',
         'benefit',
         'tags',
@@ -73,6 +74,19 @@ class Vacancy extends Model
         ];
 
         return $jlptLabels[$this->jlpt_requirement] ?? '-';
+    }
+
+    public function getKaiwaRequirementLabelAttribute(): string
+    {
+        $kaiwaLabels = [
+            'n5' => 'N5',
+            'n4' => 'N4',
+            'n3' => 'N3',
+            'n2' => 'N2',
+            'n1' => 'N1',
+        ];
+
+        return $kaiwaLabels[$this->kaiwa_requirement] ?? '-';
     }
 
     // Assesor
