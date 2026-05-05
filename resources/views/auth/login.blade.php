@@ -1,97 +1,95 @@
-<!DOCTYPE html>
-<html lang="id">
+@section("title", "Masuk ke Akun - Nihonskuy")
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Masuk Akun - Nihonskuy</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+<x-guest-layout>
+    <div class="min-h-screen bg-slate-100">
+        <div class="mx-auto flex min-h-screen w-full max-w-6xl items-center px-4 py-8 sm:px-6 lg:px-8">
+            <div class="w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 md:grid md:grid-cols-2">
+                <section class="p-6 sm:p-10 md:p-12">
+                    <div class="mx-auto w-full max-w-md">
+                        @php
+                            $backUrl = url()->previous() !== url()->current() ? url()->previous() : url('/');
+                        @endphp
+                        <a href="{{ $backUrl }}" class="mb-4 inline-flex items-center gap-2 text-sm font-medium text-slate-600 transition hover:text-slate-900">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="m15 18-6-6 6-6" />
+                            </svg>
+                            Kembali
+                        </a>
+                        <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">Login</h1>
+                        <p class="mt-3 text-sm leading-relaxed text-slate-600">Masuk ke akun Nihonskuy untuk memproses lamaran</p>
 
-    body {
-      font-family: 'Noto Sans JP', sans-serif;
-    }
-  </style>
-</head>
+                        <x-auth-session-status class="mt-6" :status="session('status')" />
 
-<body class="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f7f7f5]">
+                        <form method="POST" action="{{ route('login') }}" class="mt-6 space-y-5">
+                            @csrf
 
-  <div
-    class="h-125 w-125 pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-600 opacity-10 blur-[120px]">
-  </div>
+                            <div>
+                                <x-input-label for="email" :value="__('Email')" class="mb-2 text-slate-700" />
+                                <input type="email" id="email" name="email" value="{{ old('email') }}"
+                                    class="{{ $errors->has('email') ? 'border-blue-400 ring-blue-100' : 'border-slate-200' }} w-full rounded-xl border bg-white px-4 py-3 text-slate-800 placeholder-slate-400 outline-none transition-all focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+                                    placeholder="nama@email.com" required autofocus>
+                                <x-input-error :messages="$errors->get('email')" class="mt-1 text-xs" />
+                            </div>
 
-  <div
-    class="relative z-10 w-full max-w-md rounded-3xl border border-white/50 bg-white/70 p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-md">
+                            <div>
+                                <x-input-label for="password" :value="__('Kata Sandi')" class="mb-2 text-slate-700" />
+                                <div class="relative">
+                                    <input type="password" id="password" name="password"
+                                        class="{{ $errors->has('password') ? 'border-blue-400 ring-blue-100' : 'border-slate-200' }} w-full rounded-xl border bg-white px-4 py-3 pr-11 text-slate-800 placeholder-slate-400 outline-none transition-all focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+                                        placeholder="Masukkan kata sandi..." required>
+                                    <button type="button" id="togglePassword"
+                                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 transition-colors hover:text-red-500 focus:outline-none"
+                                        aria-label="Tampilkan atau sembunyikan kata sandi">
+                                        <span id="eyeOpenIcon"><x-icons.eye /></span>
+                                        <span id="eyeCloseIcon" class="hidden"><x-icons.eyeSlash /></span>
+                                    </button>
+                                </div>
+                                <x-input-error :messages="$errors->get('password')" class="mt-1 text-xs" />
+                            </div>
 
-    <div class="mb-10 text-center">
-      <h1 class="mb-2 text-4xl font-bold tracking-widest text-slate-800">Login</h1>
-      <p class="text-xs font-medium uppercase tracking-[0.3em] text-slate-500">おかえり
-      </p>
-    </div>
+                            <button type="submit"
+                                class="w-full rounded-xl cursor-pointer bg-slate-900 px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-slate-800">
+                                Masuk
+                            </button>
+                        </form>
 
-    <form method="post" action="{{ route('login') }}" class="space-y-6">
-      @csrf
-      <div>
-        <label for="email" class="mb-2 block text-sm font-medium text-slate-700">Email</label>
-        <input type="email" id="email" name="email"
-          class="w-full rounded-xl border border-slate-200 bg-white/50 px-4 py-3 text-slate-700 placeholder-slate-400 outline-none transition-all duration-300 focus:border-red-400 focus:ring-2 focus:ring-red-400"
-          placeholder="nama@email.com" required>
-      </div>
+                        <div class="mt-7 text-sm text-slate-600">
+                            Belum punya akun?
+                            <a href="{{ route('register') }}" class="font-semibold text-blue-600 transition hover:text-blue-700">Daftar sekarang</a>
+                        </div>
+                    </div>
+                </section>
 
-      <div>
-        <label for="password" class="mb-2 block text-sm font-medium text-slate-700">Kata
-          Sandi</label>
-        <div class="relative">
-          <input type="password" id="password" name="password"
-            class="w-full rounded-xl border border-slate-200 bg-white/50 px-4 py-3 text-slate-700 placeholder-slate-400 outline-none transition-all duration-300 focus:border-red-400 focus:ring-2 focus:ring-red-400"
-            placeholder="Masukkan sandi..." required>
-
-          <button type="button" id="togglePassword"
-            class="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 transition-colors hover:text-red-500 focus:outline-none">
-            <i class="fa-regular fa-eye" id="eyeIcon"></i>
-          </button>
+                <aside class="relative hidden md:block">
+                    <img src="{{ asset('artwork.png') }}" alt="Ilustrasi persiapan kerja Jepang" class="absolute inset-0 h-full w-full object-cover">
+                    <div class="absolute inset-0 bg-slate-900/45"></div>
+                    <div class="absolute inset-x-0 bottom-0 p-8 text-white lg:p-10">
+                        <p class="text-xs font-semibold uppercase tracking-[0.24em] text-red-200">Welcome Back</p>
+                        <h2 class="mt-2 text-2xl font-bold leading-tight lg:text-3xl">Karier Jepang Dimulai dari Satu Langkah Konsisten</h2>
+                        <p class="mt-3 max-w-sm text-sm text-slate-100/90">Masuk untuk melanjutkan perjalanan Anda menuju peluang kerja terbaik di Jepang.</p>
+                    </div>
+                </aside>
+            </div>
         </div>
-      </div>
-
-      <button type="submit"
-        class="mt-4 w-full transform rounded-xl bg-slate-800 py-3.5 font-medium text-white shadow-lg shadow-slate-900/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-900 hover:shadow-xl hover:shadow-slate-900/30 active:translate-y-0">
-        Masuk
-      </button>
-    </form>
-
-    <div class="mt-10 text-center text-sm text-slate-600">
-      Belum punya akun?
-      <a href="{{ route('register') }}"
-        class="ml-1 border-b border-transparent pb-0.5 font-semibold text-red-600 transition-colors hover:border-red-600 hover:text-red-700">
-        Daftar sekarang
-      </a>
     </div>
 
-  </div>
+    @push('scripts')
+        <script>
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+            const eyeOpenIcon = document.getElementById('eyeOpenIcon');
+            const eyeCloseIcon = document.getElementById('eyeCloseIcon');
 
-  <script>
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
-    const eyeIcon = document.getElementById('eyeIcon');
+            if (togglePassword && passwordInput && eyeOpenIcon && eyeCloseIcon) {
+                togglePassword.addEventListener('click', () => {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    const isVisible = type === 'text';
+                    passwordInput.setAttribute('type', type);
 
-    togglePassword.addEventListener('click', () => {
-      // Toggle type attribute
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordInput.setAttribute('type', type);
-
-      // Toggle icon classes
-      if (type === 'text') {
-        eyeIcon.classList.remove('fa-eye');
-        eyeIcon.classList.add('fa-eye-slash');
-      } else {
-        eyeIcon.classList.remove('fa-eye-slash');
-        eyeIcon.classList.add('fa-eye');
-      }
-    });
-  </script>
-</body>
-
-</html>
+                    eyeOpenIcon.classList.toggle('hidden', isVisible);
+                    eyeCloseIcon.classList.toggle('hidden', !isVisible);
+                });
+            }
+        </script>
+    @endpush
+</x-guest-layout>

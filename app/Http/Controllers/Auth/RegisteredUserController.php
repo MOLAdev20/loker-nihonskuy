@@ -101,7 +101,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('home')->with('status', 'Registrasi berhasil.');
+        return redirect()->route('verification.notice')->with('status', 'Registrasi berhasil. Silakan cek email untuk aktivasi akun.');
     }
 
     private function isValidReferalCode(string $refCode): bool

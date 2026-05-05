@@ -89,6 +89,8 @@ class LandingUrgentVacancyTest extends TestCase
             "whatsapp_number" => "6281200000000",
             "gender_requirement" => "a",
             "domicile_requirement" => "kokugai",
+            "jlpt_requirement" => "all",
+            "kaiwa_requirement" => null,
             "qty" => 2,
             "benefit" => null,
             "tags" => null,
