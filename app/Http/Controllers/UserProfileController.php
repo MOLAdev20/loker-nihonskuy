@@ -8,6 +8,8 @@ use App\Models\User\UserEducationHistory;
 use App\Models\User\UserProfile;
 use App\Models\User\WorkExperience;
 use App\Support\AdminUserFormWizardBuilder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserProfileController extends Controller
 {
@@ -47,6 +49,45 @@ class UserProfileController extends Controller
         return redirect()
             ->route("admin.users.education.index", $user->id)
             ->with("status", "Data profil user berhasil disimpan.");
+    }
+
+    public function uploadProfilePicture(Request $request, int $id)
+    {
+        $validated = $request->validate([
+            "profilePicture" => ["required", "image", "mimes:jpg,jpeg,png,webp", "max:2048"],
+        ]);
+
+        $user = User::query()
+            ->with("userProfile")
+            ->findOrFail($id);
+
+        if (!$user->userProfile) {
+            return redirect()
+                ->route("admin.users.detail", $user->id)
+                ->with("error", "Data profile user belum tersedia. Lengkapi profile terlebih dahulu.");
+        }
+
+        $profile = $user->userProfile;
+        $currentProfilePicture = $profile->profile_picture;
+        $isCurrentExternalUrl = $currentProfilePicture &&
+            (str_starts_with($currentProfilePicture, "http://") || str_starts_with($currentProfilePicture, "https://"));
+
+        if ($currentProfilePicture && !$isCurrentExternalUrl && $currentProfilePicture !== "default.jpg") {
+            $currentProfilePicturePath = ltrim($currentProfilePicture, "/");
+
+            if (Storage::disk("public")->exists($currentProfilePicturePath)) {
+                Storage::disk("public")->delete($currentProfilePicturePath);
+            }
+        }
+
+        $uploadedPath = $validated["profilePicture"]->store("user-profile-pictures", "public");
+        $profile->update([
+            "profile_picture" => $uploadedPath,
+        ]);
+
+        return redirect()
+            ->route("admin.users.detail", $user->id)
+            ->with("status", "Foto profile berhasil diperbarui.");
     }
 
     private function mapProfilePayload(array $validatedData): array
