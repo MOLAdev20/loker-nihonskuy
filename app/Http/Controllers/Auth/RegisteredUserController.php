@@ -60,9 +60,9 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $validated = $request->validate([
             'fullname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'email' => ['required', 'string', 'lowercase', 'email:rfc,dns', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed:confirm-pwd', Rules\Password::defaults()],
             'ref_code' => [
                 'nullable',
@@ -81,6 +81,7 @@ class RegisteredUserController extends Controller
         ], [
             'fullname.required' => "Nama lengkap wajib diisi",
             'fullname.max' => "Nama lengkap terlalu panjang",
+            'email.email' => "Email tidak valid",
             'email.required' => "Email wajib diisi",
             'email.max' => "Email terlalu panjang",
             'email.unique' => "Email sudah terdaftar",

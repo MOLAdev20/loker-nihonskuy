@@ -38,6 +38,7 @@
         <label for="name" class="mb-2 block text-sm font-medium text-slate-700">Nama
           Lengkap</label>
         <input type="text" id="name" name="fullname"
+        value="{{ old('fullname') }}"
           class="{{ $errors->has('fullname') ? 'border-red-400' : 'border-slate-200' }} w-full rounded-xl border bg-white/50 px-4 py-3 text-slate-700 placeholder-slate-400 outline-none transition-all duration-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400"
           placeholder="Taro Yamada" required />
         @error('fullname')
@@ -49,6 +50,7 @@
         <label for="email" class="mb-2 block text-sm font-medium text-slate-700">Alamat
           Email</label>
         <input type="email" id="email" name="email"
+        value="{{ old('email') }}"
           class="{{ $errors->has('email') ? 'border-red-400' : 'border-slate-200' }} w-full rounded-xl border bg-white/50 px-4 py-3 text-slate-700 placeholder-slate-400 outline-none transition-all duration-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400"
           placeholder="nama@email.com" required>
         @error('email')
@@ -88,12 +90,10 @@
       </div>
 
       <div>
-        <label for="ref_code" class="mb-2 block text-sm font-medium text-slate-700">Kode
-          Referal</label>
+        <label for="ref_code" class="mb-2 block text-sm font-medium text-slate-700">Kode Referal (opsional)</label>
         <input type="text" id="ref_code" name="ref_code" value="{{ old('ref_code') }}"
           maxlength="12"
-          class="{{ $errors->has('ref_code') ? 'border-red-400' : 'border-slate-200' }} w-full rounded-xl border bg-white/50 px-4 py-3 uppercase text-slate-700 placeholder-slate-400 outline-none transition-all duration-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400"
-          placeholder="Masukkan kode referal (opsional)">
+          class="{{ $errors->has('ref_code') ? 'border-red-400' : 'border-slate-200' }} w-full rounded-xl border bg-white/50 px-4 py-3 text-slate-700 placeholder-slate-400 outline-none transition-all duration-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400">
         <small id="refCodeMessage"
           class="{{ $errors->has('ref_code') ? 'text-red-500' : 'text-slate-500' }} mt-1 block text-xs">
           {{ $errors->has('ref_code') ? $errors->first('ref_code') : 'Kode referal bersifat opsional.' }}
