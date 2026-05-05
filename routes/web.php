@@ -71,7 +71,7 @@ Route::prefix("admin")->group(function () {
     });
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get("/dashboard", [ProfileController::class, "showProfile"])->name("user.dashboard");
 
     // Profile

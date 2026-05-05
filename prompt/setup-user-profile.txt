@@ -1,0 +1,32 @@
+Buatkan document plan plan/setup-show-profile-user.md
+
+Tujuan (scope):
+*Mengedit UI / view (views/user/profile.blade.php) pada user dashboard untuk menampilkan seluruh detail informasi yang sudah user isi (data pribadi, riwayat pendidikan dan riwayat pekerjaan)*
+
+Ketentuan UI:
+- Tailwind CSS
+- Cukup ubah bagian konten
+- Layouting:
+ - Grid *6:
+  - grid 1~2 untuk ditempatkan foto profile
+  - grid 3~6 stacking card.: 
+   - Stack 1 (card) : menampilkan semua informasi pribadi user (table reference: user_profile). 
+   - Stack 2 (card) : menampilkan seluruh riwayat pendidikan user (table reference: user_education_history). 
+   - Stack 3 (card) : menampilkan seluruh riwayat pengalaman kerja user (table reference: user_working_experience).
+- Tampilkan link ke /print-resume dalam bentuk tombol bertuliskan "Download CV". Posisinya ada dii pojok kanan atas card user_profile
+- Jika user belum menginput data apapun (minimal profile), gird full, tampilkan card, lalu dengan header "Isi Data profile anda" dan sub header "Data profil membantu kami membuat CV dan memproses anda ke pihak perusahaan Jepang"
+
+Alur kerja:
+- Route di setting ke group route /dashboard
+- Menggunakan controller Controllers/User/ProfileController -> sudah disiapkan, method showProfile
+- Menggunakan model yang sudah disiapkan
+
+
+
+other requirement:
+- naming variabel, function etc harus camelCase
+
+
+*catatan:
+
+- Kerjakan requirement sesuai scope dan context. Tempatkan diri anda sebagai technical architect / PM / senior fullstack developer. Buat dokumen plan ini dengan Instruksi high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior fullstack programmer atau Program AI Model yang murah
