@@ -55,6 +55,7 @@ Route::prefix("admin")->group(function () {
                 Route::prefix("profile")->group(function () {
                     Route::get("/", [UserProfileController::class, "showForm"])->name("admin.users.profile.form");
                     Route::post("/", [UserProfileController::class, "store"])->name("admin.users.profile.store");
+                    Route::post("/upload-photo", [UserProfileController::class, "uploadProfilePicture"])->name("admin.users.profile.upload-photo");
                 });
 
                 Route::prefix("working-experience")->group(function () {
