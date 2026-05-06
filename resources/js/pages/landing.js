@@ -53,6 +53,83 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     })();
 
+    (() => {
+        const testimonialsSwiper = document.querySelector(".testimonials-swiper");
+        const testimonialsPrevButton = document.querySelector(".testimonials-swiper-prev");
+        const testimonialsNextButton = document.querySelector(".testimonials-swiper-next");
+        const testimonialsPagination = document.querySelector(".testimonials-swiper-pagination");
+
+        if (!testimonialsSwiper || !testimonialsPrevButton || !testimonialsNextButton || !testimonialsPagination) {
+            return;
+        }
+
+        const slideCount = testimonialsSwiper.querySelectorAll(".swiper-slide").length;
+
+        new Swiper(testimonialsSwiper, {
+            modules: [Autoplay, Navigation, Pagination],
+            slidesPerView: 1,
+            slidesPerGroup: 1,
+            spaceBetween: 16,
+            loop: slideCount > 1,
+            autoplay: slideCount > 1 ? {
+                delay: 4500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            } : false,
+            navigation: {
+                prevEl: testimonialsPrevButton,
+                nextEl: testimonialsNextButton,
+            },
+            pagination: {
+                el: testimonialsPagination,
+                clickable: true,
+            },
+        });
+    })();
+
+    (() => {
+        const rundownSwiper = document.querySelector(".rundown-swiper");
+        const rundownPrevButton = document.querySelector(".rundown-swiper-prev");
+        const rundownNextButton = document.querySelector(".rundown-swiper-next");
+        const rundownPagination = document.querySelector(".rundown-swiper-pagination");
+
+        if (!rundownSwiper || !rundownPrevButton || !rundownNextButton || !rundownPagination) {
+            return;
+        }
+
+        const slideCount = rundownSwiper.querySelectorAll(".swiper-slide").length;
+
+        new Swiper(rundownSwiper, {
+            modules: [Autoplay, Navigation, Pagination],
+            slidesPerView: 1,
+            slidesPerGroup: 1,
+            spaceBetween: 0,
+            loop: false,
+            autoplay: false,
+            navigation: {
+                prevEl: rundownPrevButton,
+                nextEl: rundownNextButton,
+            },
+            pagination: {
+                el: rundownPagination,
+                clickable: true,
+            },
+            breakpoints: {
+                0: {
+                    slidesPerView: 1.05,
+                },
+                640: {
+                    slidesPerView: 2,
+                    slidesPerGroup: 1,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    slidesPerGroup: 1,
+                },
+            },
+        });
+    })();
+
     // Mobil menu toggle logic
     (() => {
         const btn = document.getElementById("menu-btn");

@@ -16,11 +16,11 @@
         <p class="inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-700">
           Kelas Konsultasi Matching Job Jepang
         </p>
-        <h1 class="mt-4 text-3xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
+        <h1 class="mt-4 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
           Buka Peluang Kerja di Jepang dengan Strategi yang Tepat
         </h1>
         <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-          Dapatkan pendampingan terarah untuk menyiapkan profil, memilih lowongan yang sesuai, dan meningkatkan peluang lolos seleksi perusahaan Jepang.
+          Sukses menembus pasar kerja Jepang butuh strategi yang tepat. Dapatkan pendampingan menyeluruh untuk mengoptimalkan profil profesional Anda agar menonjol di mata rekruter, menemukan loker yang tepat sasaran, serta menguasai teknik seleksi khas perusahaan Jepang. Kami pastikan setiap langkah persiapan Anda terarah untuk memaksimalkan peluang diterimanya kontrak kerja (Naite) Anda.
         </p>
 
         <div class="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -49,7 +49,7 @@
   <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
     <div class="max-w-2xl">
       <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Informasi Program</h2>
-      <p class="mt-2 text-sm text-slate-600 sm:text-base">Rangkuman materi penting agar peserta memahami arah konsultasi sejak awal.</p>
+      <p class="mt-2 text-sm text-slate-600 sm:text-base">Apa itu program kelas Matching Job?</p>
     </div>
     <p class="mt-6 max-w-4xl text-sm leading-relaxed text-slate-600 sm:text-base">
       {{ $programIntroduction }}
@@ -65,6 +65,7 @@
     </div>
   </section>
 
+  {{-- Rundowns --}}
   <section class="bg-white py-14">
     <div class="mx-auto max-w-6xl px-4 sm:px-6">
       <div class="max-w-2xl">
@@ -72,24 +73,147 @@
         <p class="mt-2 text-sm text-slate-600 sm:text-base">Alur kegiatan inti selama program berjalan, disusun berurutan untuk memudahkan peserta mengikuti proses.</p>
       </div>
 
-      <div class="mt-8 overflow-x-auto pb-2">
-        <div class="relative min-w-[920px] px-2">
-          <div class="absolute left-16 right-16 top-5 h-0.5 bg-slate-300"></div>
-          <div class="grid grid-cols-4 gap-5">
-            @foreach ($timelines as $timeline)
-              <article class="relative pt-10">
-                <div class="absolute left-1/2 top-2 h-6 w-6 -translate-x-1/2 rounded-full border-4 border-white bg-slate-900 shadow-sm"></div>
-                <div class="h-full rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                  <h3 class="text-sm font-semibold text-slate-900 sm:text-base">{{ $timeline['title'] }}</h3>
-                  <p class="mt-2 text-sm leading-relaxed text-slate-600">{{ $timeline['description'] }}</p>
+      @php
+        $rundowns = [
+            [
+                'day' => 'Hari 1',
+                'title' => 'Japan Job Market & TSK Ecosystem',
+                'items' => [
+                    'Edukasi jenis-jenis loker di Jepang (SSW, Magang, Engineering).',
+                    'Bedah ekosistem TSK (Registered Support Organization) dan hak pekerja.',
+                ],
+            ],
+            [
+                'day' => 'Hari 2',
+                'title' => 'TSK Database & Market Research',
+                'items' => [
+                    'Akses ke Informasi Database 12.000 TSK Jepang.',
+                    'Teknik memfilter TSK berdasarkan prefektur dan bidang pekerjaan.',
+                ],
+            ],
+            [
+                'day' => 'Hari 3',
+                'title' => 'Japanese Standard CV Workshop',
+                'items' => [
+                    'Edukasi pembuatan CV & Rirekisho standar industri Jepang.',
+                    'Workshop digitalisasi dan pemeliharaan dokumen agar siap kirim.',
+                ],
+            ],
+            [
+                'day' => 'Hari 4',
+                'title' => 'Time Management & Professional Correspondence',
+                'items' => [
+                    'Sesi Mind Mapping Time & Email: Mengatur jadwal apply dan template email profesional.',
+                    'Dukungan konsultasi email (Copywriting lamaran agar dilirik HR).',
+                ],
+            ],
+            [
+                'day' => 'Hari 5',
+                'title' => 'Interview Etiquette & Mindset',
+                'items' => [
+                    'Edukasi etika interview (aisatsu, ojigi) dan mindset menjawab pertanyaan user Jepang.',
+                ],
+            ],
+            [
+                'day' => 'Hari 6',
+                'title' => 'Mock Interview I: Self-Introduction',
+                'items' => [
+                    'Latihan interview profesional ke-1 (Perkenalan diri & motivasi).',
+                    'Feedback langsung dan perbaikan kelemahan.',
+                ],
+            ],
+            [
+                'day' => 'Hari 7',
+                'title' => 'Mock Interview II & III: Technical Q&A',
+                'items' => [
+                    'Latihan interview profesional ke-2 & ke-3 (Studi kasus dan pertanyaan teknis).',
+                    'Optimasi jawaban berdasarkan pengalaman kerja peserta.',
+                ],
+            ],
+            [
+                'day' => 'Hari 8',
+                'title' => 'Mock Interview IV & V: Final Assessment',
+                'items' => [
+                    'Latihan interview profesional ke-4 & ke-5 (Simulasi final).',
+                    'Konsultasi khusus mengenai kendala spesifik peserta.',
+                ],
+            ],
+            [
+                'day' => 'Hari 9',
+                'title' => 'Active Job Application & TSK Consultation',
+                'items' => [
+                    'Praktik kirim lamaran masif ke database TSK yang sudah dipilih.',
+                    'Dukungan konsultasi TSK: Cara berkomunikasi efektif dengan staf TSK di Jepang.',
+                ],
+            ],
+            [
+                'day' => 'Hari 10',
+                'title' => 'Follow-up Strategy & Progress Tracking',
+                'items' => [
+                    'Edukasi teknik Follow up lamaran yang sudah dikirim ke TSK agar tidak "ghosting".',
+                    'Final Review: Pemeriksaan seluruh kesiapan mental dan administrasi sebelum masuk ke fase rekrutmen nyata.',
+                ],
+            ],
+        ];
+      @endphp
+
+      <div class="rundown-swiper swiper mt-8">
+        <div class="swiper-wrapper pb-2">
+          @foreach ($rundowns as $rundown)
+            <div class="swiper-slide h-auto">
+              <article class="relative h-full pt-9">
+                <div
+                  class="absolute top-3 h-0.5 bg-slate-300 {{ $loop->first ? 'left-1/2 right-0' : ($loop->last ? 'left-0 right-1/2' : 'left-0 right-0') }}">
+                </div>
+                <div
+                  class="absolute left-1/2 top-3 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-slate-900 shadow-sm animate-pulse">
+                </div>
+
+                <div class="mx-2 flex h-full flex-col rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                  <div
+                    class="inline-flex w-fit rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold text-slate-700">
+                    {{ $rundown['day'] }}
+                  </div>
+                  <h3 class="mt-3 text-base font-semibold tracking-tight text-slate-900">{{ $rundown['title'] }}</h3>
+                  <ul class="mt-4 space-y-3 text-sm leading-relaxed text-slate-600">
+                    @foreach ($rundown['items'] as $item)
+                      <li class="flex items-start gap-2">
+                        <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400"></span>
+                        <span>{{ $item }}</span>
+                      </li>
+                    @endforeach
+                  </ul>
                 </div>
               </article>
-            @endforeach
-          </div>
+            </div>
+          @endforeach
+        </div>
+      </div>
+
+      <div class="mt-5 flex items-center justify-between">
+        <div class="rundown-swiper-pagination"></div>
+        <div class="flex items-center gap-2">
+          <button type="button"
+            class="rundown-swiper-prev inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50"
+            aria-label="Slide sebelumnya">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <button type="button"
+            class="rundown-swiper-next inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50"
+            aria-label="Slide berikutnya">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
   </section>
+  {{-- End of Rundowns --}}
 
   <section id="pricing" class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
     <div class="text-center">
