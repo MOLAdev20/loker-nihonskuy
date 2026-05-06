@@ -259,6 +259,11 @@
               <label for="sallary-upgradable">Kenaikan Gaji</label>
             </div>
             <div>
+              <input type="checkbox" id="bonus" value="Bonus" name="benefit[]"
+                @checked(in_array('Bonus', $selectedBenefits, true))>
+              <label for="bonus">Bonus</label>
+            </div>
+            <div>
               <input type="checkbox" id="paid-overtime" value="Lembur" name="benefit[]"
                 @checked(in_array('Lembur', $selectedBenefits, true))>
               <label for="paid-overtime">Lembur</label>
@@ -277,11 +282,6 @@
               <input type="checkbox" id="kaigo-support" value="Support Kaigo" name="benefit[]"
                 @checked(in_array('Support Kaigo', $selectedBenefits, true))>
               <label for="kaigo-support">Support Kaigo</label>
-            </div>
-            <div>
-              <input type="checkbox" id="bonus" value="Bonus" name="benefit[]"
-                @checked(in_array('Bonus', $selectedBenefits, true))>
-              <label for="bonus">Bonus</label>
             </div>
             <div>
               <input type="checkbox" id="free-meal" value="Makan Gratis" name="benefit[]"
@@ -312,6 +312,11 @@
               <input type="checkbox" id="pray-tollerant" value="Toleransi Ibadah" name="benefit[]"
                 @checked(in_array('Toleransi Ibadah', $selectedBenefits, true))>
               <label for="pray-tollerant">Toleransi Ibadah</label>
+            </div>
+            <div>
+              <input type="checkbox" id="hijab-tollerant" value="Toleransi Hijab" name="benefit[]"
+                @checked(in_array('Toleransi Hijab', $selectedBenefits, true))>
+              <label for="hijab-tollerant">Toleransi Hijab</label>
             </div>
           </div>
         </div>
