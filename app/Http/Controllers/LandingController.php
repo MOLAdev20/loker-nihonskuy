@@ -15,16 +15,28 @@ class LandingController extends Controller
             'programIntroduction' => 'Program ini dirancang untuk membantu peserta memahami jalur kerja ke Jepang secara terstruktur, mulai dari pemetaan target karier, penguatan dokumen lamaran, hingga kesiapan menghadapi seleksi perusahaan. Pendampingan dilakukan secara praktis agar setiap langkah dapat langsung diterapkan sesuai kondisi peserta.',
             'infoSections' => [
                 [
-                    'title' => 'Analisis Profil Karier',
-                    'description' => 'Sesi awal untuk memetakan pengalaman, kemampuan, dan target kerja agar strategi lamaran lebih tepat sasaran.',
+                    'title' => 'Basic Orientation & Fundamentals',
+                    'description' => 'Program awal untuk membangun pemahaman dasar kandidat mengenai ekosistem kerja di Jepang agar tidak salah langkah.',
                 ],
                 [
-                    'title' => 'Strategi Dokumen Lamaran',
-                    'description' => 'Pendampingan menyusun CV, ringkasan profil, dan dokumen pendukung agar sesuai ekspektasi perusahaan Jepang.',
+                    'title' => 'Resume Optimization',
+                    'description' => 'Fokus pada standarisasi dokumen lamaran agar sesuai dengan standar perusahaan Jepang yang jelas dan detail.',
                 ],
                 [
-                    'title' => 'Persiapan Seleksi',
-                    'description' => 'Latihan menghadapi proses interview dan evaluasi akhir supaya peserta lebih percaya diri saat melamar.',
+                    'title' => 'Interview Mastery',
+                    'description' => 'Latihan intensif untuk menghilangkan kegugupan dan memastikan kandidat mampu menjawab pertanyaan user dengan teknik yang benar.',
+                ],
+                [
+                    'title' => 'Japan Career Concierge',
+                    'description' => 'Program pendampingan aktif di mana tim membantu mencarikan posisi yang sesuai dengan profil kandidat.',
+                ],
+                [
+                    'title' => 'Legal & Document Assistance',
+                    'description' => 'Program bantuan teknis untuk mengurus birokrasi yang seringkali membingungkan bagi kandidat pemula.',
+                ],
+                [
+                    'title' => 'Flight Readiness Support',
+                    'description' => 'Program persiapan akhir sebelum keberangkatan untuk memastikan fisik dan administrasi sudah 100% aman.',
                 ],
             ],
             'timelines' => [
