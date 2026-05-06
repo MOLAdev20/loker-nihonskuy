@@ -274,12 +274,12 @@
         <div class="col-span-2 mt-5 gap-2">
           <label for="additional-information" class="text-sm">Benefit & Fasilitas</label>
           <div>
-            <input type="checkbox" id="sallary" value="Gaji" name="benefit[]">
-            <label for="sallary">Gaji</label>
-          </div>
-          <div>
             <input type="checkbox" id="sallary-upgradable" value="Kenaikan Gaji" name="benefit[]">
             <label for="sallary-upgradable">Kenaikan Gaji</label>
+          </div>
+          <div>
+            <input type="checkbox" id="bonus" value="Bonus" name="benefit[]">
+            <label for="bonus">Bonus</label>
           </div>
           <div>
             <input type="checkbox" id="paid-overtime" value="Lembur" name="benefit[]">
@@ -296,10 +296,6 @@
           <div>
             <input type="checkbox" id="kaigo-support" value="Support Kaigo" name="benefit[]">
             <label for="kaigo-support">Support Kaigo</label>
-          </div>
-          <div>
-            <input type="checkbox" id="bonus" value="Bonus" name="benefit[]">
-            <label for="bonus">Bonus</label>
           </div>
           <div>
             <input type="checkbox" id="free-meal" value="Makan Gratis" name="benefit[]">
@@ -325,6 +321,14 @@
           <div>
             <input type="checkbox" id="pray-tollerant" value="Toleransi Ibadah" name="benefit[]">
             <label for="pray-tollerant">Toleransi Ibadah</label>
+          </div>
+          <div>
+            <input type="checkbox" id="hijab-tollerant" value="Toleransi Hijab" name="benefit[]">
+            <label for="hijab-tollerant">Toleransi Hijab</label>
+          </div>
+          <div>
+            <input type="checkbox" id="other-benefit" value="Tunjangan Lainnya" name="benefit[]">
+            <label for="other-benefit">Tunjangan Lainnya</label>
           </div>
         </div>
         <div class="col-span-2 mt-5 gap-2">
