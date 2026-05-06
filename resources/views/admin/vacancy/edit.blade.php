@@ -318,6 +318,11 @@
                 @checked(in_array('Toleransi Hijab', $selectedBenefits, true))>
               <label for="hijab-tollerant">Toleransi Hijab</label>
             </div>
+            <div>
+              <input type="checkbox" id="other-benefit" value="Tunjangan Lainnya" name="benefit[]"
+                @checked(in_array('Tunjangan Lainnya', $selectedBenefits, true))>
+              <label for="other-benefit">Tunjangan Lainnya</label>
+            </div>
           </div>
         </div>
         <div class="col-span-2 mt-5 gap-2">
