@@ -22,6 +22,7 @@ class Vacancy extends Model
         'whatsapp_number',
         'gender_requirement',
         'domicile_requirement',
+        'exp_requirement',
         'jlpt_requirement',
         'kaiwa_requirement',
         'qty',

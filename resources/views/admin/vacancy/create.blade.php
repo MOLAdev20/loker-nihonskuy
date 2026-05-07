@@ -241,6 +241,18 @@
           </select>
         </div>
         <div class="col-span-2 flex flex-col gap-1">
+          <label for="exp-requirement" class="text-sm">Persyaratan Minimal Pengalaman</label>
+          @error('exp-requirement')
+            <span class="text-[10px] text-red-600">{{ $message }}</span>
+          @enderror
+          <select name="exp-requirement" id="exp-requirement"
+            class="rounded border border-slate-300 px-2 py-1 text-sm outline-none transition-all focus:border focus:border-slate-500">
+            <option value="">Pilih</option>
+            <option value="Min. 6 Bulan Pengalaman" @selected(old('exp-requirement') === 'Min. 6 Bulan Pengalaman')>Min. 6 Bulan Pengalaman</option>
+            <option value="Min. 1 Tahun Pengalaman" @selected(old('exp-requirement') === 'Min. 1 Tahun Pengalaman')>Min. 1 Tahun Pengalaman</option>
+          </select>
+        </div>
+        <div class="col-span-2 flex flex-col gap-1">
           <label for="jlpt-requirement" class="text-sm">Persyaratan JLPT</label>
           @error('jlpt-requirement')
             <span class="text-[10px] text-red-600">{{ $message }}</span>
