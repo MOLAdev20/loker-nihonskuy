@@ -24,7 +24,7 @@
         </p>
 
         <div class="mt-7 flex flex-col gap-3 sm:flex-row">
-          <a href="{{ $whatsappUrl }}"
+          <a href="https://wa.me/6289514161277?text=Halo%20NihonSkuy%2C%20saya%20tertarik%20kelas%20konsultasi%20matching%20job."
             class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">
             Konsultasi via WhatsApp
           </a>
@@ -52,7 +52,7 @@
       <p class="mt-2 text-sm text-slate-600 sm:text-base">Apa itu program kelas Matching Job?</p>
     </div>
     <p class="mt-6 max-w-4xl text-sm leading-relaxed text-slate-600 sm:text-base">
-      {{ $programIntroduction }}
+      Program ini dirancang untuk membantu peserta memahami jalur kerja ke Jepang secara terstruktur, mulai dari pemetaan target karier, penguatan dokumen lamaran, hingga kesiapan menghadapi seleksi perusahaan. Pendampingan dilakukan secara praktis agar setiap langkah dapat langsung diterapkan sesuai kondisi peserta.
     </p>
 
     <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -66,7 +66,7 @@
   </section>
 
   {{-- Rundowns --}}
-  <section class="bg-white py-14">
+  {{-- <section class="bg-white py-14">
     <div class="mx-auto max-w-6xl px-4 sm:px-6">
       <div class="max-w-2xl">
         <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Rundown Kegiatan Konsultasi</h2>
@@ -212,17 +212,25 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
   {{-- End of Rundowns --}}
 
   <section id="pricing" class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
     <div class="text-center">
-      <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Pilih Paket Konsultasi</h2>
-      <p class="mx-auto mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">Tiga pilihan paket untuk menyesuaikan kebutuhan pendampingan kerja di Jepang.</p>
+      <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Pilihan Program Matching Job</h2>
+      <p class="mx-auto mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">Tiga pilihan program untuk bantu kamu meraih impian kerja di Jepang</p>
     </div>
 
     <div class="mt-8 grid gap-4 lg:grid-cols-3">
       @foreach ($packages as $package)
+        @php
+          $packageDetailLink = match ($package['name']) {
+              'CAREER EDUCATION' => route('matching.job.education'),
+              'MATCHING JOB' => route('matching.job.basic'),
+              'FULL BUNDLING' => route('matching.job.full'),
+              default => '#',
+          };
+        @endphp
         <article class="relative overflow-hidden rounded-3xl border bg-white p-6 shadow-sm {{ $package['highlight'] ? 'border-slate-900' : 'border-slate-200' }}">
           @if ($package['badge'])
             <div class="absolute inset-x-0 top-0 bg-slate-900 py-2 text-center text-xs font-semibold uppercase tracking-wider text-white">
@@ -233,12 +241,11 @@
           <div class="{{ $package['badge'] ? 'pt-8' : '' }}">
             <h3 class="text-2xl font-semibold tracking-tight text-slate-900">{{ $package['name'] }}</h3>
             <p class="mt-2 text-sm leading-relaxed text-slate-600">{{ $package['description'] }}</p>
-            <p class="mt-6 text-3xl font-semibold tracking-tight text-slate-900">{{ $package['price'] }}</p>
           </div>
 
-          <a href="{{ $whatsappUrl }}"
-            class="mt-6 inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-4 py-2.5 text-xl font-semibold tracking-wide text-white transition hover:bg-slate-800">
-            {{ $package['ctaLabel'] }}
+          <a href="{{ $packageDetailLink }}"
+            class="mt-6 inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-4 py-2.5 text-lg font-medium tracking-wide text-white transition hover:bg-slate-800">
+            Pelajari Selengkapnya
           </a>
 
           <ul class="mt-5 space-y-3 text-sm text-slate-700">
@@ -296,7 +303,7 @@
         <p class="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-200 sm:text-base">
           Hubungi tim NihonSkuy melalui WhatsApp untuk diskusi kebutuhanmu dan pilih paket konsultasi yang paling sesuai.
         </p>
-        <a href="{{ $whatsappUrl }}"
+        <a href="https://wa.me/6289514161277?text=Halo%20NihonSkuy%2C%20saya%20tertarik%20kelas%20konsultasi%20matching%20job."
           class="mt-6 inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100">
           Chat WhatsApp Sekarang
         </a>
