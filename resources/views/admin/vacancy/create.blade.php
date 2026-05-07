@@ -302,18 +302,6 @@
             <label for="night-shift">Shift Malam</label>
           </div>
           <div>
-            <input type="checkbox" id="tg2-support" value="Support TG2" name="benefit[]">
-            <label for="tg2-support">Support TG2</label>
-          </div>
-          <div>
-            <input type="checkbox" id="kaigo-support" value="Support Kaigo" name="benefit[]">
-            <label for="kaigo-support">Support Kaigo</label>
-          </div>
-          <div>
-            <input type="checkbox" id="free-meal" value="Makan Gratis" name="benefit[]">
-            <label for="free-meal">Makan Gratis</label>
-          </div>
-          <div>
             <input type="checkbox" id="dorm" value="Asrama" name="benefit[]">
             <label for="dorm">Asrama</label>
           </div>
@@ -327,6 +315,11 @@
             <label for="vehicle-allowance">Tunjangan Kendaraan</label>
           </div>
           <div>
+            <input type="checkbox" id="certificate-allowance" value="Tunjangan Sertifikat"
+              name="benefit[]">
+            <label for="certificate-allowance">Tunjangan Sertifikat</label>
+          </div>
+          <div>
             <input type="checkbox" id="pig-tollerant" value="Toleransi Babi" name="benefit[]">
             <label for="pig-tollerant">Toleransi Babi</label>
           </div>
@@ -337,6 +330,18 @@
           <div>
             <input type="checkbox" id="hijab-tollerant" value="Toleransi Hijab" name="benefit[]">
             <label for="hijab-tollerant">Toleransi Hijab</label>
+          </div>
+          <div>
+            <input type="checkbox" id="free-meal" value="Makan Gratis" name="benefit[]">
+            <label for="free-meal">Makan Gratis</label>
+          </div>
+          <div>
+            <input type="checkbox" id="tg2-support" value="Support TG2" name="benefit[]">
+            <label for="tg2-support">Support TG2</label>
+          </div>
+          <div>
+            <input type="checkbox" id="kaigo-support" value="Support Kaigo" name="benefit[]">
+            <label for="kaigo-support">Support Kaigo</label>
           </div>
           <div>
             <input type="checkbox" id="other-benefit" value="Tunjangan Lainnya" name="benefit[]">

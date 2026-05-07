@@ -287,21 +287,6 @@
               <label for="night-shift">Shift Malam</label>
             </div>
             <div>
-              <input type="checkbox" id="tg2-support" value="Support TG2" name="benefit[]"
-                @checked(in_array('Support TG2', $selectedBenefits, true))>
-              <label for="tg2-support">Support TG2</label>
-            </div>
-            <div>
-              <input type="checkbox" id="kaigo-support" value="Support Kaigo" name="benefit[]"
-                @checked(in_array('Support Kaigo', $selectedBenefits, true))>
-              <label for="kaigo-support">Support Kaigo</label>
-            </div>
-            <div>
-              <input type="checkbox" id="free-meal" value="Makan Gratis" name="benefit[]"
-                @checked(in_array('Makan Gratis', $selectedBenefits, true))>
-              <label for="free-meal">Makan Gratis</label>
-            </div>
-            <div>
               <input type="checkbox" id="dorm" value="Asrama" name="benefit[]"
                 @checked(in_array('Asrama', $selectedBenefits, true))>
               <label for="dorm">Asrama</label>
@@ -317,6 +302,11 @@
               <label for="vehicle-allowance">Tunjangan Kendaraan</label>
             </div>
             <div>
+              <input type="checkbox" id="certificate-allowance" value="Tunjangan Sertifikat"
+                name="benefit[]" @checked(in_array('Tunjangan Sertifikat', $selectedBenefits, true))>
+              <label for="certificate-allowance">Tunjangan Sertifikat</label>
+            </div>
+            <div>
               <input type="checkbox" id="pig-tollerant" value="Toleransi Babi" name="benefit[]"
                 @checked(in_array('Toleransi Babi', $selectedBenefits, true))>
               <label for="pig-tollerant">Toleransi Babi</label>
@@ -330,6 +320,21 @@
               <input type="checkbox" id="hijab-tollerant" value="Toleransi Hijab" name="benefit[]"
                 @checked(in_array('Toleransi Hijab', $selectedBenefits, true))>
               <label for="hijab-tollerant">Toleransi Hijab</label>
+            </div>
+            <div>
+              <input type="checkbox" id="free-meal" value="Makan Gratis" name="benefit[]"
+                @checked(in_array('Makan Gratis', $selectedBenefits, true))>
+              <label for="free-meal">Makan Gratis</label>
+            </div>
+            <div>
+              <input type="checkbox" id="tg2-support" value="Support TG2" name="benefit[]"
+                @checked(in_array('Support TG2', $selectedBenefits, true))>
+              <label for="tg2-support">Support TG2</label>
+            </div>
+            <div>
+              <input type="checkbox" id="kaigo-support" value="Support Kaigo" name="benefit[]"
+                @checked(in_array('Support Kaigo', $selectedBenefits, true))>
+              <label for="kaigo-support">Support Kaigo</label>
             </div>
             <div>
               <input type="checkbox" id="other-benefit" value="Tunjangan Lainnya" name="benefit[]"
