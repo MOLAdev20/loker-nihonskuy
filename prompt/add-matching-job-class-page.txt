@@ -1,0 +1,26 @@
+Anda sebagai senior software engineer/lead/project manager
+Buatkan dokumen PRD/plan di plan/add-matching-job-class-page.md
+
+Tujuan/Goals PRD:
+*Membuat template 3 halaman detail informasi program matching job*
+*Setiap halaman itu akan menampilkan informasi setiap programnya dan CTA untuk menghubungi admin untuk membeli atau tanya-tanya seputar programnya*
+*Programnya sendiri ada:
+- Career Education (Program edukasi karir yang membantu kamu mempersiapkan, memperbaiki maupun meningkatkan peluang diterima kerja di Jepang)
+- Matching Job (Program pencocokan karir buat kamu yang merasa siap kerja di Jepang)
+- Full Bundling (Program terlengkap yang membimbing kamu dari nol (persiapan & edukasi) sampai bener-bener dapet kerja di Jepang. Solusi ideal untuk kamu yang ingin mendapatkan semua benefit sekaligus.)*
+
+Brief 1 (Context & Pre-Development):
+- 3 halaman akan diakses pada rute /matching-job/education-program, /matching-job/basic-program, dan /matching-job/full-program
+- rute , controller dan method untuk tiap halaman sudah disediakan pada class controller MatchingJobLandingController
+- view untuk tiap halaman juga sudah disediakan pada direktori resources/views/landing/matching-job/* (basic, education , full)
+
+Brief 2 (Ketentuan & Technical Implementation, Tata cara pengerjaan)
+- Tailwind CSS
+- Blade Model Base Layout mengikuti setiap halaman public yang sudah ada. Acuannya ada di resources/views/landing/matching-job/main untuk contoh halaman publicnya, dan resources/views/layouts/landing untuk Blade Model Base Layoutnya
+- Jumbotron di setiap halamannya. Layout sama seperti Jumbotron yang ada di resources/views/landing/matching-job/main
+- Elemen/Section rundown yang ada pada resources/views/landing/matching-job/main, pindahkan ke setiap 3 halaman itu.
+
+
+*notes
+PRD yang sudah dibuat, nantinya akan dikerjakan oleh bawahan anda yakni Junior FrontEnd Engineer, maupun AI Model yang lebih murah. Maka dari itu, anda sebagai lead, suruh bawahan anda kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah
