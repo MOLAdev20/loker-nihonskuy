@@ -165,6 +165,9 @@
             <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->job_type }}</span>
             <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->gender_requirement == 'p' ? 'Perempuan' : 'Laki-laki' }}</span>
             <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->domicile }}</span>
+            @if($job->exp_requirement)
+            <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->exp_requirement }}</span>
+            @endif
             <span class="rounded bg-slate-100 px-2 py-0.5">JLPT {{ $job->jlpt_requirement_label }}</span>
             <span class="rounded bg-slate-100 px-2 py-0.5">{{ $job->qty }} Orang</span>
           </div>

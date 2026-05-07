@@ -97,18 +97,7 @@
                   </div>
                   <div class="flex items-start gap-4 rounded-lg">
                     <div class="rounded-full bg-green-200 p-2">
-                      <x-icons.map size="17" />
-                    </div>
-                    <div>
-                      <div>
-                        <h3 class="font-bold">Cabang Penempatan</h3>
-                        <p class="text-sm font-medium">{{ $job->placement_branch ?: '-' }}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex items-start gap-4 rounded-lg">
-                    <div class="rounded-full bg-green-200 p-2">
-                      <x-icons.map size="15" />
+                      <x-icons.briefcase size="15" />
                     </div>
                     <div>
                       <div>
@@ -134,14 +123,38 @@
                     </div>
                     <div>
                       <div>
-                        <h3 class="text-sm font-bold">Tenaga Kerja</h3>
+                        <h3 class="text-sm font-bold">Persyaratan Gender</h3>
                         <p class="text-xs font-medium">{{ $job->gender }}</p>
                       </div>
                     </div>
                   </div>
                   <div class="flex items-start gap-4 rounded-lg">
                     <div class="rounded-full bg-green-200 p-2">
-                      <x-icons.users size="15" />
+                      <x-icons.map size="15" />
+                    </div>
+                    <div>
+                      <div>
+                        <h3 class="text-sm font-bold">Persyaratan Domisili</h3>
+                        <p class="text-xs font-medium">{{ $job->domicile }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  @if($job->exp_requirement)
+                  <div class="flex items-start gap-4 rounded-lg">
+                    <div class="rounded-full bg-green-200 p-2">
+                      <x-icons.briefcase size="15" />
+                    </div>
+                    <div>
+                      <div>
+                        <h3 class="text-sm font-bold">Minimal Pengalaman</h3>
+                        <p class="text-xs font-medium">{{ $job->exp_requirement }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  @endif
+                  <div class="flex items-start gap-4 rounded-lg">
+                    <div class="rounded-full bg-green-200 p-2">
+                      <x-icons.verifiedCircle size="15" />
                     </div>
                     <div>
                       <div>
@@ -152,7 +165,7 @@
                   </div>
                   <div class="flex items-start gap-4 rounded-lg">
                     <div class="rounded-full bg-green-200 p-2">
-                      <x-icons.users size="15" />
+                      <x-icons.verifiedCircle size="15" />
                     </div>
                     <div>
                       <div>

@@ -44,6 +44,12 @@
           class="rounded-full border px-2.5 py-1 text-[11px] font-medium {{ $kaiwaBadgeClass }}">
           Kaiwa {{ $dataJob->kaiwa_requirement_label }}
         </span>
+        @if ($dataJob->exp_requirement)
+        <span
+          class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
+          {{ $dataJob->exp_requirement }}
+        </span>
+        @endif
         <span
           class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-700">
           {{ $dataJob->domicile }}

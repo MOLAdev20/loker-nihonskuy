@@ -134,6 +134,10 @@
         <span class="text-sm font-medium text-slate-900">{{ $job->domicile }}</span>
       </div>
       <div class="col-span-2 flex flex-col gap-1">
+        <span class="text-sm text-slate-500">Min. Pengalaman</span>
+        <span class="text-sm font-medium text-slate-900">{{ $job->exp_requirement ? $job->exp_requirement : "-" }}</span>
+      </div>
+      <div class="col-span-2 flex flex-col gap-1">
         <span class="text-sm text-slate-500">Persyaratan JLPT</span>
         <span class="text-sm font-medium text-slate-900">{{ $job->jlpt_requirement_label }}</span>
       </div>

@@ -64,7 +64,7 @@ class VacancyController extends Controller
             if (! $req->filled('sort')) {
                 $jobsQuery->orderByDesc('created_at');
             }
-        } catch (InvalidFilterQuery|InvalidSortQuery $exception) {
+        } catch (InvalidFilterQuery | InvalidSortQuery $exception) {
             $hasInvalidFilterQuery = true;
             $jobsQuery = $this->applyQuickFilter(Vacancy::query(), $quickFilter);
 
@@ -148,7 +148,7 @@ class VacancyController extends Controller
             return [];
         }
 
-        $prefectures = array_values(array_filter($parsed['japan_prefectures'], fn ($value) => is_string($value) && $value !== ''));
+        $prefectures = array_values(array_filter($parsed['japan_prefectures'], fn($value) => is_string($value) && $value !== ''));
 
         sort($prefectures);
 
@@ -173,6 +173,7 @@ class VacancyController extends Controller
                 'whatsapp-number' => ['required'],
                 'gender-requirement' => ['required'],
                 'domicile-requirement' => ['required'],
+                'exp-requirement' => ['nullable'],
                 'jlpt-requirement' => ['required', 'in:n5,n4,n3,n2,n1,all'],
                 'kaiwa-requirement' => ['required', 'in:n5,n4,n3,n2,n1'],
                 'qty' => ['required', 'integer', 'min:1'],
@@ -247,6 +248,7 @@ class VacancyController extends Controller
             'whatsapp_number' => $validated['whatsapp-number'],
             'gender_requirement' => $validated['gender-requirement'],
             'domicile_requirement' => $validated['domicile-requirement'],
+            'exp_requirement' => $validated['exp-requirement'],
             'jlpt_requirement' => $validated['jlpt-requirement'],
             'kaiwa_requirement' => $validated['kaiwa-requirement'],
             'qty' => $validated['qty'],
@@ -296,6 +298,7 @@ class VacancyController extends Controller
                 'whatsapp-number' => ['required'],
                 'gender-requirement' => ['required'],
                 'domicile-requirement' => ['required'],
+                'exp-requirement' => ['nullable'],
                 'jlpt-requirement' => ['required', 'in:n5,n4,n3,n2,n1,all'],
                 'kaiwa-requirement' => ['required', 'in:n5,n4,n3,n2,n1'],
                 'qty' => ['required', 'integer', 'min:1'],
@@ -363,6 +366,7 @@ class VacancyController extends Controller
             'whatsapp_number' => $validated['whatsapp-number'],
             'gender_requirement' => $validated['gender-requirement'],
             'domicile_requirement' => $validated['domicile-requirement'],
+            'exp_requirement' => $validated['exp-requirement'],
             'jlpt_requirement' => $validated['jlpt-requirement'],
             'kaiwa_requirement' => $validated['kaiwa-requirement'],
             'qty' => $validated['qty'],
@@ -467,7 +471,7 @@ class VacancyController extends Controller
         $validTagList = ['urgent'];
         $filteredTags = array_values(array_unique(array_filter(
             $rawTags,
-            fn ($tag) => is_string($tag) && in_array($tag, $validTagList, true)
+            fn($tag) => is_string($tag) && in_array($tag, $validTagList, true)
         )));
 
         return count($filteredTags) ? implode('|', $filteredTags) : null;
