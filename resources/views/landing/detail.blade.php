@@ -229,11 +229,6 @@
                 {!! nl2br(e($job->additional_information)) !!}
               </p>
             @endif
-            @if($job->company_web)
-            <div class="mt-2">
-              Alamat Website Perusahaan: <a href="{{ $job->company_web }}" class="text-blue-500 font-medium">{{ $job->company_web }}</a>
-            </div>
-            @endif
           </div>
 
         </div>
