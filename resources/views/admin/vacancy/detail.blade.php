@@ -116,6 +116,17 @@
         <span class="text-sm font-medium text-slate-900">{{ $job->placement_branch ?: '-' }}</span>
       </div>
       <div class="col-span-2 flex flex-col gap-1">
+        <span class="text-sm text-slate-500">Alamat Web Perusahaan</span>
+        @if ($job->company_web)
+          <a href="{{ $job->company_web }}" target="_blank" rel="noopener noreferrer"
+            class="truncate text-sm font-medium text-blue-600 hover:underline">
+            {{ $job->company_web }}
+          </a>
+        @else
+          <span class="text-sm font-medium text-slate-900">-</span>
+        @endif
+      </div>
+      <div class="col-span-2 flex flex-col gap-1">
         <span class="text-sm text-slate-500">Jenis VISA</span>
         <span class="text-sm font-medium text-slate-900">{{ $job->visa_type }}</span>
       </div>
