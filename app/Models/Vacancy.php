@@ -17,6 +17,7 @@ class Vacancy extends Model
         'placement',
         'placement_branch',
         'job_type',
+        'company_web',
         'source',
         'salary',
         'whatsapp_number',

@@ -131,6 +131,15 @@
             class="{{ $errors->has('placement-branch') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }} rounded border bg-white px-2 py-1 text-sm outline-none transition-all focus:border">
         </div>
         <div class="col-span-2 flex flex-col gap-1">
+          <label for="company-web" class="text-sm">Alamat Web Perusahaan</label>
+          @error('company-web')
+            <span class="text-[10px] text-red-600">{{ $message }}</span>
+          @enderror
+          <input type="url" name="company-web" id="company-web"
+            value="{{ old('company-web', $job->company_web) }}" placeholder="https://example.com"
+            class="{{ $errors->has('company-web') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }} w-full rounded border bg-white px-2 py-1 text-sm outline-none transition-all focus:border">
+        </div>
+        <div class="col-span-2 flex flex-col gap-1">
           <label for="source" class="text-sm">Salinan Asli</label>
           @error('source')
             <span class="text-[10px] text-red-600">{{ $message }}</span>
