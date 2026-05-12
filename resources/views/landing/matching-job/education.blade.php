@@ -1,7 +1,7 @@
 @extends('layouts.landing')
 
 @push('header')
-  <title>NihonSkuy - Career Education Program</title>
+  <title>NihonSkuy - Job Education Program</title>
 @endpush
 
 @section('content')
@@ -14,19 +14,20 @@
     <div class="mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-2">
       <div>
         <p class="inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-700">
-          Program Edukasi Karier
+          Program Job Education
         </p>
         <h1 class="mt-4 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
-          Bangun Fondasi Karier Kerja Jepang dari Persiapan yang Tepat
+          Bangun Fondasi Karier Kerja di Jepang dengan Persiapan & Strategi yang Tepat
         </h1>
         <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-          Career Education membantu kamu mempersiapkan skill, dokumen, dan strategi seleksi agar peluang diterima kerja di Jepang meningkat secara terarah.
+          {{-- Job Education membantu kamu mempersiapkan skill, dokumen, dan strategi terbaik agar peluang diterima kerja di Jepang meningkat secara terarah. --}}
+          Job Education didedikasikan untuk memfasilitasi persiapan karir internasional Anda melalui metodologi yang sistematis. Kami memastikan setiap aspek—mulai dari pemetaan skill-set, validasi dokumen, hingga strategi penetrasi pasar kerja dikelola secara profesional untuk meningkatkan daya saing Anda di Jepang. Bersama kami, karir Anda akan bertransformasi menjadi rencana aksi yang konkret dan berorientasi pada hasil
         </p>
 
         <div class="mt-7 flex flex-col gap-3 sm:flex-row">
-          <a href="https://wa.me/6289514161277?text=Halo%20NihonSkuy%2C%20saya%20tertarik%20program%20Career%20Education."
+          <a href="https://wa.me/6289514161277?text=Halo%20NihonSkuy%2C%20saya%20tertarik%20program%Kelas%Job%20Education."
             class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">
-            Konsultasi Career Education
+            Konsultasi Job Education
           </a>
           <a href="#rundown"
             class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
@@ -38,7 +39,7 @@
       <div class="relative mx-auto w-full max-w-md lg:max-w-lg">
         <div class="pointer-events-none absolute inset-x-10 bottom-0 h-24 rounded-full bg-slate-300/50 blur-2xl"></div>
         <img
-          src="{{ asset('mj.png') }}"
+          src="{{ asset('edu.png') }}"
           alt="Ilustrasi program Career Education"
           class="relative z-10 mx-auto w-full object-contain mix-blend-multiply"
           loading="lazy" />
@@ -48,49 +49,36 @@
 
   <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
     <div class="max-w-2xl">
-      <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Fokus Program Career Education</h2>
+      <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Fokus Program <span class="text-yellow-700">JOB EDUCATION</span></h2>
     </div>
     <p class="mt-6 max-w-4xl text-sm leading-relaxed text-slate-600 sm:text-base">
-      Program ini dirancang untuk peserta yang ingin memperkuat kesiapan karier sebelum aktif melamar. Materi berfokus pada pemahaman pasar kerja, perbaikan dokumen, dan latihan seleksi.
+      Program ini menawarkan bedah tuntas melalui Japan Job Market Education, restrukturisasi dokumen lewat Resume Optimization, hingga simulasi mendalam dalam Interview Mastery. Kami tidak sekadar memberikan materi; kami mentransformasi profil Anda agar sesuai dengan dinamika industri Jepang, memastikan Anda siap terjun ke tahap seleksi dengan kepercayaan diri penuh.
     </p>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Edukasi Job Market Jepang</h3>
-        <p class="mt-3 text-sm leading-relaxed text-slate-600">Memahami jalur kerja Jepang, tipe lowongan, dan arah strategi yang relevan dengan profilmu.</p>
+        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Job Market Research</h3>
+        <p class="mt-3 text-sm leading-relaxed text-slate-600">Memahami cara membedah ekosistem perusahaan & agensi Jepang</p>
       </article>
       <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Perbaikan Dokumen Lamaran</h3>
+        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Resume Optimization</h3>
         <p class="mt-3 text-sm leading-relaxed text-slate-600">Optimasi CV dan dokumen pendukung agar lebih sesuai standar perusahaan Jepang.</p>
       </article>
       <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Persiapan Interview</h3>
-        <p class="mt-3 text-sm leading-relaxed text-slate-600">Latihan komunikasi dan simulasi interview agar lebih percaya diri di tahap seleksi.</p>
+        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Interview Mastery</h3>
+        <p class="mt-3 text-sm leading-relaxed text-slate-600">Optimasi teknik interview dan etika profesional untuk memenangkan pasar Jepang</p>
       </article>
-    </div>
-  </section>
-
-  <section class="bg-white py-14">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6">
-      <div class="max-w-2xl">
-        <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Benefit Utama Program</h2>
-      </div>
-      <div class="mt-8 rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
-        <ul class="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-          <li class="flex items-start gap-3"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500"></span><span>Kelas edukasi tentang lowongan kerja di Jepang.</span></li>
-          <li class="flex items-start gap-3"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500"></span><span>Kelas edukasi CV dan standar dokumen lamaran.</span></li>
-          <li class="flex items-start gap-3"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500"></span><span>Edukasi TSK dan alur komunikasi profesional.</span></li>
-          <li class="flex items-start gap-3"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500"></span><span>Latihan interview profesional 3 hingga 5 kali.</span></li>
-          <li class="flex items-start gap-3"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500"></span><span>Akses informasi database 12.000 TSK Jepang.</span></li>
-        </ul>
-      </div>
+      <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Mind Mapping</h3>
+        <p class="mt-3 text-sm leading-relaxed text-slate-600">Pemetaan terhadap cara menentukan langkah dan strategi yang tepat</p>
+      </article>
     </div>
   </section>
 
   <section id="rundown" class="bg-white py-14">
     <div class="mx-auto max-w-6xl px-4 sm:px-6">
       <div class="max-w-2xl">
-        <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Rundown Kegiatan Konsultasi</h2>
+        <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Rundown Kegiatan</h2>
       </div>
 
       @php
@@ -145,9 +133,9 @@
   </section>
 
   <section class="pb-16 pt-2">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <div class="rounded-3xl bg-slate-900 p-8 text-center sm:p-10">
-        <h2 class="text-2xl font-semibold tracking-tight text-white">Mulai Perjalanan Masa Depang Kamu</h2>
+        <h2 class="text-2xl font-semibold tracking-tight text-white">Mulai Perjalanan Masa Depan Kamu</h2>
         <p class="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-200 sm:text-base">
           Kamu bisa mulai mencapai target kamu bersama tim NihonSkuy dengan penawaran spesial
         </p>
@@ -155,10 +143,11 @@
           <p class="text-2xl text-red-400 line-through animate-pulse">RP. 3.500.000</p>
           <p class="text-5xl font-semibold uppercase text-white">RP. 3.000.000</p>
         </div>
-        <a href="https://wa.me/6289514161277?text=Halo%20NihonSkuy%2C%20saya%20tertarik%20program%20Career%20Education."
+        <a href="https://wa.me/6289514161277?text=Halo%20NihonSkuy%2C%20saya%20tertarik%20program%Matching%2Job."
           class="mt-6 inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100">
-          Konsultasi Career Education
+          Konsultasi Matching Job
         </a>
+        <p class="mt-5 text-xs text-white text-center">Bila belum mendapatkan Job selama 3 bulan, akan kami refund 100% </br> dengan *ketentuan dan syarat yang berlaku.</a>
       </div>
     </div>
   </section>

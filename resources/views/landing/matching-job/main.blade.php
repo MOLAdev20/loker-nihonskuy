@@ -225,7 +225,7 @@
       @foreach ($packages as $package)
         @php
           $packageDetailLink = match ($package['name']) {
-              'CAREER EDUCATION' => route('matching.job.education'),
+              'JOB EDUCATION' => route('matching.job.education'),
               'MATCHING JOB' => route('matching.job.basic'),
               'FULL BUNDLING' => route('matching.job.full'),
               default => '#',
@@ -259,12 +259,10 @@
             @endforeach
           </ul>
 
-          @if ($package['promoNote'])
-            <p class="mt-8 text-center text-sm font-semibold text-slate-900">{{ $package['promoNote'] }}</p>
-          @endif
-
           @if (count($package['disclaimerLines']) > 0)
             <div class="mt-6 rounded-3xl border border-slate-300 bg-slate-50 p-4 text-sm leading-relaxed text-slate-700">
+              <i>Pembiayaan dibayarkan setelah dinyatakan lulus interview</i></br></br>
+              <span class="font-medium text-black">Catatan:</span>
               @foreach ($package['disclaimerLines'] as $disclaimerLine)
                 <p>{{ $loop->last ? $disclaimerLine : '* ' . $disclaimerLine }}</p>
               @endforeach
