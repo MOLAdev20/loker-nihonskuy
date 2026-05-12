@@ -14,13 +14,13 @@
     <div class="mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-2">
       <div>
         <p class="inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-700">
-          Program Pencocokan Karier
+          Program Matching Job
         </p>
         <h1 class="mt-4 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
           Program Matching Job untuk Kamu yang Siap Kerja di Jepang
         </h1>
         <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-          Matching Job difokuskan untuk peserta siap kerja yang membutuhkan dukungan pencarian peluang, komunikasi dengan TSK, dan pendampingan proses sampai tahap final.
+          Siap Kerja di Jepang? Kelas Matching Job difokuskan untuk kamu yang siap kerja dan membutuhkan dukungan pencarian peluang, komunikasi dengan TSK, dan pendampingan proses sampai tahap final
         </p>
 
         <div class="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -38,7 +38,7 @@
       <div class="relative mx-auto w-full max-w-md lg:max-w-lg">
         <div class="pointer-events-none absolute inset-x-10 bottom-0 h-24 rounded-full bg-slate-300/50 blur-2xl"></div>
         <img
-          src="{{ asset('mj.png') }}"
+          src="{{ asset('mj-only.png') }}"
           alt="Ilustrasi program Matching Job"
           class="relative z-10 mx-auto w-full object-contain mix-blend-multiply"
           loading="lazy" />
@@ -48,49 +48,36 @@
 
   <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
     <div class="max-w-2xl">
-      <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Fokus Program Matching Job</h2>
+      <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Fokus Program</h2>
     </div>
     <p class="mt-6 max-w-4xl text-sm leading-relaxed text-slate-600 sm:text-base">
-      Program ini membantu peserta menemukan peluang yang lebih tepat sasaran, menjaga konsistensi proses apply, serta mengurangi kesalahan teknis pada alur kerja ke Jepang.
+      Program ini dirancang untuk membantu peserta menemukan peluang yang lebih tepat sasaran, cocok dengan bidang kerjanya dan menjaga konsistensi proses lamaran, serta mengurangi kesalahan teknis pada alur kerja ke Jepang.
     </p>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Dukungan Pencarian Lowongan</h3>
-        <p class="mt-3 text-sm leading-relaxed text-slate-600">Tim membantu menyelaraskan profil peserta dengan peluang kerja yang relevan.</p>
+        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Access to Verivied Vacancies</h3>
+        <p class="mt-3 text-sm leading-relaxed text-slate-600">Kandidat akan dibimbing untuk menyelaraskan profil peserta peluang kerja yang relevan.</p>
       </article>
       <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Pendampingan TSK dan Email</h3>
-        <p class="mt-3 text-sm leading-relaxed text-slate-600">Konsultasi intensif untuk komunikasi ke TSK dan penyusunan email profesional.</p>
+        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Management Email Assistance</h3>
+        <p class="mt-3 text-sm leading-relaxed text-slate-600">Bimbingang intensif untuk cara komunikasi ke TSK dan penyusunan email lamaran kerja yang profesional</p>
       </article>
       <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Persiapan Administrasi</h3>
+        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Management Consultation Support</h3>
         <p class="mt-3 text-sm leading-relaxed text-slate-600">Arah teknis untuk proses dokumen lanjutan sebelum keberangkatan.</p>
       </article>
-    </div>
-  </section>
-
-  <section class="bg-white py-14">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6">
-      <div class="max-w-2xl">
-        <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Benefit Utama Program</h2>
-      </div>
-      <div class="mt-8 rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
-        <ul class="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-          <li class="flex items-start gap-3"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500"></span><span>Dukungan pencarian kerja dan konsultasi TSK.</span></li>
-          <li class="flex items-start gap-3"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500"></span><span>Dukungan konsultasi email serta strategi follow up.</span></li>
-          <li class="flex items-start gap-3"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500"></span><span>Dukungan arahan aplikasi visa dan E-KTKLN.</span></li>
-          <li class="flex items-start gap-3"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500"></span><span>Panduan persiapan paspor, MCU, dan dokumen pendukung.</span></li>
-          <li class="flex items-start gap-3"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500"></span><span>Panduan kesiapan sebelum keberangkatan ke Jepang.</span></li>
-        </ul>
-      </div>
+      <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Document Management Services</h3>
+        <p class="mt-3 text-sm leading-relaxed text-slate-600">Arah teknis untuk proses dokumen lanjutan sebelum keberangkatan.</p>
+      </article>
     </div>
   </section>
 
   <section id="rundown" class="bg-white py-14">
     <div class="mx-auto max-w-6xl px-4 sm:px-6">
       <div class="max-w-2xl">
-        <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Rundown Kegiatan Konsultasi</h2>
+        <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Alur & Proses</h2>
       </div>
 
       @php
@@ -147,7 +134,7 @@
   <section class="pb-16 pt-2">
     <div class="mx-auto max-w-6xl px-4 sm:px-6">
       <div class="rounded-3xl bg-slate-900 p-8 text-center sm:p-10">
-        <h2 class="text-2xl font-semibold tracking-tight text-white">Mulai Perjalanan Masa Depang Kamu</h2>
+        <h2 class="text-2xl font-semibold tracking-tight text-white">Mulai Perjalanan Masa Depan Kamu</h2>
         <p class="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-200 sm:text-base">
           Kamu bisa mulai mencapai target kamu bersama tim NihonSkuy dengan penawaran spesial
         </p>

@@ -42,16 +42,24 @@
           <a href="{{ route('user.profile.form') }}"
             class="{{ request()->routeIs('user.profile.form') ? 'bg-slate-700 text-white' : 'text-slate-200 hover:bg-slate-700/70' }} block rounded-lg px-3 py-2 text-sm transition">Profil
             Saya</a>
-          <a href="#"
-            class="block rounded-lg px-3 py-2 text-sm text-slate-200 transition hover:bg-slate-700/70">Dokumen</a>
-          <a href="#"
-            class="block rounded-lg px-3 py-2 text-sm text-slate-200 transition hover:bg-slate-700/70">Pengalaman</a>
+          {{-- <a href="#"
+            class="block rounded-lg px-3 py-2 text-sm text-slate-200 transition hover:bg-slate-700/70">Dokumen</a> --}}
+          {{-- <a href="#"
+            class="block rounded-lg px-3 py-2 text-sm text-slate-200 transition hover:bg-slate-700/70">Pengalaman</a> --}}
         </div>
       </div>
     </div>
 
-    <div class="mb-5">
-      <p class="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-slate-300">Lamaran</p>
+    <div class="">
+      </p>
+      <a href="{{ route('logout') }}" onclick="return confirm('Keluar?')"
+        class="text-slate-100 hover:bg-slate-700/80 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition">
+        <x-icons.logout size="18" />
+        Logout
+      </a>
+
+    
+      {{-- <p class="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-slate-300">Lamaran</p>
       <button type="button"
         class="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-slate-100 transition hover:bg-slate-700/80"
         data-submenu-toggle="application-menu" aria-expanded="false">
@@ -82,10 +90,10 @@
             class="block rounded-lg px-3 py-2 text-sm text-slate-200 transition hover:bg-slate-700/70">Jadwal
             Keberangkatan</a>
         </div>
-      </div>
+      </div> --}}
     </div>
 
-    <div class="mb-5">
+    {{-- <div class="mb-5">
       <p class="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-slate-300">Pengaturan
       </p>
       <a href="#"
@@ -103,6 +111,6 @@
         <x-icons.circleHelp size="18" />
         Bantuan
       </a>
-    </div>
+    </div> --}}
   </nav>
 </aside>

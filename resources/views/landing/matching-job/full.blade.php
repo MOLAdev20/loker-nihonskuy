@@ -70,23 +70,6 @@
     </div>
   </section>
 
-  <section class="bg-white py-14">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6">
-      <div class="max-w-2xl">
-        <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Benefit Utama Program</h2>
-      </div>
-      <div class="mt-8 rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
-        <ul class="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-          <li class="flex items-start gap-3"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500"></span><span>Seluruh benefit program Career Education.</span></li>
-          <li class="flex items-start gap-3"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500"></span><span>Seluruh benefit program Matching Job.</span></li>
-          <li class="flex items-start gap-3"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500"></span><span>Pendampingan persiapan karier dan proses apply yang berkelanjutan.</span></li>
-          <li class="flex items-start gap-3"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500"></span><span>Dukungan konsultasi dokumen dan komunikasi profesional.</span></li>
-          <li class="flex items-start gap-3"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500"></span><span>Strategi menyeluruh hingga siap masuk tahap kerja nyata.</span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
   <section id="rundown" class="bg-white py-14">
     <div class="mx-auto max-w-6xl px-4 sm:px-6">
       <div class="max-w-2xl">
