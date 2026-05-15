@@ -14,14 +14,12 @@
     <div class="mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-2">
       <div>
         <p class="inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-700">
-          Program Terlengkap
+          Program Edukasi Karir & Matching Job
         </p>
         <h1 class="mt-4 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
-          Solusi Lengkap dari Nol Sampai Dapat Kerja di Jepang
+          Edukasi Karir & Matching Job untuk kamu yang mau kerja di Jepang
         </h1>
-        <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-          Full Bundling menggabungkan persiapan edukasi karier dan pendampingan matching job dalam satu paket lengkap untuk jalur yang lebih menyeluruh.
-        </p>
+        <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">Bagi kamu yang berminat untuk kerja di Jepang, dari awal proses sampai keberangkatan ke Jepang, program full bundling ini mengintegrasikan persiapan edukasi karier yang komprehensif dengan pendampingan matching job dalam satu paket lengkap untuk memastikan transisi profesional yang lebih terukur.  Lewat program ini, kamu akan dibimbing secara intensif dari tahap persiapan hingga mendapatkan penempatan kerja, sehingga keterbatasan pengalaman bukan lagi menjadi penghalang untuk meraih peluang kerja di Jepang</p>
 
         <div class="mt-7 flex flex-col gap-3 sm:flex-row">
           <a href="https://wa.me/6289514161277?text=Halo%20NihonSkuy%2C%20saya%20tertarik%20program%20Full%20Bundling."
@@ -48,26 +46,15 @@
 
   <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
     <div class="max-w-2xl">
-      <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Fokus Program Full Bundling</h2>
+      <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Mengapa Memilih Program Ini?</h2>
     </div>
     <p class="mt-6 max-w-4xl text-sm leading-relaxed text-slate-600 sm:text-base">
-      Program ini cocok untuk peserta yang ingin paket komprehensif: mulai dari penguatan fondasi karier, latihan seleksi, sampai pendampingan proses kerja dan administrasi lanjutan.
+      Banyak calon tenaga kerja Indonesia menghadapi hambatan signifikan saat mencoba meniti karier di Jepang, terutama terkait ketidakpastian waktu tunggu lowongan pekerjaan yang berkepanjangan. Selain kendala efisiensi waktu, para kandidat sering kali terjebak dalam pengeluaran biaya yang tidak relevan serta menjadi sasaran biaya impulsif yang dibebankan oleh oknum-oknum tidak bertanggung jawab. Di sisi lain, terdapat masalah teknis berupa ketidakefisienan penyusunan resume (CV) yang tidak sesuai dengan standar pasar kerja di Jepang, yang berdampak pada rendahnya peluang keberhasilan tahap awal. Kurangnya kesiapan dalam menghadapi sesi wawancara dengan perusahaan Jepang serta kesulitan kandidat dalam menentukan arah karier yang selaras dengan latar belakang pendidikan maupun keahlian mereka, semakin memperkecil probabilitas penerimaan kerja di lingkungan profesional yang kompetitif tersebut.
     </p>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Edukasi + Matching dalam Satu Program</h3>
-        <p class="mt-3 text-sm leading-relaxed text-slate-600">Semua tahapan inti disatukan agar proses lebih ringkas dan terarah.</p>
-      </article>
-      <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Pendampingan End-to-End</h3>
-        <p class="mt-3 text-sm leading-relaxed text-slate-600">Bimbingan dari fase persiapan, fase apply, hingga fase keberangkatan.</p>
-      </article>
-      <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 class="text-lg font-semibold tracking-tight text-slate-900">Cakupan Benefit Terlengkap</h3>
-        <p class="mt-3 text-sm leading-relaxed text-slate-600">Menggabungkan benefit Career Education dan Matching Job sekaligus.</p>
-      </article>
-    </div>
+    <p class="mt-6 max-w-4xl text-sm leading-relaxed text-slate-600 sm:text-base">
+      Sebagai upaya mitigasi terhadap berbagai kendala tersebut, program Full Bundling hadir dengan mengintegrasikan persiapan edukasi karier dan pendampingan matching job dalam satu paket layanan yang komprehensif. Program ini dirancang untuk meminimalisir biaya yang tidak diperlukan melalui transparansi anggaran, sekaligus memastikan setiap kandidat memiliki resume yang optimal dan sesuai dengan ekspektasi industri di Jepang. Melalui pendampingan persiapan wawancara yang terukur, kandidat diharapkan mampu memberikan performa terbaik di hadapan pemberi kerja, sehingga peluang penerimaan meningkat secara signifikan. Dengan pendekatan yang berorientasi pada latar belakang individu, solusi ini menyediakan jalur yang lebih menyeluruh, efektif, dan profesional bagi warga Indonesia dalam mewujudkan karier impian mereka di Jepang.
+    </p>
   </section>
 
   <section id="rundown" class="bg-white py-14">
@@ -130,7 +117,7 @@
   <section class="pb-16 pt-2">
     <div class="mx-auto max-w-6xl px-4 sm:px-6">
       <div class="rounded-3xl bg-slate-900 p-8 text-center sm:p-10">
-        <h2 class="text-2xl font-semibold tracking-tight text-white">Mulai Perjalanan Masa Depang Kamu</h2>
+        <h2 class="text-2xl font-semibold tracking-tight text-white">Mulai Perjalanan Masa Depan Kamu</h2>
         <p class="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-200 sm:text-base">
           Kamu bisa mulai mencapai target kamu bersama tim NihonSkuy dengan penawaran spesial
         </p>
