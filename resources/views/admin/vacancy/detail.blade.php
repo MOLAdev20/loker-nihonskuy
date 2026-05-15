@@ -185,6 +185,11 @@
         </button>
       </div>
 
+      <div class="col-span-2 flex flex-col gap-1">
+        <span class="text-sm text-slate-500"></span>
+        <a href="" class="text-white p-2 bg-slate-800 rounded-xl">Edit Info Loker</a>
+      </div>
+
       <!-- Fourth row -->
       <div class="col-span-8 mt-5 flex flex-col gap-2">
         <span class="text-sm text-slate-500">Benefit & Fasilitas</span>
