@@ -243,10 +243,9 @@
           <select name="domicile-requirement" id="domicile-requirement"
             class="rounded border border-slate-300 px-2 py-1 text-sm outline-none transition-all focus:border focus:border-slate-500">
             <option value="">Pilih</option>
-            <option value="kokunai" @selected(old('domicile-requirement') === 'kokunai')>Khusus Jepang</option>
-            <option value="kokugai" @selected(old('domicile-requirement') === 'kokugai')>Bebas (Di Luar Jepang)</option>
-            <option value="kokunai-to-kokugai" @selected(old('domicile-requirement') === 'kokunai-to-kokugai')>Domisili Luar & Dalam
-              Jepang</option>
+            <option value="kokunai" @selected(old('domicile-requirement') === 'kokunai')>Domisili Jepang</option>
+            <option value="kokugai" @selected(old('domicile-requirement') === 'kokugai')>Domisili Indonesia</option>
+            <option value="kokunai-to-kokugai" @selected(old('domicile-requirement') === 'kokunai-to-kokugai')>Domisili Jepang & Indonesia</option>
           </select>
         </div>
         <div class="col-span-2 flex flex-col gap-1">
