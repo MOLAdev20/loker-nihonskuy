@@ -185,11 +185,6 @@
         </button>
       </div>
 
-      <div class="col-span-2 flex flex-col gap-1">
-        <span class="text-sm text-slate-500"></span>
-        <a href="" class="text-white p-2 bg-slate-800 rounded-xl">Edit Info Loker</a>
-      </div>
-
       <!-- Fourth row -->
       <div class="col-span-8 mt-5 flex flex-col gap-2">
         <span class="text-sm text-slate-500">Benefit & Fasilitas</span>
@@ -218,6 +213,12 @@
       </div>
     </div>
   </div>
+
+  <a id="edit-job-floating-button" href="{{ route('admin.vacancy.edit', $job->job_code) }}"
+    class="fixed bottom-6 right-6 z-40 inline-flex h-14 w-14 items-center justify-center rounded-full bg-slate-800 text-white shadow-lg transition hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+    aria-label="Edit loker">
+    <x-icons.pencil size="22" />
+  </a>
 @endsection
 
 @section('scripts')
@@ -248,6 +249,7 @@
 
   <script>
     let currentJobCode = '{{ $job->job_code }}';
+    const editUrlBase = "{{ route('admin.vacancy.edit', 'PLACEHOLDER') }}";
 
     function toggleEditJobCode() {
       const textContainer = document.getElementById('job-code-container');
@@ -316,6 +318,7 @@
               const oldJobCode = currentJobCode;
               currentJobCode = data.job_code;
               textSpan.innerText = currentJobCode;
+              document.getElementById('edit-job-floating-button').href = editUrlBase.replace('PLACEHOLDER', currentJobCode);
               successSpan.innerText = 'ID berhasil dirubah';
               successSpan.classList.remove('hidden');
 
