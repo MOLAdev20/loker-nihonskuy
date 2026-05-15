@@ -56,9 +56,9 @@ class Vacancy extends Model
     public function getDomicileAttribute()
     {
         $domicileLabels = [
-            'kokunai' => 'Khusus Jepang',
-            'kokugai' => 'Bebas (Di Luar Jepang)',
-            'kokunai-to-kokugai' => 'Domisili Bebas',
+            'kokunai' => 'Domisili Jepang',
+            'kokugai' => 'Domisili Indonesia',
+            'kokunai-to-kokugai' => 'Domisili Jepang & Indonesia',
         ];
 
         return $domicileLabels[$this->domicile_requirement] ?? 'Tidak ditentukan';
