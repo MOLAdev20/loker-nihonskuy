@@ -10,7 +10,7 @@ class LandingController extends Controller
 {
     public function index()
     {
-        $jobs = Vacancy::where(["status" => 1])->latest()->take(6)->get();
+        $jobs = Vacancy::latest()->take(6)->get();
         $urgentJobs = Vacancy::query()
             ->where("status", 1)
             ->withTag("urgent")
