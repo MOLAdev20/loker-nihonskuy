@@ -44,7 +44,7 @@ class LandingController extends Controller
             $query->where('placement', 'like', "%{$location}%");
         }
 
-        $jobs = $query->where(['status' => 1])->latest()->paginate(12)->withQueryString();
+        $jobs = $query->latest()->paginate(12)->withQueryString();
 
         return view('landing.explore', [
             'jobs' => $jobs,
