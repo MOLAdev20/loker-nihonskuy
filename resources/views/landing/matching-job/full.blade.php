@@ -60,7 +60,7 @@
   <section id="rundown" class="bg-white py-14">
     <div class="mx-auto max-w-6xl px-4 sm:px-6">
       <div class="max-w-2xl">
-        <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Rundown Kegiatan Konsultasi</h2>
+        <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Rundown Kegiatan Edukasi</h2>
       </div>
 
       @php
@@ -111,6 +111,28 @@
           </button>
         </div>
       </div>
+
+      <div class="max-w-2xl">
+        <h2 class="text-2xl font-semibold tracking-tight text-slate-900">Matching Job</h2>
+      </div>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 class="text-lg font-semibold tracking-tight text-slate-900">Access to Verivied Vacancies</h3>
+          <p class="mt-3 text-sm leading-relaxed text-slate-600">Kandidat akan dibimbing untuk menyelaraskan profil peserta peluang kerja yang relevan.</p>
+        </article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 class="text-lg font-semibold tracking-tight text-slate-900">Management Email Assistance</h3>
+          <p class="mt-3 text-sm leading-relaxed text-slate-600">Bimbingang intensif untuk cara komunikasi ke TSK dan penyusunan email lamaran kerja yang profesional</p>
+        </article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 class="text-lg font-semibold tracking-tight text-slate-900">Management Consultation Support</h3>
+          <p class="mt-3 text-sm leading-relaxed text-slate-600">Arah teknis untuk proses dokumen lanjutan sebelum keberangkatan.</p>
+        </article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 class="text-lg font-semibold tracking-tight text-slate-900">Document Management Services</h3>
+          <p class="mt-3 text-sm leading-relaxed text-slate-600">Arah teknis untuk proses dokumen lanjutan sebelum keberangkatan.</p>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -127,7 +149,7 @@
         </div>
         <a href="https://wa.me/6289514161277?text=Halo%20NihonSkuy%2C%20saya%20tertarik%20program%20Career%20Education."
           class="mt-6 inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100">
-          Konsultasi Career Education
+          Konsultasi Full Bundling
         </a>
       </div>
     </div>
