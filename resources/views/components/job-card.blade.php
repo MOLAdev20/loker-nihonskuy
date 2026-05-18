@@ -4,9 +4,8 @@
   class="hover:shadow-soft group relative rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5">
   <a href="{{ route('vacancy.detail', $dataJob->job_code) }}"
     class="absolute inset-0 z-10 opacity-0"></a>
-  <div>
-    <h3 class="runcate mb-2 text-wrap text-lg font-semibold"><a
-        href="/jobs/{{ $dataJob->job_code }}">{{ $dataJob->title }}</a></h3>
+  <div class="relative">
+    <h3 class="{{ !$dataJob->status ? "text-slate-400" : "" }} mb-2 text-wrap text-lg font-semibold">{{ $dataJob->title }}</h3>
     <div class="flex items-start justify-between gap-3">
       <div class="min-w-0 flex-1">
       <p class="mt-1 flex items-center gap-2 text-sm text-slate-600"><x-icons.map
@@ -16,6 +15,9 @@
           size="15" />{{ $dataJob->visa_type }}</p>
       </div>
     </div>
+    @if(!$dataJob->status)
+    <img src="/closed-stamp.svg" width="80px" class="absolute top-4 right-5"/>
+    @endif
   </div>
   <div class="mt-3 border-t border-dashed border-slate-300">
     <div class="mt-1">
@@ -78,7 +80,7 @@
     @endif
   </div>
   <div class="mt-4 flex items-center justify-between">
-    <div class="animate-bounce rounded-2xl bg-blue-900 px-2 py-1 text-sm font-extrabold text-white">
+    <div class="animate-bounce rounded-2xl {{ !$dataJob->status ? "bg-slate-300" : "bg-blue-900" }}  px-2 py-1 text-sm font-extrabold text-white">
       {{ $dataJob->salary_range }}</div>
   </div>
 </article>
