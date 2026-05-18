@@ -1,0 +1,17 @@
+Buat document plan/PRD di plan/setup-user-account-activation.md
+
+Tujuan:
+*Membuat sistem aktivasi akun by email sebelum user (refer to table users) dapat beraktivitas di akunnya*
+
+Ketentuan:
+- Manfaatkan laravel breeze yang terinstall di project ini
+- Gunakan laravel breeze untuk menyelesaikan sistem aktivasi akun by email ini
+- Gunakan route, controller dan model yang tersedia
+- Untuk template body emailnya, mengacu pada resource/views/mail.html
+- Batasi "kirim ulang email". Berikan rate limitting untuk user, agar tidak spam resend email activation
+- Konfigurasi email menggunakan SMTP sudah disetup di file .env
+
+
+*notes
+Kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah

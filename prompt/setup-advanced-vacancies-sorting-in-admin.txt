@@ -1,0 +1,29 @@
+Buatkan document plan plan/setup-advanced-vacancies-sorting-in-admin.md
+
+(scope/tujuan utama) 
+*Menambahkan advanced filter/sorting pada data vacancies (lowongan kerja) di bagian admin (manajemen loker)*
+
+Ketentuan dan guidance pengerjaan:
+- Pada bagian UI/Tampilan/View manajemen seluruh lowongan kerja atau loker (resources/views/admin/vacancy/all.blade.php):
+ - Tambahkan tombol persegi dengan icon filter dan letakan di ujung kanan sejajar dengan field pencarian
+ - Tombol persegi itu akan mentrigger sebuah modal
+ - Modal itu berisi tools atau kolom mana yang akan di filter untuk mendapatkan data loker yang diinginkan. Berikut ketentuannya:
+ - Sorting kode loker (job_code) (A to Z / Z to A)
+ - Jenis visa (visa_type) (drop down) isi : Tokutei Ginou 1, Tokutei Ginou 2, Kaigo Visa dan Gijinkoku
+ - Penempatan (placement) (dropdown) seluruh prefektur jepang seperti yang ada di views/admin/vacancy/create.blade.php
+ - Syarat Jenis Kelamin (gender_requirement) radio button
+ - Syarat domisili (domicile_requirement) radio button
+ - Syarat JLPT (jlpt_requirement) radio button
+ - Syarat kaiwa (kaiwa_requirement) radio button
+ - Status (status) radio button
+
+- Saat tombol terapkan filter pada modal di klik, maka sistem akan menampilkan datanya.
+- Pertahankan pagination meski datanya sedang di filter.
+- Setiap kolom yang difilter, berikan remove filter. Remove filter di dalam modalnya. Klik terapkan filter untuk memperbarui data yang didapatkan.
+- Gunakan laravel spatie query builder yang sudah terinstall di project ini untuk menyelesaikan masalah
+- Gunakan controller dan model yang sudah disediakan.
+
+
+*catatan:
+
+- Tempatkan diri anda sebagai technical architect / PM / senior fullstack developer. Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior fullstack programmer atau Program AI Model yang murah

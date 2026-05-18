@@ -239,10 +239,13 @@
       <div>
         <label class="{{ $labelClass }}" for="isWearingHijab">Apakah Menggunakan Hijab? <span
             class="text-red-600">*</span></label>
-        <input id="isWearingHijab" name="isWearingHijab" type="text"
-          value="{{ old('isWearingHijab', $profile?->is_wearing_hijab ?? '') }}"
-          class="{{ $inputClass }} @error('isWearingHijab') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
-          placeholder="Contoh: Ya / Tidak">
+        <select id="isWearingHijab" name="isWearingHijab"
+          class="{{ $inputClass }} @error('isWearingHijab') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
+          <option value="">Pilih</option>
+          <option value="Saya ingin memakai jilbab" @selected(old('isWearingHijab', $profile?->is_wearing_hijab ?? '') === 'Saya ingin memakai jilbab')>Saya ingin memakai jilbab</option>
+          <option value="Saya bisa menyesuaikan situasi" @selected(old('isWearingHijab', $profile?->is_wearing_hijab ?? '') === 'Saya bisa menyesuaikan situasi')>Saya bisa menyesuaikan situasi</option>
+          <option value="Saya tidak berencana memakainya" @selected(old('isWearingHijab', $profile?->is_wearing_hijab ?? '') === 'Saya tidak berencana memakainya')>Saya tidak berencana memakainya</option>
+        </select>
         @error('isWearingHijab')
           <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
         @enderror
@@ -251,10 +254,13 @@
       <div>
         <label class="{{ $labelClass }}" for="prayerRequirement">Kebutuhan Ibadah <span
             class="text-red-600">*</span></label>
-        <input id="prayerRequirement" name="prayerRequirement" type="text"
-          value="{{ old('prayerRequirement', $profile?->prayer_requirement ?? '') }}"
-          class="{{ $inputClass }} @error('prayerRequirement') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
-          placeholder="Masukkan kebutuhan ibadah">
+        <select id="prayerRequirement" name="prayerRequirement"
+          class="{{ $inputClass }} @error('prayerRequirement') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
+          <option value="">Pilih</option>
+          <option value="Saya sangat membutuhkan fasilitas ibadah" @selected(old('prayerRequirement', $profile?->prayer_requirement ?? '') === 'Saya sangat membutuhkan fasilitas ibadah')>Saya sangat membutuhkan fasilitas ibadah</option>
+          <option value="Bisa menyesuaikan kondisi" @selected(old('prayerRequirement', $profile?->prayer_requirement ?? '') === 'Bisa menyesuaikan kondisi')>Bisa menyesuaikan kondisi</option>
+          <option value="Saya tidak membutuhkannya" @selected(old('prayerRequirement', $profile?->prayer_requirement ?? '') === 'Saya tidak membutuhkannya')>Saya tidak membutuhkannya</option>
+        </select>
         @error('prayerRequirement')
           <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
         @enderror
@@ -263,10 +269,14 @@
       <div>
         <label class="{{ $labelClass }}" for="porkTolerance">Toleransi Terhadap Daging Babi <span
             class="text-red-600">*</span></label>
-        <input id="porkTolerance" name="porkTolerance" type="text"
-          value="{{ old('porkTolerance', $profile?->pork_tolerance ?? '') }}"
-          class="{{ $inputClass }} @error('porkTolerance') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
-          placeholder="Masukkan toleransi">
+        <select id="porkTolerance" name="porkTolerance"
+          class="{{ $inputClass }} @error('porkTolerance') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
+          <option value="">Pilih</option>
+          <option value="Tidak boleh ada keterlibatan dengan babi sama sekali" @selected(old('porkTolerance', $profile?->pork_tolerance ?? '') === 'Tidak boleh ada keterlibatan dengan babi sama sekali')>Tidak boleh ada keterlibatan dengan babi sama sekali</option>
+          <option value="Boleh memasak, tapi tidak mencicipi/mengonsumsi" @selected(old('porkTolerance', $profile?->pork_tolerance ?? '') === 'Boleh memasak, tapi tidak mencicipi/mengonsumsi')>Boleh memasak, tapi tidak mencicipi/mengonsumsi</option>
+          <option value="Boleh memasak & mencicipi, tapi tidak mengonsumsi" @selected(old('porkTolerance', $profile?->pork_tolerance ?? '') === 'Boleh memasak & mencicipi, tapi tidak mengonsumsi')>Boleh memasak & mencicipi, tapi tidak mengonsumsi</option>
+          <option value="Tidak ada batasan terkait daging babi (bebas)" @selected(old('porkTolerance', $profile?->pork_tolerance ?? '') === 'Tidak ada batasan terkait daging babi (bebas)')>Tidak ada batasan terkait daging babi (bebas)</option>
+        </select>
         @error('porkTolerance')
           <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
         @enderror
@@ -275,10 +285,14 @@
       <div>
         <label class="{{ $labelClass }}" for="alcoholTolerance">Toleransi Terhadap Alkohol <span
             class="text-red-600">*</span></label>
-        <input id="alcoholTolerance" name="alcoholTolerance" type="text"
-          value="{{ old('alcoholTolerance', $profile?->alcohol_tolerance ?? '') }}"
-          class="{{ $inputClass }} @error('alcoholTolerance') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
-          placeholder="Masukkan toleransi">
+        <select id="alcoholTolerance" name="alcoholTolerance"
+          class="{{ $inputClass }} @error('alcoholTolerance') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
+          <option value="">Pilih</option>
+          <option value="Tidak boleh ada keterlibatan alkohol sama sekali" @selected(old('alcoholTolerance', $profile?->alcohol_tolerance ?? '') === 'Tidak boleh ada keterlibatan alkohol sama sekali')>Tidak boleh ada keterlibatan alkohol sama sekali</option>
+          <option value="Boleh menyiapkan, tapi tidak mencicipi/minum" @selected(old('alcoholTolerance', $profile?->alcohol_tolerance ?? '') === 'Boleh menyiapkan, tapi tidak mencicipi/minum')>Boleh menyiapkan, tapi tidak mencicipi/minum</option>
+          <option value="Boleh menyiapkan & mencicipi, tapi tidak minum" @selected(old('alcoholTolerance', $profile?->alcohol_tolerance ?? '') === 'Boleh menyiapkan & mencicipi, tapi tidak minum')>Boleh menyiapkan & mencicipi, tapi tidak minum</option>
+          <option value="Tidak ada batasan terkait alkohol (bebas)" @selected(old('alcoholTolerance', $profile?->alcohol_tolerance ?? '') === 'Tidak ada batasan terkait alkohol (bebas)')>Tidak ada batasan terkait alkohol (bebas)</option>
+        </select>
         @error('alcoholTolerance')
           <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
         @enderror

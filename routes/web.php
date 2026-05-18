@@ -8,6 +8,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UserWorkingExpController;
 use App\Http\Controllers\VacancyController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\MatchingJobLandingController;
 use App\Http\Controllers\User\ResumeController;
 use App\Http\Controllers\User\AccountController;
 use App\Http\Controllers\User\EducationController;
@@ -15,9 +16,12 @@ use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\WorkExperienceController;
 
 Route::get("/", [LandingController::class, "index"])->name("home");
-Route::get("/matching-job", [LandingController::class, "matchingJob"])->name("matching.job");
 Route::get("/vacancies", [LandingController::class, "explore"])->name("vacancies");
 Route::get("/vacancy/{id}", [LandingController::class, "detail"])->name("vacancy.detail");
+Route::get("/matching-job", [MatchingJobLandingController::class, "index"])->name("matching.job");
+Route::get("/matching-job/education-program", [MatchingJobLandingController::class, "onlyEducation"])->name("matching.job.education");
+Route::get("/matching-job/basic-program", [MatchingJobLandingController::class, "onlyMatchingJob"])->name("matching.job.basic");
+Route::get("/matching-job/full-program", [MatchingJobLandingController::class, "fullBundling"])->name("matching.job.full");
 
 Route::prefix("admin")->group(function () {
     Route::middleware("admin.guest")->group(function () {
@@ -55,6 +59,7 @@ Route::prefix("admin")->group(function () {
                 Route::prefix("profile")->group(function () {
                     Route::get("/", [UserProfileController::class, "showForm"])->name("admin.users.profile.form");
                     Route::post("/", [UserProfileController::class, "store"])->name("admin.users.profile.store");
+                    Route::post("/upload-photo", [UserProfileController::class, "uploadProfilePicture"])->name("admin.users.profile.upload-photo");
                 });
 
                 Route::prefix("working-experience")->group(function () {
@@ -70,7 +75,7 @@ Route::prefix("admin")->group(function () {
     });
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get("/dashboard", [ProfileController::class, "showProfile"])->name("user.dashboard");
 
     // Profile

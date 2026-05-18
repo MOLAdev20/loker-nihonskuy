@@ -1,0 +1,19 @@
+Buat document plan/PRD di plan/setup-register-login-user-ui.md
+
+Tujuan:
+*Membuat layouting pada halaman register dan login user*
+*Redesign tampilan halaman register dan login user*
+
+- views/auth/register.blade.php
+- views/auth/login.blade.php
+
+Ketentuan:
+- Tailwind CSS
+- Tidak perlu mengubah ke bagian backend, cukup di front-endnya saja
+- Nuansa kedua halaman adalah sebagai berikut:
+ - Modern, responsive, mobile first dan clean design
+ - Layout dibagi 2, sebelah kanan gambar dan sebelah kiri form utama. Dengan header/title (login dan register) dan sub-headernya
+ - Pada saat mode mobile, gambarnya ini tidak perlu ditampilkan. Cukup fokuskan pada form utamanya saja
+
+*notes
+Kerjakan sesuai notes, jangan melewati scope instruksi.

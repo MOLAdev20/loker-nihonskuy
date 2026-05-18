@@ -1,0 +1,29 @@
+Tujuan:
+Ubah field input pertanyaan berikut ini pada bagian profile user pada file file ini (sebelumnya input type text):
+
+- views/user/profile-form.blade.php
+- views/user/edit-profile-form.blade.php
+- views/user/edit-profile-form.blade.php
+- views/admin/user/edit-profile-form.blade.php
+
+Ketentuan:
+field input pertanyaan yang akan diubah:
+
+"Apakah Menggunakan Hijab?":
+ - Type: Dropdown
+ - list of options (and as a value of each option): ['Saya ingin memakai jilbab', 'Saya bisa menyesuaikan situasi', 'Saya tidak berencana memakainya']
+
+"Kebutuhan Ibadah":
+ - Type: Dropdown
+ - list of options (and as a value of each option): ['Saya sangat membutuhkan fasilitas ibadah', 'Bisa menyesuaikan kondisi', 'Saya tidak membutuhkannya']
+
+ "Toleransi terhadap Alkohol":
+ - Type: Dropdown
+ - list of options (and as a value of each option): ['Tidak boleh ada keterlibatan alkohol sama sekali', 'Boleh menyiapkan, tapi tidak mencicipi/minum', 'Boleh menyiapkan & mencicipi, tapi tidak minum', 'Tidak ada batasan terkait alkohol (bebas)']
+
+ "Toleransi terhadap daging babi":
+ - Type: Dropdown
+ - list of options (and as a value of each option): ['Tidak boleh ada keterlibatan dengan babi sama sekali', 'Boleh memasak, tapi tidak mencicipi/mengonsumsi', 'Boleh memasak & mencicipi, tapi tidak mengonsumsi', 'Tidak ada batasan terkait daging babi (bebas)']
+
+ *notes
+Kerjakan sesuai notes, jangan melewati scope instruksi.

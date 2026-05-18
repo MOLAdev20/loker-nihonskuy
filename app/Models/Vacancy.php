@@ -17,11 +17,15 @@ class Vacancy extends Model
         'placement',
         'placement_branch',
         'job_type',
+        'company_web',
         'source',
         'salary',
         'whatsapp_number',
         'gender_requirement',
         'domicile_requirement',
+        'exp_requirement',
+        'jlpt_requirement',
+        'kaiwa_requirement',
         'qty',
         'benefit',
         'tags',
@@ -52,12 +56,39 @@ class Vacancy extends Model
     public function getDomicileAttribute()
     {
         $domicileLabels = [
-            'kokunai' => 'Khusus Jepang',
-            'kokugai' => 'Bebas (Di Luar Jepang)',
-            'kokunai-to-kokugai' => 'Domisili Bebas',
+            'kokunai' => 'Domisili Jepang',
+            'kokugai' => 'Domisili Indonesia',
+            'kokunai-to-kokugai' => 'Domisili Jepang & Indonesia',
         ];
 
         return $domicileLabels[$this->domicile_requirement] ?? 'Tidak ditentukan';
+    }
+
+    public function getJlptRequirementLabelAttribute(): string
+    {
+        $jlptLabels = [
+            'n5' => 'N5',
+            'n4' => 'N4',
+            'n3' => 'N3',
+            'n2' => 'N2',
+            'n1' => 'N1',
+            'all' => 'Bebas',
+        ];
+
+        return $jlptLabels[$this->jlpt_requirement] ?? '-';
+    }
+
+    public function getKaiwaRequirementLabelAttribute(): string
+    {
+        $kaiwaLabels = [
+            'n5' => 'N5',
+            'n4' => 'N4',
+            'n3' => 'N3',
+            'n2' => 'N2',
+            'n1' => 'N1',
+        ];
+
+        return $kaiwaLabels[$this->kaiwa_requirement] ?? '-';
     }
 
     // Assesor

@@ -1,0 +1,20 @@
+Buatkan dokumen plan di plan/setup-mj-page.md
+
+Tujuan / akan ditambah / diubah:
+Buatkan halaman landing page untuk informasi kelas konsultasi matching job kerja di jepang
+
+Ketentuan:
+- Halaman dibuat dengan tailwind CSS, responsive, mobile first priority, clean and modern vibe.
+- Halaman diakses di rute publik (/matching-job) pada controller LandingController
+- Nuansa halaman menyerupai desain landing page yang sudah ada (landing/main.blade.php)
+- Tempatkan halaman/view di landing/matching-job.blade.php
+- Buatkan template untuk beberapa bagian:
+ - Jumbotron, berikan model foto manusia di sana
+ - Template untuk bagian disimpannya beberapa paragraf informasi lengkap dengan Judul
+ - Bagian timeline
+ - Bagian pricing (ada 3 paket) lengkap dengan nama paket, harga dan benefitnya dalam bentuk centang
+ - Bagian CTA button mengarah ke whatsapp
+
+*notes
+Kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah

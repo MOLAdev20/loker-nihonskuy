@@ -61,13 +61,13 @@
           </div>
           <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
             <div class="text-xs text-slate-500">Total Pelamar</div>
-            <div class="my-2 text-2xl font-semibold">500+</div>
-            <div class="text-xs text-slate-500">Untuk jobseeker</div>
+            <div class="my-2 text-2xl font-semibold">552</div>
+            <div class="text-xs text-slate-500">Sudah bekerja</div>
           </div>
           <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-            <div class="text-xs text-slate-500">Support</div>
-            <div class="my-2 text-2xl font-semibold">Full</div>
-            <div class="text-xs text-slate-500">CV • Interview</div>
+            <div class="text-xs text-slate-500">Dukungan</div>
+            <div class="my-2 text-2xl font-semibold">Penuh</div>
+            <div class="text-xs text-slate-500">Sampai Keberangkatan</div>
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@
     <section class="sm:mt-15 mx-auto max-w-6xl px-4 pb-14 sm:px-6">
       <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-center">
         <div class="text-center">
-          <h2 class="text-2xl font-semibold tracking-tight">🔥 Dibutuhkan Segera</h2>
+          <h2 class="text-2xl font-semibold tracking-tight">🔥 Dibutuhkan Segera 🔥</h2>
           <p class="mt-1 text-sm text-slate-600">Perusahaan ini sedang secepatnya membutuhkan
             kandidat!</p>
         </div>
@@ -123,8 +123,8 @@
   <section id="jobs" class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
     <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-center">
       <div class="text-center">
-        <h2 class="text-2xl font-semibold tracking-tight">Paling Banyak di Lamar</h2>
-        <p class="mt-1 text-sm text-slate-600">Loker yang paling banyak diminati oleh pengguna</p>
+        <h2 class="text-2xl font-semibold tracking-tight">Info Loker Terbaru</h2>
+        <p class="mt-1 text-sm text-slate-600">Info loker yang baru saja diupdate</p>
       </div>
     </div>
 
@@ -182,10 +182,8 @@
               </svg>
             </div>
             <div>
-              <div class="text-sm font-semibold">Lowongan Kerja Aman & Terpercaya</div>
-              <div class="text-sm text-slate-600">Info loker sudah dicek dan diverifikasi keasliannya
-                oleh tim
-                Minskuy</div>
+              <div class="text-sm font-semibold">Info Loker Aman & Terpercaya</div>
+              <div class="text-sm text-slate-600">Informasi loker langsung dari TSK yang sudah terverifikasi</div>
             </div>
           </div>
 
@@ -201,10 +199,8 @@
               </svg>
             </div>
             <div>
-              <div class="text-sm font-semibold">Dukungan dari Tim Nihonskuy 24/7</div>
-              <div class="text-sm text-slate-600">Butuh bantuan atau sekedar tanya-tanya? Minskuy
-                siap
-                membantu</div>
+              <div class="text-sm font-semibold">Dukungan & Konsultasi</div>
+              <div class="text-sm text-slate-600">Konsultasi atau sekedar tanya-tanya? kami siap membantu</div>
             </div>
           </div>
 
@@ -220,9 +216,7 @@
             </div>
             <div>
               <div class="text-sm font-semibold">Mudah & Cepat</div>
-              <div class="text-sm text-slate-600">Lamar kerja cukup klik sekali, dan Minskuy akan
-                mengubungi
-                kamu</div>
+              <div class="text-sm text-slate-600">Lamar kerja cukup klik sekali. Banyak info yang kamu dapat</div>
             </div>
           </div>
         </div>
@@ -232,7 +226,7 @@
             class="rounded-xl bg-slate-900 px-4 py-2 text-center text-sm font-medium text-white hover:bg-slate-800">
             Mulai cari kerja
           </a>
-          <a href="#footer"
+          <a href="https://wa.me/+6289514161277" target="_blank"
             class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-center text-sm font-medium text-slate-700 hover:bg-slate-50">
             Hubungi kami
           </a>
@@ -252,54 +246,141 @@
       <div class="text-xs text-slate-500">★ 4.8/5 dari 1,200+ review</div>
     </div>
 
-    <div class="mt-8 grid gap-4 md:grid-cols-3">
-      <figure class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <blockquote class="text-sm leading-relaxed text-slate-700">
-          “Info lowongan Jepang-nya lengkap dan jelas. Dari lokasi, gaji, sampai syarat domisili,
-          semuanya kebaca
-          tanpa ribet.”
-        </blockquote>
-        <figcaption class="mt-4 flex items-center justify-between">
-          <div>
-            <div class="text-sm font-semibold">Rina</div>
-            <div class="text-xs text-slate-500">Caregiver Applicant</div>
-          </div>
-          <span
-            class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-700">Applied</span>
-        </figcaption>
-      </figure>
+    @php
+      $testimonials = [
+          [
+              'name' => 'Rina Susilawati',
+              'role' => 'Caregiver Applicant',
+              'status' => 'Applied',
+              'quote' =>
+                  'Info lowongan Jepang-nya lengkap dan jelas. Dari lokasi, gaji, sampai syarat domisili, semuanya kebaca tanpa ribet.',
+          ],
+          [
+              'name' => 'Dimas Agung Wicaksono',
+              'role' => 'Factory Worker Applicant',
+              'status' => 'Interview',
+              'quote' =>
+                  'Portal ini bantu banget buat nyari kerja di Jepang. Bisa bandingin lowongan dari beberapa perusahaan dengan cepat.',
+          ],
+          [
+              'name' => 'Siti Ayuningtyas',
+              'role' => 'Restaurant Staff Applicant',
+              'status' => 'Hired',
+              'quote' =>
+                  'Proses cari kerja ke Jepang jadi lebih terarah. Ada ringkasan job type, kuota, dan penempatan jadi gampang milih.',
+          ],
+          [
+              'name' => 'Budi Abiyoga',
+              'role' => 'Welding Applicant',
+              'status' => 'Applied',
+              'quote' =>
+                  'Filter domisili dan kategori kerjanya ngebantu banget. Saya jadi cepat nemu lowongan yang pas buat latar belakang saya.',
+          ],
+          [
+              'name' => 'Nadia Fiska Amerta',
+              'role' => 'Food Processing Applicant',
+              'status' => 'Interview',
+              'quote' =>
+                  'Tiap lowongan dijelasin detail, jadi sebelum daftar saya sudah paham skema kerja dan benefit yang ditawarkan.',
+          ],
+          [
+              'name' => 'Fajar Agung Hartono',
+              'role' => 'Machining Applicant',
+              'status' => 'Hired',
+              'quote' =>
+                  'Saya suka karena update lowongannya cepat. Begitu ada posisi baru, langsung bisa saya cek dan apply di hari yang sama.',
+          ],
+          [
+              'name' => 'Ayu Cinthya Eka',
+              'role' => 'Housekeeping Applicant',
+              'status' => 'Applied',
+              'quote' =>
+                  'Antarmuka website-nya simpel dan enak dipakai di HP. Cari lowongan dari rumah jadi lebih praktis.',
+          ],
+          [
+              'name' => 'Rio Edi',
+              'role' => 'Construction Applicant',
+              'status' => 'Interview',
+              'quote' =>
+                  'Saya terbantu banget dengan info kuota dan penempatan. Jadi bisa tentuin target perusahaan dari awal.',
+          ],
+          [
+              'name' => 'Maya Selawati',
+              'role' => 'Caregiver Applicant',
+              'status' => 'Hired',
+              'quote' =>
+                  'NihonSkuy bikin proses cari kerja terasa jelas tahapannya. Dari cari info sampai daftar semuanya lebih terarah.',
+          ],
+          [
+              'name' => 'Agus Herikusna',
+              'role' => 'Logistics Applicant',
+              'status' => 'Applied',
+              'quote' =>
+                  'Lowongannya bervariasi dan gak bikin bingung karena tiap posisi dijelaskan singkat tapi padat.',
+          ],
+          [
+              'name' => 'Lina Mariawati',
+              'role' => 'Nursing Home Applicant',
+              'status' => 'Interview',
+              'quote' =>
+                  'Saya bisa bandingkan banyak perusahaan dalam satu tempat. Ini ngirit waktu dibanding cari satu-satu di banyak sumber.',
+          ],
+          [
+              'name' => 'M Yusuf Bachtiar',
+              'role' => 'Automotive Applicant',
+              'status' => 'Hired',
+              'quote' =>
+                  'Berkat portal ini saya lebih cepat ambil keputusan untuk apply. Informasi gaji dan lokasi sudah terang dari awal.',
+          ],
+      ];
+    @endphp
 
-      <figure class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <blockquote class="text-sm leading-relaxed text-slate-700">
-          “Portal ini bantu banget buat nyari kerja di Jepang. Bisa bandingin lowongan dari beberapa
-          perusahaan
-          dengan cepat.”
-        </blockquote>
-        <figcaption class="mt-4 flex items-center justify-between">
-          <div>
-            <div class="text-sm font-semibold">Dimas</div>
-            <div class="text-xs text-slate-500">Factory Worker Applicant</div>
+    <div class="testimonials-swiper swiper mt-8">
+      <div class="swiper-wrapper pb-2">
+        @foreach (array_chunk($testimonials, 3) as $testimonialChunk)
+          <div class="swiper-slide h-auto">
+            <div class="grid gap-4 md:grid-cols-3">
+              @foreach ($testimonialChunk as $testimonial)
+                <figure class="h-full rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <blockquote class="text-sm leading-relaxed text-slate-700">
+                    "{{ $testimonial['quote'] }}"
+                  </blockquote>
+                  <figcaption class="mt-4 flex items-center justify-between">
+                    <div>
+                      <div class="text-sm font-semibold">{{ $testimonial['name'] }}</div>
+                      <div class="text-xs text-slate-500">{{ $testimonial['role'] }}</div>
+                    </div>
+                    <span
+                      class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-700">{{ $testimonial['status'] }}</span>
+                  </figcaption>
+                </figure>
+              @endforeach
+            </div>
           </div>
-          <span
-            class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-700">Interview</span>
-        </figcaption>
-      </figure>
+        @endforeach
+      </div>
+    </div>
 
-      <figure class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <blockquote class="text-sm leading-relaxed text-slate-700">
-          “Proses cari kerja ke Jepang jadi lebih terarah. Ada ringkasan job type, kuota, dan
-          penempatan jadi
-          gampang milih.”
-        </blockquote>
-        <figcaption class="mt-4 flex items-center justify-between">
-          <div>
-            <div class="text-sm font-semibold">Siti</div>
-            <div class="text-xs text-slate-500">Restaurant Staff Applicant</div>
-          </div>
-          <span
-            class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-700">Hired</span>
-        </figcaption>
-      </figure>
+    <div class="mt-5 flex items-center justify-between">
+      <div class="testimonials-swiper-pagination"></div>
+      <div class="flex items-center gap-2">
+        <button type="button"
+          class="testimonials-swiper-prev inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50"
+          aria-label="Slide sebelumnya">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <button type="button"
+          class="testimonials-swiper-next inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50"
+          aria-label="Slide berikutnya">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
+      </div>
     </div>
   </section>
 @endsection

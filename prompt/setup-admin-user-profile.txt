@@ -1,0 +1,14 @@
+Buatkan document plan/PRD di plan/setup-admin-user-profile.md
+
+Tujuan:
+*Ubah tampilan pada detail user yang ada di halaman admin (refer to resources/views/admin/user/detail.blade.php)*
+
+Ketentuan:
+- Hanya ubah layout dari susunan datanya saja
+- Look dan nuansa biarkan seperti sediakala
+- Ubah layout dengan ketentuan:
+ - Grid 3*6. 
+   - grid 1~2 : Foto profile. grid 3~6 : stack 1 Card profile detail (refer to table `user_profile`), stack 2 : card berisi table riwayat pendidikan, stack 3 : card berisi table pengalaman kerja
+
+ *notes
+Kerjakan sesuai notes, jangan melewati scope instruksi.

@@ -112,9 +112,14 @@
           @error('visa-type')
             <span class="text-[10px] text-red-600">{{ $message }}</span>
           @enderror
-          <input type="text" name="visa-type" id="visa-type"
-            value="{{ old('visa-type', $job->visa_type) }}"
+          <select name="visa-type" id="visa-type"
             class="{{ $errors->has('visa-type') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }} rounded border bg-white px-2 py-1 text-sm outline-none transition-all focus:border">
+            <option value="">Pilih</option>
+            <option value="Tokutei Ginou 1" @selected(old('visa-type', $job->visa_type) === 'Tokutei Ginou 1')>Tokutei Ginou 1</option>
+            <option value="Tokutei Ginou 2" @selected(old('visa-type', $job->visa_type) === 'Tokutei Ginou 2')>Tokutei Ginou 2</option>
+            <option value="Kaigo Visa" @selected(old('visa-type', $job->visa_type) === 'Kaigo Visa')>Kaigo Visa</option>
+            <option value="GIjinkoku" @selected(old('visa-type', $job->visa_type) === 'GIjinkoku')>GIjinkoku</option>
+          </select>
         </div>
         <div class="col-span-2 flex flex-col gap-1">
           <label for="placement-branch" class="text-sm">Cabang Penempatan</label>
@@ -124,6 +129,15 @@
           <input type="text" name="placement-branch" id="placement-branch"
             value="{{ old('placement-branch', $job->placement_branch) }}" placeholder="Opsional"
             class="{{ $errors->has('placement-branch') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }} rounded border bg-white px-2 py-1 text-sm outline-none transition-all focus:border">
+        </div>
+        <div class="col-span-2 flex flex-col gap-1">
+          <label for="company-web" class="text-sm">Alamat Web Perusahaan</label>
+          @error('company-web')
+            <span class="text-[10px] text-red-600">{{ $message }}</span>
+          @enderror
+          <input type="url" name="company-web" id="company-web"
+            value="{{ old('company-web', $job->company_web) }}" placeholder="https://example.com"
+            class="{{ $errors->has('company-web') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }} w-full rounded border bg-white px-2 py-1 text-sm outline-none transition-all focus:border">
         </div>
         <div class="col-span-2 flex flex-col gap-1">
           <label for="source" class="text-sm">Salinan Asli</label>
@@ -195,10 +209,53 @@
           <select name="domicile-requirement" id="domicile-requirement"
             class="rounded border border-slate-300 bg-white px-2 py-1 text-sm outline-none transition-all focus:border focus:border-slate-500">
             <option value="">Pilih</option>
-            <option value="kokunai" @selected(old('domicile-requirement', $job->domicile_requirement) === 'kokunai')>Khusus Jepang</option>
-            <option value="kokugai" @selected(old('domicile-requirement', $job->domicile_requirement) === 'kokugai')>Bebas (Di Luar Jepang)</option>
-            <option value="kokunai-to-kokugai" @selected(old('domicile-requirement', $job->domicile_requirement) === 'kokunai-to-kokugai')>Domisili Luar & Dalam
+            <option value="kokunai" @selected(old('domicile-requirement', $job->domicile_requirement) === 'kokunai')>Domisili Jepang</option>
+            <option value="kokugai" @selected(old('domicile-requirement', $job->domicile_requirement) === 'kokugai')>Domisili Indonesia</option>
+            <option value="kokunai-to-kokugai" @selected(old('domicile-requirement', $job->domicile_requirement) === 'kokunai-to-kokugai')>Domisili Jepang & Indonesia</option>
+          </select>
+        </div>
+        <div class="col-span-2 flex flex-col gap-1">
+          <label for="exp-requirement" class="text-sm">Persyaratan Minimal Pengalaman</label>
+          @error('exp-requirement')
+            <span class="text-[10px] text-red-600">{{ $message }}</span>
+          @enderror
+          <select name="exp-requirement" id="exp-requirement"
+            class="rounded border border-slate-300 bg-white px-2 py-1 text-sm outline-none transition-all focus:border focus:border-slate-500">
+            <option value="">Pilih</option>
+            <option value="Min. 6 Bulan Pengalaman" @selected(old('exp-requirement', $job->exp_requirement) === 'Min. 6 Bulan Pengalaman')>Min. 6 Bulan Pengalaman</option>
+            <option value="Min. 1 Tahun Pengalaman" @selected(old('exp-requirement', $job->exp_requirement) === 'Min. 1 Tahun Pengalaman')>Min. 1 Tahun Pengalaman</option>
               Jepang</option>
+          </select>
+        </div>
+        <div class="col-span-2 flex flex-col gap-1">
+          <label for="jlpt-requirement" class="text-sm">Persyaratan JLPT</label>
+          @error('jlpt-requirement')
+            <span class="text-[10px] text-red-600">{{ $message }}</span>
+          @enderror
+          <select name="jlpt-requirement" id="jlpt-requirement"
+            class="{{ $errors->has('jlpt-requirement') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }} rounded border bg-white px-2 py-1 text-sm outline-none transition-all focus:border">
+            <option value="">Pilih</option>
+            <option value="n5" @selected(old('jlpt-requirement', $job->jlpt_requirement) === 'n5')>N5</option>
+            <option value="n4" @selected(old('jlpt-requirement', $job->jlpt_requirement) === 'n4')>N4</option>
+            <option value="n3" @selected(old('jlpt-requirement', $job->jlpt_requirement) === 'n3')>N3</option>
+            <option value="n2" @selected(old('jlpt-requirement', $job->jlpt_requirement) === 'n2')>N2</option>
+            <option value="n1" @selected(old('jlpt-requirement', $job->jlpt_requirement) === 'n1')>N1</option>
+            <option value="all" @selected(old('jlpt-requirement', $job->jlpt_requirement) === 'all')>Bebas</option>
+          </select>
+        </div>
+        <div class="col-span-2 flex flex-col gap-1">
+          <label for="kaiwa-requirement" class="text-sm">Level Kaiwa</label>
+          @error('kaiwa-requirement')
+            <span class="text-[10px] text-red-600">{{ $message }}</span>
+          @enderror
+          <select name="kaiwa-requirement" id="kaiwa-requirement"
+            class="{{ $errors->has('kaiwa-requirement') ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-slate-500' }} rounded border bg-white px-2 py-1 text-sm outline-none transition-all focus:border">
+            <option value="">Pilih</option>
+            <option value="n5" @selected(old('kaiwa-requirement', $job->kaiwa_requirement) === 'n5')>N5</option>
+            <option value="n4" @selected(old('kaiwa-requirement', $job->kaiwa_requirement) === 'n4')>N4</option>
+            <option value="n3" @selected(old('kaiwa-requirement', $job->kaiwa_requirement) === 'n3')>N3</option>
+            <option value="n2" @selected(old('kaiwa-requirement', $job->kaiwa_requirement) === 'n2')>N2</option>
+            <option value="n1" @selected(old('kaiwa-requirement', $job->kaiwa_requirement) === 'n1')>N1</option>
           </select>
         </div>
         <div class="col-span-2 mt-5 gap-2">
@@ -223,6 +280,11 @@
               <label for="sallary-upgradable">Kenaikan Gaji</label>
             </div>
             <div>
+              <input type="checkbox" id="bonus" value="Bonus" name="benefit[]"
+                @checked(in_array('Bonus', $selectedBenefits, true))>
+              <label for="bonus">Bonus</label>
+            </div>
+            <div>
               <input type="checkbox" id="paid-overtime" value="Lembur" name="benefit[]"
                 @checked(in_array('Lembur', $selectedBenefits, true))>
               <label for="paid-overtime">Lembur</label>
@@ -231,26 +293,6 @@
               <input type="checkbox" id="night-shift" value="Shift Malam" name="benefit[]"
                 @checked(in_array('Shift Malam', $selectedBenefits, true))>
               <label for="night-shift">Shift Malam</label>
-            </div>
-            <div>
-              <input type="checkbox" id="tg2-support" value="Support TG2" name="benefit[]"
-                @checked(in_array('Support TG2', $selectedBenefits, true))>
-              <label for="tg2-support">Support TG2</label>
-            </div>
-            <div>
-              <input type="checkbox" id="kaigo-support" value="Support Kaigo" name="benefit[]"
-                @checked(in_array('Support Kaigo', $selectedBenefits, true))>
-              <label for="kaigo-support">Support Kaigo</label>
-            </div>
-            <div>
-              <input type="checkbox" id="bonus" value="Bonus" name="benefit[]"
-                @checked(in_array('Bonus', $selectedBenefits, true))>
-              <label for="bonus">Bonus</label>
-            </div>
-            <div>
-              <input type="checkbox" id="free-meal" value="Makan Gratis" name="benefit[]"
-                @checked(in_array('Makan Gratis', $selectedBenefits, true))>
-              <label for="free-meal">Makan Gratis</label>
             </div>
             <div>
               <input type="checkbox" id="dorm" value="Asrama" name="benefit[]"
@@ -268,6 +310,11 @@
               <label for="vehicle-allowance">Tunjangan Kendaraan</label>
             </div>
             <div>
+              <input type="checkbox" id="certificate-allowance" value="Tunjangan Sertifikat"
+                name="benefit[]" @checked(in_array('Tunjangan Sertifikat', $selectedBenefits, true))>
+              <label for="certificate-allowance">Tunjangan Sertifikat</label>
+            </div>
+            <div>
               <input type="checkbox" id="pig-tollerant" value="Toleransi Babi" name="benefit[]"
                 @checked(in_array('Toleransi Babi', $selectedBenefits, true))>
               <label for="pig-tollerant">Toleransi Babi</label>
@@ -276,6 +323,31 @@
               <input type="checkbox" id="pray-tollerant" value="Toleransi Ibadah" name="benefit[]"
                 @checked(in_array('Toleransi Ibadah', $selectedBenefits, true))>
               <label for="pray-tollerant">Toleransi Ibadah</label>
+            </div>
+            <div>
+              <input type="checkbox" id="hijab-tollerant" value="Toleransi Hijab" name="benefit[]"
+                @checked(in_array('Toleransi Hijab', $selectedBenefits, true))>
+              <label for="hijab-tollerant">Toleransi Hijab</label>
+            </div>
+            <div>
+              <input type="checkbox" id="free-meal" value="Makan Gratis" name="benefit[]"
+                @checked(in_array('Makan Gratis', $selectedBenefits, true))>
+              <label for="free-meal">Makan Gratis</label>
+            </div>
+            <div>
+              <input type="checkbox" id="tg2-support" value="Support TG2" name="benefit[]"
+                @checked(in_array('Support TG2', $selectedBenefits, true))>
+              <label for="tg2-support">Support TG2</label>
+            </div>
+            <div>
+              <input type="checkbox" id="kaigo-support" value="Support Kaigo" name="benefit[]"
+                @checked(in_array('Support Kaigo', $selectedBenefits, true))>
+              <label for="kaigo-support">Support Kaigo</label>
+            </div>
+            <div>
+              <input type="checkbox" id="other-benefit" value="Tunjangan Lainnya" name="benefit[]"
+                @checked(in_array('Tunjangan Lainnya', $selectedBenefits, true))>
+              <label for="other-benefit">Tunjangan Lainnya</label>
             </div>
           </div>
         </div>
