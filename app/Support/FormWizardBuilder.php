@@ -35,6 +35,14 @@ class FormWizardBuilder
                 'isCompleted' => $isWorkingExperienceCompleted,
                 'isAccessible' => $isProfileCompleted && $isEducationCompleted,
             ],
+            [
+                'number' => 4,
+                'label' => 'Konfirmasi',
+                'route' => route('users.confirm'),
+                'isActive' => $activeStep === 'workExperience',
+                'isCompleted' => $isWorkingExperienceCompleted,
+                'isAccessible' => $isProfileCompleted && $isEducationCompleted,
+            ],
         ];
     }
 }
