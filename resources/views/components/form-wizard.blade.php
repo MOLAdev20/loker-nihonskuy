@@ -2,7 +2,7 @@
 
 <nav aria-label="Progress form profile"
   class="mb-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-  <ol class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+  <ol class="grid grid-cols-1 gap-3 sm:grid-cols-4">
     @foreach ($steps as $step)
       @php
         $isAccessible = $step['isAccessible'] ?? true;

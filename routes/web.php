@@ -95,6 +95,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/working-experience', [WorkExperienceController::class, 'store'])->name('user.working-experience.store');
     Route::put('/working-experience/{id}', [WorkExperienceController::class, 'update'])->name('user.working-experience.update');
     Route::delete('/working-experience/{id}', [WorkExperienceController::class, 'destroy'])->name('user.working-experience.destroy');
+
+    // Contact Team Page
+    Route::get("/contact-team", [ProfileController::class, "showConfirmPage"])->name("users.confirm");
 });
 
 require __DIR__ . '/auth.php';

@@ -49,6 +49,31 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function showConfirmPage()
+    {
+        $profile = UserProfile::where('user_id', auth()->id())->first();
+        $educationHistories = UserEducationHistory::where('user_id', auth()->id())
+            ->orderByDesc('id')
+            ->get();
+        $workExperiences = WorkExperience::where('user_id', auth()->id())
+            ->orderByDesc('id')
+            ->get();
+
+        $wizardSteps = FormWizardBuilder::buildSteps(
+            'workExperience',
+            (bool) $profile,
+            $educationHistories->isNotEmpty(),
+            $workExperiences->isNotEmpty()
+        );
+
+        $waLink = "https://api.whatsapp.com/send?phone=6285520910869&text=Halo%20Kak%2C%20saya%20" . $profile["full_name"] . ".%0A%0AMau%20konfirmasi%20nih%2C%20saya%20sudah%20selesai%20melengkapi%20data%20pribadi%20di%20platform%20*Nihonskuy*!%20sebagai%20calon%20kandidat.%0A%0AKira-kira%20untuk%20next%20step-nya%20bagaimana%20ya%2C%20Kak%3F%20Mohon%20arahannya%2C%0A%0A_yoroshiku%20onegaishimasu_%20%F0%9F%99%8F";
+
+        return view('user.confirm-team', [
+            'waLink' => $waLink,
+            'wizardSteps' => $wizardSteps,
+        ]);
+    }
+
     public function storeProfile(StoreUserProfileRequest $request)
     {
         $profilePayload = $this->mapProfilePayload($request->validated());
