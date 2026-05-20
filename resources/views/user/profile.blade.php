@@ -88,12 +88,12 @@
           'Tanggal Siap Mulai Kerja' => $profile->work_start_date?->format('d M Y') ?: '-',
           'Pengalaman Teknis' => $profile->technical_experience ?: '-',
       ];
+      $personalInfoChunks = array_chunk($personalInfoRows, (int) ceil(count($personalInfoRows) / 2), true);
     @endphp
 
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-6">
       <div class="lg:col-span-2">
         <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-          <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500">Foto Profile</h2>
           <div class="mt-4">
             @if ($profilePictureUrl)
               <img src="{{ $profilePictureUrl }}" alt="Foto profile {{ $profile->full_name }}"
@@ -136,11 +136,17 @@
               Download CV
             </a>
           </div>
-          <div class="mt-4 divide-y divide-slate-200 rounded-xl border border-slate-200">
-            @foreach ($personalInfoRows as $label => $value)
-              <div class="grid grid-cols-1 gap-2 px-4 py-3 sm:grid-cols-3">
-                <div class="text-sm font-medium text-slate-600">{{ $label }}</div>
-                <div class="text-sm text-slate-900 sm:col-span-2">{{ $value }}</div>
+          <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+            @foreach ($personalInfoChunks as $chunk)
+              <div class="p-4">
+                <div class="space-y-3">
+                  @foreach ($chunk as $label => $value)
+                    <div>
+                      <div class="text-xs font-medium uppercase tracking-wide text-slate-500">{{ $label }}</div>
+                      <div class="mt-1 text-sm font-semibold text-slate-900">{{ $value }}</div>
+                    </div>
+                  @endforeach
+                </div>
               </div>
             @endforeach
           </div>
@@ -148,21 +154,37 @@
 
         <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <h2 class="text-base font-semibold text-slate-900">Riwayat Pendidikan</h2>
-          <div class="mt-4 space-y-3">
+          <div class="mt-4 overflow-x-auto rounded-xl border border-slate-200">
             @forelse ($educationHistories as $educationHistory)
-              <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <div class="text-sm font-semibold text-slate-900">
-                  {{ $educationHistory->education ?: '-' }} - {{ $educationHistory->institution ?: '-' }}
-                </div>
-                <div class="mt-1 text-sm text-slate-600">{{ $educationHistory->location ?: '-' }}</div>
-                <div class="mt-2 text-xs text-slate-500">
+              @if ($loop->first)
+                <table class="min-w-full divide-y divide-slate-200 text-sm">
+                  <thead class="bg-slate-50">
+                    <tr>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Pendidikan</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Institusi</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Lokasi</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Periode</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-200 bg-white">
+              @endif
+              <tr>
+                <td class="px-4 py-3 text-slate-900">{{ $educationHistory->education ?: '-' }}</td>
+                <td class="px-4 py-3 text-slate-900">{{ $educationHistory->institution ?: '-' }}</td>
+                <td class="px-4 py-3 text-slate-700">{{ $educationHistory->location ?: '-' }}</td>
+                <td class="px-4 py-3 text-slate-700">
                   {{ $educationHistory->date_of_entry?->format('d M Y') ?: '-' }} -
                   {{ $educationHistory->date_of_graduation?->format('d M Y') ?: ($educationHistory->date_of_dropped_out?->format('d M Y') ?: '-') }}
-                </div>
-                <div class="mt-1 text-xs font-medium text-slate-600">{{ $educationHistory->status ?: '-' }}</div>
-              </div>
+                </td>
+                <td class="px-4 py-3 text-slate-700">{{ $educationHistory->status ?: '-' }}</td>
+              </tr>
+              @if ($loop->last)
+                </tbody>
+                </table>
+              @endif
             @empty
-              <div class="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-500">
+              <div class="border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-500">
                 Belum ada riwayat pendidikan yang diisi.
               </div>
             @endforelse
@@ -171,23 +193,39 @@
 
         <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <h2 class="text-base font-semibold text-slate-900">Riwayat Pengalaman Kerja</h2>
-          <div class="mt-4 space-y-3">
+          <div class="mt-4 overflow-x-auto rounded-xl border border-slate-200">
             @forelse ($workExperiences as $workExperience)
-              <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <div class="text-sm font-semibold text-slate-900">
-                  {{ $workExperience->field_of_work ?: '-' }} - {{ $workExperience->company_name ?: '-' }}
-                </div>
-                <div class="mt-1 text-sm text-slate-600">{{ $workExperience->location ?: '-' }}</div>
-                <div class="mt-2 text-xs text-slate-500">
+              @if ($loop->first)
+                <table class="min-w-full divide-y divide-slate-200 text-sm">
+                  <thead class="bg-slate-50">
+                    <tr>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Bidang Kerja</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Perusahaan</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Lokasi</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Periode</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-200 bg-white">
+              @endif
+              <tr>
+                <td class="px-4 py-3 text-slate-900">{{ $workExperience->field_of_work ?: '-' }}</td>
+                <td class="px-4 py-3 text-slate-900">{{ $workExperience->company_name ?: '-' }}</td>
+                <td class="px-4 py-3 text-slate-700">{{ $workExperience->location ?: '-' }}</td>
+                <td class="px-4 py-3 text-slate-700">
                   {{ $workExperience->date_of_join?->format('d M Y') ?: '-' }} -
                   {{ $workExperience->date_of_resign?->format('d M Y') ?: 'Sekarang' }}
-                </div>
-                <div class="mt-1 text-xs font-medium text-slate-600">
-                  {{ $workExperience->employment_status ?: '-' }} {{ $workExperience->visa_type ? '• ' . $workExperience->visa_type : '' }}
-                </div>
-              </div>
+                </td>
+                <td class="px-4 py-3 text-slate-700">
+                  {{ $workExperience->employment_status ?: '-' }}{{ $workExperience->visa_type ? ' • ' . $workExperience->visa_type : '' }}
+                </td>
+              </tr>
+              @if ($loop->last)
+                </tbody>
+                </table>
+              @endif
             @empty
-              <div class="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-500">
+              <div class="border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-500">
                 Belum ada riwayat pengalaman kerja yang diisi.
               </div>
             @endforelse
