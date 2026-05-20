@@ -12,7 +12,7 @@
   <link rel="canonical" href="{{ url()->current() }}" />
 
   {{-- OG Tags --}}
-  <meta property="og:title" content="Nihon Skuy - Lowongan Kerja di Jepang" />
+  <meta property="og:title" content="NihonSkuy - Raih Pekerjaan Impianmu di Jepang!" />
   <meta property="og:description" content="Temukan 1.000+ lowongan kerja di Jepang. Daftar gratis dan lamar sekarang!" />
   <meta property="og:image" content="{{ asset('og.jpg') }}" />
   <meta property="og:image:width" content="1200" />
@@ -25,7 +25,7 @@
 
   {{-- Twitter/X Card --}}
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Nihon Skuy - Lowongan Kerja di Jepang" />
+  <meta name="twitter:title" content="NihonSkuy - Raih Pekerjaan Impianmu di Jepang!" />
   <meta name="twitter:description" content="Temukan 1.000+ lowongan kerja di Jepang. Daftar gratis dan lamar sekarang!" />
   <meta name="twitter:image" content="{{ asset('og.jpg') }}" />
 
