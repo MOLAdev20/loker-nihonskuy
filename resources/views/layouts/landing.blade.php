@@ -29,26 +29,8 @@
   <meta name="twitter:description" content="Temukan 1.000+ lowongan kerja di Jepang. Daftar gratis dan lamar sekarang!" />
   <meta name="twitter:image" content="{{ asset('og.jpg') }}" />
 
-  {{-- Tambahan --}}
   <meta name="author" content="NihonSkuy" />
   <title>Nihon Skuy - Lowongan Kerja di Jepang</title>
-
-  {{-- Structured Data --}}
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Nihon Skuy",
-    "url": "{{ config('app.url') }}",
-    "description": "Temukan 1.000+ lowongan kerja di Jepang",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "{{ config('app.url') }}/jobs?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
-  }
-  </script>
-
   @stack('header')
   @vite(['resources/css/app.css', 'resources/js/pages/landing.js'])
 </head>
