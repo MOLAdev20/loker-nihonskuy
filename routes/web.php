@@ -14,6 +14,7 @@ use App\Http\Controllers\User\AccountController;
 use App\Http\Controllers\User\EducationController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\WorkExperienceController;
+use App\Http\Controllers\TSK\TskController;
 
 Route::get("/", [LandingController::class, "index"])->name("home");
 Route::get("/vacancies", [LandingController::class, "explore"])->name("vacancies");
@@ -101,6 +102,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Contact Team Page
     Route::get("/contact-team", [ProfileController::class, "showConfirmPage"])->name("users.confirm");
+});
+
+Route::prefix("tsk")->group(function () {
+    Route::get("/", [TskController::class, "index"])->name("tsk.candidates.index");
+    Route::get("/candidate/{id}", [TskController::class, "show"])->whereNumber("id")->name("tsk.candidates.show");
+    Route::get("/candidate/{id}/download-cv", [UserController::class, "printResume"])->whereNumber("id")->name("tsk.candidates.resume.download");
 });
 
 require __DIR__ . '/auth.php';
