@@ -62,6 +62,8 @@ Route::prefix("admin")->group(function () {
                     Route::post("/upload-photo", [UserProfileController::class, "uploadProfilePicture"])->name("admin.users.profile.upload-photo");
                 });
 
+                Route::get("/print-resume", [UserController::class, "printResume"])->name("admin.users.resume.print");
+
                 Route::prefix("working-experience")->group(function () {
                     Route::get("/", [UserWorkingExpController::class, "index"])->name("admin.users.working-experience.index");
                     Route::post("/", [UserWorkingExpController::class, "store"])->name("admin.users.working-experience.store");
@@ -81,6 +83,7 @@ Route::middleware(['auth'])->group(function () {
     // Profile
     Route::get('/profile', [ProfileController::class, 'showProfileForm'])->name('user.profile.form');
     Route::post('/profile', [ProfileController::class, 'storeProfile'])->name('user.profile.store');
+    Route::post('/profile/upload-photo', [ProfileController::class, 'uploadProfilePicture'])->name('user.profile.upload-photo');
 
     Route::get('/print-resume', [ResumeController::class, 'download'])->name('user.resume.print');
 

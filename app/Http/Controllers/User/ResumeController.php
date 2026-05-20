@@ -7,11 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Models\User\UserEducationHistory;
 use App\Models\User\UserProfile;
 use App\Models\User\WorkExperience;
+use App\Services\GeminiTranslatorService;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ResumeController extends Controller
 {
-    public function download()
+    public function download(GeminiTranslatorService $translator)
     {
         $userId = auth()->id();
 
@@ -24,6 +25,34 @@ class ResumeController extends Controller
             ->orderBy('date_of_join')
             ->orderBy('id')
             ->get();
+
+        if ($profile) {
+            $profile = $translator->translateObjectFields($profile, [
+                'nationality',
+                'current_address',
+                'is_wearing_hijab',
+                'pork_tolerance',
+                'place_of_origin',
+                'religion',
+                'prayer_requirement',
+                'alcohol_tolerance',
+                'current_visa_type',
+                'has_driver_license',
+                'technical_experience',
+            ]);
+        }
+
+        $educationHistories = $translator->translateCollection($educationHistories, [
+            'education',
+            'institution',
+            'location',
+        ]);
+
+        $workExperiences = $translator->translateCollection($workExperiences, [
+            'company_name',
+            'field_of_work',
+            'location',
+        ]);
 
         $fileName = 'resume-' . now()->format('YmdHis') . '.xlsx';
 
