@@ -1,0 +1,16 @@
+Buatkan dokumen plan di plan/setup-resume-excel-revision.md
+
+Berisi brief modifikasi excel report CV Jepang yang sudah ada.
+
+Ketentuan:
+Modifikasi pada layout laporannya. Di mana, file yang berdampak adalah : app/Http/Controllers/User/ResumeController.php
+
+Hal yang dirubah:
+- Dibawah cell ini "技能試験 &技能実習経験" (E15 dan F15 merge G15) tambahkan kontak kandidat (E15 = 電話番号) (F15 merge G15 = 083140318095)
+- Cell yang sudah disediakan untuk foto profile yaitu H5 - I15 diisi dengan user_profile.profile_picture
+- Berikan background warna pada cell dengan warna abu abu, mengacu pada gambar yang diberikan
+
+
+*notes
+Kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah

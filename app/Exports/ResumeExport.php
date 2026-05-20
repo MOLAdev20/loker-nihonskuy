@@ -21,6 +21,8 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class ResumeExport implements FromArray, WithColumnWidths, WithDrawings, WithEvents, WithTitle
 {
+    private const FALLBACK_PHONE_NUMBER = '083140318095';
+
     public function __construct(
         private readonly ?UserProfile $profile,
         private readonly Collection $educationHistories,
@@ -74,9 +76,9 @@ class ResumeExport implements FromArray, WithColumnWidths, WithDrawings, WithEve
             $drawing->setDescription('Foto profile user');
             $drawing->setPath($photoPath);
             $drawing->setCoordinates('H5');
-            $drawing->setOffsetX(10);
-            $drawing->setOffsetY(10);
-            $drawing->setHeight(150);
+            $drawing->setResizeProportional(false);
+            $drawing->setWidth(252);
+            $drawing->setHeight(220);
             $drawings[] = $drawing;
         }
 
@@ -116,11 +118,11 @@ class ResumeExport implements FromArray, WithColumnWidths, WithDrawings, WithEve
             ->setHorizontal(Alignment::HORIZONTAL_CENTER)
             ->setVertical(Alignment::VERTICAL_CENTER);
 
-        $sheet->setCellValue('G4', 'Tanggal :');
+        $sheet->setCellValue('G4', '日付 : ');
         $sheet->getStyle('G4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
 
         $sheet->mergeCells('H4:I4');
-        $sheet->setCellValue('H4', now()->format('d/m/Y'));
+        $sheet->setCellValue('H4', now()->format('m/d/Y'));
         $sheet->getStyle('H4:I4')->getAlignment()
             ->setHorizontal(Alignment::HORIZONTAL_CENTER)
             ->setVertical(Alignment::VERTICAL_CENTER);
@@ -167,6 +169,7 @@ class ResumeExport implements FromArray, WithColumnWidths, WithDrawings, WithEve
             '現在の在留資格**',
             '就労開始可能日***',
             '技能試験 &技能実習経験',
+            '電話番号',
         ];
 
         $rightFields = [
@@ -180,6 +183,7 @@ class ResumeExport implements FromArray, WithColumnWidths, WithDrawings, WithEve
             'current_visa_type',
             'work_start_date',
             'technical_experience',
+            'phone_number',
         ];
 
         foreach ($leftLabels as $index => $label) {
@@ -187,7 +191,8 @@ class ResumeExport implements FromArray, WithColumnWidths, WithDrawings, WithEve
             $sheet->setCellValue("B{$row}", $label);
             $sheet->mergeCells("C{$row}:D{$row}");
             $sheet->setCellValue("C{$row}", $this->formatProfileValue($leftFields[$index]));
-            $this->styleProfileRow($sheet, $row, 'B', 'D');
+            $this->styleProfileRow($sheet, $row, 'B', 'B', true);
+            $this->styleProfileRow($sheet, $row, 'C', 'D', false);
         }
 
         foreach ($rightLabels as $index => $label) {
@@ -195,12 +200,9 @@ class ResumeExport implements FromArray, WithColumnWidths, WithDrawings, WithEve
             $sheet->setCellValue("E{$row}", $label);
             $sheet->mergeCells("F{$row}:G{$row}");
             $sheet->setCellValue("F{$row}", $this->formatProfileValue($rightFields[$index]));
-            $this->styleProfileRow($sheet, $row, 'E', 'G');
+            $this->styleProfileRow($sheet, $row, 'E', 'E', true);
+            $this->styleProfileRow($sheet, $row, 'F', 'G', false);
         }
-
-        $sheet->mergeCells('F15:G15');
-        $sheet->setCellValue('F15', '');
-        $this->styleProfileRow($sheet, 15, 'F', 'G');
 
         $sheet->mergeCells('H5:I15');
         $sheet->getStyle('H5:I15')->applyFromArray([
@@ -288,9 +290,14 @@ class ResumeExport implements FromArray, WithColumnWidths, WithDrawings, WithEve
         }
     }
 
-    private function styleProfileRow(Worksheet $sheet, int $row, string $startColumn, string $endColumn): void
-    {
-        $sheet->getStyle("{$startColumn}{$row}:{$endColumn}{$row}")->applyFromArray([
+    private function styleProfileRow(
+        Worksheet $sheet,
+        int $row,
+        string $startColumn,
+        string $endColumn,
+        bool $withGrayFill
+    ): void {
+        $style = [
             'alignment' => [
                 'vertical' => Alignment::VERTICAL_CENTER,
                 'wrapText' => true,
@@ -301,7 +308,16 @@ class ResumeExport implements FromArray, WithColumnWidths, WithDrawings, WithEve
                     'color' => ['argb' => 'FFD1D5DB'],
                 ],
             ],
-        ]);
+        ];
+
+        if ($withGrayFill) {
+            $style['fill'] = [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['argb' => 'FFE5E7EB'],
+            ];
+        }
+
+        $sheet->getStyle("{$startColumn}{$row}:{$endColumn}{$row}")->applyFromArray($style);
     }
 
     private function styleSectionHeader(Worksheet $sheet, string $range): void
@@ -309,11 +325,10 @@ class ResumeExport implements FromArray, WithColumnWidths, WithDrawings, WithEve
         $sheet->getStyle($range)->applyFromArray([
             'font' => [
                 'bold' => true,
-                'color' => ['argb' => 'FFFFFFFF'],
             ],
             'fill' => [
                 'fillType' => Fill::FILL_SOLID,
-                'startColor' => ['argb' => 'FF1F2937'],
+                'startColor' => ['argb' => 'FFE5E7EB'],
             ],
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -322,7 +337,7 @@ class ResumeExport implements FromArray, WithColumnWidths, WithDrawings, WithEve
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
-                    'color' => ['argb' => 'FF111827'],
+                    'color' => ['argb' => 'FFD1D5DB'],
                 ],
             ],
         ]);
@@ -341,7 +356,7 @@ class ResumeExport implements FromArray, WithColumnWidths, WithDrawings, WithEve
             ],
             'fill' => [
                 'fillType' => Fill::FILL_SOLID,
-                'startColor' => ['argb' => 'FFE2E8F0'],
+                'startColor' => ['argb' => 'FFE5E7EB'],
             ],
             'borders' => [
                 'allBorders' => [
@@ -373,6 +388,10 @@ class ResumeExport implements FromArray, WithColumnWidths, WithDrawings, WithEve
     private function formatProfileValue(string $field): string
     {
         if ($this->profile === null) {
+            if ($field === 'phone_number') {
+                return self::FALLBACK_PHONE_NUMBER;
+            }
+
             return '-';
         }
 
@@ -386,8 +405,23 @@ class ResumeExport implements FromArray, WithColumnWidths, WithDrawings, WithEve
             'age' => $this->formatAge($this->profile->birth_date),
             'current_visa_type' => $this->normalizeText($this->profile->current_visa_type),
             'work_start_date' => $this->formatDate($this->profile->work_start_date),
+            'phone_number' => $this->resolveCandidatePhoneNumber(),
             default => $this->normalizeText($this->profile->{$field} ?? null),
         };
+    }
+
+    private function resolveCandidatePhoneNumber(): string
+    {
+        if ($this->profile !== null) {
+            foreach (['phone_number', 'phone', 'mobile_number', 'telephone', 'whatsapp_number'] as $field) {
+                $value = $this->profile->getAttribute($field);
+                if (filled($value)) {
+                    return (string) $value;
+                }
+            }
+        }
+
+        return self::FALLBACK_PHONE_NUMBER;
     }
 
     private function formatAge(mixed $birthDate): string

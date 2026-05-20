@@ -183,11 +183,18 @@
           <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500">
             Detail Profil / プロフィール詳細
           </h2>
-          <a href="{{ route('admin.users.profile.form', $user->id) }}"
-            class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
-            <x-icons.pencil size="14" />
-            Ubah Data
-          </a>
+          <div class="flex items-center gap-2">
+            <a href="{{ route('admin.users.profile.form', $user->id) }}"
+              class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+              <x-icons.pencil size="14" />
+              Ubah Data
+            </a>
+            <a href="{{ route('admin.users.resume.print', $user->id) }}"
+              class="inline-flex items-center gap-2 rounded-lg border border-slate-900 bg-slate-900 px-3 py-2 text-xs font-semibold text-white hover:bg-slate-800">
+              <x-icons.fileText size="14" />
+              Print CV
+            </a>
+          </div>
         </div>
 
         <div class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-200">

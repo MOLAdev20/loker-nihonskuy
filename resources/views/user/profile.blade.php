@@ -7,6 +7,18 @@
 @section('content_subheader', 'Ringkasan profil, aktivitas lamaran, dan pengaturan akun Anda.')
 
 @section('content')
+  @if (session('status'))
+    <div class="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+      {{ session('status') }}
+    </div>
+  @endif
+
+  @if (session('error'))
+    <div class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+      {{ session('error') }}
+    </div>
+  @endif
+
   @if (!$profile)
     <div class="grid grid-cols-1">
       <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
@@ -93,6 +105,25 @@
               </div>
             @endif
           </div>
+          <form method="POST" action="{{ route('user.profile.upload-photo') }}" enctype="multipart/form-data"
+            class="mt-4 space-y-3">
+            @csrf
+            <div>
+              <label for="profilePicture" class="text-xs font-medium uppercase tracking-wide text-slate-500">
+                Upload Foto Baru
+              </label>
+              <input id="profilePicture" name="profilePicture" type="file" accept=".jpg,.jpeg,.png,.webp,image/*"
+                class="@error('profilePicture') border-red-400 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror mt-2 block w-full rounded-xl border bg-white px-3 py-2 text-sm text-slate-900 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-900 file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-white hover:file:bg-slate-800 focus:outline-none focus:ring-2" />
+              @error('profilePicture')
+                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+              @enderror
+              <p class="mt-1 text-xs text-slate-500">Format: JPG, JPEG, PNG, WEBP. Maksimal 2MB.</p>
+            </div>
+            <button type="submit"
+              class="inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800">
+              Simpan Foto Profile
+            </button>
+          </form>
         </div>
       </div>
 

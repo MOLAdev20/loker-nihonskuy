@@ -8,6 +8,8 @@ use App\Models\User\UserEducationHistory;
 use App\Models\User\UserProfile;
 use App\Models\User\WorkExperience;
 use App\Support\FormWizardBuilder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /** @var \App\Models\User $user */
 
@@ -76,7 +78,8 @@ class ProfileController extends Controller
 
     public function storeProfile(StoreUserProfileRequest $request)
     {
-        $profilePayload = $this->mapProfilePayload($request->validated());
+        $existingProfile = UserProfile::where('user_id', auth()->id())->first();
+        $profilePayload = $this->mapProfilePayload($request->validated(), $existingProfile?->profile_picture);
 
         UserProfile::updateOrCreate(
             ['user_id' => auth()->id()],
@@ -88,10 +91,44 @@ class ProfileController extends Controller
             ->with('status', 'Data profil berhasil disimpan.');
     }
 
-    private function mapProfilePayload(array $validatedData): array
+    public function uploadProfilePicture(Request $request)
+    {
+        $validated = $request->validate([
+            'profilePicture' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+        ]);
+
+        $profile = UserProfile::where('user_id', auth()->id())->first();
+        if (!$profile) {
+            return redirect()
+                ->route('user.profile.form')
+                ->with('error', 'Data profil belum tersedia. Isi profil terlebih dahulu.');
+        }
+
+        $currentProfilePicture = $profile->profile_picture;
+        $isCurrentExternalUrl = $currentProfilePicture &&
+            (str_starts_with($currentProfilePicture, 'http://') || str_starts_with($currentProfilePicture, 'https://'));
+
+        if ($currentProfilePicture && !$isCurrentExternalUrl && $currentProfilePicture !== 'default.jpg') {
+            $currentProfilePicturePath = ltrim($currentProfilePicture, '/');
+            if (Storage::disk('public')->exists($currentProfilePicturePath)) {
+                Storage::disk('public')->delete($currentProfilePicturePath);
+            }
+        }
+
+        $uploadedPath = $validated['profilePicture']->store('user-profile-pictures', 'public');
+        $profile->update([
+            'profile_picture' => $uploadedPath,
+        ]);
+
+        return redirect()
+            ->route('user.dashboard')
+            ->with('status', 'Foto profile berhasil diperbarui.');
+    }
+
+    private function mapProfilePayload(array $validatedData, ?string $currentProfilePicture = null): array
     {
         return [
-            'profile_picture' => "default.jpg",
+            'profile_picture' => $currentProfilePicture ?: 'default.jpg',
             'full_name' => $validatedData['fullName'],
             'furigana_name' => $validatedData['furiganaName'],
             'birth_date' => $validatedData['birthDate'],
