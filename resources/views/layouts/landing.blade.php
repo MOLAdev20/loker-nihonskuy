@@ -30,7 +30,7 @@
   <meta name="twitter:image" content="{{ asset('og.jpg') }}" />
 
   <meta name="author" content="NihonSkuy" />
-  <title>Nihon Skuy - Lowongan Kerja di Jepang</title>
+  <title>NihonSkuy - Raih Pekerjaan Impianmu di Jepang!</title>
   @stack('header')
   @vite(['resources/css/app.css', 'resources/js/pages/landing.js'])
 </head>
