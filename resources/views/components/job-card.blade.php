@@ -5,6 +5,31 @@
   <a href="{{ route('vacancy.detail', $dataJob->job_code) }}"
     class="absolute inset-0 z-10 opacity-0"></a>
   <div class="relative">
+    @if($dataJob->job_type == "Perawat Lansia")
+      <div class="h-10 w-10 bg-sky-100 text-blue-500 rounded-full flex justify-center items-center">
+        <x-icons.handHeart />
+      </div>
+    @elseif ($dataJob->job_type == "Restoran")
+      <div class="h-10 w-10 bg-amber-100 text-orange-500 rounded-full flex justify-center items-center">
+        <x-icons.utensils />
+      </div>
+    @elseif ($dataJob->job_type == "Pengolahan Makanan")
+      <div class="h-10 w-10 bg-emerald-100 text-emerald-500 rounded-full flex justify-center items-center">
+        <x-icons.cookingPot />
+      </div>
+    @elseif ($dataJob->job_type == "Pertanian (Peternakan)")
+      <div class="h-10 w-10 bg-lime-100 text-green-500 rounded-full flex justify-center items-center">
+        <x-icons.sprout />
+      </div>
+    @elseif ($dataJob->job_type == "Perawat Disabilitas")
+      <div class="h-10 w-10 bg-rose-50 text-rose-600 rounded-full flex justify-center items-center">
+        <x-icons.accessibility />
+      </div>
+    @elseif ($dataJob->job_type == "Perhotelan")
+      <div class="h-10 w-10 bg-violet-50 text-violet-600 rounded-full flex justify-center items-center">
+        <x-icons.hotel />
+      </div>
+    @endif
     <h3 class="{{ !$dataJob->status ? "text-slate-400" : "" }} mb-2 text-wrap text-lg font-semibold">{{ $dataJob->title }}</h3>
     <div class="flex items-start justify-between gap-3">
       <div class="min-w-0 flex-1">
