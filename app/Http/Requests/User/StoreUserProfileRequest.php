@@ -32,7 +32,7 @@ class StoreUserProfileRequest extends FormRequest
             'entryDate' => ['nullable', 'date'],
             'visaExpiryDate' => ['nullable', 'date'],
             'currentVisaType' => ['required', 'string', 'min:3', 'max:255'],
-            'jlptLevel' => ['required', 'in:N1,N2,N3,N4,N5,none'],
+            'jlptLevel' => ['required', 'in:N1,N2,N3,N4,N5,none,other'],
             'hasDriverLicense' => ['required', 'string', 'min:3', 'max:255'],
             'workStartDate' => ['required', 'date'],
             'technicalExperience' => ['required', 'string'],

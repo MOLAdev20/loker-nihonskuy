@@ -193,14 +193,14 @@
       </div>
 
       <div>
-        <label class="{{ $labelClass }}" for="isWearingHijab">Apakah Menggunakan Hijab? <span
+        <label class="{{ $labelClass }}" for="isWearingHijab">Toleransi Jilbab di Tempat Kerja? <span
             class="text-red-600">*</span></label>
         <select id="isWearingHijab" name="isWearingHijab"
           class="{{ $inputClass }} @error('isWearingHijab') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
           <option value="">Pilih</option>
-          <option value="Saya ingin memakai jilbab" @selected(old('isWearingHijab', $profile?->is_wearing_hijab ?? '') === 'Saya ingin memakai jilbab')>Saya ingin memakai jilbab</option>
-          <option value="Saya bisa menyesuaikan situasi" @selected(old('isWearingHijab', $profile?->is_wearing_hijab ?? '') === 'Saya bisa menyesuaikan situasi')>Saya bisa menyesuaikan situasi</option>
-          <option value="Saya tidak berencana memakainya" @selected(old('isWearingHijab', $profile?->is_wearing_hijab ?? '') === 'Saya tidak berencana memakainya')>Saya tidak berencana memakainya</option>
+          @foreach ($formOptions['hijabOptions'] as $option => $lable)
+            <option value="{{ $option }}" @selected(old('isWearingHijab', $profile?->is_wearing_hijab ?? '') === $option)>{{ $lable['id'] }}</option>  
+          @endforeach
         </select>
         @error('isWearingHijab')
           <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -213,9 +213,9 @@
         <select id="prayerRequirement" name="prayerRequirement"
           class="{{ $inputClass }} @error('prayerRequirement') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
           <option value="">Pilih</option>
-          <option value="Saya sangat membutuhkan fasilitas ibadah" @selected(old('prayerRequirement', $profile?->prayer_requirement ?? '') === 'Saya sangat membutuhkan fasilitas ibadah')>Saya sangat membutuhkan fasilitas ibadah</option>
-          <option value="Bisa menyesuaikan kondisi" @selected(old('prayerRequirement', $profile?->prayer_requirement ?? '') === 'Bisa menyesuaikan kondisi')>Bisa menyesuaikan kondisi</option>
-          <option value="Saya tidak membutuhkannya" @selected(old('prayerRequirement', $profile?->prayer_requirement ?? '') === 'Saya tidak membutuhkannya')>Saya tidak membutuhkannya</option>
+          @foreach ($formOptions['prayOptions'] as $option => $lable)
+            <option value="{{ $option }}" @selected(old('prayerRequirement', $profile?->prayer_requirement ?? '') === $option)>{{ $lable['id'] }}</option>
+          @endforeach
         </select>
         @error('prayerRequirement')
           <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -228,10 +228,9 @@
         <select id="porkTolerance" name="porkTolerance"
           class="{{ $inputClass }} @error('porkTolerance') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
           <option value="">Pilih</option>
-          <option value="Tidak boleh ada keterlibatan dengan babi sama sekali" @selected(old('porkTolerance', $profile?->pork_tolerance ?? '') === 'Tidak boleh ada keterlibatan dengan babi sama sekali')>Tidak boleh ada keterlibatan dengan babi sama sekali</option>
-          <option value="Boleh memasak, tapi tidak mencicipi/mengonsumsi" @selected(old('porkTolerance', $profile?->pork_tolerance ?? '') === 'Boleh memasak, tapi tidak mencicipi/mengonsumsi')>Boleh memasak, tapi tidak mencicipi/mengonsumsi</option>
-          <option value="Boleh memasak & mencicipi, tapi tidak mengonsumsi" @selected(old('porkTolerance', $profile?->pork_tolerance ?? '') === 'Boleh memasak & mencicipi, tapi tidak mengonsumsi')>Boleh memasak & mencicipi, tapi tidak mengonsumsi</option>
-          <option value="Tidak ada batasan terkait daging babi (bebas)" @selected(old('porkTolerance', $profile?->pork_tolerance ?? '') === 'Tidak ada batasan terkait daging babi (bebas)')>Tidak ada batasan terkait daging babi (bebas)</option>
+          @foreach ($formOptions['porkToleranceOptions'] as $option => $lable)
+            <option value="{{ $option }}" @selected(old('porkTolerance', $profile?->pork_tolerance ?? '') === $option)>{{ $lable['id'] }}</option>
+          @endforeach
         </select>
         @error('porkTolerance')
           <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -244,10 +243,9 @@
         <select id="alcoholTolerance" name="alcoholTolerance"
           class="{{ $inputClass }} @error('alcoholTolerance') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
           <option value="">Pilih</option>
-          <option value="Tidak boleh ada keterlibatan alkohol sama sekali" @selected(old('alcoholTolerance', $profile?->alcohol_tolerance ?? '') === 'Tidak boleh ada keterlibatan alkohol sama sekali')>Tidak boleh ada keterlibatan alkohol sama sekali</option>
-          <option value="Boleh menyiapkan, tapi tidak mencicipi/minum" @selected(old('alcoholTolerance', $profile?->alcohol_tolerance ?? '') === 'Boleh menyiapkan, tapi tidak mencicipi/minum')>Boleh menyiapkan, tapi tidak mencicipi/minum</option>
-          <option value="Boleh menyiapkan & mencicipi, tapi tidak minum" @selected(old('alcoholTolerance', $profile?->alcohol_tolerance ?? '') === 'Boleh menyiapkan & mencicipi, tapi tidak minum')>Boleh menyiapkan & mencicipi, tapi tidak minum</option>
-          <option value="Tidak ada batasan terkait alkohol (bebas)" @selected(old('alcoholTolerance', $profile?->alcohol_tolerance ?? '') === 'Tidak ada batasan terkait alkohol (bebas)')>Tidak ada batasan terkait alkohol (bebas)</option>
+          @foreach ($formOptions['alcoholToleranceOptions'] as $option => $lable)
+            <option value="{{ $option }}" @selected(old('alcoholTolerance', $profile?->alcohol_tolerance ?? '') === $option)>{{ $lable['id'] }}</option>
+          @endforeach
         </select>
         @error('alcoholTolerance')
           <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -292,12 +290,9 @@
         <select id="jlptLevel" name="jlptLevel"
           class="{{ $inputClass }} @error('jlptLevel') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
           <option value="">Pilih Kemampuan</option>
-          <option value="N1" @selected(old('jlptLevel', $profile?->jlpt_level ?? '') === 'N1')>N1</option>
-          <option value="N2" @selected(old('jlptLevel', $profile?->jlpt_level ?? '') === 'N2')>N2</option>
-          <option value="N3" @selected(old('jlptLevel', $profile?->jlpt_level ?? '') === 'N3')>N3</option>
-          <option value="N4" @selected(old('jlptLevel', $profile?->jlpt_level ?? '') === 'N4')>N4</option>
-          <option value="N5" @selected(old('jlptLevel', $profile?->jlpt_level ?? '') === 'N5')>N5</option>
-          <option value="none" @selected(old('jlptLevel', $profile?->jlpt_level ?? '') === 'none')>Belum Ada</option>
+          @foreach ($formOptions['japaneseCertificateOptions'] as $option => $label)
+            <option value="{{ $option }}" @selected(old('jlptLevel', $profile?->jlpt_level ?? '') === $option)>{{ $label['id'] }}</option>
+          @endforeach
         </select>
         @error('jlptLevel')
           <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -307,10 +302,13 @@
       <div>
         <label class="{{ $labelClass }}" for="hasDriverLicense">Memiliki SIM? <span
             class="text-red-600">*</span></label>
-        <input id="hasDriverLicense" name="hasDriverLicense" type="text"
-          value="{{ old('hasDriverLicense', $profile?->has_driver_license ?? '') }}"
-          class="{{ $inputClass }} @error('hasDriverLicense') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
-          placeholder="Contoh: Memiliki SIM A">
+        <select id="hasDriverLicense" name="hasDriverLicense"
+          class="{{ $inputClass }} @error('hasDriverLicense') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
+          <option value="">Pilih</option>
+          @foreach ($formOptions['driverLicenseOptions'] as $option => $label)
+            <option value="{{ $option }}" @selected(old('hasDriverLicense', $profile?->has_driver_license ?? '') === $option)>{{ $label['id'] }}</option>
+          @endforeach
+        </select>
         @error('hasDriverLicense')
           <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
         @enderror

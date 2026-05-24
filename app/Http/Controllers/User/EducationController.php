@@ -14,6 +14,7 @@ class EducationController extends Controller
     public function index()
     {
         $profile = UserProfile::where('user_id', auth()->id())->first();
+        $educationLevelOptions = UserEducationHistory::educationLevelOptions();
         $educationHistories = UserEducationHistory::where('user_id', auth()->id())
             ->orderByDesc('id')
             ->get();
@@ -27,6 +28,7 @@ class EducationController extends Controller
 
         return view('user.education-history-form', [
             'profile' => $profile,
+            'educationLevelOptions' => $educationLevelOptions,
             'educationHistories' => $educationHistories,
             'wizardSteps' => $wizardSteps,
         ]);

@@ -43,21 +43,37 @@ class TskController extends Controller
 
     private function resolveProfilePictureUrl(?UserProfile $profile): ?string
     {
-        $profilePicturePath = $profile?->profile_picture ? ltrim($profile->profile_picture, '/') : null;
-        if (!$profilePicturePath) {
+        $rawPath = $profile?->profile_picture ? trim($profile->profile_picture) : null;
+        if (!$rawPath) {
             return null;
         }
 
-        if (filter_var($profilePicturePath, FILTER_VALIDATE_URL)) {
-            return $profilePicturePath;
+        if ($rawPath === "default.jpg") {
+            return asset("apple-touch-icon.png");
         }
 
-        if (file_exists(public_path($profilePicturePath))) {
-            return asset($profilePicturePath);
+        if (filter_var($rawPath, FILTER_VALIDATE_URL)) {
+            return $rawPath;
         }
 
-        if (file_exists(storage_path('app/public/' . $profilePicturePath))) {
-            return asset('storage/' . $profilePicturePath);
+        $normalizedPath = ltrim($rawPath, "/");
+        $normalizedPath = preg_replace("#^public/#", "", $normalizedPath);
+        $normalizedPath = preg_replace("#^storage/#", "", $normalizedPath);
+
+        $publicCandidates = [
+            ltrim($rawPath, "/"),
+            $normalizedPath,
+            "storage/" . $normalizedPath,
+        ];
+
+        foreach ($publicCandidates as $publicPath) {
+            if ($publicPath && file_exists(public_path($publicPath))) {
+                return asset($publicPath);
+            }
+        }
+
+        if ($normalizedPath && file_exists(storage_path("app/public/" . $normalizedPath))) {
+            return asset("storage/" . $normalizedPath);
         }
 
         return null;

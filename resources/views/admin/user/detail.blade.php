@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @push('title')
-  <title>NihonSkuy - Detail User</title>
+  <title>NihonSkuy - Informasi Pribadi User</title>
 @endpush
 
 @section('content')
@@ -10,6 +10,7 @@
     $educationHistories = $user->educationHistories;
     $workExperiences = $user->workExperiences;
     $displayName = $profile?->full_name ?? $user->name;
+    $furiganaName = $profile?->furigana_name ?? $user->furigana_name;
     $bioText = $profile?->technical_experience;
     $emptyValue = '—';
     $profilePictureUrl = null;
@@ -41,35 +42,48 @@
     $formatDate = function ($dateValue) use ($emptyValue) {
       return $dateValue ? $dateValue->format('d M Y') : $emptyValue;
     };
+    $formatJapaneseDate = function ($dateValue) {
+      return $dateValue ? $dateValue->format('Y年n月j日') : null;
+    };
+    $genderIdLabels = ['male' => 'Laki-laki', 'female' => 'Perempuan'];
+    $genderJpLabels = ['male' => '男', 'female' => '女'];
+    $maritalIdLabels = ['single' => 'Belum Menikah', 'married' => 'Menikah', 'divorce' => 'Cerai'];
+    $maritalJpLabels = ['single' => 'なし', 'married' => 'あり', 'divorce' => 'なし'];
+    $religionIdLabels = ['islam' => 'Islam', 'kristen' => 'Kristen', 'katolik' => 'Katolik', 'hindu' => 'Hindu', 'buddha' => 'Buddha'];
+    $nationalityJpLabels = ['jepang' => '日本', 'japan' => '日本', 'indonesia' => 'インドネシア'];
+    $hijabOptions = \App\Models\User\UserProfile::hijabOptions();
+    $prayerOptions = \App\Models\User\UserProfile::prayOptions();
+    $porkToleranceOptions = \App\Models\User\UserProfile::porkToleranceOptions();
+    $alcoholToleranceOptions = \App\Models\User\UserProfile::alcoholToleranceOptions();
+    $driverLicenseOptions = \App\Models\User\UserProfile::driverLicenseOptions();
+    $japaneseCertificateOptions = \App\Models\User\UserProfile::japaneseCertificateOptions();
+    $nationalityKey = strtolower(trim((string) ($profile?->nationality ?? '')));
 
     $detailFields = [
-      ['label' => 'Kode Referensi / 参照コード', 'value' => $formatValue($user->ref_code)],
-      ['label' => 'Nama Lengkap / 氏名', 'value' => $formatValue($profile?->full_name)],
-      ['label' => 'Nama Furigana / ふりがな', 'value' => $formatValue($profile?->furigana_name)],
-      ['label' => 'Tanggal Lahir / 生年月日', 'value' => $formatDate($profile?->birth_date)],
-      ['label' => 'Jenis Kelamin / 性別', 'value' => filled($profile?->gender) ? ucfirst($profile->gender) : $emptyValue],
-      ['label' => 'Tinggi Badan / 身長', 'value' => filled($profile?->height) ? $profile->height . ' cm' : $emptyValue],
-      ['label' => 'Berat Badan / 体重', 'value' => filled($profile?->weight) ? $profile->weight . ' kg' : $emptyValue],
-      ['label' => 'Status Pernikahan / 婚姻状況', 'value' => filled($profile?->marital_status) ? ucfirst($profile->marital_status) : $emptyValue],
-      ['label' => 'Kewarganegaraan / 国籍', 'value' => $formatValue($profile?->nationality)],
-      ['label' => 'Tempat Asal / 出身地', 'value' => $formatValue($profile?->place_of_origin)],
-      ['label' => 'Agama / 宗教', 'value' => $formatValue($profile?->religion)],
-      ['label' => 'Hijab / ヒジャブ', 'value' => $formatValue($profile?->is_wearing_hijab)],
-      ['label' => 'Jenis Visa Saat Ini / 現在の在留資格', 'value' => $formatValue($profile?->current_visa_type)],
-      ['label' => 'Masa Berlaku Visa / 在留期限', 'value' => $formatDate($profile?->visa_expiry_date)],
-      ['label' => 'Tanggal Masuk / 入国日', 'value' => $formatDate($profile?->entry_date)],
-      ['label' => 'Level JLPT / JLPTレベル', 'value' => $formatValue($profile?->jlpt_level)],
-      ['label' => 'Memiliki SIM / 運転免許', 'value' => $formatValue($profile?->has_driver_license)],
-      ['label' => 'Mulai Kerja / 就業開始日', 'value' => $formatDate($profile?->work_start_date)],
+      ['label' => 'Tanggal Lahir / 生年月日', 'value' => ['id' => $formatDate($profile?->birth_date), 'jp' => $formatJapaneseDate($profile?->birth_date)]],
+      ['label' => 'Jenis Kelamin / 性別', 'value' => ['id' => $genderIdLabels[$profile?->gender] ?? $emptyValue, 'jp' => $genderJpLabels[$profile?->gender] ?? null]],
+      ['label' => 'Umur / Umur', 'value' => ['id' => $profile?->age ?? $emptyValue]],
+      ['label' => 'Daerah Asal / 出身地', 'value' => ['id' => $formatValue($profile?->place_of_origin)]],
+      ['label' => 'Kewarganegaraan / 国籍', 'value' => ['id' => $formatValue($profile?->nationality), 'jp' => $nationalityJpLabels[$nationalityKey] ?? null]],
+      ['label' => 'Alamat Saat Ini / 現住所', 'value' => ['id' => $formatValue($profile?->current_address)]],
+      ['label' => 'Agama / 宗教', 'value' => ['id' => $religionIdLabels[$profile?->religion] ?? $emptyValue]],
+      ['label' => 'Status Pernikahan / 婚姻状況', 'value' => ['id' => $maritalIdLabels[$profile?->marital_status] ?? $emptyValue, 'jp' => $maritalJpLabels[$profile?->marital_status] ?? null]],
+      ['label' => 'Tinggi Badan / 身長', 'value' => ['id' => filled($profile?->height) ? $profile->height . ' cm' : $emptyValue]],
+      ['label' => 'Berat Badan / 体重', 'value' => ['id' => filled($profile?->weight) ? $profile->weight . ' kg' : $emptyValue]],
+      ['label' => 'Jenis Visa Saat Ini / 現在の在留資格', 'value' => ['id' => $formatValue($profile?->current_visa_type)]],
+      ['label' => 'Masa Berlaku Visa / 在留期限', 'value' => ['id' => $formatDate($profile?->visa_expiry_date), 'jp' => $formatJapaneseDate($profile?->visa_expiry_date)]],
+      ['label' => 'Level JLPT / JLPTレベル', 'value' => ['id' => $japaneseCertificateOptions[$profile?->jlpt_level]['id'] ?? $formatValue($profile?->jlpt_level), 'jp' => $japaneseCertificateOptions[$profile?->jlpt_level]['jp'] ?? null]],
+      ['label' => 'Tanggal Masuk / 入国日', 'value' => ['id' => $formatDate($profile?->entry_date), 'jp' => $formatJapaneseDate($profile?->entry_date)]],
+      ['label' => 'Mulai Kerja / 就業開始日', 'value' => ['id' => $formatDate($profile?->work_start_date), 'jp' => $formatJapaneseDate($profile?->work_start_date)]],
+      ['label' => 'Memiliki SIM / 運転免許', 'value' => ['id' => $driverLicenseOptions[$profile?->has_driver_license]['id'] ?? $formatValue($profile?->has_driver_license), 'jp' => $driverLicenseOptions[$profile?->has_driver_license]['jp'] ?? null]],
     ];
 
     $detailLongFields = [
-      ['label' => 'Bio / 自己紹介', 'value' => $formatValue($bioText), 'span' => 'md:col-span-2 xl:col-span-3'],
-      ['label' => 'Alamat Saat Ini / 現住所', 'value' => $formatValue($profile?->current_address), 'span' => 'md:col-span-2 xl:col-span-3'],
-      ['label' => 'Kebutuhan Ibadah / 礼拝の必要', 'value' => $formatValue($profile?->prayer_requirement), 'span' => 'md:col-span-2 xl:col-span-3'],
-      ['label' => 'Toleransi Babi / 豚肉の許容', 'value' => $formatValue($profile?->pork_tolerance), 'span' => 'md:col-span-2 xl:col-span-3'],
-      ['label' => 'Toleransi Alkohol / アルコールの許容', 'value' => $formatValue($profile?->alcohol_tolerance), 'span' => 'md:col-span-2 xl:col-span-3'],
-      ['label' => 'Pengalaman Teknis / 技術経験', 'value' => $formatValue($profile?->technical_experience), 'span' => 'md:col-span-2 xl:col-span-3'],
+      ['label' => 'Kebutuhan Hijab di Tempat Kerja / ヒジャブ', 'value' => ['id' => $hijabOptions[$profile?->is_wearing_hijab]['id'] ?? $emptyValue, 'jp' => $hijabOptions[$profile?->is_wearing_hijab]['jp'] ?? null], 'span' => 'md:col-span-2'],
+      ['label' => 'Kebutuhan Ibadah di Tempat Kerja / 礼拝の必要', 'value' => ['id' => $prayerOptions[$profile?->prayer_requirement]['id'] ?? $formatValue($profile?->prayer_requirement), 'jp' => $prayerOptions[$profile?->prayer_requirement]['jp'] ?? null], 'span' => 'md:col-span-2'],
+      ['label' => 'Toleransi Daging Babi / 豚肉の許容', 'value' => ['id' => $porkToleranceOptions[$profile?->pork_tolerance]['id'] ?? $formatValue($profile?->pork_tolerance), 'jp' => $porkToleranceOptions[$profile?->pork_tolerance]['jp'] ?? null], 'span' => 'md:col-span-2'],
+      ['label' => 'Toleransi Minuman/Makanan Beralkohol / アルコールの許容', 'value' => ['id' => $alcoholToleranceOptions[$profile?->alcohol_tolerance]['id'] ?? $formatValue($profile?->alcohol_tolerance), 'jp' => $alcoholToleranceOptions[$profile?->alcohol_tolerance]['jp'] ?? null], 'span' => 'md:col-span-2'],
+      ['label' => 'Pengalaman Teknis / 技術経験', 'value' => ['id' => $formatValue($profile?->technical_experience)], 'span' => 'md:col-span-2'],
     ];
   @endphp
 
@@ -130,14 +144,11 @@
 
   <div class="grid grid-cols-1 gap-5 lg:grid-cols-6">
     <section class="rounded-2xl border border-slate-200 bg-white p-6 lg:col-span-2">
-      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">
-        Foto Profil / プロフィール写真
-      </h2>
 
       <div class="flex flex-col items-center text-center">
-        <div class="relative">
+        <div class="group relative">
           <div
-            class="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-900 text-3xl font-semibold text-white">
+            class="flex items-center justify-center p-2 border rounded-lg border-slate-400 text-3xl font-semibold text-white">
             @if ($profilePictureUrl)
               <img src="{{ $profilePictureUrl }}" alt="Profile picture {{ $displayName }}"
                 class="h-full w-full object-cover">
@@ -145,44 +156,44 @@
               <span>{{ $initials }}</span>
             @endif
           </div>
-          <span class="absolute bottom-1 right-1 h-4 w-4 rounded-full border-2 border-white bg-emerald-500"></span>
+
+          <form method="POST" action="{{ route('admin.users.profile.upload-photo', $user->id) }}"
+            enctype="multipart/form-data">
+            @csrf
+            <input id="profilePicture" name="profilePicture" type="file" accept=".jpg,.jpeg,.png,.webp,image/*"
+              class="sr-only" onchange="this.form.submit()">
+            <label for="profilePicture"
+              class="absolute bottom-5 right-5 inline-flex px-5 py-2 gap-2 cursor-pointer items-center justify-center rounded-full border border-white/70 bg-slate-900/90 text-white opacity-0 shadow-md transition group-hover:opacity-100 group-focus-within:opacity-100 hover:bg-slate-800"
+              title="Upload foto profile">
+              <x-icons.folderInput size="20" />
+              <span>Upload Foto</span>
+            </label>
+          </form>
         </div>
 
-        <div class="mt-5 space-y-2">
-          <div>
-            <h3 class="text-xl font-semibold tracking-tight text-slate-900">{{ $displayName }}</h3>
-            <p class="mt-1 text-sm text-slate-500">{{ $user->email }}</p>
-          </div>
-
-          <span
-            class="{{ $isProfileCompleted ? 'border-emerald-200 bg-emerald-50 text-emerald-700' : 'border-amber-200 bg-amber-50 text-amber-700' }} inline-flex rounded-full border px-3 py-1 text-xs font-semibold">
-            {{ $isProfileCompleted ? 'Completed' : 'Incomplete' }}
-          </span>
+        <div class="mt-5 border rounded-lg border-slate-400 p-2">
+          <iframe width="450" height="300" src="https://www.youtube.com/embed/qAxpv3cCHO8?si=GHY9J-iAw4gXU_yN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
       </div>
 
-      <form method="POST" action="{{ route('admin.users.profile.upload-photo', $user->id) }}"
-        enctype="multipart/form-data" class="mt-6">
-        @csrf
-        <input id="profilePicture" name="profilePicture" type="file" accept=".jpg,.jpeg,.png,.webp,image/*"
-          class="sr-only" onchange="this.form.submit()">
-        <label for="profilePicture"
-          class="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50">
-          <x-icons.folderInput size="16" />
-          Upload Foto
-        </label>
+      <div class="mt-4">
         @error('profilePicture')
-          <p class="mt-2 text-xs text-red-600">{{ $message }}</p>
+          <p class="text-center text-xs text-red-600">{{ $message }}</p>
         @enderror
-      </form>
+      </div>
     </section>
 
     <div class="space-y-5 lg:col-span-4">
       <section class="rounded-2xl border border-slate-200 bg-white p-6">
-        <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500">
-            Detail Profil / プロフィール詳細
-          </h2>
+        <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <h2 class="text-xl font-semibold uppercase tracking-wider text-slate-800">
+              {{ $displayName }}
+            </h2>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400">
+              {{ $furiganaName }}
+            </h2>
+          </div>
           <div class="flex items-center gap-2">
             <a href="{{ route('admin.users.profile.form', $user->id) }}"
               class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
@@ -197,23 +208,34 @@
           </div>
         </div>
 
-        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-200">
-          <div class="grid grid-cols-1 gap-px bg-slate-200 md:grid-cols-2 xl:grid-cols-3">
+        <div class="overflow-hidden mt-10 rounded-2xl border border-slate-200 bg-slate-200">
+          <div class="grid grid-cols-1 gap-px bg-slate-200 md:grid-cols-2">
             @foreach ($detailFields as $field)
-              <div class="min-h-[88px] bg-white px-5 py-4">
+              <div class="min-h-22 bg-white px-5 py-4">
                 <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
                   {{ $field['label'] }}
                 </p>
-                <p class="mt-2 text-sm font-medium text-slate-900">{{ $field['value'] }}</p>
+                <div class="flex gap-3 items-center mt-2">
+                  <p class="text-sm font-medium text-slate-900">
+                    {{ $field['value']['id'] }}
+                  </p>
+                  @if (!empty($field['value']['jp']))
+                    <p class="text-sm font-semibold italic text-slate-500">({{ $field['value']['jp'] }})</p>
+                  @endif
+                </div>
               </div>
             @endforeach
-
+          </div>
+          <div class="mt-5 grid grid-cols-1 gap-px bg-slate-200 md:grid-cols-2">
             @foreach ($detailLongFields as $field)
-              <div class="{{ $field['span'] }} min-h-[112px] bg-white px-5 py-4">
+              <div class="{{ $field['span'] }} min-h-28 bg-white px-5 py-4">
                 <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
                   {{ $field['label'] }}
                 </p>
-                <p class="mt-2 whitespace-pre-line text-sm leading-6 text-slate-700">{{ $field['value'] }}</p>
+                <p class="mt-2 whitespace-pre-line text-sm leading-6 text-slate-700">{{ $field['value']['id'] }}</p>
+                @if (!empty($field['value']['jp']))
+                  <p class="mt-1 whitespace-pre-line text-sm font-semibold italic text-slate-500">{{ $field['value']['jp'] }}</p>
+                @endif
               </div>
             @endforeach
           </div>
@@ -237,8 +259,8 @@
             <table class="min-w-full divide-y divide-slate-200 text-sm">
               <thead class="bg-slate-50">
                 <tr>
-                  <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Pendidikan / 学歴</th>
                   <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Institusi / 学校名</th>
+                  <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Jenjang / 学歴</th>
                   <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Lokasi / 所在地</th>
                   <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Masuk / 入学日</th>
                   <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Lulus / 卒業日</th>
@@ -249,8 +271,8 @@
               <tbody class="divide-y divide-slate-200 bg-white text-slate-700">
                 @foreach ($educationHistories as $educationHistory)
                   <tr>
-                    <td class="whitespace-nowrap px-4 py-3">{{ $educationHistory->education }}</td>
                     <td class="whitespace-nowrap px-4 py-3">{{ $educationHistory->institution }}</td>
+                    <td class="whitespace-nowrap px-4 py-3">{{ $educationHistory->education }}</td>
                     <td class="whitespace-nowrap px-4 py-3">{{ $educationHistory->location }}</td>
                     <td class="whitespace-nowrap px-4 py-3">{{ $formatDate($educationHistory->date_of_entry) }}</td>
                     <td class="whitespace-nowrap px-4 py-3">{{ $formatDate($educationHistory->date_of_graduation) }}</td>
