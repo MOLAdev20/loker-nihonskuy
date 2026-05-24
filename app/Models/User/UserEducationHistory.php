@@ -27,4 +27,38 @@ class UserEducationHistory extends Model
         'date_of_graduation' => 'date',
         'date_of_dropped_out' => 'date',
     ];
+
+    public static function educationLevelOptions()
+    {
+        return [
+            "SMP" => [
+                "id" => "SMP",
+                "jp" => "中学校"
+            ],
+            "SMA" => [
+                "id" => "SMA",
+                "jp" => "高等学校"
+            ],
+            "Sekolah Kejuruan" => [
+                "id" => "Sekolah Kejuruan",
+                "jp" => "専門学校"
+            ],
+            "Sekolah Bahasa Jepang" => [
+                "id" => "Sekolah Bahasa Jepang",
+                "jp" => "日本語学校"
+            ],
+            "SMK" => [
+                "id" => "Sekolah Menengah Kejuruan",
+                "jp" => "短期大学"
+            ],
+            "Universitas" => [
+                "id" => "Universitas",
+                "jp" => "大学"
+            ],
+            "Sekolah Pascasarjana" => [
+                "id" => "Sekolah Pascasarjana",
+                "jp" => "大学院"
+            ]
+        ];
+    }
 }

@@ -48,6 +48,14 @@ class ProfileController extends Controller
         return view('user.profile-form', [
             'profile' => $profile,
             'wizardSteps' => $wizardSteps,
+            'formOptions' => [
+                'hijabOptions' => UserProfile::hijabOptions(),
+                'porkToleranceOptions' => UserProfile::porkToleranceOptions(),
+                'alcoholToleranceOptions' => UserProfile::alcoholToleranceOptions(),
+                'prayOptions' => UserProfile::prayOptions(),
+                'driverLicenseOptions' => UserProfile::driverLicenseOptions(),
+                'japaneseCertificateOptions' => UserProfile::japaneseCertificateOptions(),
+            ]
         ]);
     }
 

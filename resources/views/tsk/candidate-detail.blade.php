@@ -4,48 +4,46 @@
 
 @section('content')
   @php
-    $genderLabels = [
-        'male' => '男性',
-        'female' => '女性',
-    ];
-    $maritalStatusLabels = [
-        'single' => '未婚',
-        'married' => '既婚',
-        'divorce' => '離婚',
-    ];
-    $religionLabels = [
-        'islam' => 'イスラム教',
-        'kristen' => 'キリスト教',
-        'katolik' => 'カトリック',
-        'hindu' => 'ヒンドゥー教',
-        'buddha' => '仏教',
-    ];
+    $genderLabels = ['male' => 'Laki-laki', 'female' => 'Perempuan'];
+    $genderJapaneseLabels = ['male' => '男', 'female' => '女'];
+    $maritalStatusLabels = ['single' => 'Belum Menikah', 'married' => 'Menikah', 'divorce' => 'Cerai'];
+    $maritalStatusJapaneseLabels = ['single' => 'なし', 'married' => 'あり', 'divorce' => 'なし'];
+    $religionLabels = ['islam' => 'Islam', 'kristen' => 'Kristen', 'katolik' => 'Katolik', 'hindu' => 'Hindu', 'buddha' => 'Buddha'];
+    $nationalityJapaneseLabels = ['jepang' => '日本', 'japan' => '日本', 'indonesia' => 'インドネシア'];
+    $hijabOptions = \App\Models\User\UserProfile::hijabOptions();
+    $prayerOptions = \App\Models\User\UserProfile::prayOptions();
+    $porkToleranceOptions = \App\Models\User\UserProfile::porkToleranceOptions();
+    $alcoholToleranceOptions = \App\Models\User\UserProfile::alcoholToleranceOptions();
+    $driverLicenseOptions = \App\Models\User\UserProfile::driverLicenseOptions();
+    $japaneseCertificateOptions = \App\Models\User\UserProfile::japaneseCertificateOptions();
 
     $displayName = $profile?->full_name ?: $candidate->name ?: '候補者';
+    $nationalityKey = strtolower(trim((string) ($profile?->nationality ?? '')));
     $personalInfoRows = [
-        '氏名' => $profile?->full_name ?: $candidate->name ?: '-',
-        'ふりがな' => $profile?->furigana_name ?: '-',
-        '生年月日' => $profile?->birth_date?->format('d M Y') ?: '-',
-        '性別' => $genderLabels[$profile?->gender] ?? '-',
-        '身長 / 体重' => ($profile?->height ?: '-') . ' cm / ' . ($profile?->weight ?: '-') . ' kg',
-        '婚姻状況' => $maritalStatusLabels[$profile?->marital_status] ?? '-',
-        '国籍' => $profile?->nationality ?: '-',
-        '出身地' => $profile?->place_of_origin ?: '-',
-        '現住所' => $profile?->current_address ?: '-',
-        '宗教' => $religionLabels[$profile?->religion] ?? '-',
-        'ヒジャブ着用' => $profile?->is_wearing_hijab ?: '-',
-        '礼拝の必要' => $profile?->prayer_requirement ?: '-',
-        '豚肉の許容' => $profile?->pork_tolerance ?: '-',
-        'アルコールの許容' => $profile?->alcohol_tolerance ?: '-',
-        '入国日' => $profile?->entry_date?->format('d M Y') ?: '-',
-        '在留期限' => $profile?->visa_expiry_date?->format('d M Y') ?: '-',
-        '現在の在留資格' => $profile?->current_visa_type ?: '-',
-        'JLPTレベル' => $profile?->jlpt_level ?: '-',
-        '運転免許' => $profile?->has_driver_license ?: '-',
-        '就業開始日' => $profile?->work_start_date?->format('d M Y') ?: '-',
-        '技術経験' => $profile?->technical_experience ?: '-',
+        '氏名' => ['id' => $profile?->full_name ?: $candidate->name ?: '-'],
+        'ふりがな' => ['id' => $profile?->furigana_name ?: '-'],
+        '生年月日' => ['id' => $profile?->birth_date?->format('d M Y') ?: '-', 'jp' => $profile?->birth_date?->format('Y年n月j日')],
+        '入国日' => ['id' => $profile?->entry_date?->format('d M Y') ?: '-', 'jp' => $profile?->entry_date?->format('Y年n月j日')],
+        '国籍' => ['id' => $profile?->nationality ?: '-', 'jp' => $nationalityJapaneseLabels[$nationalityKey] ?? null],
+        '在留期限' => ['id' => $profile?->visa_expiry_date?->format('d M Y') ?: '-', 'jp' => $profile?->visa_expiry_date?->format('Y年n月j日')],
+        'JLPTレベル' => ['id' => $japaneseCertificateOptions[$profile?->jlpt_level]['id'] ?? ($profile?->jlpt_level ?: '-'), 'jp' => $japaneseCertificateOptions[$profile?->jlpt_level]['jp'] ?? null],
+        '運転免許' => ['id' => $driverLicenseOptions[$profile?->has_driver_license]['id'] ?? ($profile?->has_driver_license ?: '-'), 'jp' => $driverLicenseOptions[$profile?->has_driver_license]['jp'] ?? null],
+        '性別' => ['id' => $genderLabels[$profile?->gender] ?? '-', 'jp' => $genderJapaneseLabels[$profile?->gender] ?? null],
+        '宗教' => ['id' => $religionLabels[$profile?->religion] ?? '-'],
+        '現在の在留資格' => ['id' => $profile?->current_visa_type ?: '-'],
+        '就業開始日' => ['id' => $profile?->work_start_date?->format('d M Y') ?: '-', 'jp' => $profile?->work_start_date?->format('Y年n月j日')],
+        '技術経験' => ['id' => $profile?->technical_experience ?: '-'],
+        '身長 / 体重' => ['id' => ($profile?->height ?: '-') . ' cm / ' . ($profile?->weight ?: '-') . ' kg'],
     ];
-    $personalInfoChunks = array_chunk($personalInfoRows, (int) ceil(count($personalInfoRows) / 2), true);
+
+    $workPreferenceRows = [
+        '現住所' => ['id' => $profile?->current_address ?: '-'],
+        '出身地' => ['id' => $profile?->place_of_origin ?: '-'],
+        'ヒジャブ着用' => ['id' => $hijabOptions[$profile?->is_wearing_hijab]['id'] ?? '-', 'jp' => $hijabOptions[$profile?->is_wearing_hijab]['jp'] ?? null],
+        '礼拝の必要' => ['id' => $prayerOptions[$profile?->prayer_requirement]['id'] ?? '-', 'jp' => $prayerOptions[$profile?->prayer_requirement]['jp'] ?? null],
+        '豚肉の許容' => ['id' => $porkToleranceOptions[$profile?->pork_tolerance]['id'] ?? '-', 'jp' => $porkToleranceOptions[$profile?->pork_tolerance]['jp'] ?? null],
+        'アルコールの許容' => ['id' => $alcoholToleranceOptions[$profile?->alcohol_tolerance]['id'] ?? '-', 'jp' => $alcoholToleranceOptions[$profile?->alcohol_tolerance]['jp'] ?? null],
+    ];
   @endphp
 
   <section class="mx-auto w-full max-w-[1240px] px-8 lg:px-16 xl:px-20">
@@ -85,16 +83,19 @@
         <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <h2 class="text-base font-semibold text-slate-900">個人情報</h2>
           <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
-            @foreach ($personalInfoChunks as $chunk)
-              <div class="p-4">
-                <div class="space-y-3">
-                  @foreach ($chunk as $label => $value)
-                    <div>
-                      <div class="text-xs font-medium uppercase tracking-wide text-slate-500">{{ $label }}</div>
-                      <div class="mt-1 text-sm font-semibold text-slate-900">{{ $value }}</div>
-                    </div>
-                  @endforeach
-                </div>
+            @foreach ($personalInfoRows as $label => $value)
+              <div class="py-3">
+                <div class="text-xs font-medium uppercase tracking-wide text-slate-500">{{ $label }}</div>
+                <div class="mt-1 whitespace-pre-line text-sm font-semibold text-slate-900">{{ $value['jp'] ?? $value['id'] }}</div>
+              </div>
+            @endforeach
+          </div>
+
+          <div class="mt-2 border border-slate-200 p-4">
+            @foreach ($workPreferenceRows as $label => $value)
+              <div class="py-3">
+                <div class="text-xs font-medium uppercase tracking-wide text-slate-500">{{ $label }}</div>
+                <div class="mt-1 whitespace-pre-line text-sm font-semibold text-slate-900">{{ $value['jp'] ?? $value['id'] }}</div>
               </div>
             @endforeach
           </div>

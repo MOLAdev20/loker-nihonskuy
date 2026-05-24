@@ -3,6 +3,7 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\User\UserEducationHistory;
 
 class StoreUserEducationHistoryRequest extends FormRequest
 {
@@ -13,8 +14,10 @@ class StoreUserEducationHistoryRequest extends FormRequest
 
     public function rules(): array
     {
+        $educationLevelOptions = array_keys(UserEducationHistory::educationLevelOptions());
+
         return [
-            'education' => ['required', 'in:SMP,SMK,SMA,D1,D2,D3,D4,S1,S2,S3'],
+            'education' => ['required', 'in:' . implode(',', $educationLevelOptions)],
             'institution' => ['required', 'string', 'min:3', 'max:255'],
             'location' => ['required', 'string'],
             'dateOfEntry' => ['required', 'date'],
