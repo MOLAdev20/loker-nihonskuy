@@ -43,7 +43,6 @@
         'アルコールの許容' => ['id' => $alcoholToleranceOptions[$profile?->alcohol_tolerance]['id'] ?? '-', 'jp' => $alcoholToleranceOptions[$profile?->alcohol_tolerance]['jp'] ?? null],
         '技術経験' => ['id' => $profile?->technical_experience ?: '-'],
     ];
-    $personalInfoChunks = array_chunk($personalInfoRows, (int) ceil(count($personalInfoRows) / 2), true);
   @endphp
 
   <section class="mx-auto w-full max-w-[1240px] px-8 lg:px-16 xl:px-20">

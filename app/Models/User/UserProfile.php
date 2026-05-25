@@ -3,6 +3,7 @@
 namespace App\Models\User;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class UserProfile extends Model
 {
@@ -44,8 +45,6 @@ class UserProfile extends Model
             'work_start_date' => 'date',
         ];
     }
-<<<<<<< Updated upstream
-=======
 
     public static function religionOptions()
     {
@@ -242,5 +241,4 @@ class UserProfile extends Model
             ],
         ];
     }
->>>>>>> Stashed changes
 }

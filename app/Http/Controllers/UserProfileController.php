@@ -33,6 +33,14 @@ class UserProfileController extends Controller
             "user" => $user,
             "profile" => $user->userProfile,
             "wizardSteps" => $wizardSteps,
+            "formOptions" => [
+                "hijabOptions" => UserProfile::hijabOptions(),
+                "porkToleranceOptions" => UserProfile::porkToleranceOptions(),
+                "alcoholToleranceOptions" => UserProfile::alcoholToleranceOptions(),
+                "prayOptions" => UserProfile::prayOptions(),
+                "driverLicenseOptions" => UserProfile::driverLicenseOptions(),
+                "japaneseCertificateOptions" => UserProfile::japaneseCertificateOptions(),
+            ],
         ]);
     }
 

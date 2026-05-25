@@ -11,7 +11,6 @@
     $inputClass =
         'mt-2 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:outline-none focus:ring-2';
     $labelClass = 'text-sm font-medium text-slate-700';
-    $educationLevels = ['SMP', 'SMK', 'SMA', 'D1', 'D2', 'D3', 'D4', 'S1', 'S2', 'S3'];
     $statusOptions = [
         'graduated' => 'Lulus',
         'studying' => 'Masih Sekolah/Berkuliah',
@@ -174,9 +173,9 @@
             <select id="create_education" name="education"
               class="{{ $inputClass }} @error('education') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
               <option value="">Pilih Jenjang Pendidikan</option>
-              @foreach ($educationLevels as $educationLevel)
-                <option value="{{ $educationLevel }}" @selected(old('formMode') === 'create' && old('education') === $educationLevel)>
-                  {{ $educationLevel }}
+              @foreach ($educationLevelOptions as $educationValue => $educationLabel)
+                <option value="{{ $educationValue }}" @selected(old('formMode') === 'create' && old('education') === $educationValue)>
+                  {{ $educationValue }}
                 </option>
               @endforeach
             </select>
@@ -322,9 +321,9 @@
               <select id="edit_education_{{ $educationHistory->id }}" name="education"
                 class="{{ $inputClass }} @error('education') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
                 <option value="">Pilih Jenjang Pendidikan</option>
-                @foreach ($educationLevels as $educationLevel)
-                  <option value="{{ $educationLevel }}" @selected($editEducationValue === $educationLevel)>
-                    {{ $educationLevel }}
+                @foreach ($educationLevelOptions as $educationValue => $educationLabel)
+                  <option value="{{ $educationValue }}" @selected($editEducationValue === $educationValue)>
+                    {{ $educationValue }}
                   </option>
                 @endforeach
               </select>

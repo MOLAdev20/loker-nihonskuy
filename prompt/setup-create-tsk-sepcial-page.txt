@@ -1,0 +1,27 @@
+Buat dokumen plan di plan/setup-create-tsk-sepcial-page.md
+
+Tujuan:
+- Membuat data khusus pengguna TSK (Toroku Shien Kikan) agar TSK dapat melihat kandidat yang terdaftar
+- Buat dua halaman. Halaman pertama untuk menampilkan seluruh data kandidat dan Halaman berikutnya menampilkan detail dari kandidat (data pribadi, riwayat pendidikan dan riwayat pekerjaan)
+
+Ketentuan:
+
+- Buat desain simpel, minimalist dan eye catching
+
+- Halaman pertama, kandidat ditampilkan seperti katalog produk atau web bursa transfer pemain bola (ada foto profile, nama lengkap, furigana dan umur) jika belum ada fotonya, maka tampilkan dulu foto profile placeholder. Tataletak dengan grid *4. Data kandidat di sajikan dengan pagination 35 data kandidat per load.
+
+- Halaman kedua ditampilkan seperti layout pada resources/views/user/profile.blade.php. sisi grid kiri untuk foto profile, grid kanan urutan 1 adalah data pribadi, urutan 2 adalah riwayat pendidikan dan urutan 3 adalah riwayat pekerjaan. Untuk data yang bersifat riwayat disajikan dalam bentuk tabel.
+
+- Seluruh halaman ada di views/tsk (sudah disediakan)
+
+- Model layoutnya sederhana saja. Ada navbar di atas dengan logo nihonskuy di sebelah kanan dan logout di sebelah kiri. Dibagian bawah navbar, ada bagian yang menampilkan elemen yang membungkus grid kandidat dengan margin kiri kanan yang cukup besar agar terlihat clean, minimalist dan modern.
+
+- Gunakan tailwindcss yang sudah disediakan.
+- Gunakan standar layouting laravel. Ada beberapa file yang sudah menggunakan layouting laravel sehingga kamu bisa mempelajarinya seperti di user/profile.blade.php
+
+- Gunakan pattern MVC. Controller sudah disediakan di TSK/TSKController.php.
+- Route juga sudah disediakan di web.php (prefix tsk)
+
+*notes
+Kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah
