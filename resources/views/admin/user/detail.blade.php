@@ -41,6 +41,7 @@
     $formatDate = function ($dateValue) use ($emptyValue) {
       return $dateValue ? $dateValue->format('d M Y') : $emptyValue;
     };
+<<<<<<< Updated upstream
 
     $detailFields = [
       ['label' => 'Kode Referensi / 参照コード', 'value' => $formatValue($user->ref_code)],
@@ -70,6 +71,51 @@
       ['label' => 'Toleransi Babi / 豚肉の許容', 'value' => $formatValue($profile?->pork_tolerance), 'span' => 'md:col-span-2 xl:col-span-3'],
       ['label' => 'Toleransi Alkohol / アルコールの許容', 'value' => $formatValue($profile?->alcohol_tolerance), 'span' => 'md:col-span-2 xl:col-span-3'],
       ['label' => 'Pengalaman Teknis / 技術経験', 'value' => $formatValue($profile?->technical_experience), 'span' => 'md:col-span-2 xl:col-span-3'],
+=======
+    $formatJapaneseDate = function ($dateValue) {
+      return $dateValue ? $dateValue->format('Y年n月j日') : null;
+    };
+    $genderIdLabels = ['male' => 'Laki-laki', 'female' => 'Perempuan'];
+    $genderJpLabels = ['male' => '男', 'female' => '女'];
+    $maritalIdLabels = ['single' => 'Belum Menikah', 'married' => 'Menikah', 'divorce' => 'Cerai'];
+    $maritalJpLabels = ['single' => 'なし', 'married' => 'あり', 'divorce' => 'なし'];
+    $nationalityJpLabels = ['jepang' => '日本', 'japan' => '日本', 'indonesia' => 'インドネシア'];
+    $religionOptions = \App\Models\User\UserProfile::religionOptions();
+    $hijabOptions = \App\Models\User\UserProfile::hijabOptions();
+    $prayerOptions = \App\Models\User\UserProfile::prayOptions();
+    $porkToleranceOptions = \App\Models\User\UserProfile::porkToleranceOptions();
+    $alcoholToleranceOptions = \App\Models\User\UserProfile::alcoholToleranceOptions();
+    $driverLicenseOptions = \App\Models\User\UserProfile::driverLicenseOptions();
+    $japaneseCertificateOptions = \App\Models\User\UserProfile::japaneseCertificateOptions();
+    $nationalityKey = strtolower(trim((string) ($profile?->nationality ?? '')));
+
+    $detailFields = [
+      ['label' => 'Tanggal Lahir / 生年月日', 'value' => ['id' => $formatDate($profile?->birth_date), 'jp' => $formatJapaneseDate($profile?->birth_date)]],
+      ['label' => 'Jenis Kelamin / 性別', 'value' => ['id' => $genderIdLabels[$profile?->gender] ?? $emptyValue, 'jp' => $genderJpLabels[$profile?->gender] ?? null]],
+      ['label' => 'Umur / 年', 'value' => ['id' => $profile?->age ?? $emptyValue]],
+      ['label' => 'Daerah Asal / 出身地', 'value' => ['id' => $formatValue($profile?->place_of_origin)]],
+      ['label' => 'Kewarganegaraan / 国籍', 'value' => ['id' => $formatValue($profile?->nationality), 'jp' => $nationalityJpLabels[$nationalityKey] ?? null]],
+      
+      ['label' => 'Status Pernikahan / 婚姻状況', 'value' => ['id' => $maritalIdLabels[$profile?->marital_status] ?? $emptyValue, 'jp' => $maritalJpLabels[$profile?->marital_status] ?? null]],
+      ['label' => 'Tinggi Badan / 身長', 'value' => ['id' => filled($profile?->height) ? $profile->height . ' cm' : $emptyValue]],
+      ['label' => 'Berat Badan / 体重', 'value' => ['id' => filled($profile?->weight) ? $profile->weight . ' kg' : $emptyValue]],
+      ['label' => 'Jenis Visa Saat Ini / 現在の在留資格', 'value' => ['id' => $formatValue($profile?->current_visa_type)]],
+      ['label' => 'Masa Berlaku Visa / 在留期限', 'value' => ['id' => $formatDate($profile?->visa_expiry_date), 'jp' => $formatJapaneseDate($profile?->visa_expiry_date)]],
+      ['label' => 'Level JLPT / JLPTレベル', 'value' => ['id' => $japaneseCertificateOptions[$profile?->jlpt_level]['id'] ?? $formatValue($profile?->jlpt_level), 'jp' => $japaneseCertificateOptions[$profile?->jlpt_level]['jp'] ?? null]],
+      ['label' => 'Tanggal Masuk / 入国日', 'value' => ['id' => $formatDate($profile?->entry_date), 'jp' => $formatJapaneseDate($profile?->entry_date)]],
+      ['label' => 'Mulai Kerja / 就業開始日', 'value' => ['id' => $formatDate($profile?->work_start_date), 'jp' => $formatJapaneseDate($profile?->work_start_date)]],
+      ['label' => 'Memiliki SIM / 運転免許', 'value' => ['id' => $driverLicenseOptions[$profile?->has_driver_license]['id'] ?? $formatValue($profile?->has_driver_license), 'jp' => $driverLicenseOptions[$profile?->has_driver_license]['jp'] ?? null]],
+    ];
+
+    $detailLongFields = [
+      ['label' => 'Alamat Saat Ini / 現住所', 'value' => ['id' => $formatValue($profile?->current_address)], 'span' => 'md:col-span-2'],
+      ['label' => 'Agama / 宗教', 'value' => ['id' => $religionOptions[$profile?->religion]['id'] ?? $emptyValue, 'jp' => $religionOptions[$profile?->religion]['jp'] ?? null], 'span' => 'md:col-span-2'],
+      ['label' => 'Kebutuhan Hijab di Tempat Kerja / ヒジャブ', 'value' => ['id' => $hijabOptions[$profile?->is_wearing_hijab]['id'] ?? $emptyValue, 'jp' => $hijabOptions[$profile?->is_wearing_hijab]['jp'] ?? null], 'span' => 'md:col-span-2'],
+      ['label' => 'Kebutuhan Ibadah di Tempat Kerja / 礼拝の必要', 'value' => ['id' => $prayerOptions[$profile?->prayer_requirement]['id'] ?? $formatValue($profile?->prayer_requirement), 'jp' => $prayerOptions[$profile?->prayer_requirement]['jp'] ?? null], 'span' => 'md:col-span-2'],
+      ['label' => 'Toleransi Daging Babi / 豚肉の許容', 'value' => ['id' => $porkToleranceOptions[$profile?->pork_tolerance]['id'] ?? $formatValue($profile?->pork_tolerance), 'jp' => $porkToleranceOptions[$profile?->pork_tolerance]['jp'] ?? null], 'span' => 'md:col-span-2'],
+      ['label' => 'Toleransi Minuman/Makanan Beralkohol / アルコールの許容', 'value' => ['id' => $alcoholToleranceOptions[$profile?->alcohol_tolerance]['id'] ?? $formatValue($profile?->alcohol_tolerance), 'jp' => $alcoholToleranceOptions[$profile?->alcohol_tolerance]['jp'] ?? null], 'span' => 'md:col-span-2'],
+      ['label' => 'Pengalaman Teknis / 技術経験', 'value' => ['id' => $formatValue($profile?->technical_experience)], 'span' => 'md:col-span-2'],
+>>>>>>> Stashed changes
     ];
   @endphp
 

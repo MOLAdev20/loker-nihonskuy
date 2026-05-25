@@ -52,6 +52,21 @@
           'hindu' => 'Hindu',
           'buddha' => 'Buddha',
       ];
+<<<<<<< Updated upstream
+=======
+      $nationalityJapaneseLabels = [
+          'jepang' => '日本',
+          'japan' => '日本',
+          'indonesia' => 'インドネシア',
+      ];
+      $religionOptions = \App\Models\User\UserProfile::religionOptions();
+      $hijabOptions = \App\Models\User\UserProfile::hijabOptions();
+      $prayerOptions = \App\Models\User\UserProfile::prayOptions();
+      $porkToleranceOptions = \App\Models\User\UserProfile::porkToleranceOptions();
+      $alcoholToleranceOptions = \App\Models\User\UserProfile::alcoholToleranceOptions();
+      $driverLicenseOptions = \App\Models\User\UserProfile::driverLicenseOptions();
+      $japaneseCertificateOptions = \App\Models\User\UserProfile::japaneseCertificateOptions();
+>>>>>>> Stashed changes
 
       $profilePicturePath = $profile->profile_picture ? ltrim($profile->profile_picture, '/') : null;
       $profilePictureUrl = null;
@@ -66,6 +81,7 @@
       }
 
       $personalInfoRows = [
+<<<<<<< Updated upstream
           'Nama Lengkap' => $profile->full_name ?: '-',
           'Furigana' => $profile->furigana_name ?: '-',
           'Tanggal Lahir' => $profile->birth_date?->format('d M Y') ?: '-',
@@ -87,6 +103,80 @@
           'Memiliki SIM' => $profile->has_driver_license ?: '-',
           'Tanggal Siap Mulai Kerja' => $profile->work_start_date?->format('d M Y') ?: '-',
           'Pengalaman Teknis' => $profile->technical_experience ?: '-',
+=======
+          'Tanggal Lahir' => [
+              'id' => $profile->birth_date?->format('d M Y') ?: '-',
+              'jp' => $profile->birth_date?->format('Y年n月j日'),
+          ],
+          'Jenis Kelamin' => [
+              'id' => $genderLabels[$profile->gender],
+              'jp' => $genderJapaneseLabels[$profile->gender] ?? '-',
+          ],
+          'Umur' => [
+              'id' => $profile->age,
+          ],
+          'Daerah Asal' => [
+              'id' => $profile->place_of_origin,
+          ],
+          'Kewarganegaraan' => [
+              'id' => $profile->nationality ?: '-',
+              'jp' => $nationalityJapaneseLabels[$nationalityKey] ?? null,
+          ],
+          'Status Pernikahan' => [
+              'id' => $profile->marital_status,
+          ],
+          'Tinggi Badan' => ['id' => ($profile->height ?: '-') . 'cm'],
+          'Berat Badan' => ['id' => ($profile->weight ?: '-') . 'kg'],
+          'Jenis Visa Saat Ini' => ['id' => $profile->current_visa_type ?: '-'],
+          'Masa Berlaku Visa' => [
+              'id' => $profile->visa_expiry_date?->format('d M Y') ?: '-',
+              'jp' => $profile->visa_expiry_date?->format('Y年n月j日'),
+          ],
+          'Level JLPT' => [
+              'id' => $jlptDisplay,
+              'jp' => $jlptJapanese,
+          ],
+          
+          'Tanggal Masuk Jepang' => [
+              'id' => $profile->entry_date?->format('d M Y') ?: '-',
+              'jp' => $profile->entry_date?->format('Y年n月j日'),
+          ],
+          'Tanggal Mulai Kerja' => [
+              'id' => $profile->work_start_date?->format('d M Y') ?: '-',
+              'jp' => $profile->work_start_date?->format('Y年n月j日'),
+          ],
+          'Memiliki SIM' => [
+              'id' => $driverLicenseOptions[$profile->has_driver_license]['id'] ?? ($profile->has_driver_license ?: '-'),
+              'jp' => $driverLicenseOptions[$profile->has_driver_license]['jp'] ?? null,
+          ],          
+      ];
+
+      $workPreferenceRows = [
+          'Alamat Saat Ini' => [
+            'id' => $profile->current_address ?? '-',
+          ],
+          'Agama' => [
+              'id' => $religionOptions[$profile->religion]['id'] ?? '-',
+              'jp' => $religionOptions[$profile->religion]['jp'] ?? null,
+          ],
+          'Kebutuhan Jilbab di Tempat Kerja?' => [
+              'id' => $hijabOptions[$profile->is_wearing_hijab]['id'] ?? '-',
+              'jp' => $hijabOptions[$profile->is_wearing_hijab]['jp'] ?? null,
+          ],
+          'Kebutuhan Ibadah di Tempat Kerja' => [
+              'id' => $prayerOptions[$profile->prayer_requirement]['id'] ?? '-',
+              'jp' => $prayerOptions[$profile->prayer_requirement]['jp'] ?? null,
+          ],
+          'Toleransi terhadap daging babi' => [
+              'id' => $porkToleranceOptions[$profile->pork_tolerance]['id'] ?? '-',
+              'jp' => $porkToleranceOptions[$profile->pork_tolerance]['jp'] ?? null,
+          ],
+          'Toleransi terhadap Alkohol' => [
+              'id' => $alcoholToleranceOptions[$profile->alcohol_tolerance]['id'] ?? '-',
+              'jp' => $alcoholToleranceOptions[$profile->alcohol_tolerance]['jp'] ?? null,
+          ],
+          'Pengalaman Teknis' => ['id' => $profile->technical_experience ?: '-'],
+>>>>>>> Stashed changes
       ];
       $personalInfoChunks = array_chunk($personalInfoRows, (int) ceil(count($personalInfoRows) / 2), true);
     @endphp
