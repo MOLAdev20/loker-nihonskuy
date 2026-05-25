@@ -66,6 +66,7 @@
           'japan' => '日本',
           'indonesia' => 'インドネシア',
       ];
+      $religionOptions = \App\Models\User\UserProfile::religionOptions();
       $hijabOptions = \App\Models\User\UserProfile::hijabOptions();
       $prayerOptions = \App\Models\User\UserProfile::prayOptions();
       $porkToleranceOptions = \App\Models\User\UserProfile::porkToleranceOptions();
@@ -113,13 +114,6 @@
               'id' => $profile->nationality ?: '-',
               'jp' => $nationalityJapaneseLabels[$nationalityKey] ?? null,
           ],
-          'Alamat Saat Ini' => [
-              'id' => $profile->current_address,
-          ],
-          'Agama' => ['id' => $religionLabels[$profile->religion] ?? '-'],
-          'Status Pernikahan' => [
-              'id' => $profile->marital_status,
-          ],
           'Tinggi Badan' => ['id' => ($profile->height ?: '-') . 'cm'],
           'Berat Badan' => ['id' => ($profile->weight ?: '-') . 'kg'],
           'Jenis Visa Saat Ini' => ['id' => $profile->current_visa_type ?: '-'],
@@ -147,6 +141,13 @@
       ];
 
       $workPreferenceRows = [
+          'Alamat Saat Ini' => [
+            'id' => $profile->current_address ?? '-',
+          ],
+          'Agama' => [
+              'id' => $religionOptions[$profile->religion]['id'] ?? '-',
+              'jp' => $religionOptions[$profile->religion]['jp'] ?? null,
+          ],
           'Kebutuhan Jilbab di Tempat Kerja?' => [
               'id' => $hijabOptions[$profile->is_wearing_hijab]['id'] ?? '-',
               'jp' => $hijabOptions[$profile->is_wearing_hijab]['jp'] ?? null,

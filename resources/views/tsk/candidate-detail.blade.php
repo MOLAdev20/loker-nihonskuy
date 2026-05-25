@@ -8,41 +8,40 @@
     $genderJapaneseLabels = ['male' => '男', 'female' => '女'];
     $maritalStatusLabels = ['single' => 'Belum Menikah', 'married' => 'Menikah', 'divorce' => 'Cerai'];
     $maritalStatusJapaneseLabels = ['single' => 'なし', 'married' => 'あり', 'divorce' => 'なし'];
-    $religionLabels = ['islam' => 'Islam', 'kristen' => 'Kristen', 'katolik' => 'Katolik', 'hindu' => 'Hindu', 'buddha' => 'Buddha'];
     $nationalityJapaneseLabels = ['jepang' => '日本', 'japan' => '日本', 'indonesia' => 'インドネシア'];
+    $religionOptions = \App\Models\User\UserProfile::religionOptions();
     $hijabOptions = \App\Models\User\UserProfile::hijabOptions();
     $prayerOptions = \App\Models\User\UserProfile::prayOptions();
     $porkToleranceOptions = \App\Models\User\UserProfile::porkToleranceOptions();
     $alcoholToleranceOptions = \App\Models\User\UserProfile::alcoholToleranceOptions();
     $driverLicenseOptions = \App\Models\User\UserProfile::driverLicenseOptions();
     $japaneseCertificateOptions = \App\Models\User\UserProfile::japaneseCertificateOptions();
-
-    $displayName = $profile?->full_name ?: $candidate->name ?: '候補者';
     $nationalityKey = strtolower(trim((string) ($profile?->nationality ?? '')));
     $personalInfoRows = [
-        '氏名' => ['id' => $profile?->full_name ?: $candidate->name ?: '-'],
-        'ふりがな' => ['id' => $profile?->furigana_name ?: '-'],
         '生年月日' => ['id' => $profile?->birth_date?->format('d M Y') ?: '-', 'jp' => $profile?->birth_date?->format('Y年n月j日')],
-        '入国日' => ['id' => $profile?->entry_date?->format('d M Y') ?: '-', 'jp' => $profile?->entry_date?->format('Y年n月j日')],
+        '性別' => ['id' => $genderLabels[$profile?->gender] ?? '-', 'jp' => $genderJapaneseLabels[$profile?->gender] ?? null],
+        '年' => ['id' => $profile?->age ?? '-'],
+        '出身地' => ['id' => $profile?->place_of_origin ?: '-'],
         '国籍' => ['id' => $profile?->nationality ?: '-', 'jp' => $nationalityJapaneseLabels[$nationalityKey] ?? null],
+        '婚姻状況' => ['jp' => $maritalStatusJapaneseLabels[$profile?->marital_status] ?: '-'],
+        '身長' => ['id' => ($profile?->height ?: '-') . ' cm'],
+        '体重' =>  ['id' => ($profile?->weight ?: '-') . ' kg'],
+        '現在の在留資格' => ['id' => $profile?->current_visa_type ?: '-'],
         '在留期限' => ['id' => $profile?->visa_expiry_date?->format('d M Y') ?: '-', 'jp' => $profile?->visa_expiry_date?->format('Y年n月j日')],
         'JLPTレベル' => ['id' => $japaneseCertificateOptions[$profile?->jlpt_level]['id'] ?? ($profile?->jlpt_level ?: '-'), 'jp' => $japaneseCertificateOptions[$profile?->jlpt_level]['jp'] ?? null],
-        '運転免許' => ['id' => $driverLicenseOptions[$profile?->has_driver_license]['id'] ?? ($profile?->has_driver_license ?: '-'), 'jp' => $driverLicenseOptions[$profile?->has_driver_license]['jp'] ?? null],
-        '性別' => ['id' => $genderLabels[$profile?->gender] ?? '-', 'jp' => $genderJapaneseLabels[$profile?->gender] ?? null],
-        '宗教' => ['id' => $religionLabels[$profile?->religion] ?? '-'],
-        '現在の在留資格' => ['id' => $profile?->current_visa_type ?: '-'],
+        '入国日' => ['id' => $profile?->entry_date?->format('d M Y') ?: '-', 'jp' => $profile?->entry_date?->format('Y年n月j日')],
         '就業開始日' => ['id' => $profile?->work_start_date?->format('d M Y') ?: '-', 'jp' => $profile?->work_start_date?->format('Y年n月j日')],
-        '技術経験' => ['id' => $profile?->technical_experience ?: '-'],
-        '身長 / 体重' => ['id' => ($profile?->height ?: '-') . ' cm / ' . ($profile?->weight ?: '-') . ' kg'],
+        '運転免許' => ['id' => $driverLicenseOptions[$profile?->has_driver_license]['id'] ?? ($profile?->has_driver_license ?: '-'), 'jp' => $driverLicenseOptions[$profile?->has_driver_license]['jp'] ?? null],
     ];
 
     $workPreferenceRows = [
         '現住所' => ['id' => $profile?->current_address ?: '-'],
-        '出身地' => ['id' => $profile?->place_of_origin ?: '-'],
+        '宗教' => ['id' => $religionOptions[$profile?->religion]['id'] ?? '-', 'jp' => $religionOptions[$profile?->religion]['jp'] ?? null],
         'ヒジャブ着用' => ['id' => $hijabOptions[$profile?->is_wearing_hijab]['id'] ?? '-', 'jp' => $hijabOptions[$profile?->is_wearing_hijab]['jp'] ?? null],
         '礼拝の必要' => ['id' => $prayerOptions[$profile?->prayer_requirement]['id'] ?? '-', 'jp' => $prayerOptions[$profile?->prayer_requirement]['jp'] ?? null],
         '豚肉の許容' => ['id' => $porkToleranceOptions[$profile?->pork_tolerance]['id'] ?? '-', 'jp' => $porkToleranceOptions[$profile?->pork_tolerance]['jp'] ?? null],
         'アルコールの許容' => ['id' => $alcoholToleranceOptions[$profile?->alcohol_tolerance]['id'] ?? '-', 'jp' => $alcoholToleranceOptions[$profile?->alcohol_tolerance]['jp'] ?? null],
+        '技術経験' => ['id' => $profile?->technical_experience ?: '-'],
     ];
   @endphp
 
@@ -50,7 +49,7 @@
     <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h1 class="text-2xl font-semibold tracking-tight text-slate-900">候補者詳細</h1>
-        <p class="mt-1 text-sm text-slate-600">{{ $displayName }}</p>
+        <p class="mt-1 text-sm text-slate-600">{{ $profile->full_name }}</p>
       </div>
       <div class="flex flex-wrap items-center gap-2">
         <a href="{{ route('tsk.candidates.resume.download', $candidate->id) }}"
@@ -68,12 +67,12 @@
       <div class="lg:col-span-2">
         <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
           @if ($profilePictureUrl)
-            <img src="{{ $profilePictureUrl }}" alt="{{ $displayName }}のプロフィール写真"
+            <img src="{{ $profilePictureUrl }}" alt="{{ $profile->full_name }}のプロフィール写真"
               class="aspect-[3/4] w-full rounded-lg border border-slate-200 object-cover" />
           @else
             <div
               class="flex aspect-[3/4] w-full items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-50 text-4xl font-semibold text-slate-400">
-              {{ strtoupper(substr($displayName ?: '候補者', 0, 1)) }}
+              {{ strtoupper(substr($profile->full_name ?: '候補者', 0, 1)) }}
             </div>
           @endif
         </div>
@@ -81,8 +80,11 @@
 
       <div class="space-y-4 lg:col-span-4">
         <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-          <h2 class="text-base font-semibold text-slate-900">個人情報</h2>
-          <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <div>
+            <h2 class="text-base font-semibold text-slate-900">{{ $profile->furigana_name }}</h2>
+            <p class="text-slate-500 text-sm">{{ $profile->full_name }}</p>
+          </div>
+          <div class="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2">
             @foreach ($personalInfoRows as $label => $value)
               <div class="py-3">
                 <div class="text-xs font-medium uppercase tracking-wide text-slate-500">{{ $label }}</div>

@@ -46,6 +46,36 @@ class UserProfile extends Model
         ];
     }
 
+    public static function religionOptions()
+    {
+        return [
+            "islam" => [
+                "id" => "Islam",
+                "jp" => "イスラム教"
+            ],
+            "kristen" => [
+                "id" => "Kristen",
+                "jp" => "キリスト教"
+            ],
+            "hindu" => [
+                "id" => "Hindu",
+                "jp" => "ヒンドゥー教"
+            ],
+            "budha" => [
+                "id" => "Budha",
+                "jp" => "仏教"
+            ],
+            "tidak-beragama" => [
+                "id" => "Tidak Beragama",
+                "jp" => "無宗教"
+            ],
+            "lainnya" => [
+                "id" => "Lainnya",
+                "jp" => "その他"
+            ]
+        ];
+    }
+
     public static function hijabOptions()
     {
         return [
