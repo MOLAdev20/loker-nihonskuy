@@ -263,7 +263,7 @@
           @php
             $selectedBenefits = old('benefit', $job->benefit ? explode('|', $job->benefit) : []);
             $selectedBenefits = is_array($selectedBenefits) ? $selectedBenefits : [];
-            $selectedSpecialTags = old('special-tag', $job->tags ? explode('|', $job->tags) : []);
+            $selectedSpecialTags = old('special-tag', $job->urgentVacancy ? ['urgent'] : ($job->tags ? explode('|', $job->tags) : []));
             $selectedSpecialTags = is_array($selectedSpecialTags) ? $selectedSpecialTags : [];
           @endphp
 

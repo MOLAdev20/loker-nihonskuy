@@ -1,0 +1,16 @@
+Anda sebagai senior software engineer/lead/project manager
+Buatkan dokumen PRD/plan di plan/create-order-urgent-vacancies-management.md
+
+Tujuan/Goals PRD:
+*Membuat fitur manajemen urutan info loker/vacancies pada loker yang ditandai sebagai urgent*
+*Halaman manajemen urutan ini bisa diakses dari halaman daftar loker pada menu admin ada tombol loker prioritas*
+*Kita bisa menambahkan loker yang terdaftar di database ke dalam loker yang urgent*
+*Loker urgent bisa diurutkan dengan drag n drop mana yang berada di tingkatan paling atas*
+*Loker urgent disimpan atau berhubungan ke tabel urgent_vacancies (cek migration table 2026_05_25_083152_create_table_urgent_vacancies)*
+*User bisa menghapus loker dari loker urgent ini*
+*Tampilkan loker yang urgent ini pada bagian Dibutuhkan Segera pada halaman awal (/) atau landing page*
+
+
+*notes
+PRD yang sudah dibuat, nantinya akan dikerjakan oleh bawahan anda yakni Junior FrontEnd Engineer, maupun AI Model yang lebih murah. Maka dari itu, anda sebagai lead, suruh bawahan anda kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah

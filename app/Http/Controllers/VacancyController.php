@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Vacancy;
+use App\Services\UrgentVacancyService;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -14,6 +16,10 @@ use Spatie\QueryBuilder\Exceptions\InvalidSortQuery;
 
 class VacancyController extends Controller
 {
+    public function __construct(private readonly UrgentVacancyService $urgentVacancyService)
+    {
+    }
+
     private function isEmptyQuillDelta(array $delta): bool
     {
         if (! isset($delta['ops']) || ! is_array($delta['ops'])) {
@@ -238,28 +244,34 @@ class VacancyController extends Controller
             $salary = $validated['salary-from'] . '-' . $validated['salary-to'];
         }
 
-        $job = Vacancy::create([
-            'job_code' => $validated['job-id'],
-            'title' => $validated['job-title'],
-            'visa_type' => $validated['visa-type'],
-            'placement' => $validated['job-placement'],
-            'placement_branch' => $validated['placement-branch'] ?? null,
-            'job_type' => $validated['job-type'],
-            'company_web' => $validated['company-web'] ?? null,
-            'salary' => $salary,
-            'whatsapp_number' => $validated['whatsapp-number'],
-            'gender_requirement' => $validated['gender-requirement'],
-            'domicile_requirement' => $validated['domicile-requirement'],
-            'exp_requirement' => $validated['exp-requirement'],
-            'jlpt_requirement' => $validated['jlpt-requirement'],
-            'kaiwa_requirement' => $validated['kaiwa-requirement'],
-            'qty' => $validated['qty'],
-            'source' => $validated['source'] ?? null,
-            'benefit' => count($benefits) ? implode('|', $benefits) : null,
-            'tags' => $this->normalizeTags($tags),
-            'expired_at' => $validated['expiration-date'],
-            'additional_information' => $validated['additional-information'],
-        ]);
+        $job = DB::transaction(function () use ($validated, $benefits, $tags, $salary) {
+            $job = Vacancy::create([
+                'job_code' => $validated['job-id'],
+                'title' => $validated['job-title'],
+                'visa_type' => $validated['visa-type'],
+                'placement' => $validated['job-placement'],
+                'placement_branch' => $validated['placement-branch'] ?? null,
+                'job_type' => $validated['job-type'],
+                'company_web' => $validated['company-web'] ?? null,
+                'salary' => $salary,
+                'whatsapp_number' => $validated['whatsapp-number'],
+                'gender_requirement' => $validated['gender-requirement'],
+                'domicile_requirement' => $validated['domicile-requirement'],
+                'exp_requirement' => $validated['exp-requirement'],
+                'jlpt_requirement' => $validated['jlpt-requirement'],
+                'kaiwa_requirement' => $validated['kaiwa-requirement'],
+                'qty' => $validated['qty'],
+                'source' => $validated['source'] ?? null,
+                'benefit' => count($benefits) ? implode('|', $benefits) : null,
+                'tags' => $this->normalizeTags($tags),
+                'expired_at' => $validated['expiration-date'],
+                'additional_information' => $validated['additional-information'],
+            ]);
+
+            $this->urgentVacancyService->syncFromTags($job, $tags);
+
+            return $job;
+        });
 
         return redirect()
             ->route("admin.vacancy.detail", $job->job_code)
@@ -277,7 +289,7 @@ class VacancyController extends Controller
 
     public function edit($id)
     {
-        $job = Vacancy::where('job_code', $id)->firstOrFail();
+        $job = Vacancy::with('urgentVacancy')->where('job_code', $id)->firstOrFail();
 
         return view('admin.vacancy.edit', [
             'job' => $job,
@@ -359,27 +371,31 @@ class VacancyController extends Controller
             $salary = $validated['salary-from'] . '-' . $validated['salary-to'];
         }
 
-        $job->update([
-            'title' => $validated['job-title'],
-            'visa_type' => $validated['visa-type'],
-            'placement' => $validated['job-placement'],
-            'placement_branch' => $validated['placement-branch'] ?? null,
-            'job_type' => $validated['job-type'],
-            'company_web' => $validated['company-web'] ?? null,
-            'salary' => $salary,
-            'whatsapp_number' => $validated['whatsapp-number'],
-            'gender_requirement' => $validated['gender-requirement'],
-            'domicile_requirement' => $validated['domicile-requirement'],
-            'exp_requirement' => $validated['exp-requirement'],
-            'jlpt_requirement' => $validated['jlpt-requirement'],
-            'kaiwa_requirement' => $validated['kaiwa-requirement'],
-            'qty' => $validated['qty'],
-            'source' => $validated['source'] ?? null,
-            'benefit' => count($benefits) ? implode('|', $benefits) : null,
-            'tags' => $this->normalizeTags($tags),
-            'additional_information' => $validated['additional-information'],
-            'expired_at' => $validated['expiration-date'],
-        ]);
+        DB::transaction(function () use ($job, $validated, $benefits, $tags, $salary) {
+            $job->update([
+                'title' => $validated['job-title'],
+                'visa_type' => $validated['visa-type'],
+                'placement' => $validated['job-placement'],
+                'placement_branch' => $validated['placement-branch'] ?? null,
+                'job_type' => $validated['job-type'],
+                'company_web' => $validated['company-web'] ?? null,
+                'salary' => $salary,
+                'whatsapp_number' => $validated['whatsapp-number'],
+                'gender_requirement' => $validated['gender-requirement'],
+                'domicile_requirement' => $validated['domicile-requirement'],
+                'exp_requirement' => $validated['exp-requirement'],
+                'jlpt_requirement' => $validated['jlpt-requirement'],
+                'kaiwa_requirement' => $validated['kaiwa-requirement'],
+                'qty' => $validated['qty'],
+                'source' => $validated['source'] ?? null,
+                'benefit' => count($benefits) ? implode('|', $benefits) : null,
+                'tags' => $this->normalizeTags($tags),
+                'additional_information' => $validated['additional-information'],
+                'expired_at' => $validated['expiration-date'],
+            ]);
+
+            $this->urgentVacancyService->syncFromTags($job, $tags);
+        });
 
         return redirect()->route("admin.vacancy.detail", $job->job_code)->with("msg", ["success", "Berhasil Mengedit", "Data pekerjaan berhasil diperbarui"]);
     }
@@ -422,7 +438,10 @@ class VacancyController extends Controller
             Storage::disk('public')->delete($job->thumbnail_path);
         }
 
-        $job->delete();
+        DB::transaction(function () use ($job) {
+            $job->delete();
+            $this->urgentVacancyService->normalizeOrder();
+        });
 
         return redirect()->route("admin.vacancies")->with("msg", ["success", "Loker Dihapus", "Loker berhasil dihapus"]);
     }
@@ -480,4 +499,5 @@ class VacancyController extends Controller
 
         return count($filteredTags) ? implode('|', $filteredTags) : null;
     }
+
 }

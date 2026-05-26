@@ -12,9 +12,11 @@ class LandingController extends Controller
     {
         $jobs = Vacancy::latest()->take(6)->get();
         $urgentJobs = Vacancy::query()
-            ->where("status", 1)
-            ->withTag("urgent")
-            ->latest()
+            ->select('vacancies.*')
+            ->join('urgent_vacancies', 'urgent_vacancies.job_id', '=', 'vacancies.id')
+            ->where('vacancies.status', 1)
+            ->orderBy('urgent_vacancies.order')
+            ->orderBy('urgent_vacancies.id')
             ->take(12)
             ->get();
 

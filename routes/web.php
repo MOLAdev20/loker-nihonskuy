@@ -8,6 +8,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UserWorkingExpController;
 use App\Http\Controllers\VacancyController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\UrgentVacancyController;
 use App\Http\Controllers\MatchingJobLandingController;
 use App\Http\Controllers\User\ResumeController;
 use App\Http\Controllers\User\AccountController;
@@ -35,6 +36,14 @@ Route::prefix("admin")->group(function () {
 
         Route::prefix("vacancy")->group(function () {
             Route::get("/", [VacancyController::class, "index"])->name("admin.vacancies");
+
+            Route::prefix('urgent')->group(function () {
+                Route::get("/", [UrgentVacancyController::class, "index"])->name("admin.vacancy.urgent.index");
+                Route::post("/", [UrgentVacancyController::class, "store"])->name("admin.vacancy.urgent.store");
+                Route::patch("/order", [UrgentVacancyController::class, "updateOrder"])->name("admin.vacancy.urgent.order");
+                Route::delete("/{urgentVacancy}", [UrgentVacancyController::class, "destroy"])->name("admin.vacancy.urgent.destroy");
+            });
+
             Route::get("create", [VacancyController::class, "create"]);
             Route::get("/detail/{id}", [VacancyController::class, "detail"])->name("admin.vacancy.detail");
             Route::get("/edit/{id}", [VacancyController::class, "edit"])->name("admin.vacancy.edit");

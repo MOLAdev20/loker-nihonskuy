@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Vacancy extends Model
 {
@@ -139,5 +140,10 @@ class Vacancy extends Model
                 ->orWhere('tags', 'like', '%|' . $tag . '|%')
                 ->orWhere('tags', 'like', '%|' . $tag);
         });
+    }
+
+    public function urgentVacancy(): HasOne
+    {
+        return $this->hasOne(UrgentVacancy::class, 'job_id');
     }
 }
