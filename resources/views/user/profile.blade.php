@@ -73,6 +73,38 @@
       $alcoholToleranceOptions = \App\Models\User\UserProfile::alcoholToleranceOptions();
       $driverLicenseOptions = \App\Models\User\UserProfile::driverLicenseOptions();
       $japaneseCertificateOptions = \App\Models\User\UserProfile::japaneseCertificateOptions();
+      $educationLevelOptions = \App\Models\User\UserEducationHistory::educationLevelOptions();
+      $educationLocationOptions = \App\Models\User\UserEducationHistory::eduLocationOptions();
+      $educationStatusOptions = \App\Models\User\UserEducationHistory::eduStatusOptions();
+      $workingLocationOptions = \App\Models\User\WorkExperience::workingLocationOptions();
+      $workingStatusOptions = \App\Models\User\WorkExperience::workingStatusOptions();
+      $resolveEducationOption = function (?string $value, array $options, bool $includeJapanese = true) {
+          if (! filled($value) || ! isset($options[$value])) {
+              return [
+                  'id' => $value ?: '-',
+                  'jp' => null,
+              ];
+          }
+
+              return [
+                  'id' => $options[$value]['id'],
+                  'jp' => $includeJapanese ? $options[$value]['jp'] : null,
+              ];
+      };
+      $resolveWorkOption = function (?string $value, array $options, bool $includeJapanese = true) {
+          if (! filled($value) || ! isset($options[$value])) {
+              return [
+                  'id' => $value ?: '-',
+                  'jp' => null,
+              ];
+          }
+
+          return [
+              'id' => $options[$value]['id'],
+              'jp' => $includeJapanese ? $options[$value]['jp'] : null,
+          ];
+      };
+      $publicShareUrl = route('public.candidates.show', auth()->id());
 
       $profilePicturePath = $profile->profile_picture ? ltrim($profile->profile_picture, '/') : null;
       $profilePictureUrl = null;
@@ -209,11 +241,18 @@
               <h2 class="text-xl font-semibold text-slate-900">{{ $profile->full_name }}</h2>
               <h2 class="text-sm text-slate-500">{{ $profile->furigana_name }}</h2>
             </div>
-            <a href="{{ route('user.resume.print') }}"
-              class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800">
-              Download CV
-            </a>
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" data-share-link="{{ $publicShareUrl }}"
+                class="js-copy-public-link inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50">
+                Bagikan Profile
+              </button>
+              <a href="{{ route('user.resume.print') }}"
+                class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800">
+                Download CV
+              </a>
+            </div>
           </div>
+          <p id="public-share-feedback" class="mt-2 hidden text-sm text-emerald-600">Link publik berhasil disalin.</p>
           <div class="mt-4 grid grid-cols-1 lg:grid-cols-2">
             @foreach ($personalInfoRows as $label => $value)
               <div class="py-3 border border-slate-200 p-3">
@@ -262,13 +301,28 @@
               @endif
               <tr>
                 <td class="px-4 py-3 text-slate-900">{{ $educationHistory->institution ?: '-' }}</td>
-                <td class="px-4 py-3 text-slate-900">{{ $educationHistory->education ?: '-' }}</td>
-                <td class="px-4 py-3 text-slate-700">{{ $educationHistory->location ?: '-' }}</td>
+                <td class="px-4 py-3 text-slate-900">
+                  <div>{{ $resolveEducationOption($educationHistory->education, $educationLevelOptions)['id'] }}</div>
+                  @if ($resolveEducationOption($educationHistory->education, $educationLevelOptions)['jp'])
+                    <div class="text-xs text-slate-500">{{ $resolveEducationOption($educationHistory->education, $educationLevelOptions)['jp'] }}</div>
+                  @endif
+                </td>
+                <td class="px-4 py-3 text-slate-700">
+                  <div>{{ $resolveEducationOption($educationHistory->location, $educationLocationOptions)['id'] }}</div>
+                  @if ($resolveEducationOption($educationHistory->location, $educationLocationOptions)['jp'])
+                    <div class="text-xs text-slate-500">{{ $resolveEducationOption($educationHistory->location, $educationLocationOptions)['jp'] }}</div>
+                  @endif
+                </td>
                 <td class="px-4 py-3 text-slate-700">
                   {{ $educationHistory->date_of_entry?->format('d M Y') ?: '-' }} -
                   {{ $educationHistory->date_of_graduation?->format('d M Y') ?: ($educationHistory->date_of_dropped_out?->format('d M Y') ?: '-') }}
                 </td>
-                <td class="px-4 py-3 text-slate-700">{{ $educationHistory->status ?: '-' }}</td>
+                <td class="px-4 py-3 text-slate-700">
+                  <div>{{ $resolveEducationOption($educationHistory->status, $educationStatusOptions)['id'] }}</div>
+                  @if ($resolveEducationOption($educationHistory->status, $educationStatusOptions)['jp'])
+                    <div class="text-xs text-slate-500">{{ $resolveEducationOption($educationHistory->status, $educationStatusOptions)['jp'] }}</div>
+                  @endif
+                </td>
               </tr>
               @if ($loop->last)
                 </tbody>
@@ -300,15 +354,30 @@
                   <tbody class="divide-y divide-slate-200 bg-white">
               @endif
               <tr>
+                @php
+                  $locationLabel = $resolveWorkOption($workExperience->location, $workingLocationOptions);
+                  $statusLabel = $resolveWorkOption($workExperience->employment_status, $workingStatusOptions);
+                @endphp
                 <td class="px-4 py-3 text-slate-900">{{ $workExperience->field_of_work ?: '-' }}</td>
                 <td class="px-4 py-3 text-slate-900">{{ $workExperience->company_name ?: '-' }}</td>
-                <td class="px-4 py-3 text-slate-700">{{ $workExperience->location ?: '-' }}</td>
+                <td class="px-4 py-3 text-slate-700">
+                  <div>{{ $locationLabel['id'] }}</div>
+                  @if ($locationLabel['jp'])
+                    <div class="text-xs text-slate-500">{{ $locationLabel['jp'] }}</div>
+                  @endif
+                </td>
                 <td class="px-4 py-3 text-slate-700">
                   {{ $workExperience->date_of_join?->format('d M Y') ?: '-' }} -
                   {{ $workExperience->date_of_resign?->format('d M Y') ?: 'Sekarang' }}
                 </td>
                 <td class="px-4 py-3 text-slate-700">
-                  {{ $workExperience->employment_status ?: '-' }}{{ $workExperience->visa_type ? ' • ' . $workExperience->visa_type : '' }}
+                  <div>{{ $statusLabel['id'] }}</div>
+                  @if ($statusLabel['jp'])
+                    <div class="text-xs text-slate-500">{{ $statusLabel['jp'] }}</div>
+                  @endif
+                  @if ($workExperience->visa_type)
+                    <div class="text-xs text-slate-500">Visa: {{ $workExperience->visa_type }}</div>
+                  @endif
                 </td>
               </tr>
               @if ($loop->last)
@@ -326,3 +395,47 @@
     </div>
   @endif
 @endsection
+
+@push('scripts')
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const copyButton = document.querySelector('.js-copy-public-link');
+      const feedback = document.getElementById('public-share-feedback');
+
+      if (!copyButton) {
+        return;
+      }
+
+      copyButton.addEventListener('click', async () => {
+        const shareLink = copyButton.dataset.shareLink;
+
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(shareLink);
+          } else {
+            const tempInput = document.createElement('input');
+            tempInput.value = shareLink;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            tempInput.remove();
+          }
+
+          if (feedback) {
+            feedback.classList.remove('hidden');
+            feedback.classList.remove('text-red-600');
+            feedback.classList.add('text-emerald-600');
+            feedback.textContent = 'Link publik berhasil disalin.';
+          }
+        } catch (error) {
+          if (feedback) {
+            feedback.classList.remove('hidden');
+            feedback.textContent = 'Gagal menyalin link publik.';
+            feedback.classList.remove('text-emerald-600');
+            feedback.classList.add('text-red-600');
+          }
+        }
+      });
+    });
+  </script>
+@endpush

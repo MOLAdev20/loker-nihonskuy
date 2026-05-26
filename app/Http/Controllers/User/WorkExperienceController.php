@@ -14,6 +14,8 @@ class WorkExperienceController extends Controller
     public function index()
     {
         $profile = UserProfile::where('user_id', auth()->id())->first();
+        $workingLocationOptions = WorkExperience::workingLocationOptions();
+        $workingStatusOptions = WorkExperience::workingStatusOptions();
         $educationHistories = UserEducationHistory::where('user_id', auth()->id())
             ->orderByDesc('id')
             ->get();
@@ -29,6 +31,8 @@ class WorkExperienceController extends Controller
 
         return view('user.working-experience-form', [
             'profile' => $profile,
+            'workingLocationOptions' => $workingLocationOptions,
+            'workingStatusOptions' => $workingStatusOptions,
             'educationHistories' => $educationHistories,
             'workExperiences' => $workExperiences,
             'wizardSteps' => $wizardSteps,

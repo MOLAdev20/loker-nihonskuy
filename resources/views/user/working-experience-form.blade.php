@@ -11,13 +11,13 @@
     $inputClass =
         'mt-2 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:outline-none focus:ring-2';
     $labelClass = 'text-sm font-medium text-slate-700';
-    $employmentStatusOptions = [
-        'permanent' => 'Karyawan Tetap',
-        'contract' => 'Karyawan Kontrak',
-        'fullTime' => 'Full Time',
-        'partTime' => 'Part Time',
-        'freelance' => 'Freelance',
-    ];
+    $formatOptionLabel = function (?string $value, array $options) {
+        if (! filled($value) || ! isset($options[$value])) {
+            return $value ?: '-';
+        }
+
+        return $options[$value]['id'] . ' / ' . $options[$value]['jp'];
+    };
     $visaTypeOptions = [
         'tokuteiGinou' => 'Tokutei Ginou',
         'gijinkoku' => 'Gijinkoku',
@@ -96,7 +96,7 @@
               <td class="px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
                 {{ $workExperience->field_of_work }}
               </td>
-              <td class="px-4 py-4 text-sm text-slate-700 sm:px-6">{{ $workExperience->location }}
+              <td class="px-4 py-4 text-sm text-slate-700 sm:px-6">{{ $formatOptionLabel($workExperience->location, $workingLocationOptions) }}
               </td>
               <td class="px-4 py-4 text-sm text-slate-700 sm:px-6">
                 <p>{{ optional($workExperience->date_of_join)->format('d M Y') }}</p>
@@ -105,7 +105,7 @@
                 </p>
               </td>
               <td class="px-4 py-4 text-sm text-slate-700 sm:px-6">
-                {{ $employmentStatusOptions[$workExperience->employment_status] ?? $workExperience->employment_status }}
+                {{ $formatOptionLabel($workExperience->employment_status, $workingStatusOptions) }}
               </td>
               <td class="px-4 py-4 text-sm text-slate-700 sm:px-6">
                 {{ $visaTypeOptions[$workExperience->visa_type] ?? '-' }}
@@ -202,10 +202,15 @@
           <div>
             <label class="{{ $labelClass }}" for="create_location">Lokasi Kerja/Perusahaan <span
                 class="text-red-600">*</span></label>
-            <input id="create_location" name="location" type="text"
-              value="{{ old('formMode') === 'create' ? old('location') : '' }}"
-              class="{{ $inputClass }} @error('location') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
-              placeholder="Masukkan lokasi kerja/perusahaan">
+            <select id="create_location" name="location"
+              class="{{ $inputClass }} @error('location') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
+              <option value="">Pilih Lokasi Kerja/Perusahaan</option>
+              @foreach ($workingLocationOptions as $locationValue => $locationOption)
+                <option value="{{ $locationValue }}" @selected(old('formMode') === 'create' && old('location') === $locationValue)>
+                  {{ $locationOption['id'] }} / {{ $locationOption['jp'] }}
+                </option>
+              @endforeach
+            </select>
             @error('location')
               <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
             @enderror
@@ -250,20 +255,17 @@
           </div>
 
           <div class="md:col-span-2">
-            <p class="{{ $labelClass }}">Status Kepegawaian <span class="text-red-600">*</span>
-            </p>
-            <div
-              class="@error('employmentStatus') border-red-500 @else border-slate-300 @enderror mt-2 flex flex-wrap items-center gap-4 rounded-xl border px-3 py-2.5">
-              @foreach ($employmentStatusOptions as $employmentStatusValue => $employmentStatusLabel)
-                <label class="inline-flex items-center gap-2 text-sm text-slate-700">
-                  <input type="radio" name="employmentStatus"
-                    value="{{ $employmentStatusValue }}"
-                    class="h-4 w-4 border-slate-300 text-slate-800 focus:ring-slate-300"
-                    @checked(old('formMode') === 'create' && old('employmentStatus') === $employmentStatusValue)>
-                  {{ $employmentStatusLabel }}
-                </label>
+            <label class="{{ $labelClass }}" for="create_employmentStatus">Status Kepegawaian <span
+                class="text-red-600">*</span></label>
+            <select id="create_employmentStatus" name="employmentStatus"
+              class="{{ $inputClass }} @error('employmentStatus') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
+              <option value="">Pilih Status Kepegawaian</option>
+              @foreach ($workingStatusOptions as $employmentStatusValue => $employmentStatusOption)
+                <option value="{{ $employmentStatusValue }}" @selected(old('formMode') === 'create' && old('employmentStatus') === $employmentStatusValue)>
+                  {{ $employmentStatusOption['id'] }} / {{ $employmentStatusOption['jp'] }}
+                </option>
               @endforeach
-            </div>
+            </select>
             @error('employmentStatus')
               <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
             @enderror
@@ -356,10 +358,15 @@
               <label class="{{ $labelClass }}"
                 for="edit_location_{{ $workExperience->id }}">Lokasi
                 Kerja/Perusahaan <span class="text-red-600">*</span></label>
-              <input id="edit_location_{{ $workExperience->id }}" name="location" type="text"
-                value="{{ $editLocationValue }}"
-                class="{{ $inputClass }} @error('location') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
-                placeholder="Masukkan lokasi kerja/perusahaan">
+              <select id="edit_location_{{ $workExperience->id }}" name="location"
+                class="{{ $inputClass }} @error('location') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
+                <option value="">Pilih Lokasi Kerja/Perusahaan</option>
+                @foreach ($workingLocationOptions as $locationValue => $locationOption)
+                  <option value="{{ $locationValue }}" @selected($editLocationValue === $locationValue)>
+                    {{ $locationOption['id'] }} / {{ $locationOption['jp'] }}
+                  </option>
+                @endforeach
+              </select>
               @error('location')
                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
               @enderror
@@ -408,20 +415,18 @@
             </div>
 
             <div class="md:col-span-2">
-              <p class="{{ $labelClass }}">Status Kepegawaian <span class="text-red-600">*</span>
-              </p>
-              <div
-                class="@error('employmentStatus') border-red-500 @else border-slate-300 @enderror mt-2 flex flex-wrap items-center gap-4 rounded-xl border px-3 py-2.5">
-                @foreach ($employmentStatusOptions as $employmentStatusValue => $employmentStatusLabel)
-                  <label class="inline-flex items-center gap-2 text-sm text-slate-700">
-                    <input type="radio" name="employmentStatus"
-                      value="{{ $employmentStatusValue }}"
-                      class="h-4 w-4 border-slate-300 text-slate-800 focus:ring-slate-300"
-                      @checked($editEmploymentStatusValue === $employmentStatusValue)>
-                    {{ $employmentStatusLabel }}
-                  </label>
+              <label class="{{ $labelClass }}"
+                for="edit_employmentStatus_{{ $workExperience->id }}">Status Kepegawaian <span
+                  class="text-red-600">*</span></label>
+              <select id="edit_employmentStatus_{{ $workExperience->id }}" name="employmentStatus"
+                class="{{ $inputClass }} @error('employmentStatus') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
+                <option value="">Pilih Status Kepegawaian</option>
+                @foreach ($workingStatusOptions as $employmentStatusValue => $employmentStatusOption)
+                  <option value="{{ $employmentStatusValue }}" @selected($editEmploymentStatusValue === $employmentStatusValue)>
+                    {{ $employmentStatusOption['id'] }} / {{ $employmentStatusOption['jp'] }}
+                  </option>
                 @endforeach
-              </div>
+              </select>
               @error('employmentStatus')
                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
               @enderror

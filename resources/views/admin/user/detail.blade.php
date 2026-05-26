@@ -57,6 +57,25 @@
     $alcoholToleranceOptions = \App\Models\User\UserProfile::alcoholToleranceOptions();
     $driverLicenseOptions = \App\Models\User\UserProfile::driverLicenseOptions();
     $japaneseCertificateOptions = \App\Models\User\UserProfile::japaneseCertificateOptions();
+    $educationLevelOptions = \App\Models\User\UserEducationHistory::educationLevelOptions();
+    $educationLocationOptions = \App\Models\User\UserEducationHistory::eduLocationOptions();
+    $educationStatusOptions = \App\Models\User\UserEducationHistory::eduStatusOptions();
+    $workingLocationOptions = \App\Models\User\WorkExperience::workingLocationOptions();
+    $workingStatusOptions = \App\Models\User\WorkExperience::workingStatusOptions();
+    $resolveEducationOption = function (?string $value, array $options) {
+      if (! filled($value) || ! isset($options[$value])) {
+        return ['id' => $value ?: $emptyValue, 'jp' => null];
+      }
+
+      return ['id' => $options[$value]['id'], 'jp' => $options[$value]['jp']];
+    };
+    $resolveWorkOption = function (?string $value, array $options) use ($emptyValue) {
+      if (! filled($value) || ! isset($options[$value])) {
+        return ['id' => $value ?: $emptyValue, 'jp' => null];
+      }
+
+      return ['id' => $options[$value]['id'], 'jp' => $options[$value]['jp']];
+    };
     $nationalityKey = strtolower(trim((string) ($profile?->nationality ?? '')));
 
     $detailFields = [
@@ -308,14 +327,34 @@
               </thead>
               <tbody class="divide-y divide-slate-200 bg-white text-slate-700">
                 @foreach ($educationHistories as $educationHistory)
+                  @php
+                    $educationLabel = $resolveEducationOption($educationHistory->education, $educationLevelOptions);
+                    $locationLabel = $resolveEducationOption($educationHistory->location, $educationLocationOptions);
+                    $statusLabel = $resolveEducationOption($educationHistory->status, $educationStatusOptions);
+                  @endphp
                   <tr>
                     <td class="whitespace-nowrap px-4 py-3">{{ $educationHistory->institution }}</td>
-                    <td class="whitespace-nowrap px-4 py-3">{{ $educationHistory->education }}</td>
-                    <td class="whitespace-nowrap px-4 py-3">{{ $educationHistory->location }}</td>
+                    <td class="whitespace-nowrap px-4 py-3">
+                      <div>{{ $educationLabel['id'] }}</div>
+                      @if ($educationLabel['jp'])
+                        <div class="text-xs text-slate-500">{{ $educationLabel['jp'] }}</div>
+                      @endif
+                    </td>
+                    <td class="whitespace-nowrap px-4 py-3">
+                      <div>{{ $locationLabel['id'] }}</div>
+                      @if ($locationLabel['jp'])
+                        <div class="text-xs text-slate-500">{{ $locationLabel['jp'] }}</div>
+                      @endif
+                    </td>
                     <td class="whitespace-nowrap px-4 py-3">{{ $formatDate($educationHistory->date_of_entry) }}</td>
                     <td class="whitespace-nowrap px-4 py-3">{{ $formatDate($educationHistory->date_of_graduation) }}</td>
                     <td class="whitespace-nowrap px-4 py-3">{{ $formatDate($educationHistory->date_of_dropped_out) }}</td>
-                    <td class="whitespace-nowrap px-4 py-3">{{ $educationHistory->status }}</td>
+                    <td class="whitespace-nowrap px-4 py-3">
+                      <div>{{ $statusLabel['id'] }}</div>
+                      @if ($statusLabel['jp'])
+                        <div class="text-xs text-slate-500">{{ $statusLabel['jp'] }}</div>
+                      @endif
+                    </td>
                   </tr>
                 @endforeach
               </tbody>
@@ -356,13 +395,27 @@
               </thead>
               <tbody class="divide-y divide-slate-200 bg-white text-slate-700">
                 @foreach ($workExperiences as $workExperience)
+                  @php
+                    $locationLabel = $resolveWorkOption($workExperience->location, $workingLocationOptions);
+                    $statusLabel = $resolveWorkOption($workExperience->employment_status, $workingStatusOptions);
+                  @endphp
                   <tr>
                     <td class="whitespace-nowrap px-4 py-3">{{ $workExperience->field_of_work }}</td>
                     <td class="whitespace-nowrap px-4 py-3">{{ $workExperience->company_name }}</td>
-                    <td class="whitespace-nowrap px-4 py-3">{{ $workExperience->location }}</td>
+                    <td class="whitespace-nowrap px-4 py-3">
+                      <div>{{ $locationLabel['id'] }}</div>
+                      @if ($locationLabel['jp'])
+                        <div class="text-xs text-slate-500">{{ $locationLabel['jp'] }}</div>
+                      @endif
+                    </td>
                     <td class="whitespace-nowrap px-4 py-3">{{ $formatDate($workExperience->date_of_join) }}</td>
                     <td class="whitespace-nowrap px-4 py-3">{{ $formatDate($workExperience->date_of_resign) }}</td>
-                    <td class="whitespace-nowrap px-4 py-3">{{ $workExperience->employment_status }}</td>
+                    <td class="whitespace-nowrap px-4 py-3">
+                      <div>{{ $statusLabel['id'] }}</div>
+                      @if ($statusLabel['jp'])
+                        <div class="text-xs text-slate-500">{{ $statusLabel['jp'] }}</div>
+                      @endif
+                    </td>
                     <td class="whitespace-nowrap px-4 py-3">{{ $workExperience->visa_type ?: $emptyValue }}</td>
                   </tr>
                 @endforeach

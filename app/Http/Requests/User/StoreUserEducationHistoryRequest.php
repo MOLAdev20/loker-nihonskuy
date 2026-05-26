@@ -15,15 +15,17 @@ class StoreUserEducationHistoryRequest extends FormRequest
     public function rules(): array
     {
         $educationLevelOptions = array_keys(UserEducationHistory::educationLevelOptions());
+        $educationLocationOptions = array_keys(UserEducationHistory::eduLocationOptions());
+        $educationStatusOptions = array_keys(UserEducationHistory::eduStatusOptions());
 
         return [
             'education' => ['required', 'in:' . implode(',', $educationLevelOptions)],
             'institution' => ['required', 'string', 'min:3', 'max:255'],
-            'location' => ['required', 'string'],
+            'location' => ['required', 'in:' . implode(',', $educationLocationOptions)],
             'dateOfEntry' => ['required', 'date'],
             'dateOfGraduation' => ['nullable', 'date', 'after_or_equal:dateOfEntry'],
             'dateOfDroppedOut' => ['nullable', 'date', 'after_or_equal:dateOfEntry'],
-            'status' => ['required', 'in:graduated,studying,droppedOut'],
+            'status' => ['required', 'in:' . implode(',', $educationStatusOptions)],
         ];
     }
 

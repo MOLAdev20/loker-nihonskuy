@@ -11,11 +11,13 @@
     $inputClass =
         'mt-2 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:outline-none focus:ring-2';
     $labelClass = 'text-sm font-medium text-slate-700';
-    $statusOptions = [
-        'graduated' => 'Lulus',
-        'studying' => 'Masih Sekolah/Berkuliah',
-        'droppedOut' => 'Mengundurkan Diri',
-    ];
+    $formatOptionLabel = function (?string $value, array $options) {
+        if (! filled($value) || ! isset($options[$value])) {
+            return $value ?: '-';
+        }
+
+        return $options[$value]['id'] . ' / ' . $options[$value]['jp'];
+    };
 
     $hasValidationError = $errors->any();
     $shouldOpenCreateModal = $hasValidationError && old('formMode') === 'create';
@@ -80,11 +82,11 @@
           @forelse ($educationHistories as $educationHistory)
             <tr>
               <td class="whitespace-nowrap px-4 py-4 text-sm font-medium text-slate-900 sm:px-6">
-                {{ $educationHistory->education }}
+                {{ $formatOptionLabel($educationHistory->education, $educationLevelOptions) }}
               </td>
               <td class="px-4 py-4 text-sm text-slate-700 sm:px-6">
                 {{ $educationHistory->institution }}</td>
-              <td class="px-4 py-4 text-sm text-slate-700 sm:px-6">{{ $educationHistory->location }}
+              <td class="px-4 py-4 text-sm text-slate-700 sm:px-6">{{ $formatOptionLabel($educationHistory->location, $educationLocationOptions) }}
               </td>
               <td class="px-4 py-4 text-sm text-slate-700 sm:px-6">
                 <div>
@@ -100,7 +102,7 @@
                 </div>
               </td>
               <td class="px-4 py-4 text-sm text-slate-700 sm:px-6">
-                {{ $statusOptions[$educationHistory->status] ?? $educationHistory->status }}
+                {{ $formatOptionLabel($educationHistory->status, $educationStatusOptions) }}
               </td>
               <td class="px-4 py-4 sm:px-6">
                 <div class="flex justify-end gap-2">
@@ -173,9 +175,9 @@
             <select id="create_education" name="education"
               class="{{ $inputClass }} @error('education') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
               <option value="">Pilih Jenjang Pendidikan</option>
-              @foreach ($educationLevelOptions as $educationValue => $educationLabel)
+              @foreach ($educationLevelOptions as $educationValue => $educationOption)
                 <option value="{{ $educationValue }}" @selected(old('formMode') === 'create' && old('education') === $educationValue)>
-                  {{ $educationValue }}
+                  {{ $educationOption['id'] }} / {{ $educationOption['jp'] }}
                 </option>
               @endforeach
             </select>
@@ -199,10 +201,15 @@
           <div>
             <label class="{{ $labelClass }}" for="create_location">Lokasi
               Institusi/Sekolah/Perguruan <span class="text-red-600">*</span></label>
-            <input id="create_location" name="location" type="text"
-              value="{{ old('formMode') === 'create' ? old('location') : '' }}"
-              class="{{ $inputClass }} @error('location') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
-              placeholder="Masukkan lokasi institusi/sekolah/perguruan">
+            <select id="create_location" name="location"
+              class="{{ $inputClass }} @error('location') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
+              <option value="">Pilih Lokasi Institusi/Sekolah/Perguruan</option>
+              @foreach ($educationLocationOptions as $locationValue => $locationOption)
+                <option value="{{ $locationValue }}" @selected(old('formMode') === 'create' && old('location') === $locationValue)>
+                  {{ $locationOption['id'] }} / {{ $locationOption['jp'] }}
+                </option>
+              @endforeach
+            </select>
             @error('location')
               <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
             @enderror
@@ -242,18 +249,17 @@
           </div>
 
           <div class="md:col-span-2">
-            <p class="{{ $labelClass }}">Status <span class="text-red-600">*</span></p>
-            <div
-              class="@error('status') border-red-500 @else border-slate-300 @enderror mt-2 flex flex-wrap items-center gap-4 rounded-xl border px-3 py-2.5">
-              @foreach ($statusOptions as $statusValue => $statusLabel)
-                <label class="inline-flex items-center gap-2 text-sm text-slate-700">
-                  <input type="radio" name="status" value="{{ $statusValue }}"
-                    class="h-4 w-4 border-slate-300 text-slate-800 focus:ring-slate-300"
-                    @checked(old('formMode') === 'create' && old('status') === $statusValue)>
-                  {{ $statusLabel }}
-                </label>
+            <label class="{{ $labelClass }}" for="create_status">Status Kesiswaan <span
+                class="text-red-600">*</span></label>
+            <select id="create_status" name="status"
+              class="{{ $inputClass }} @error('status') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
+              <option value="">Pilih Status Kesiswaan</option>
+              @foreach ($educationStatusOptions as $statusValue => $statusOption)
+                <option value="{{ $statusValue }}" @selected(old('formMode') === 'create' && old('status') === $statusValue)>
+                  {{ $statusOption['id'] }} / {{ $statusOption['jp'] }}
+                </option>
               @endforeach
-            </div>
+            </select>
             @error('status')
               <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
             @enderror
@@ -321,9 +327,9 @@
               <select id="edit_education_{{ $educationHistory->id }}" name="education"
                 class="{{ $inputClass }} @error('education') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
                 <option value="">Pilih Jenjang Pendidikan</option>
-                @foreach ($educationLevelOptions as $educationValue => $educationLabel)
+                @foreach ($educationLevelOptions as $educationValue => $educationOption)
                   <option value="{{ $educationValue }}" @selected($editEducationValue === $educationValue)>
-                    {{ $educationValue }}
+                    {{ $educationOption['id'] }} / {{ $educationOption['jp'] }}
                   </option>
                 @endforeach
               </select>
@@ -349,10 +355,15 @@
               <label class="{{ $labelClass }}"
                 for="edit_location_{{ $educationHistory->id }}">Lokasi
                 Institusi/Sekolah/Perguruan <span class="text-red-600">*</span></label>
-              <input id="edit_location_{{ $educationHistory->id }}" name="location" type="text"
-                value="{{ $editLocationValue }}"
-                class="{{ $inputClass }} @error('location') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
-                placeholder="Masukkan lokasi institusi/sekolah/perguruan">
+              <select id="edit_location_{{ $educationHistory->id }}" name="location"
+                class="{{ $inputClass }} @error('location') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
+                <option value="">Pilih Lokasi Institusi/Sekolah/Perguruan</option>
+                @foreach ($educationLocationOptions as $locationValue => $locationOption)
+                  <option value="{{ $locationValue }}" @selected($editLocationValue === $locationValue)>
+                    {{ $locationOption['id'] }} / {{ $locationOption['jp'] }}
+                  </option>
+                @endforeach
+              </select>
               @error('location')
                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
               @enderror
@@ -395,18 +406,18 @@
             </div>
 
             <div class="md:col-span-2">
-              <p class="{{ $labelClass }}">Status <span class="text-red-600">*</span></p>
-              <div
-                class="@error('status') border-red-500 @else border-slate-300 @enderror mt-2 flex flex-wrap items-center gap-4 rounded-xl border px-3 py-2.5">
-                @foreach ($statusOptions as $statusValue => $statusLabel)
-                  <label class="inline-flex items-center gap-2 text-sm text-slate-700">
-                    <input type="radio" name="status" value="{{ $statusValue }}"
-                      class="h-4 w-4 border-slate-300 text-slate-800 focus:ring-slate-300"
-                      @checked($editStatusValue === $statusValue)>
-                    {{ $statusLabel }}
-                  </label>
+              <label class="{{ $labelClass }}"
+                for="edit_status_{{ $educationHistory->id }}">Status Kesiswaan <span
+                  class="text-red-600">*</span></label>
+              <select id="edit_status_{{ $educationHistory->id }}" name="status"
+                class="{{ $inputClass }} @error('status') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
+                <option value="">Pilih Status Kesiswaan</option>
+                @foreach ($educationStatusOptions as $statusValue => $statusOption)
+                  <option value="{{ $statusValue }}" @selected($editStatusValue === $statusValue)>
+                    {{ $statusOption['id'] }} / {{ $statusOption['jp'] }}
+                  </option>
                 @endforeach
-              </div>
+              </select>
               @error('status')
                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
               @enderror
