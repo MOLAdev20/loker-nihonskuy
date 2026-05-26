@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PublicCandidateController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserEducationController;
@@ -24,6 +25,7 @@ Route::get("/matching-job", [MatchingJobLandingController::class, "index"])->nam
 Route::get("/matching-job/education-program", [MatchingJobLandingController::class, "onlyEducation"])->name("matching.job.education");
 Route::get("/matching-job/basic-program", [MatchingJobLandingController::class, "onlyMatchingJob"])->name("matching.job.basic");
 Route::get("/matching-job/full-program", [MatchingJobLandingController::class, "fullBundling"])->name("matching.job.full");
+Route::get('/share/{id}', [PublicCandidateController::class, 'show'])->whereNumber('id')->name('public.candidates.show');
 
 Route::prefix("admin")->group(function () {
     Route::middleware("admin.guest")->group(function () {

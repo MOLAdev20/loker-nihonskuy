@@ -39,25 +39,53 @@ class UserEducationHistory extends Model
                 "id" => "SMA",
                 "jp" => "高等学校"
             ],
-            "Sekolah Kejuruan" => [
-                "id" => "Sekolah Kejuruan",
-                "jp" => "専門学校"
+            "SMK" => [
+                "id" => "SMK",
+                "jp" => "短期大学"
             ],
             "Sekolah Bahasa Jepang" => [
                 "id" => "Sekolah Bahasa Jepang",
                 "jp" => "日本語学校"
             ],
-            "SMK" => [
-                "id" => "Sekolah Menengah Kejuruan",
-                "jp" => "短期大学"
-            ],
-            "Universitas" => [
-                "id" => "Universitas",
+            "Sarjana" => [
+                "id" => "Sarjana",
                 "jp" => "大学"
             ],
-            "Sekolah Pascasarjana" => [
-                "id" => "Sekolah Pascasarjana",
+            "Pascasarjana" => [
+                "id" => "Pascasarjana",
                 "jp" => "大学院"
+            ]
+        ];
+    }
+
+    public static function eduLocationOptions()
+    {
+        return [
+            "Indonesia" => [
+                "id" => "Indonesia",
+                "jp" => "インドネシア"
+            ],
+            "Jepang" => [
+                "id" => "Jepang",
+                "jp" => "日本"
+            ]
+        ];
+    }
+
+    public static function eduStatusOptions()
+    {
+        return [
+            "studying" => [
+                "id" => "Masih Aktif",
+                "jp" => "在学中"
+            ],
+            "graduated" => [
+                "id" => "Lulus",
+                "jp" => "卒業"
+            ],
+            "droppedOut" => [
+                "id" => "Mengundurkan Diri",
+                "jp" => "退学"
             ]
         ];
     }

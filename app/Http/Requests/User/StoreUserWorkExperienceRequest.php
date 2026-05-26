@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Models\User\WorkExperience;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUserWorkExperienceRequest extends FormRequest
@@ -13,13 +14,16 @@ class StoreUserWorkExperienceRequest extends FormRequest
 
     public function rules(): array
     {
+        $workingLocationOptions = array_keys(WorkExperience::workingLocationOptions());
+        $workingStatusOptions = array_keys(WorkExperience::workingStatusOptions());
+
         return [
             'fieldOfWork' => ['required', 'string', 'min:3', 'max:255'],
             'companyName' => ['required', 'string', 'min:3', 'max:255'],
-            'location' => ['required', 'string'],
+            'location' => ['required', 'in:' . implode(',', $workingLocationOptions)],
             'dateOfJoin' => ['required', 'date'],
             'dateOfResign' => ['nullable', 'date', 'after_or_equal:dateOfJoin'],
-            'employmentStatus' => ['required', 'in:permanent,contract,fullTime,partTime,freelance'],
+            'employmentStatus' => ['required', 'in:' . implode(',', $workingStatusOptions)],
             'visaType' => ['nullable', 'in:tokuteiGinou,gijinkoku,magang'],
         ];
     }

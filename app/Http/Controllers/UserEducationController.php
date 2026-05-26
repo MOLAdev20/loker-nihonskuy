@@ -15,6 +15,9 @@ class UserEducationController extends Controller
         $user = User::query()
             ->with("userProfile")
             ->findOrFail($id);
+        $educationLevelOptions = UserEducationHistory::educationLevelOptions();
+        $educationLocationOptions = UserEducationHistory::eduLocationOptions();
+        $educationStatusOptions = UserEducationHistory::eduStatusOptions();
         $educationHistories = UserEducationHistory::where("user_id", $user->id)
             ->orderByDesc("id")
             ->get();
@@ -30,6 +33,9 @@ class UserEducationController extends Controller
         return view("admin.user.education-history-form", [
             "user" => $user,
             "profile" => $user->userProfile,
+            "educationLevelOptions" => $educationLevelOptions,
+            "educationLocationOptions" => $educationLocationOptions,
+            "educationStatusOptions" => $educationStatusOptions,
             "educationHistories" => $educationHistories,
             "wizardSteps" => $wizardSteps,
         ]);

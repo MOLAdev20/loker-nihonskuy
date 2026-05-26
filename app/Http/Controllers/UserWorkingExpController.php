@@ -15,6 +15,8 @@ class UserWorkingExpController extends Controller
         $user = User::query()
             ->with("userProfile")
             ->findOrFail($id);
+        $workingLocationOptions = WorkExperience::workingLocationOptions();
+        $workingStatusOptions = WorkExperience::workingStatusOptions();
         $educationHistories = UserEducationHistory::where("user_id", $user->id)
             ->orderByDesc("id")
             ->get();
@@ -32,6 +34,8 @@ class UserWorkingExpController extends Controller
         return view("admin.user.working-experience-form", [
             "user" => $user,
             "profile" => $user->userProfile,
+            "workingLocationOptions" => $workingLocationOptions,
+            "workingStatusOptions" => $workingStatusOptions,
             "educationHistories" => $educationHistories,
             "workExperiences" => $workExperiences,
             "wizardSteps" => $wizardSteps,
