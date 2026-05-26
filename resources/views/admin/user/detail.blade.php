@@ -97,7 +97,7 @@
       ['label' => 'Memiliki SIM / 運転免許', 'value' => ['id' => $driverLicenseOptions[$profile?->has_driver_license]['id'] ?? $formatValue($profile?->has_driver_license), 'jp' => $driverLicenseOptions[$profile?->has_driver_license]['jp'] ?? null]],
     ];
 
-    $detailLongFields = [
+
     $formatJapaneseDate = function ($dateValue) {
       return $dateValue ? $dateValue->format('Y年n月j日') : null;
     };

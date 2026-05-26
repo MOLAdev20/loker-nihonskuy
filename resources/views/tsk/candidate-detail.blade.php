@@ -95,6 +95,9 @@
             </div>
           @endif
         </div>
+        <div class="mt-5 border rounded-lg border-slate-400 p-2">
+          <iframe width="100%" height="250" src="https://www.youtube.com/embed/qAxpv3cCHO8?si=GHY9J-iAw4gXU_yN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
       </div>
 
       <div class="space-y-4 lg:col-span-4">
