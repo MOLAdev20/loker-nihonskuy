@@ -86,14 +86,14 @@
           </div>
           <div class="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2">
             @foreach ($personalInfoRows as $label => $value)
-              <div class="py-3">
+              <div class="mt-1">
                 <div class="text-xs font-medium uppercase tracking-wide text-slate-500">{{ $label }}</div>
                 <div class="mt-1 whitespace-pre-line text-sm font-semibold text-slate-900">{{ $value['jp'] ?? $value['id'] }}</div>
               </div>
             @endforeach
           </div>
 
-          <div class="mt-2 border border-slate-200 p-4">
+          <div class="mt-5 border border-slate-200 p-4">
             @foreach ($workPreferenceRows as $label => $value)
               <div class="py-3">
                 <div class="text-xs font-medium uppercase tracking-wide text-slate-500">{{ $label }}</div>
