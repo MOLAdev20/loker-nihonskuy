@@ -123,7 +123,10 @@ class UserProfileController extends Controller
             "jlpt_level" => $validatedData["jlptLevel"],
             "has_driver_license" => $validatedData["hasDriverLicense"],
             "work_start_date" => $validatedData["workStartDate"],
+            "summary" => $validatedData["summary"] ?? null,
             "technical_experience" => $validatedData["technicalExperience"],
+            "reason_for_leaving" => $validatedData["reasonForLeaving"] ?? null,
+            "additional_info" => $validatedData["additionalInfo"] ?? null,
         ];
     }
 }

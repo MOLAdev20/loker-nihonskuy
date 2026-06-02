@@ -326,12 +326,45 @@
       </div>
 
       <div class="md:col-span-2">
+        <label class="{{ $labelClass }}" for="summary">Jelaskan ringkasan mengenai dirimu <span
+            class="text-red-600">*</span></label>
+        <textarea id="summary" name="summary" rows="4"
+          class="{{ $inputClass }} @error('summary') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
+          placeholder="Tulis ringkasan singkat mengenai dirimu">{{ old('summary', $profile?->summary ?? '') }}</textarea>
+        @error('summary')
+          <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+        @enderror
+      </div>
+
+      <div class="md:col-span-2">
         <label class="{{ $labelClass }}" for="technicalExperience">Detail Pengalaman Magang/Skill
           <span class="text-red-600">*</span></label>
         <textarea id="technicalExperience" name="technicalExperience" rows="4"
           class="{{ $inputClass }} @error('technicalExperience') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
           placeholder="Jelaskan pengalaman magang atau skill teknis">{{ old('technicalExperience', $profile?->technical_experience ?? '') }}</textarea>
         @error('technicalExperience')
+          <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+        @enderror
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="{{ $labelClass }}" for="reasonForLeaving">Alasan pindah kerja <span
+            class="text-red-600">*</span></label>
+        <textarea id="reasonForLeaving" name="reasonForLeaving" rows="4"
+          class="{{ $inputClass }} @error('reasonForLeaving') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
+          placeholder="Jelaskan alasan pindah kerja bila ada">{{ old('reasonForLeaving', $profile?->reason_for_leaving ?? '') }}</textarea>
+        @error('reasonForLeaving')
+          <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+        @enderror
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="{{ $labelClass }}" for="additionalInfo">Informasi tambahan <span
+            class="text-red-600">*</span></label>
+        <textarea id="additionalInfo" name="additionalInfo" rows="4"
+          class="{{ $inputClass }} @error('additionalInfo') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
+          placeholder="Tambahkan informasi lain yang perlu diketahui">{{ old('additionalInfo', $profile?->additional_info ?? '') }}</textarea>
+        @error('additionalInfo')
           <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
         @enderror
       </div>

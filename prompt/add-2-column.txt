@@ -1,0 +1,23 @@
+Buatkan PRD di plan/add-2-column.md berdasarkan requirement di bawah ini:
+
+Migration untuk menambahkan 3 kolom baru di tabel user_profile sudah dibuat ( [2026_06_02_074831_add_2_columns_in_table_user_profile.php](database/migrations/2026_06_02_074831_add_2_columns_in_table_user_profile.php) ). Kolom yang ditambahkan adalah: summary, reason_for_leaving dan additional_info.
+
+Tambahkan form inputnya di sisi user kandidat dan user admin ( [profile-form.blade.php](resources/views/user/profile-form.blade.php) dan [profile-form.blade.php](resources/views/admin/user/profile-form.blade.php) )
+
+Berikut ketentuannya:
+summary:
+  label = "Jelaskan ringkasan mengenai dirimu"
+  type = textarea
+  posisi = di atas field "Detail pengalaman Magang/skill"
+reason_for_leaving:
+  label = "Alasan pindah kerja"
+  type = textarea
+  posisi = di bawah field "Detail pengalaman Magang/skill"
+additional_info:
+  label = "Informasi tambahan"
+  type = textarea
+  posisi = di bawah field "Alasan pindah kerja"
+
+  *notes
+PRD yang sudah dibuat, nantinya akan dikerjakan oleh bawahan anda yakni Junior FrontEnd Engineer, maupun AI Model yang lebih murah. Maka dari itu, anda sebagai lead, suruh bawahan anda kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah

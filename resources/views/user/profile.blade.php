@@ -105,6 +105,7 @@
           ];
       };
       $publicShareUrl = route('public.candidates.show', auth()->id());
+      $profileCreatedJapanese = $profile->created_at ? $profile->created_at->format('Y年m月d日') : '-';
 
       $profilePicturePath = $profile->profile_picture ? ltrim($profile->profile_picture, '/') : null;
       $profilePictureUrl = null;
@@ -244,15 +245,18 @@
               <h2 class="text-xl font-semibold text-slate-900">{{ $profile->full_name }}</h2>
               <h2 class="text-sm text-slate-500">{{ $profile->furigana_name }}</h2>
             </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <button type="button" data-share-link="{{ $publicShareUrl }}"
-                class="js-copy-public-link inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50">
-                Bagikan Profile
-              </button>
-              <a href="{{ route('user.resume.print') }}"
-                class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800">
-                Download CV
-              </a>
+            <div class="flex flex-col gap-2 sm:items-end">
+              <div class="text-sm text-slate-600">{{ $profileCreatedJapanese }} 作成日</div>
+              <div class="flex flex-wrap items-center gap-2">
+                <button type="button" data-share-link="{{ $publicShareUrl }}"
+                  class="js-copy-public-link inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50">
+                  Bagikan Profile
+                </button>
+                <a href="{{ route('user.resume.print') }}"
+                  class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800">
+                  Download CV
+                </a>
+              </div>
             </div>
           </div>
           <p id="public-share-feedback" class="mt-2 hidden text-sm text-emerald-600">Link publik berhasil disalin.</p>
@@ -281,6 +285,31 @@
                   @endif
                 </div>
               @endforeach
+            </div>
+          </div>
+
+          <div class="mt-2 border border-slate-200 p-4">
+            <div>
+                <div class="py-3">
+                  <div class="text-xs font-medium uppercase tracking-wide text-slate-500">Ringkasan Profil</div>
+                  <div class="mt-1 text-sm font-semibold text-slate-900">{{ $profile->summary }}</div>
+                </div>
+            </div>
+          </div>
+          <div class="mt-2 border border-slate-200 p-4">
+            <div>
+                <div class="py-3">
+                  <div class="text-xs font-medium uppercase tracking-wide text-slate-500">Alasan Pindah Kerja</div>
+                  <div class="mt-1 text-sm font-semibold text-slate-900">{{ $profile->reason_for_leaving }}</div>
+                </div>
+            </div>
+          </div>
+          <div class="mt-2 border border-slate-200 p-4">
+            <div>
+                <div class="py-3">
+                  <div class="text-xs font-medium uppercase tracking-wide text-slate-500">Keterangan Tambahan</div>
+                  <div class="mt-1 text-sm font-semibold text-slate-900">{{ $profile->additional_info }}</div>
+                </div>
             </div>
           </div>
         </div>
