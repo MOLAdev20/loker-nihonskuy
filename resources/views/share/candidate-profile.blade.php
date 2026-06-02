@@ -91,9 +91,12 @@
 
       <div class="space-y-4 lg:col-span-4">
         <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-          <div>
-            <h2 class="text-base font-semibold text-slate-900">{{ $profile->furigana_name }}</h2>
-            <p class="text-sm text-slate-500">{{ $profile->full_name }}</p>
+          <div class="flex justify-between items-center">
+            <div>
+              <h2 class="text-base font-semibold text-slate-900">{{ $profile->furigana_name }}</h2>
+              <p class="text-sm text-slate-500">{{ $profile->full_name }}</p>
+            </div>
+            <div class="text-sm text-slate-600">{{ date('Y年m月d日', strtotime($profile->created_at)) }} 作成日</div>
           </div>
           <div class="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2">
             @foreach ($personalInfoRows as $label => $value)
@@ -111,6 +114,24 @@
                 <div class="mt-1 whitespace-pre-line text-sm font-semibold text-slate-900">{{ $value['jp'] ?? $value['id'] }}</div>
               </div>
             @endforeach
+          </div>
+          <div class="mt-3 border border-slate-200 p-4">
+            <div class="py-3">
+              <div class="text-xs font-medium uppercase tracking-wide text-slate-500">自己PRなど</div>
+              <div class="mt-1 whitespace-pre-line text-sm font-semibold text-slate-900">{{ $profile->summary }}</div>
+            </div>
+          </div>
+          <div class="mt-2 border border-slate-200 p-4">
+            <div class="py-3">
+              <div class="text-xs font-medium uppercase tracking-wide text-slate-500">転職理由</div>
+              <div class="mt-1 whitespace-pre-line text-sm font-semibold text-slate-900">{{ $profile->reason_for_leaving }}</div>
+            </div>
+          </div>
+          <div class="mt-2 border border-slate-200 p-4">
+            <div class="py-3">
+              <div class="text-xs font-medium uppercase tracking-wide text-slate-500">備考</div>
+              <div class="mt-1 whitespace-pre-line text-sm font-semibold text-slate-900">{{ $profile->additional_info }}</div>
+            </div>
           </div>
         </div>
 

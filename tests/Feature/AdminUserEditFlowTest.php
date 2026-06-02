@@ -93,6 +93,9 @@ class AdminUserEditFlowTest extends TestCase
             "full_name" => $profilePayload["fullName"],
             "furigana_name" => $profilePayload["furiganaName"],
             "jlpt_level" => $profilePayload["jlptLevel"],
+            "summary" => $profilePayload["summary"],
+            "reason_for_leaving" => $profilePayload["reasonForLeaving"],
+            "additional_info" => $profilePayload["additionalInfo"],
         ]);
     }
 
@@ -263,7 +266,10 @@ class AdminUserEditFlowTest extends TestCase
             "jlptLevel" => "N3",
             "hasDriverLicense" => "Memiliki SIM A",
             "workStartDate" => "2026-06-01",
+            "summary" => "Ringkasan singkat kandidat target admin.",
             "technicalExperience" => "Operator Produksi",
+            "reasonForLeaving" => "Mencari peluang kerja yang lebih sesuai.",
+            "additionalInfo" => "Siap bekerja secepatnya.",
         ];
     }
 

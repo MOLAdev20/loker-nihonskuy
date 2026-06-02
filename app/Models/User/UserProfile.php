@@ -34,6 +34,9 @@ class UserProfile extends Model
         'has_driver_license',
         'work_start_date',
         'technical_experience',
+        'summary',
+        'reason_for_leaving',
+        'additional_info',
     ];
 
     protected function casts(): array

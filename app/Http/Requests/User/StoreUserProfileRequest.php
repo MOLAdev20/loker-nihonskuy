@@ -35,7 +35,10 @@ class StoreUserProfileRequest extends FormRequest
             'jlptLevel' => ['required', 'in:N1,N2,N3,N4,N5,none,other'],
             'hasDriverLicense' => ['required', 'string', 'min:3', 'max:255'],
             'workStartDate' => ['required', 'date'],
+            'summary' => ['required', 'string'],
             'technicalExperience' => ['required', 'string'],
+            'reasonForLeaving' => ['required', 'string'],
+            'additionalInfo' => ['required', 'string'],
         ];
     }
 
@@ -77,7 +80,10 @@ class StoreUserProfileRequest extends FormRequest
             'jlptLevel' => 'Level Kemampuan Bahasa Jepang (JLPT)',
             'hasDriverLicense' => 'Memiliki SIM',
             'workStartDate' => 'Tanggal Siap Mulai Kerja',
+            'summary' => 'Jelaskan ringkasan mengenai dirimu',
             'technicalExperience' => 'Detail Pengalaman Magang/Skill',
+            'reasonForLeaving' => 'Alasan pindah kerja',
+            'additionalInfo' => 'Informasi tambahan',
         ];
     }
 }

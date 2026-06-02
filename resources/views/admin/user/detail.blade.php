@@ -13,6 +13,7 @@
     $furiganaName = $profile?->furigana_name ?? $user->furigana_name;
     $bioText = $profile?->technical_experience;
     $emptyValue = '—';
+    $profileCreatedJapanese = $profile?->created_at ? $profile->created_at->format('Y年m月d日') : $emptyValue;
     $profilePictureUrl = null;
     $isProfileCompleted = filled($profile);
 
@@ -251,7 +252,9 @@
               {{ $furiganaName }}
             </h2>
           </div>
-          <div class="flex items-center gap-2">
+          <div class="flex flex-col gap-2 sm:items-end">
+            <div class="text-sm text-slate-600">{{ $profileCreatedJapanese }} 作成日</div>
+            <div class="flex items-center gap-2">
             <a href="{{ route('admin.users.profile.form', $user->id) }}"
               class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
               <x-icons.pencil size="14" />
@@ -262,6 +265,7 @@
               <x-icons.fileText size="14" />
               Print CV
             </a>
+            </div>
           </div>
         </div>
 
@@ -295,6 +299,26 @@
                 @endif
               </div>
             @endforeach
+          </div>
+          <div class="mt-5 grid grid-cols-1 gap-px bg-slate-200 md:grid-cols-2">
+            <div class="md:col-span-2 min-h-28 bg-white px-5 py-4">
+              <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                Ringkasan Profil
+              </p>
+              <p class="mt-2 whitespace-pre-line text-sm leading-6 text-slate-700">{{ $profile->summary }}</p>
+            </div>
+            <div class="md:col-span-2 min-h-28 bg-white px-5 py-4">
+              <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                Alasan Pindah Kerja
+              </p>
+              <p class="mt-2 whitespace-pre-line text-sm leading-6 text-slate-700">{{ $profile->reason_for_leaving }}</p>
+            </div>
+            <div class="md:col-span-2 min-h-28 bg-white px-5 py-4">
+              <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                Informasi Tambahan
+              </p>
+              <p class="mt-2 whitespace-pre-line text-sm leading-6 text-slate-700">{{ $profile->additional_info }}</p>
+            </div>
           </div>
         </div>
       </section>
