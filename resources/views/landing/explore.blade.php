@@ -5,6 +5,9 @@
 @endsection
 
 @section('content')
+  @php
+    $searchFormId = 'landing-explore-search-form';
+  @endphp
   <section class="mx-auto max-w-6xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
     <div class="shadow-soft rounded-3xl border border-slate-200 bg-white p-6 sm:p-8">
       <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
@@ -17,8 +20,9 @@
         </div>
       </div>
 
-      <form method="GET" action="{{ route('vacancies') }}"
-        class="mt-6 grid gap-1 md:grid-cols-[1fr_220px_120px]">
+      <form method="GET" action="{{ route('vacancies') }}" id="{{ $searchFormId }}"
+        class="mt-6 grid gap-2 md:grid-cols-[1fr_220px_120px_auto]">
+        @include('landing.partials.advanced-filter-hidden-inputs')
         <label class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
             class="text-slate-400">
@@ -32,16 +36,28 @@
 
         <label>
           <span class="sr-only">Lokasi</span>
-          <x-searchable-select />
+          <x-searchable-select :value="request('location')" />
         </label>
 
         <button type="submit"
           class="rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">
           Cari
         </button>
+
+        <button type="button" id="open-advanced-filter"
+          class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M4 6h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M7 12h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M10 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          Cari Preferensi Kerjamu
+        </button>
       </form>
     </div>
   </section>
+
+  @include('landing.partials.advanced-vacancy-filter-modal', ['searchFormId' => $searchFormId])
 
   <section id="jobs" class="mx-auto max-w-6xl px-4 pb-14 sm:px-6">
     <div class="mb-5 flex items-center justify-between">

@@ -1,0 +1,29 @@
+Buat dokumen PRD di plan/advanced-filter-vacancy.md
+
+Tujuan:
+- Membuat filter data lowongan kerja yang lebih luas lagi untuk pengguna umum
+- Filter lowongan kerja ditujukan untuk pengguna umum yang hendak mencari loker berdasarkan preferensi user itu sendiri.
+- Maka dari itu, fitur ini ditempatkan di view: 
+ - resources/views/landing/main.blade.php
+ - resources/views/landing/explore.blade.php
+
+Ketentuan:
+
+- Kolom Data Lowongan (table vacancies) yang akan bisa difilter adalah (label|table_column):
+ - Penempatan/Lokasi Kerja | placement = text
+ - Jenis VISA | visa_type = select option [Tokutei Ginou 1, Tokutei Ginou 2, Kaigo Visa, GIjinkoku]
+ - Gaji | Salary = text
+ - Level JLPT | jlpt_requirement = select option [n5, n4, n3, n2, n1, all]
+ - Level Kaiwa | kaiwa_requirement = select option [n5, n4, n3, n2, n1, all]
+ - Persyaratan Pengalaman | exp_requirement = select option [Min. 6 Bulan Pengalaman, Min. 1 Tahun Pengalaman]
+ - Syarat Domisili | domicile_requirement = select option [Domisili Jepang (value = kokunai), Domisili Indonesia (value = kokugai), Domisili Jepang & Indonesia (value = kokunai-to-kokugai)]
+ - Syarat Jenis Kelamin | gender_requirement = radio [Laki-laki (value = l), Perempuan (value = p), Laki-laki & Perempuan (value = a)]
+ - Kuota dibutuhkan | qty = radio button [< 10, < 30, < 50, > 100]
+ - Benefit | benefit = check box =  [Kenaikan Gaji, Bonus, Lembur, Shift Malam, Asrama, Tunjangan Asrama, Tunjangan Kendaraan, Tunjangan Sertifikat, Toleransi Babi, Toleransi Ibadah, Toleransi Hijab, Makan Gratis, Support TG2, Support Kaigo, Tunjangan Lainnya]
+
+- Sediakan button dengan icon filter atau tulisan "cari preferensi kerjamu". Jika tombol tersebut diklik, maka sebuah modal akan muncul untuk mensetting filter yang disebutkan di atas
+
+
+*notes
+Kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah
