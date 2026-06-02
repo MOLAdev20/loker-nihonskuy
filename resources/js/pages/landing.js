@@ -9,6 +9,154 @@ document.addEventListener("DOMContentLoaded", () => {
     InitSearchableSelect();
 
     (() => {
+        const filterModal = document.getElementById("advanced-filter-modal");
+        const openFilterButton = document.getElementById("open-advanced-filter");
+        const filterForm = document.getElementById("advanced-filter-form");
+        const filterOverlay = filterModal ? filterModal.querySelector("[data-advanced-filter-overlay]") : null;
+        const filterDialog = filterModal ? filterModal.querySelector("[data-advanced-filter-dialog]") : null;
+        const closeButtons = filterModal ? filterModal.querySelectorAll("[data-close-advanced-filter]") : [];
+
+        if (!filterModal || !openFilterButton || !filterForm || !filterOverlay || !filterDialog) {
+            return;
+        }
+
+        const overlayOpenClasses = ["opacity-100"];
+        const overlayClosedClasses = ["opacity-0"];
+        const dialogOpenClasses = ["translate-y-0", "scale-100", "opacity-100"];
+        const dialogClosedClasses = ["translate-y-4", "scale-95", "opacity-0"];
+        let closeSequence = 0;
+        let closeFallbackTimeoutId = null;
+
+        const linkedSearchFormSelector = filterForm.dataset.syncSearchForm || "";
+        const linkedSearchForm = linkedSearchFormSelector ? document.querySelector(linkedSearchFormSelector) : null;
+
+        const clearPendingClose = () => {
+            closeSequence += 1;
+
+            if (closeFallbackTimeoutId) {
+                clearTimeout(closeFallbackTimeoutId);
+                closeFallbackTimeoutId = null;
+            }
+        };
+
+        const syncSearchFields = () => {
+            if (!linkedSearchForm) {
+                return;
+            }
+
+            filterForm.querySelectorAll("[data-sync-field]").forEach((hiddenField) => {
+                const sourceField = linkedSearchForm.querySelector(`[name="${hiddenField.dataset.syncField}"]`);
+
+                if (!sourceField) {
+                    return;
+                }
+
+                hiddenField.value = sourceField.value || "";
+            });
+        };
+
+        const openFilterModal = () => {
+            clearPendingClose();
+            syncSearchFields();
+            filterModal.classList.remove("hidden");
+            filterModal.setAttribute("aria-hidden", "false");
+            document.body.classList.add("overflow-hidden");
+
+            filterOverlay.classList.remove(...overlayClosedClasses);
+            filterDialog.classList.remove(...dialogClosedClasses);
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    filterOverlay.classList.add(...overlayOpenClasses);
+                    filterDialog.classList.add(...dialogOpenClasses);
+                });
+            });
+        };
+
+        const closeFilterModal = ({ resetForm = true } = {}) => {
+            if (resetForm) {
+                filterForm.reset();
+            }
+
+            const currentCloseSequence = closeSequence + 1;
+            closeSequence = currentCloseSequence;
+
+            filterOverlay.classList.remove(...overlayOpenClasses);
+            filterDialog.classList.remove(...dialogOpenClasses);
+            filterOverlay.classList.add(...overlayClosedClasses);
+            filterDialog.classList.add(...dialogClosedClasses);
+
+            const hideModal = () => {
+                if (currentCloseSequence !== closeSequence) {
+                    return;
+                }
+
+                filterModal.classList.add("hidden");
+                filterModal.setAttribute("aria-hidden", "true");
+                document.body.classList.remove("overflow-hidden");
+                filterDialog.removeEventListener("transitionend", hideOnTransitionEnd);
+                closeFallbackTimeoutId = null;
+            };
+
+            const hideOnTransitionEnd = (event) => {
+                if (event.target !== filterDialog || event.propertyName !== "transform") {
+                    return;
+                }
+
+                hideModal();
+            };
+
+            filterDialog.addEventListener("transitionend", hideOnTransitionEnd, { once: true });
+            closeFallbackTimeoutId = window.setTimeout(hideModal, 250);
+        };
+
+        openFilterButton.addEventListener("click", openFilterModal);
+        closeButtons.forEach((button) => {
+            button.addEventListener("click", () => closeFilterModal());
+        });
+
+        filterForm.addEventListener("submit", () => {
+            syncSearchFields();
+            closeFilterModal({ resetForm: false });
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && !filterModal.classList.contains("hidden")) {
+                closeFilterModal();
+            }
+        });
+
+        filterForm.querySelectorAll("[data-remove-target]").forEach((button) => {
+            button.addEventListener("click", () => {
+                const targetSelector = button.getAttribute("data-remove-target");
+                const targetInput = targetSelector ? filterForm.querySelector(targetSelector) : null;
+
+                if (!targetInput) {
+                    return;
+                }
+
+                targetInput.value = "";
+            });
+        });
+
+        filterForm.querySelectorAll("[data-remove-group]").forEach((button) => {
+            button.addEventListener("click", () => {
+                const groupName = button.getAttribute("data-remove-group");
+
+                if (!groupName) {
+                    return;
+                }
+
+                filterForm.querySelectorAll(`[name="${groupName}"]`).forEach((input) => {
+                    if (input.type === "checkbox" || input.type === "radio") {
+                        input.checked = false;
+                    }
+                });
+            });
+        });
+    })();
+
+    (() => {
         const urgentJobsSwiper = document.querySelector(".urgent-jobs-swiper");
         const urgentJobsPrevButton = document.querySelector(".urgent-jobs-swiper-prev");
         const urgentJobsNextButton = document.querySelector(".urgent-jobs-swiper-next");

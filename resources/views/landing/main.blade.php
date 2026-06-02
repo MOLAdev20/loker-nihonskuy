@@ -6,6 +6,9 @@
 
 <!-- Hero -->
 @section('content')
+  @php
+    $searchFormId = 'landing-home-search-form';
+  @endphp
   <section class="px-4 pb-14 pt-10 sm:px-6 sm:pt-14">
     <div class="flex justify-center gap-8 text-center">
       <div class="items-center">
@@ -17,38 +20,54 @@
 
         <!-- Search box -->
         <div class="shadow-soft mt-6 rounded-2xl border border-slate-200 bg-white p-3">
-          <form method="GET" action="{{ route('vacancies') }}"
-            class="flex flex-col justify-center gap-2 sm:flex-row">
-            <label>
-              <span class="sr-only">Kata kunci</span>
-              <div
-                class="items-cente flex gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 transition-all focus-within:ring-2 focus-within:ring-slate-300 active:ring-2 active:ring-slate-300 md:w-52">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                  class="text-slate-400">
-                  <path d="M21 21l-4.3-4.3m1.8-5.2a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                <input name="q"
-                  class="w-full bg-transparent text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"
-                  placeholder="Cari Pekerjaan Apa?" type="text" />
-              </div>
-            </label>
+          <form method="GET" action="{{ route('vacancies') }}" id="{{ $searchFormId }}">
+            <div class="flex flex-col justify-evenly sm:flex-row">
+              @include('landing.partials.advanced-filter-hidden-inputs')
+              <label>
+                <span class="sr-only">Kata kunci</span>
+                <div
+                  class="items-cente flex gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 transition-all focus-within:ring-2 focus-within:ring-slate-300 active:ring-2 active:ring-slate-300 md:w-52">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    class="text-slate-400">
+                    <path d="M21 21l-4.3-4.3m1.8-5.2a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  </svg>
+                  <input name="q"
+                    class="w-full bg-transparent text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"
+                    placeholder="Cari Pekerjaan Apa?" type="text" value="{{ request('q') }}" />
+                </div>
+              </label>
 
-            <label>
-              <x-searchable-select />
-            </label>
+              <label>
+                <x-searchable-select :value="request('location')" />
+              </label>
 
-            <label>
-              <button type="submit"
-                class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white transition-all focus-within:ring-2 focus-within:ring-slate-300 hover:bg-slate-800 active:ring-slate-300 sm:w-auto">
-                Cari
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                  <path d="M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" />
-                </svg>
-              </button>
-            </label>
+              <label>
+                <button type="submit"
+                  class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white transition-all focus-within:ring-2 focus-within:ring-slate-300 hover:bg-slate-800 active:ring-slate-300 sm:w-auto">
+                  Cari
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    <path d="M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" />
+                  </svg>
+                </button>
+              </label>
+            </div>
+            <div class="flex flex-col items-center mt-2 gap-3">
+              <div class="text-sm text-slate-400">--- atau ---</div>
+              <label>
+                <button type="button" id="open-advanced-filter"
+                  class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition-all hover:bg-slate-50 sm:w-auto">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 6h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    <path d="M7 12h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    <path d="M10 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  </svg>
+                  Cari Preferensi Kerjamu
+                </button>
+              </label>
+            </div>
           </form>
         </div>
 
@@ -74,6 +93,8 @@
 
     </div>
   </section>
+
+  @include('landing.partials.advanced-vacancy-filter-modal', ['searchFormId' => $searchFormId])
 
   @if ($urgentJobs->isNotEmpty())
     <section class="sm:mt-15 mx-auto max-w-6xl px-4 pb-14 sm:px-6">
