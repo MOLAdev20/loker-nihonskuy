@@ -1,7 +1,7 @@
 @props(['dataJob'])
 
 <article
-  class="hover:shadow-soft group relative rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5">
+  class="hover:shadow-soft overflow-hidden group relative rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5">
   <a href="{{ route('vacancy.detail', $dataJob->job_code) }}"
     class="absolute inset-0 z-10 opacity-0"></a>
   <div class="relative">
@@ -104,8 +104,11 @@
       </ul>
     @endif
   </div>
-  <div class="mt-4 flex items-center justify-between">
+  <div class="mt-4 mb-5 flex items-center justify-between">
     <div class="animate-bounce rounded-2xl {{ !$dataJob->status ? "bg-slate-300" : "bg-blue-900" }}  px-2 py-1 text-sm font-extrabold text-white">
       {{ $dataJob->salary_range }}</div>
+  </div>
+  <div class="absolute bottom-0 left-0 right-0 p-1 pl-5 bg-slate-50 text-[11px] text-slate-500">
+    Ditambahkan pada {{ date('d-m-Y', strtotime($dataJob->created_at)) }}
   </div>
 </article>
