@@ -168,6 +168,9 @@ class ProfileController extends Controller
             'technical_experience' => $validatedData['technicalExperience'],
             'reason_for_leaving' => $validatedData['reasonForLeaving'] ?? null,
             'additional_info' => $validatedData['additionalInfo'] ?? null,
+            'jp_summary' => toJapan($validatedData['summary']),
+            'jp_reason_for_leaving' => toJapan($validatedData['reasonForLeaving']),
+            'jp_additional_info' => toJapan($validatedData['additionalInfo']),
         ];
     }
 }

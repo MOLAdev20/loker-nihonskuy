@@ -3,6 +3,7 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Override;
 
 class StoreUserProfileRequest extends FormRequest
 {
