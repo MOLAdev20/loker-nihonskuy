@@ -35,6 +35,7 @@
                 <ul class="mt-3 space-y-2 text-sm text-slate-600">
                     <li><a class="hover:text-slate-900" href="#jobs">Top Jobs</a></li>
                     <li><a class="hover:text-slate-900" href="#about">About Us</a></li>
+                    <li><a class="hover:text-slate-900" href="{{ route('jp.company') }}">Perusahaan</a></li>
                     <li><a class="hover:text-slate-900" href="#testimonials">Testimoni</a></li>
                     <li><a class="hover:text-slate-900" href="#">FAQ</a></li>
                 </ul>

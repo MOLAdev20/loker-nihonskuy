@@ -9,6 +9,8 @@ use App\Models\User\UserProfile;
 use App\Models\User\WorkExperience;
 use App\Services\GoogleTranslatorService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
@@ -21,6 +23,36 @@ class UserController extends Controller
             "users" => User::getAdminUserList($queryFilter !== "" ? $queryFilter : null),
             "queryFilter" => $queryFilter,
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'formMode' => ['required', 'in:create'],
+            'email' => ['required', 'string', 'email:rfc,dns', 'max:255', Rule::unique('users', 'email')],
+        ], [
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+        ]);
+
+        $email = strtolower(trim($validated['email']));
+        $localPart = strstr($email, '@', true);
+        $displayName = $localPart !== false && $localPart !== '' ? $localPart : $email;
+
+        $user = User::create([
+            'name' => $displayName,
+            'email' => $email,
+            'password' => Hash::make('1234'),
+        ]);
+
+        $user->forceFill([
+            'email_verified_at' => now(),
+        ])->save();
+
+        return redirect()
+            ->route('admin.users')
+            ->with('status', 'Akun user berhasil dibuat. Password default: 1234');
     }
 
     public function showAccountDetail(int $id)

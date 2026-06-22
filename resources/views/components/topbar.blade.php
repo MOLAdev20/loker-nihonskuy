@@ -17,6 +17,7 @@
       <a href="/#jobs" class="text-slate-600 hover:text-slate-900">Info Loker</a>
       <a href="/#about" class="text-slate-600 hover:text-slate-900">Tentang</a>
       <a href="/matching-job" class="text-slate-600 hover:text-slate-900">Matching Job</a>
+      <a href="{{ route('jp.company') }}" class="text-slate-600 hover:text-slate-900">Perusahaan</a>
       <a href="/#testimonials" class="text-slate-600 hover:text-slate-900">Testimoni</a>
       <a href="/#footer" class="text-slate-600 hover:text-slate-900">Kontak</a>
     </nav>
@@ -74,6 +75,8 @@
         class="rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">Tentang</a>
       <a href="#about"
         class="rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">Kelas Matching Job</a>
+      <a href="{{ route('jp.company') }}"
+        class="rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">Perusahaan</a>
       <a href="#testimonials"
         class="rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">Testimoni</a>
       <a href="#footer"

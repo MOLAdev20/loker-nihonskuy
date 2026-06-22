@@ -7,7 +7,7 @@ if (!function_exists('toJapan')) {
   /**
    * Helper buat ngitung diskon berdasarkan harga dan kode kupon
    */
-  function toJapan(string $text): string
+  function toJapan(string $text, ?string $systemMessage = null): string
   {
     $config = new OpenAIConfig();
 
@@ -21,7 +21,7 @@ if (!function_exists('toJapan')) {
 
     $chat->model = env("AI_MODEL");
 
-    $chat->setSystemMessage("Kamu adalah translator profesional bahasa Indonesia - Jepang. Tugasmu HANYA menerjemahkan teks yang masuk langsung ke dalam bahasa Jepang tanpa ada kalimat pengantar, salam, atau penjelasan tambahan dalam bahasa Indonesia. Langsung berikan hasil translasinya.");
+    $chat->setSystemMessage($systemMessage ?: "Kamu adalah translator profesional bahasa Indonesia - Jepang. Tugasmu adalah menjadikan 1 paragraf utuh dari poin-poin yang diberikan lalu terjemahkan teks yang masuk langsung ke dalam bahasa Jepang tanpa ada kalimat pengantar, salam, atau penjelasan tambahan dalam bahasa Indonesia. Langsung berikan hasil translasinya.");
 
     $response = $chat->generateText($text);
 
