@@ -2,7 +2,7 @@
 
 @section('title', 'NihonSkuy - Profil Pribadi')
 
-@section('content_header', 'Profil Pribadi')
+@section('content_header', 'Curiculum Vitae')
 
 @section('content_subheader', 'Ringkasan profil.')
 
@@ -36,6 +36,31 @@
     </div>
   @else
     @php
+      $emptyValue = '-';
+      $localizedText = function ($id, $jp = null) use ($emptyValue) {
+          $idText = filled($id) ? (string) $id : $emptyValue;
+          $jpText = filled($jp) ? (string) $jp : $idText;
+
+          return new \Illuminate\Support\HtmlString(
+              '<span data-lang="id">' . e($idText) . '</span>' .
+              '<span data-lang="jp" class="hidden">' . e($jpText) . '</span>'
+          );
+      };
+      $formatLocalizedDate = function ($dateValue) use ($emptyValue) {
+          return [
+              'id' => $dateValue ? $dateValue->format('d M Y') : $emptyValue,
+              'jp' => $dateValue ? $dateValue->format('Y年n月j日') : null,
+          ];
+      };
+      $formatLocalizedPeriod = function ($startDate, $endDate, $ongoingId = null, $ongoingJp = null) use ($formatLocalizedDate, $emptyValue) {
+          $start = $formatLocalizedDate($startDate);
+          $end = $endDate ? $formatLocalizedDate($endDate) : ['id' => $ongoingId ?: $emptyValue, 'jp' => $ongoingJp];
+
+          return [
+              'id' => $start['id'] . ' - ' . $end['id'],
+              'jp' => ($start['jp'] ?? $start['id']) . ' - ' . ($end['jp'] ?? $end['id']),
+          ];
+      };
       $genderLabels = [
           'male' => 'Laki-laki',
           'female' => 'Perempuan',
@@ -43,23 +68,6 @@
       $genderJapaneseLabels = [
           'male' => '男',
           'female' => '女',
-      ];
-      $maritalStatusLabels = [
-          'single' => 'Belum Menikah',
-          'married' => 'Menikah',
-          'divorce' => 'Cerai',
-      ];
-      $maritalStatusJapaneseLabels = [
-          'single' => 'なし',
-          'married' => 'あり',
-          'divorce' => 'なし',
-      ];
-      $religionLabels = [
-          'islam' => 'Islam',
-          'kristen' => 'Kristen',
-          'katolik' => 'Katolik',
-          'hindu' => 'Hindu',
-          'buddha' => 'Buddha',
       ];
       $nationalityJapaneseLabels = [
           'jepang' => '日本',
@@ -105,7 +113,6 @@
           ];
       };
       $publicShareUrl = route('public.candidates.show', auth()->id());
-      $profileCreatedJapanese = $profile->created_at ? $profile->created_at->format('Y年m月d日') : '-';
 
       $profilePicturePath = $profile->profile_picture ? ltrim($profile->profile_picture, '/') : null;
       $profilePictureUrl = null;
@@ -129,79 +136,33 @@
       $jlptJapanese = $japaneseCertificateOptions[$jlptValue]['jp'] ?? (($jlptValue === 'none') ? '資格なし' : (($jlptValue === 'other') ? 'その他' : ($jlptValue ?: null)));
 
       $personalInfoRows = [
-          'Tanggal Lahir' => [
-              'id' => $profile->birth_date?->format('d M Y') ?: '-',
-              'jp' => $profile->birth_date?->format('Y年n月j日'),
-          ],
-          'Jenis Kelamin' => [
-              'id' => $genderLabels[$profile->gender],
-              'jp' => $genderJapaneseLabels[$profile->gender] ?? '-',
-          ],
-          'Umur' => [
-              'id' => $profile->age,
-          ],
-          'Daerah Asal' => [
-              'id' => $profile->place_of_origin,
-          ],
-          'Kewarganegaraan' => [
-              'id' => $profile->nationality ?: '-',
-              'jp' => $nationalityJapaneseLabels[$nationalityKey] ?? null,
-          ],
-          'Tinggi Badan' => ['id' => ($profile->height ?: '-') . 'cm'],
-          'Berat Badan' => ['id' => ($profile->weight ?: '-') . 'kg'],
-          'Jenis Visa Saat Ini' => ['id' => $profile->current_visa_type ?: '-'],
-          'Masa Berlaku Visa' => [
-              'id' => $profile->visa_expiry_date?->format('d M Y') ?: '-',
-              'jp' => $profile->visa_expiry_date?->format('Y年n月j日'),
-          ],
-          'Level JLPT' => [
-              'id' => $jlptDisplay,
-              'jp' => $jlptJapanese,
-          ],
-          
-          'Tanggal Masuk Jepang' => [
-              'id' => $profile->entry_date?->format('d M Y') ?: '-',
-              'jp' => $profile->entry_date?->format('Y年n月j日'),
-          ],
-          'Tanggal Mulai Kerja' => [
-              'id' => $profile->work_start_date?->format('d M Y') ?: '-',
-              'jp' => $profile->work_start_date?->format('Y年n月j日'),
-          ],
-          'Memiliki SIM' => [
-              'id' => $driverLicenseOptions[$profile->has_driver_license]['id'] ?? ($profile->has_driver_license ?: '-'),
-              'jp' => $driverLicenseOptions[$profile->has_driver_license]['jp'] ?? null,
-          ],          
+          ['label' => ['id' => 'Tanggal Lahir', 'jp' => '生年月日'], 'value' => $formatLocalizedDate($profile->birth_date)],
+          ['label' => ['id' => 'Jenis Kelamin', 'jp' => '性別'], 'value' => ['id' => $genderLabels[$profile->gender] ?? $emptyValue, 'jp' => $genderJapaneseLabels[$profile->gender] ?? null]],
+          ['label' => ['id' => 'Umur', 'jp' => '年齢'], 'value' => ['id' => $profile->age ?? $emptyValue]],
+          ['label' => ['id' => 'Daerah Asal', 'jp' => '出身地'], 'value' => ['id' => $profile->place_of_origin ?: $emptyValue]],
+          ['label' => ['id' => 'Kewarganegaraan', 'jp' => '国籍'], 'value' => ['id' => $profile->nationality ?: $emptyValue, 'jp' => $nationalityJapaneseLabels[$nationalityKey] ?? null]],
+          ['label' => ['id' => 'Tinggi Badan', 'jp' => '身長'], 'value' => ['id' => ($profile->height ?: $emptyValue) . ' cm']],
+          ['label' => ['id' => 'Berat Badan', 'jp' => '体重'], 'value' => ['id' => ($profile->weight ?: $emptyValue) . ' kg']],
+          ['label' => ['id' => 'Jenis Visa Saat Ini', 'jp' => '現在の在留資格'], 'value' => ['id' => $profile->current_visa_type ?: $emptyValue]],
+          ['label' => ['id' => 'Masa Berlaku Visa', 'jp' => '在留期限'], 'value' => $formatLocalizedDate($profile->visa_expiry_date)],
+          ['label' => ['id' => 'Level JLPT', 'jp' => 'JLPTレベル'], 'value' => ['id' => $jlptDisplay, 'jp' => $jlptJapanese]],
+          ['label' => ['id' => 'Tanggal Masuk Jepang', 'jp' => '入国日'], 'value' => $formatLocalizedDate($profile->entry_date)],
+          ['label' => ['id' => 'Tanggal Mulai Kerja', 'jp' => '就業開始日'], 'value' => $formatLocalizedDate($profile->work_start_date)],
+          ['label' => ['id' => 'Memiliki SIM', 'jp' => '運転免許'], 'value' => ['id' => $driverLicenseOptions[$profile->has_driver_license]['id'] ?? ($profile->has_driver_license ?: $emptyValue), 'jp' => $driverLicenseOptions[$profile->has_driver_license]['jp'] ?? null]],
       ];
 
       $workPreferenceRows = [
-          'Alamat Saat Ini' => [
-            'id' => $profile->current_address ?? '-',
-          ],
-          'Agama' => [
-              'id' => $religionOptions[$profile->religion]['id'] ?? '-',
-              'jp' => $religionOptions[$profile->religion]['jp'] ?? null,
-          ],
-          'Kebutuhan Jilbab di Tempat Kerja?' => [
-              'id' => $hijabOptions[$profile->is_wearing_hijab]['id'] ?? '-',
-              'jp' => $hijabOptions[$profile->is_wearing_hijab]['jp'] ?? null,
-          ],
-          'Kebutuhan Ibadah di Tempat Kerja' => [
-              'id' => $prayerOptions[$profile->prayer_requirement]['id'] ?? '-',
-              'jp' => $prayerOptions[$profile->prayer_requirement]['jp'] ?? null,
-          ],
-          'Toleransi terhadap daging babi' => [
-              'id' => $porkToleranceOptions[$profile->pork_tolerance]['id'] ?? '-',
-              'jp' => $porkToleranceOptions[$profile->pork_tolerance]['jp'] ?? null,
-          ],
-          'Toleransi terhadap Alkohol' => [
-              'id' => $alcoholToleranceOptions[$profile->alcohol_tolerance]['id'] ?? '-',
-              'jp' => $alcoholToleranceOptions[$profile->alcohol_tolerance]['jp'] ?? null,
-          ],
-          'Pengalaman Teknis' => ['id' => $profile->technical_experience ?: '-'],
+          ['label' => ['id' => 'Alamat Saat Ini', 'jp' => '現住所'], 'value' => ['id' => $profile->current_address ?? $emptyValue]],
+          ['label' => ['id' => 'Agama', 'jp' => '宗教'], 'value' => ['id' => $religionOptions[$profile->religion]['id'] ?? $emptyValue, 'jp' => $religionOptions[$profile->religion]['jp'] ?? null]],
+          ['label' => ['id' => 'Kebutuhan Jilbab di Tempat Kerja?', 'jp' => 'ヒジャブ着用'], 'value' => ['id' => $hijabOptions[$profile->is_wearing_hijab]['id'] ?? $emptyValue, 'jp' => $hijabOptions[$profile->is_wearing_hijab]['jp'] ?? null]],
+          ['label' => ['id' => 'Kebutuhan Ibadah di Tempat Kerja', 'jp' => '礼拝の必要'], 'value' => ['id' => $prayerOptions[$profile->prayer_requirement]['id'] ?? $emptyValue, 'jp' => $prayerOptions[$profile->prayer_requirement]['jp'] ?? null]],
+          ['label' => ['id' => 'Toleransi terhadap daging babi', 'jp' => '豚肉の許容'], 'value' => ['id' => $porkToleranceOptions[$profile->pork_tolerance]['id'] ?? $emptyValue, 'jp' => $porkToleranceOptions[$profile->pork_tolerance]['jp'] ?? null]],
+          ['label' => ['id' => 'Toleransi terhadap Alkohol', 'jp' => 'アルコールの許容'], 'value' => ['id' => $alcoholToleranceOptions[$profile->alcohol_tolerance]['id'] ?? $emptyValue, 'jp' => $alcoholToleranceOptions[$profile->alcohol_tolerance]['jp'] ?? null]],
+          ['label' => ['id' => 'Pengalaman Teknis', 'jp' => '技術経験'], 'value' => ['id' => $profile->technical_experience ?: $emptyValue]],
       ];
     @endphp
 
-    <div class="grid grid-cols-1 gap-4 lg:grid-cols-6">
+    <div data-candidate-language-root data-default-language="id" class="grid grid-cols-1 gap-4 lg:grid-cols-6">
       <div class="lg:col-span-2">
         <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <form method="POST" action="{{ route('user.profile.upload-photo') }}" enctype="multipart/form-data"
@@ -246,29 +207,49 @@
               <h2 class="text-sm text-slate-500">{{ $profile->furigana_name }}</h2>
             </div>
             <div class="flex flex-col gap-2 sm:items-end">
-              <div class="text-sm text-slate-600">{{ $profileCreatedJapanese }} 作成日</div>
-              <div class="flex flex-wrap items-center gap-2">
-                <button type="button" data-share-link="{{ $publicShareUrl }}"
-                  class="js-copy-public-link inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50">
-                  Bagikan Profile
+              <div class="text-sm text-slate-600">
+                {{ $localizedText($profile->created_at ? $profile->created_at->format('d M Y') . ' Tanggal dibuat' : $emptyValue, $profile->created_at ? $profile->created_at->format('Y年m月d日') . ' 作成日' : $emptyValue) }}
+              </div>
+              <div class="relative">
+                <button type="button" data-profile-menu-toggle aria-expanded="false"
+                  class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50">
+                  <x-icons.menu size="16" />
+                  <span>Menu</span>
+                  <x-icons.chevronDown size="16" />
                 </button>
-                <a href="{{ route('user.resume.print') }}"
-                  class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800">
-                  Download CV
-                </a>
+
+                <div data-profile-menu-panel
+                  class="absolute right-0 z-30 mt-2 w-[18rem] rounded-2xl border border-slate-200 bg-white p-3 shadow-xl"
+                  style="display: none;">
+                  <div class="space-y-1">
+                    <div class="rounded-xl px-3 py-2">
+                      <div class="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                        {{ $localizedText('Bahasa', '言語') }}
+                      </div>
+                      <x-candidate-language-switch default="id" />
+                    </div>
+
+                    <button type="button" data-share-link="{{ $publicShareUrl }}" data-profile-menu-close
+                      class="js-copy-public-link inline-flex w-full items-center rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-50">
+                      {{ $localizedText('Bagikan Profile', 'プロフィール共有') }}
+                    </button>
+
+                    <a href="{{ route('user.resume.print') }}" data-profile-menu-close
+                      class="inline-flex w-full items-center rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-50">
+                      {{ $localizedText('Download CV', 'CVダウンロード') }}
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <p id="public-share-feedback" class="mt-2 hidden text-sm text-emerald-600">Link publik berhasil disalin.</p>
           <div class="mt-4 grid grid-cols-1 lg:grid-cols-2">
-            @foreach ($personalInfoRows as $label => $value)
+            @foreach ($personalInfoRows as $row)
               <div class="py-3 border border-slate-200 p-3">
-                <div class="text-xs font-medium uppercase tracking-wide text-slate-500">{{ $label }}</div>
-                <div class="text-sm font-semibold text-slate-900 flex gap-2 mt-2">
-                  {{ $value['id'] }}
-                  @if (!empty($value['jp']))
-                    <div class="whitespace-pre-line text-sm text-slate-500">{{ $value['jp'] }}</div>
-                  @endif
+                <div class="text-xs font-medium uppercase tracking-wide text-slate-500">{{ $localizedText($row['label']['id'], $row['label']['jp']) }}</div>
+                <div class="mt-2 text-sm font-semibold text-slate-900">
+                  {{ $localizedText($row['value']['id'], $row['value']['jp'] ?? null) }}
                 </div>
               </div>
             @endforeach
@@ -276,13 +257,10 @@
 
           <div class="mt-2 border border-slate-200 p-4">
             <div>
-              @foreach ($workPreferenceRows as $label => $value)
+              @foreach ($workPreferenceRows as $row)
                 <div class="py-3">
-                  <div class="text-xs font-medium uppercase tracking-wide text-slate-500">{{ $label }}</div>
-                  <div class="mt-1 text-sm font-semibold text-slate-900">{{ $value['id'] }}</div>
-                  @if (!empty($value['jp']))
-                    <div class="mt-0.5 whitespace-pre-line text-sm font-semibold italic text-slate-500">{{ $value['jp'] }}</div>
-                  @endif
+                  <div class="text-xs font-medium uppercase tracking-wide text-slate-500">{{ $localizedText($row['label']['id'], $row['label']['jp']) }}</div>
+                  <div class="mt-1 whitespace-pre-line text-sm font-semibold text-slate-900">{{ $localizedText($row['value']['id'], $row['value']['jp'] ?? null) }}</div>
                 </div>
               @endforeach
             </div>
@@ -291,69 +269,66 @@
           <div class="mt-2 border border-slate-200 p-4">
             <div>
                 <div class="py-3">
-                  <div class="text-xs font-medium uppercase tracking-wide text-slate-500">Ringkasan Profil</div>
-                  <div class="mt-1 text-sm font-semibold text-slate-900">{{ $profile->summary }}</div>
+                  <div class="text-xs font-medium uppercase tracking-wide text-slate-500">{{ $localizedText('Ringkasan Profil', '自己PRなど') }}</div>
+                  <div class="mt-1 whitespace-pre-line text-sm font-semibold text-slate-900">{{ $localizedText($profile->summary ?: $emptyValue, $profile->jp_summary ?: null) }}</div>
                 </div>
             </div>
           </div>
           <div class="mt-2 border border-slate-200 p-4">
             <div>
                 <div class="py-3">
-                  <div class="text-xs font-medium uppercase tracking-wide text-slate-500">Alasan Pindah Kerja</div>
-                  <div class="mt-1 text-sm font-semibold text-slate-900">{{ $profile->reason_for_leaving }}</div>
+                  <div class="text-xs font-medium uppercase tracking-wide text-slate-500">{{ $localizedText('Alasan Pindah Kerja', '転職理由') }}</div>
+                  <div class="mt-1 whitespace-pre-line text-sm font-semibold text-slate-900">{{ $localizedText($profile->reason_for_leaving ?: $emptyValue, $profile->jp_reason_for_leaving ?: null) }}</div>
                 </div>
             </div>
           </div>
           <div class="mt-2 border border-slate-200 p-4">
             <div>
                 <div class="py-3">
-                  <div class="text-xs font-medium uppercase tracking-wide text-slate-500">Keterangan Tambahan</div>
-                  <div class="mt-1 text-sm font-semibold text-slate-900">{{ $profile->additional_info }}</div>
+                  <div class="text-xs font-medium uppercase tracking-wide text-slate-500">{{ $localizedText('Keterangan Tambahan', '備考') }}</div>
+                  <div class="mt-1 whitespace-pre-line text-sm font-semibold text-slate-900">{{ $localizedText($profile->additional_info ?: $emptyValue, $profile->jp_additional_info ?: null) }}</div>
                 </div>
             </div>
           </div>
         </div>
 
         <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-          <h2 class="text-base font-semibold text-slate-900">Riwayat Pendidikan</h2>
+          <h2 class="text-base font-semibold text-slate-900">{{ $localizedText('Riwayat Pendidikan', '学歴') }}</h2>
           <div class="mt-4 overflow-x-auto rounded-xl border border-slate-200">
             @forelse ($educationHistories as $educationHistory)
               @if ($loop->first)
                 <table class="min-w-full divide-y divide-slate-200 text-sm">
                   <thead class="bg-slate-50">
                     <tr>
-                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Institusi</th>
-                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Pendidikan</th>
-                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Lokasi</th>
-                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Periode</th>
-                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Status</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">{{ $localizedText('Institusi', '学校名') }}</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">{{ $localizedText('Pendidikan', '学歴') }}</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">{{ $localizedText('Lokasi', '所在地') }}</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">{{ $localizedText('Periode', '期間') }}</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">{{ $localizedText('Status', '状況') }}</th>
                     </tr>
                   </thead>
                   <tbody class="divide-y divide-slate-200 bg-white">
               @endif
               <tr>
+                @php
+                  $educationLabel = $resolveEducationOption($educationHistory->education, $educationLevelOptions);
+                  $educationLocationLabel = $resolveEducationOption($educationHistory->location, $educationLocationOptions);
+                  $educationStatusLabel = $resolveEducationOption($educationHistory->status, $educationStatusOptions);
+                  $educationPeriod = $formatLocalizedPeriod(
+                    $educationHistory->date_of_entry,
+                    $educationHistory->date_of_graduation ?: $educationHistory->date_of_dropped_out
+                  );
+                @endphp
                 <td class="px-4 py-3 text-slate-900">{{ $educationHistory->institution ?: '-' }}</td>
                 <td class="px-4 py-3 text-slate-900">
-                  <div>{{ $resolveEducationOption($educationHistory->education, $educationLevelOptions)['id'] }}</div>
-                  @if ($resolveEducationOption($educationHistory->education, $educationLevelOptions)['jp'])
-                    <div class="text-xs text-slate-500">{{ $resolveEducationOption($educationHistory->education, $educationLevelOptions)['jp'] }}</div>
-                  @endif
+                  {{ $localizedText($educationLabel['id'], $educationLabel['jp']) }}
                 </td>
                 <td class="px-4 py-3 text-slate-700">
-                  <div>{{ $resolveEducationOption($educationHistory->location, $educationLocationOptions)['id'] }}</div>
-                  @if ($resolveEducationOption($educationHistory->location, $educationLocationOptions)['jp'])
-                    <div class="text-xs text-slate-500">{{ $resolveEducationOption($educationHistory->location, $educationLocationOptions)['jp'] }}</div>
-                  @endif
+                  {{ $localizedText($educationLocationLabel['id'], $educationLocationLabel['jp']) }}
                 </td>
+                <td class="px-4 py-3 text-slate-700">{{ $localizedText($educationPeriod['id'], $educationPeriod['jp']) }}</td>
                 <td class="px-4 py-3 text-slate-700">
-                  {{ $educationHistory->date_of_entry?->format('d M Y') ?: '-' }} -
-                  {{ $educationHistory->date_of_graduation?->format('d M Y') ?: ($educationHistory->date_of_dropped_out?->format('d M Y') ?: '-') }}
-                </td>
-                <td class="px-4 py-3 text-slate-700">
-                  <div>{{ $resolveEducationOption($educationHistory->status, $educationStatusOptions)['id'] }}</div>
-                  @if ($resolveEducationOption($educationHistory->status, $educationStatusOptions)['jp'])
-                    <div class="text-xs text-slate-500">{{ $resolveEducationOption($educationHistory->status, $educationStatusOptions)['jp'] }}</div>
-                  @endif
+                  {{ $localizedText($educationStatusLabel['id'], $educationStatusLabel['jp']) }}
                 </td>
               </tr>
               @if ($loop->last)
@@ -362,25 +337,25 @@
               @endif
             @empty
               <div class="border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-500">
-                Belum ada riwayat pendidikan yang diisi.
+                {{ $localizedText('Belum ada riwayat pendidikan yang diisi.', '学歴データはまだありません。') }}
               </div>
             @endforelse
           </div>
         </div>
 
         <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-          <h2 class="text-base font-semibold text-slate-900">Riwayat Pengalaman Kerja</h2>
+          <h2 class="text-base font-semibold text-slate-900">{{ $localizedText('Riwayat Pengalaman Kerja', '職歴') }}</h2>
           <div class="mt-4 overflow-x-auto rounded-xl border border-slate-200">
             @forelse ($workExperiences as $workExperience)
               @if ($loop->first)
                 <table class="min-w-full divide-y divide-slate-200 text-sm">
                   <thead class="bg-slate-50">
                     <tr>
-                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Bidang Kerja</th>
-                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Perusahaan</th>
-                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Lokasi</th>
-                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Periode</th>
-                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Status</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">{{ $localizedText('Bidang Kerja', '職種') }}</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">{{ $localizedText('Perusahaan', '会社名') }}</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">{{ $localizedText('Lokasi', '所在地') }}</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">{{ $localizedText('Periode', '期間') }}</th>
+                      <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">{{ $localizedText('Status', '雇用 / 在留資格') }}</th>
                     </tr>
                   </thead>
                   <tbody class="divide-y divide-slate-200 bg-white">
@@ -389,27 +364,16 @@
                 @php
                   $locationLabel = $resolveWorkOption($workExperience->location, $workingLocationOptions);
                   $statusLabel = $resolveWorkOption($workExperience->employment_status, $workingStatusOptions);
+                  $workPeriod = $formatLocalizedPeriod($workExperience->date_of_join, $workExperience->date_of_resign, 'Sekarang', '現在');
                 @endphp
                 <td class="px-4 py-3 text-slate-900">{{ $workExperience->field_of_work ?: '-' }}</td>
                 <td class="px-4 py-3 text-slate-900">{{ $workExperience->company_name ?: '-' }}</td>
                 <td class="px-4 py-3 text-slate-700">
-                  <div>{{ $locationLabel['id'] }}</div>
-                  @if ($locationLabel['jp'])
-                    <div class="text-xs text-slate-500">{{ $locationLabel['jp'] }}</div>
-                  @endif
+                  {{ $localizedText($locationLabel['id'], $locationLabel['jp']) }}
                 </td>
+                <td class="px-4 py-3 text-slate-700">{{ $localizedText($workPeriod['id'], $workPeriod['jp']) }}</td>
                 <td class="px-4 py-3 text-slate-700">
-                  {{ $workExperience->date_of_join?->format('d M Y') ?: '-' }} -
-                  {{ $workExperience->date_of_resign?->format('d M Y') ?: 'Sekarang' }}
-                </td>
-                <td class="px-4 py-3 text-slate-700">
-                  <div>{{ $statusLabel['id'] }}</div>
-                  @if ($statusLabel['jp'])
-                    <div class="text-xs text-slate-500">{{ $statusLabel['jp'] }}</div>
-                  @endif
-                  @if ($workExperience->visa_type)
-                    <div class="text-xs text-slate-500">Visa: {{ $workExperience->visa_type }}</div>
-                  @endif
+                  {{ $localizedText($statusLabel['id'] . ($workExperience->visa_type ? ' • Visa: ' . $workExperience->visa_type : ''), ($statusLabel['jp'] ?? $statusLabel['id']) . ($workExperience->visa_type ? ' • 在留資格: ' . $workExperience->visa_type : '')) }}
                 </td>
               </tr>
               @if ($loop->last)
@@ -418,7 +382,7 @@
               @endif
             @empty
               <div class="border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-500">
-                Belum ada riwayat pengalaman kerja yang diisi.
+                {{ $localizedText('Belum ada riwayat pengalaman kerja yang diisi.', '職歴データはまだありません。') }}
               </div>
             @endforelse
           </div>
@@ -433,6 +397,60 @@
     document.addEventListener('DOMContentLoaded', () => {
       const copyButton = document.querySelector('.js-copy-public-link');
       const feedback = document.getElementById('public-share-feedback');
+      const menuToggle = document.querySelector('[data-profile-menu-toggle]');
+      const menuPanel = document.querySelector('[data-profile-menu-panel]');
+      const menuCloseItems = document.querySelectorAll('[data-profile-menu-close]');
+
+      const closeMenu = () => {
+        if (!menuToggle || !menuPanel) {
+          return;
+        }
+
+        menuPanel.style.display = 'none';
+        menuToggle.setAttribute('aria-expanded', 'false');
+      };
+
+      const openMenu = () => {
+        if (!menuToggle || !menuPanel) {
+          return;
+        }
+
+        menuPanel.style.display = 'block';
+        menuToggle.setAttribute('aria-expanded', 'true');
+      };
+
+      if (menuToggle && menuPanel) {
+        menuToggle.addEventListener('click', (event) => {
+          event.stopPropagation();
+
+          if (menuToggle.getAttribute('aria-expanded') === 'true') {
+            closeMenu();
+            return;
+          }
+
+          openMenu();
+        });
+
+        menuPanel.addEventListener('click', (event) => {
+          event.stopPropagation();
+        });
+
+        menuCloseItems.forEach((item) => {
+          item.addEventListener('click', closeMenu);
+        });
+
+        document.addEventListener('click', (event) => {
+          if (!menuToggle.contains(event.target) && !menuPanel.contains(event.target)) {
+            closeMenu();
+          }
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            closeMenu();
+          }
+        });
+      }
 
       if (!copyButton) {
         return;

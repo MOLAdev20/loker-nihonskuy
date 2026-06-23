@@ -14,12 +14,10 @@
 
   <nav class="h-[calc(100%-4rem)] overflow-y-auto px-3 py-4">
     <div class="mb-5">
-      <p class="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-slate-300">Ringkasan
-      </p>
+      
       <a href="{{ route('user.dashboard') }}"
         class="{{ request()->routeIs('user.dashboard') ? 'bg-slate-700 text-white' : 'text-slate-100 hover:bg-slate-700/80' }} flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition">
-        <x-icons.layoutGrid size="18" />
-        Dashboard
+        <x-icons.layoutGrid size="18" /> CV
       </a>
     </div>
 

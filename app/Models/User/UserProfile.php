@@ -37,6 +37,9 @@ class UserProfile extends Model
         'summary',
         'reason_for_leaving',
         'additional_info',
+        'jp_summary',
+        'jp_reason_for_leaving',
+        'jp_additional_info',
     ];
 
     protected function casts(): array

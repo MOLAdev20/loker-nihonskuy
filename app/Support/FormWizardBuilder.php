@@ -8,7 +8,8 @@ class FormWizardBuilder
         string $activeStep,
         bool $isProfileCompleted,
         bool $isEducationCompleted,
-        bool $isWorkingExperienceCompleted
+        bool $isWorkingExperienceCompleted,
+        bool $isInterviewCompleted = false
     ): array {
         return [
             [
@@ -37,11 +38,19 @@ class FormWizardBuilder
             ],
             [
                 'number' => 4,
+                'label' => 'Pertanyaan Interview',
+                'route' => route('user.interview-answer'),
+                'isActive' => $activeStep === 'interview',
+                'isCompleted' => $isInterviewCompleted,
+                'isAccessible' => $isProfileCompleted && $isEducationCompleted && $isWorkingExperienceCompleted,
+            ],
+            [
+                'number' => 5,
                 'label' => 'Konfirmasi',
                 'route' => route('users.confirm'),
-                'isActive' => $activeStep === 'workExperience',
-                'isCompleted' => $isWorkingExperienceCompleted,
-                'isAccessible' => $isProfileCompleted && $isEducationCompleted,
+                'isActive' => $activeStep === 'confirm',
+                'isCompleted' => false,
+                'isAccessible' => $isProfileCompleted && $isEducationCompleted && $isWorkingExperienceCompleted && $isInterviewCompleted,
             ],
         ];
     }

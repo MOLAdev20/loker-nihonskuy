@@ -15,11 +15,14 @@ use App\Http\Controllers\User\ResumeController;
 use App\Http\Controllers\User\AccountController;
 use App\Http\Controllers\User\EducationController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\InterviewAnswerController;
 use App\Http\Controllers\User\WorkExperienceController;
 use App\Http\Controllers\TSK\TskController;
 
 Route::get("/", [LandingController::class, "index"])->name("home");
 Route::get("/vacancies", [LandingController::class, "explore"])->name("vacancies");
+Route::get("/jp-company", [LandingController::class, "jpCompany"])->name("jp.company");
+Route::get("/jp-company/{slug}", [LandingController::class, "jpCompanyDetail"])->name("jp.company.detail");
 Route::get("/vacancy/{id}", [LandingController::class, "detail"])->name("vacancy.detail");
 Route::get("/matching-job", [MatchingJobLandingController::class, "index"])->name("matching.job");
 Route::get("/matching-job/education-program", [MatchingJobLandingController::class, "onlyEducation"])->name("matching.job.education");
@@ -59,6 +62,7 @@ Route::prefix("admin")->group(function () {
 
         Route::prefix("users")->group(function () {
             Route::get("/", [UserController::class, "index"])->name("admin.users");
+            Route::post("/", [UserController::class, "store"])->name("admin.users.store");
 
             Route::prefix("{id}")->whereNumber("id")->group(function () {
                 Route::prefix("education")->group(function () {
@@ -110,6 +114,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/working-experience', [WorkExperienceController::class, 'store'])->name('user.working-experience.store');
     Route::put('/working-experience/{id}', [WorkExperienceController::class, 'update'])->name('user.working-experience.update');
     Route::delete('/working-experience/{id}', [WorkExperienceController::class, 'destroy'])->name('user.working-experience.destroy');
+
+    // Interview Answers
+    Route::get('/interview-answer', [InterviewAnswerController::class, 'index'])->name('user.interview-answer');
+    Route::post('/interview-answer', [InterviewAnswerController::class, 'store'])->name('user.interview-answer.store');
 
     // Contact Team Page
     Route::get("/contact-team", [ProfileController::class, "showConfirmPage"])->name("users.confirm");
