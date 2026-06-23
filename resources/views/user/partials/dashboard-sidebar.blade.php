@@ -40,10 +40,10 @@
           <a href="{{ route('user.profile.form') }}"
             class="{{ request()->routeIs('user.profile.form') ? 'bg-slate-700 text-white' : 'text-slate-200 hover:bg-slate-700/70' }} block rounded-lg px-3 py-2 text-sm transition">Profil
             Saya</a>
-          {{-- <a href="#"
-            class="block rounded-lg px-3 py-2 text-sm text-slate-200 transition hover:bg-slate-700/70">Dokumen</a> --}}
-          {{-- <a href="#"
-            class="block rounded-lg px-3 py-2 text-sm text-slate-200 transition hover:bg-slate-700/70">Pengalaman</a> --}}
+          <a href="{{ route('user.document') }}"
+            class="{{ request()->routeIs('user.document*') ? 'bg-slate-700 text-white' : 'text-slate-200 hover:bg-slate-700/70' }} block rounded-lg px-3 py-2 text-sm transition">Dokumen</a>
+          <a href="#"
+            class="block rounded-lg px-3 py-2 text-sm text-slate-200 transition hover:bg-slate-700/70">Sertifikat</a>
         </div>
       </div>
     </div>

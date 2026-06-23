@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User\UserEducationHistory;
+use App\Models\User\UserDocument;
 use App\Models\User\UserInterviewAnswer;
 use App\Models\User\UserProfile;
 use App\Models\User\WorkExperience;
@@ -86,6 +87,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function workExperiences(): HasMany
     {
         return $this->hasMany(WorkExperience::class, "user_id");
+    }
+
+    public function userDocuments(): HasMany
+    {
+        return $this->hasMany(UserDocument::class, 'user_id');
     }
 
     public function userInterviewAnswer(): HasOne
