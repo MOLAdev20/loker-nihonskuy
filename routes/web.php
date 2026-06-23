@@ -15,6 +15,7 @@ use App\Http\Controllers\User\ResumeController;
 use App\Http\Controllers\User\AccountController;
 use App\Http\Controllers\User\EducationController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\DocumentController;
 use App\Http\Controllers\User\InterviewAnswerController;
 use App\Http\Controllers\User\WorkExperienceController;
 use App\Http\Controllers\TSK\TskController;
@@ -118,6 +119,12 @@ Route::middleware(['auth'])->group(function () {
     // Interview Answers
     Route::get('/interview-answer', [InterviewAnswerController::class, 'index'])->name('user.interview-answer');
     Route::post('/interview-answer', [InterviewAnswerController::class, 'store'])->name('user.interview-answer.store');
+
+    // Document
+    Route::get('/document', [DocumentController::class, 'index'])->name('user.document');
+    Route::post('/document', [DocumentController::class, 'store'])->name('user.document.store');
+    Route::get('/document/{document}', [DocumentController::class, 'show'])->whereNumber('document')->name('user.document.show');
+    Route::delete('/document/{document}', [DocumentController::class, 'destroy'])->whereNumber('document')->name('user.document.destroy');
 
     // Contact Team Page
     Route::get("/contact-team", [ProfileController::class, "showConfirmPage"])->name("users.confirm");
