@@ -35,21 +35,28 @@
     @auth
       @php
         $currentUser = auth()->user();
-        $displayName = trim($currentUser->name ?? '');
-        $sourceName = $displayName !== '' ? $displayName : $currentUser->email ?? 'User';
-        $initialParts = preg_split('/\s+/', $sourceName, -1, PREG_SPLIT_NO_EMPTY) ?: [];
-        $avatarInitial = collect(array_slice($initialParts, 0, 2))
-            ->map(fn($part) => strtoupper(substr($part, 0, 1)))
-            ->implode('');
       @endphp
-      <div class="hidden items-center gap-3 md:flex">
-        <div
-          class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold tracking-wide text-white">
-          {{ $avatarInitial !== '' ? $avatarInitial : 'U' }}
-        </div>
-        <div class="text-right leading-tight">
-          <a href={{ route('user.dashboard') }}
-            class="max-w-48 truncate text-lg font-medium text-slate-800">{{ $currentUser->email }}
+      <div class="relative hidden md:block" data-avatar-menu-root>
+        <button type="button" data-avatar-menu-button aria-expanded="false"
+          aria-label="Buka menu profil kandidat"
+          class="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50">
+          <span
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-white transition duration-200">
+            <x-icons.user size="18" />
+          </span>
+        </button>
+
+        <div data-avatar-menu
+          class="pointer-events-none absolute right-0 mt-3 hidden w-56 origin-top-right overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-lg opacity-0 translate-y-2 scale-95 transition-all duration-200 ease-out">
+          <a href="{{ route('user.dashboard') }}"
+            class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50">
+            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white">
+              <x-icons.user size="16" />
+            </span>
+            <span class="flex flex-col leading-tight">
+              <span class="font-semibold text-slate-900">Profil</span>
+              <span class="text-xs text-slate-500">Dashboard kandidat</span>
+            </span>
           </a>
         </div>
       </div>
@@ -92,18 +99,78 @@
       @endguest
 
       @auth
-        <div
-          class="flex cursor-pointer items-center gap-3 rounded px-3 py-2 hover:bg-slate-50 md:hidden">
+        <a href="{{ route('user.dashboard') }}"
+          class="flex items-center gap-3 rounded-xl px-3 py-2 hover:bg-slate-50 md:hidden">
           <div
-            class="flex h-7 w-7 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold tracking-wide text-white">
-            {{ $avatarInitial !== '' ? $avatarInitial : 'U' }}
+            class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-white">
+            <x-icons.user size="16" />
           </div>
-          <div class="text-right leading-tight">
-            <p class="max-w-48 truncate font-medium text-slate-800">{{ $currentUser->email }}
-            </p>
+          <div class="text-left leading-tight">
+            <p class="font-medium text-slate-800">Dashboard Kandidat</p>
+            <p class="text-xs text-slate-500">Buka profil Anda</p>
           </div>
-        </div>
+        </a>
       @endauth
     </div>
   </div>
 </header>
+
+@auth
+  <script>
+    (() => {
+      const root = document.querySelector('[data-avatar-menu-root]');
+      if (!root) return;
+
+      const button = root.querySelector('[data-avatar-menu-button]');
+      const menu = root.querySelector('[data-avatar-menu]');
+      let menuOpen = false;
+
+      const openMenu = () => {
+        if (menuOpen) return;
+
+        menu.classList.remove('hidden');
+        window.requestAnimationFrame(() => {
+          menu.classList.remove('opacity-0', 'translate-y-2', 'scale-95', 'pointer-events-none');
+        });
+        button.setAttribute('aria-expanded', 'true');
+        menuOpen = true;
+      };
+
+      const closeMenu = () => {
+        if (!menuOpen) return;
+
+        menu.classList.add('opacity-0', 'translate-y-2', 'scale-95', 'pointer-events-none');
+        button.setAttribute('aria-expanded', 'false');
+        menuOpen = false;
+
+        window.setTimeout(() => {
+          if (!menuOpen) {
+            menu.classList.add('hidden');
+          }
+        }, 200);
+      };
+
+      button.addEventListener('click', (event) => {
+        event.stopPropagation();
+
+        if (menu.classList.contains('hidden')) {
+          openMenu();
+        } else {
+          closeMenu();
+        }
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!root.contains(event.target)) {
+          closeMenu();
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          closeMenu();
+        }
+      });
+    })();
+  </script>
+@endauth
