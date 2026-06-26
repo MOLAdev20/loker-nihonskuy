@@ -25,7 +25,9 @@ class UserDocument extends Model
         return [
             'ktp' => 'KTP',
             'kk' => 'KK',
-            'akte_kelahiran' => 'Akte Kelahiran',
+            'akta_kelahiran' => 'Akta Kelahiran',
+            'paspor' => 'Paspor',
+            'rirekisho' => 'Rirekisho',
         ];
     }
 

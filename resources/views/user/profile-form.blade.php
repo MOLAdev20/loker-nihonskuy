@@ -153,7 +153,19 @@
       </div>
 
       <div>
-        <label class="{{ $labelClass }}" for="placeOfOrigin">Tempat Asal <span
+        <label class="{{ $labelClass }}" for="nationality">Domisili <span
+            class="text-red-600">*</span></label>
+        <input id="nationality" name="nationality" type="text"
+          value="{{ old('nationality', $profile?->nationality ?? '') }}"
+          class="{{ $inputClass }} @error('nationality') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
+          placeholder="Masukkan kewarganegaraan">
+        @error('nationality')
+          <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+        @enderror
+      </div>
+
+      <div>
+        <label class="{{ $labelClass }}" for="placeOfOrigin">Provinsi/Prefektur <span
             class="text-red-600">*</span></label>
         <input id="placeOfOrigin" name="placeOfOrigin" type="text"
           value="{{ old('placeOfOrigin', $profile?->place_of_origin ?? '') }}"

@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\UrgentVacancyController;
 use App\Http\Controllers\MatchingJobLandingController;
 use App\Http\Controllers\User\ResumeController;
 use App\Http\Controllers\User\AccountController;
+use App\Http\Controllers\User\CertificateController;
 use App\Http\Controllers\User\EducationController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\DocumentController;
@@ -101,6 +102,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'showProfileForm'])->name('user.profile.form');
     Route::post('/profile', [ProfileController::class, 'storeProfile'])->name('user.profile.store');
     Route::post('/profile/upload-photo', [ProfileController::class, 'uploadProfilePicture'])->name('user.profile.upload-photo');
+    Route::post('/profile/jikoshoukai', [ProfileController::class, 'updateJikoshoukai'])->name('user.profile.jikoshoukai.store');
 
     Route::get('/print-resume', [ResumeController::class, 'download'])->name('user.resume.print');
 
@@ -125,6 +127,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/document', [DocumentController::class, 'store'])->name('user.document.store');
     Route::get('/document/{document}', [DocumentController::class, 'show'])->whereNumber('document')->name('user.document.show');
     Route::delete('/document/{document}', [DocumentController::class, 'destroy'])->whereNumber('document')->name('user.document.destroy');
+
+    // Certificate
+    Route::get('/certificate', [CertificateController::class, 'index'])->name('user.certificate');
+    Route::post('/certificate', [CertificateController::class, 'store'])->name('user.certificate.store');
+    Route::get('/certificate/{certificate}', [CertificateController::class, 'show'])->whereNumber('certificate')->name('user.certificate.show');
+    Route::delete('/certificate/{certificate}', [CertificateController::class, 'destroy'])->whereNumber('certificate')->name('user.certificate.destroy');
 
     // Contact Team Page
     Route::get("/contact-team", [ProfileController::class, "showConfirmPage"])->name("users.confirm");

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User\UserEducationHistory;
+use App\Models\User\UserCertificate;
 use App\Models\User\UserDocument;
 use App\Models\User\UserInterviewAnswer;
 use App\Models\User\UserProfile;
@@ -92,6 +93,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function userDocuments(): HasMany
     {
         return $this->hasMany(UserDocument::class, 'user_id');
+    }
+
+    public function userCertificates(): HasMany
+    {
+        return $this->hasMany(UserCertificate::class, 'user_id');
     }
 
     public function userInterviewAnswer(): HasOne

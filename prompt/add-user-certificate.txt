@@ -1,0 +1,30 @@
+Buatkan PRD/Plan yang nanti akan dikerjakan oleh Fullstack Laravel Developer di plan/add-user-certificate.md
+
+Tujuan:
+*Buat fitur upload sertifikat untuk user/kandidat lengkap dengan mekanisme upload, hapus sertifikat yang sudah diupload dan disediakan view untuk menampung fitur dan sertifikat yang sudah diupload*
+
+#Ketentuan
+##Yang sudah dipersiapkan:
+- Migration (2026_06_25_084137_create_table_certificate.php)
+
+##Yang belum ada:
+- Model (User/UserCertificate)
+- Controller (User/certificateController)
+- route (certificate)
+- view (user/certificate.blade.php)
+- Gunakan model layout dan arsitektur code seperti yang digunakan pada halaman yang sudah ada sebelumnya (seperti data dokumen).
+
+##Mekanisme dan ketentuan layout
+###Mekanisme:
+- User menekan tombol Tambah sertifikat di atas card utama yang berisi lampiran. Maka akan muncul modal berisi input file, dan dropdown jenis sertifikatnya (N5,N4,N3,N2,N1, SSW Pengolahan Makanan, SSW Pertanian, SSW Kaigo/Perawat Lansia). Jadi user cukup memilih file dan menentukan itu termasuk jenis sertifikat apa.
+- Berikan Validasi, jika suatu jenis sertifikat sudah pernah diupload, maka tolak dengan memberikan feedback pesan ke user "sertifikat N5 sudah ada. Hapus terlebih dahulu untuk menggantinya"
+- User bisa melihat lampiran/sertifikat yang sudah diupload jika user menekan lampirannya (sesuaikan saja mekanismenya mau bagaimana).
+
+###Layout:
+- Ada bagian card utama yang menampilkan lampiran lampiran beserta jenisnya dan tombol hapus warna merah dengan logo X (jangan lupa tanya konfirmasi user dulu sebelum hapus)
+- Di dalam card utama ada grid 4*12 untuk menampilkan di setiap gridnya lampiran/sertifikat yang sudah diupload.
+
+
+*notes
+PRD yang sudah dibuat, nantinya akan dikerjakan oleh bawahan anda yakni Fullstack Laravel  Engineer, maupun AI Model yang lebih murah. Maka dari itu, anda sebagai lead, suruh bawahan anda kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena certificate planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah
