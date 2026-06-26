@@ -42,8 +42,8 @@
             Saya</a>
           <a href="{{ route('user.document') }}"
             class="{{ request()->routeIs('user.document*') ? 'bg-slate-700 text-white' : 'text-slate-200 hover:bg-slate-700/70' }} block rounded-lg px-3 py-2 text-sm transition">Dokumen</a>
-          <a href="#"
-            class="block rounded-lg px-3 py-2 text-sm text-slate-200 transition hover:bg-slate-700/70">Sertifikat</a>
+          <a href="{{ route('user.certificate') }}"
+            class="{{ request()->routeIs('user.certificate*') ? 'bg-slate-700 text-white' : 'text-slate-200 hover:bg-slate-700/70' }} block rounded-lg px-3 py-2 text-sm transition">Sertifikat</a>
         </div>
       </div>
     </div>

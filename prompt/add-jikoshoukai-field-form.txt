@@ -1,0 +1,16 @@
+Buatkan PRD/plan di plan/add-jikoshoukai-field-form.md
+
+#Tujuan
+Menambahkan fitur input link youtube jikoshoukai/perkenalan diri yang ada di halaman detail kandidat (user/profile.blade.php)
+
+#Ketentuan:
+Migration sudah dibuat dan dijalankan (2026_06_25_081706_add_jikoshoukai_column_in_user_profile.php) dan nama kolomnya adalah 'jikoshoukai' yang ada di tabel user_profile
+
+#Mekanisme input:
+Tambahkan field input di di halaman detail kandidat (user/profile.blade.php).
+Jika sudah ada, maka tampilkan thumbnail youtube dari link jikoshoukai yang sudah diupload oleh user
+
+
+#notes
+PRD yang sudah dibuat, nantinya akan dikerjakan oleh bawahan anda yakni Junior FrontEnd Engineer, maupun AI Model yang lebih murah. Maka dari itu, anda sebagai lead, suruh bawahan anda kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah

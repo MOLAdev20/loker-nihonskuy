@@ -14,6 +14,7 @@
     $emptyValue = '—';
     $profilePictureUrl = null;
     $isProfileCompleted = filled($profile);
+    $jikoshoukaiThumbnailUrl = $profile?->jikoshoukai_thumbnail_url;
 
     $profilePicturePath = $profile?->profile_picture ? ltrim($profile->profile_picture, '/') : null;
 
@@ -202,8 +203,36 @@
           </form>
         </div>
 
-        <div class="mt-5 border rounded-lg border-slate-400 p-2">
-          <iframe width="450" height="300" src="https://www.youtube.com/embed/qAxpv3cCHO8?si=GHY9J-iAw4gXU_yN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="mt-5 w-full rounded-xl border border-slate-200 bg-slate-50 p-4">
+          <div class="mb-3 text-left">
+            <p class="text-sm font-semibold text-slate-900">Video Jikoshoukai</p>
+            <p class="mt-1 text-xs text-slate-500">Preview video perkenalan diri kandidat.</p>
+          </div>
+          @if ($jikoshoukaiThumbnailUrl && $profile?->jikoshoukai)
+            <a href="{{ $profile->jikoshoukai }}" target="_blank" rel="noopener noreferrer"
+              class="group block overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:border-slate-300 hover:shadow-md">
+              <div class="relative">
+                <img src="{{ $jikoshoukaiThumbnailUrl }}" alt="Thumbnail video jikoshoukai {{ $displayName }}"
+                  class="aspect-video w-full object-cover" />
+                <div class="absolute inset-0 flex items-center justify-center bg-slate-950/20 transition group-hover:bg-slate-950/30">
+                  <div class="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 fill-slate-900">
+                      <path d="M8 5.14v13.72a1 1 0 0 0 1.53.85l10.4-6.86a1 1 0 0 0 0-1.7L9.53 4.29A1 1 0 0 0 8 5.14Z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="border-t border-slate-200 px-3 py-2 text-left">
+                <p class="truncate text-sm font-medium text-slate-900">{{ $profile->jikoshoukai }}</p>
+                <p class="mt-1 text-xs text-slate-500">Klik untuk membuka video di YouTube</p>
+              </div>
+            </a>
+          @else
+            <div class="rounded-xl border border-dashed border-slate-300 bg-white px-4 py-8 text-center">
+              <p class="text-sm font-medium text-slate-700">Belum ada video jikoshoukai</p>
+              <p class="mt-1 text-xs text-slate-500">Kandidat belum menambahkan link YouTube perkenalan diri.</p>
+            </div>
+          @endif
         </div>
       </div>
 

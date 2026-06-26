@@ -128,6 +128,8 @@
 
       $nationalityKey = strtolower(trim((string) $profile->nationality));
       $jlptValue = $profile->jlpt_level;
+      $jikoshoukaiValue = old('jikoshoukai', $profile->jikoshoukai);
+      $jikoshoukaiThumbnailUrl = $profile->jikoshoukai_thumbnail_url;
       $legacyJlptDisplayMap = [
           'none' => 'Tidak memiliki sertifikat',
           'other' => 'Lainnya',
@@ -193,8 +195,56 @@
               @enderror
             </div>
           </form>
-          <div class="mt-5 border rounded-lg border-slate-400 p-2">
-            <iframe width="100%" height="250" src="https://www.youtube.com/embed/qAxpv3cCHO8?si=GHY9J-iAw4gXU_yN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <div class="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <div class="mb-3">
+              <h3 class="text-sm font-semibold text-slate-900">Video Jikoshoukai</h3>
+              <p class="mt-1 text-xs text-slate-500">Tambahkan link YouTube perkenalan diri agar tampil pada profil kandidat.</p>
+            </div>
+
+            <form method="POST" action="{{ route('user.profile.jikoshoukai.store') }}" class="space-y-3">
+              @csrf
+              <div>
+                <input id="jikoshoukai" name="jikoshoukai" type="url" value="{{ $jikoshoukaiValue }}"
+                  placeholder="https://www.youtube.com/watch?v=..."
+                  class="@error('jikoshoukai') border-red-300 focus:border-red-400 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror w-full rounded-xl border bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:ring-4" />
+                @error('jikoshoukai')
+                  <p class="mt-2 text-xs text-red-600">{{ $message }}</p>
+                @enderror
+              </div>
+
+              <button type="submit"
+                class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800">
+                Simpan Link
+              </button>
+            </form>
+
+            <div class="mt-4">
+              @if ($jikoshoukaiThumbnailUrl && $profile->jikoshoukai)
+                <a href="{{ $profile->jikoshoukai }}" target="_blank" rel="noopener noreferrer"
+                  class="group block overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:border-slate-300 hover:shadow-md">
+                  <div class="relative">
+                    <img src="{{ $jikoshoukaiThumbnailUrl }}" alt="Thumbnail video jikoshoukai {{ $profile->full_name }}"
+                      class="aspect-video w-full object-cover" />
+                    <div class="absolute inset-0 flex items-center justify-center bg-slate-950/20 transition group-hover:bg-slate-950/30">
+                      <div class="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 fill-slate-900">
+                          <path d="M8 5.14v13.72a1 1 0 0 0 1.53.85l10.4-6.86a1 1 0 0 0 0-1.7L9.53 4.29A1 1 0 0 0 8 5.14Z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="border-t border-slate-200 px-3 py-2">
+                    <p class="truncate text-sm font-medium text-slate-900">{{ $profile->jikoshoukai }}</p>
+                    <p class="mt-1 text-xs text-slate-500">Klik untuk membuka video di YouTube</p>
+                  </div>
+                </a>
+              @else
+                <div class="rounded-xl border border-dashed border-slate-300 bg-white px-4 py-8 text-center">
+                  <p class="text-sm font-medium text-slate-700">Belum ada video jikoshoukai</p>
+                  <p class="mt-1 text-xs text-slate-500">Masukkan link YouTube di atas untuk menampilkan thumbnail video.</p>
+                </div>
+              @endif
+            </div>
           </div>
         </div>
       </div>

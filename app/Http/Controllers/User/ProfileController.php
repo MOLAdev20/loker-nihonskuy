@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreUserJikoshoukaiRequest;
 use App\Http\Requests\User\StoreUserProfileRequest;
 use App\Models\User\UserEducationHistory;
 use App\Models\User\UserInterviewAnswer;
@@ -162,6 +163,27 @@ class ProfileController extends Controller
         return redirect()
             ->route('user.dashboard')
             ->with('status', 'Foto profile berhasil diperbarui.');
+    }
+
+    public function updateJikoshoukai(StoreUserJikoshoukaiRequest $request)
+    {
+        $profile = UserProfile::where('user_id', auth()->id())->first();
+
+        if (! $profile) {
+            return redirect()
+                ->route('user.profile.form')
+                ->with('error', 'Data profil belum tersedia. Isi profil terlebih dahulu.');
+        }
+
+        $profile->update([
+            'jikoshoukai' => filled($request->validated('jikoshoukai'))
+                ? trim((string) $request->validated('jikoshoukai'))
+                : null,
+        ]);
+
+        return redirect()
+            ->route('user.dashboard')
+            ->with('status', 'Link video jikoshoukai berhasil disimpan.');
     }
 
     private function mapProfilePayload(array $validatedData, ?string $currentProfilePicture = null): array
