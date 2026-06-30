@@ -11,6 +11,9 @@
     $userLinkClasses = request()->routeIs('admin.users*')
         ? 'bg-slate-100 text-slate-900'
         : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900';
+    $companyLinkClasses = request()->routeIs('admin.company.*')
+        ? 'bg-slate-100 text-slate-900'
+        : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900';
 @endphp
 
 <!-- Sidebar -->
@@ -44,6 +47,18 @@
         <a href="{{ route('admin.users') }}"
             class="group mt-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium {{ $userLinkClasses }}">
             <x-icons.users />Users
+        </a>
+        <a href="{{ route('admin.company.index') }}"
+            class="group mt-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium {{ $companyLinkClasses }}">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M3 21h18" />
+                <path d="M5 21V7l7-4 7 4v14" />
+                <path d="M9 11h.01" />
+                <path d="M9 15h.01" />
+                <path d="M15 11h.01" />
+                <path d="M15 15h.01" />
+            </svg>
+            Perusahaan Jepang
         </a>
     </nav>
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\UserEducationController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UserWorkingExpController;
 use App\Http\Controllers\VacancyController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\UrgentVacancyController;
 use App\Http\Controllers\MatchingJobLandingController;
@@ -23,8 +24,9 @@ use App\Http\Controllers\TSK\TskController;
 
 Route::get("/", [LandingController::class, "index"])->name("home");
 Route::get("/vacancies", [LandingController::class, "explore"])->name("vacancies");
-Route::get("/jp-company", [LandingController::class, "jpCompany"])->name("jp.company");
-Route::get("/jp-company/{slug}", [LandingController::class, "jpCompanyDetail"])->name("jp.company.detail");
+Route::get("/jp-company", [CompanyController::class, "landingIndex"])->name("jp.company");
+Route::get("/jp-company/{company}", [CompanyController::class, "landingShow"])->name("jp.company.detail");
+Route::get('/company-logo/{company}', [CompanyController::class, 'logo'])->whereNumber('company')->name('company.logo');
 Route::get("/vacancy/{id}", [LandingController::class, "detail"])->name("vacancy.detail");
 Route::get("/matching-job", [MatchingJobLandingController::class, "index"])->name("matching.job");
 Route::get("/matching-job/education-program", [MatchingJobLandingController::class, "onlyEducation"])->name("matching.job.education");
@@ -91,6 +93,16 @@ Route::prefix("admin")->group(function () {
 
                 Route::get("/", [UserController::class, "showAccountDetail"])->name("admin.users.detail");
             });
+        });
+
+        Route::prefix('jp-company')->name('admin.company.')->group(function () {
+            Route::get('/', [CompanyController::class, 'index'])->name('index');
+            Route::get('/create', [CompanyController::class, 'create'])->name('create');
+            Route::post('/', [CompanyController::class, 'store'])->name('store');
+            Route::get('/{company}', [CompanyController::class, 'show'])->whereNumber('company')->name('show');
+            Route::get('/{company}/edit', [CompanyController::class, 'edit'])->whereNumber('company')->name('edit');
+            Route::put('/{company}', [CompanyController::class, 'update'])->whereNumber('company')->name('update');
+            Route::delete('/{company}', [CompanyController::class, 'destroy'])->whereNumber('company')->name('destroy');
         });
     });
 });

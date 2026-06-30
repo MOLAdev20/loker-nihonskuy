@@ -2,29 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Vacancy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class LandingController extends Controller
 {
     public function jpCompany()
     {
-        $companies = $this->jpCompanies();
+        $companies = Company::query()
+            ->orderByDesc('id')
+            ->get();
 
         return view('landing.jp-company', [
             'companies' => $companies,
+            'locationCount' => $companies->pluck('location')->filter()->unique()->count(),
         ]);
     }
 
     public function jpCompanyDetail(string $slug)
     {
-        $company = collect($this->jpCompanies())->firstWhere('slug', $slug);
-
-        abort_if(! $company, 404);
-
         return view('landing.jp-company-detail', [
-            'company' => $company,
+            'company' => $this->resolvePublicCompany($slug),
         ]);
     }
 
@@ -95,6 +96,23 @@ class LandingController extends Controller
     private function publicVacanciesQuery(): Builder
     {
         return Vacancy::query()->where('status', 1);
+    }
+
+    private function resolvePublicCompany(string $slug): Company
+    {
+        $companyId = (int) Str::before($slug, '-');
+
+        if ($companyId > 0) {
+            return Company::query()->findOrFail($companyId);
+        }
+
+        $company = Company::query()
+            ->get()
+            ->first(fn (Company $item) => Str::slug($item->name) === $slug);
+
+        abort_unless($company, 404);
+
+        return $company;
     }
 
     private function jpCompanies(): array

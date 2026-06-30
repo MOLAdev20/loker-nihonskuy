@@ -1,0 +1,21 @@
+Buat dokumen plan di plan/setup-crud-company.md
+
+Tujuan:
+- Membuat halaman manajemen (CRUD) data perusahaan Jepang di sisi admin dan menampilkan seluruh data perusahaan yang sudah diinput tadi ke /jp-company beserta klik untuk melihat detailny
+
+Ketentuan:
+
+- Routes di 'admin/jp-company'
+- Model Company
+- Controller CompanyController
+- View
+ - untuk admin : admin/company
+ - untuk akses umum : landing/jp-company.blade.php dan landing/jp-company-detail.blade.php yang sudah tersedia
+- Fitur proses manajemen perusahaan di sisi admin itu dengan pola MVC
+- View dibuat dengan tailwindcss yang sudah ada, mengikuti dengan nuansa layout halaman admin yang sudah ada juga di fitur-fitur yang lain.
+- Untuk create, edit, show as table dan show as detail dibuat halamannya terpisah
+- Tampilkan semua data perusahaan ke halaman publik (landing/jp-company.blade.php dan landing/jp-company-detail.blade.php yang sudah tersedia)
+
+*notes
+Kerjakan sesuai notes, jangan melewati scope instruksi.
+Instruksikan secara high level, jangan low level atau detail karena document planning ini akan diimplementasikan oleh junior programmer atau Program AI Model yang murah
