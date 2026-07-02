@@ -13,15 +13,29 @@
   </div>
 
   <nav class="h-[calc(100%-4rem)] overflow-y-auto px-3 py-4">
-    <div class="mb-5">
+    <div class="mb-3">
       
       <a href="{{ route('user.dashboard') }}"
         class="{{ request()->routeIs('user.dashboard') ? 'bg-slate-700 text-white' : 'text-slate-100 hover:bg-slate-700/80' }} flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition">
         <x-icons.layoutGrid size="18" /> CV
       </a>
     </div>
-
+    <div class="mb-3">
+      
+      <a href="{{ route('user.document') }}"
+        class="{{ request()->routeIs('user.document*') ? 'bg-slate-700 text-white' : 'text-slate-100 hover:bg-slate-700/80' }} flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition">
+        <x-icons.folderInput size="18" /> Dokumen
+      </a>
+    </div>
     <div class="mb-5">
+      
+      <a href="{{ route('user.certificate') }}"
+        class="{{ request()->routeIs('user.certificate*') ? 'bg-slate-700 text-white' : 'text-slate-100 hover:bg-slate-700/80' }} flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition">
+        <x-icons.verifiedCircle size="18" /> Sertifikat
+      </a>
+    </div>
+
+    {{-- <div class="mb-5">
       <p class="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-slate-300">Profil</p>
       <button type="button"
         class="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-slate-100 transition hover:bg-slate-700/80"
@@ -40,13 +54,9 @@
           <a href="{{ route('user.profile.form') }}"
             class="{{ request()->routeIs('user.profile.form') ? 'bg-slate-700 text-white' : 'text-slate-200 hover:bg-slate-700/70' }} block rounded-lg px-3 py-2 text-sm transition">Profil
             Saya</a>
-          <a href="{{ route('user.document') }}"
-            class="{{ request()->routeIs('user.document*') ? 'bg-slate-700 text-white' : 'text-slate-200 hover:bg-slate-700/70' }} block rounded-lg px-3 py-2 text-sm transition">Dokumen</a>
-          <a href="{{ route('user.certificate') }}"
-            class="{{ request()->routeIs('user.certificate*') ? 'bg-slate-700 text-white' : 'text-slate-200 hover:bg-slate-700/70' }} block rounded-lg px-3 py-2 text-sm transition">Sertifikat</a>
         </div>
       </div>
-    </div>
+    </div> --}}
 
     <div class="">
       </p>

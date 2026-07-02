@@ -115,7 +115,7 @@
     ];
   @endphp
 
-  <div data-candidate-language-root data-default-language="id">
+  <div data-candidate-language-root data-default-language="jp">
   <div class="mb-5">
     <nav class="mb-4 text-sm" aria-label="Breadcrumb">
       <ol class="flex items-center gap-2 text-slate-500">
@@ -152,7 +152,7 @@
       </div>
 
       <div class="flex flex-wrap items-center gap-2">
-        <x-candidate-language-switch default="id" />
+        <x-candidate-language-switch default="jp" />
         <a href="{{ route('admin.users') }}"
           class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">
           {{ $localizedText('Kembali ke daftar user', 'ユーザー一覧へ戻る') }}
