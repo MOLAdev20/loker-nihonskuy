@@ -4,6 +4,7 @@ namespace App\Models\User;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class UserProfile extends Model
 {
@@ -34,9 +35,13 @@ class UserProfile extends Model
         'has_driver_license',
         'work_start_date',
         'technical_experience',
+        'jikoshoukai',
         'summary',
         'reason_for_leaving',
         'additional_info',
+        'jp_summary',
+        'jp_reason_for_leaving',
+        'jp_additional_info',
     ];
 
     protected function casts(): array
@@ -163,6 +168,65 @@ class UserProfile extends Model
     public function getAgeAttribute()
     {
         return Carbon::parse($this->birth_date)->age;
+    }
+
+    public function getJikoshoukaiEmbedUrlAttribute(): ?string
+    {
+        $videoId = static::extractYoutubeVideoId($this->jikoshoukai);
+
+        return $videoId ? 'https://www.youtube.com/embed/' . $videoId : null;
+    }
+
+    public function getJikoshoukaiThumbnailUrlAttribute(): ?string
+    {
+        $videoId = static::extractYoutubeVideoId($this->jikoshoukai);
+
+        return $videoId ? 'https://img.youtube.com/vi/' . $videoId . '/hqdefault.jpg' : null;
+    }
+
+    public static function extractYoutubeVideoId(?string $url): ?string
+    {
+        if (! filled($url)) {
+            return null;
+        }
+
+        $parsedUrl = parse_url(trim($url));
+
+        if (! is_array($parsedUrl)) {
+            return null;
+        }
+
+        $host = strtolower($parsedUrl['host'] ?? '');
+        $path = trim($parsedUrl['path'] ?? '', '/');
+        $query = [];
+
+        if (! empty($parsedUrl['query'])) {
+            parse_str($parsedUrl['query'], $query);
+        }
+
+        if ($host === 'youtu.be') {
+            $videoId = $path;
+        } elseif (Str::endsWith($host, ['youtube.com', '.youtube.com'])) {
+            if ($path === 'watch') {
+                $videoId = $query['v'] ?? null;
+            } elseif (Str::startsWith($path, 'embed/')) {
+                $videoId = Str::after($path, 'embed/');
+            } elseif (Str::startsWith($path, 'shorts/')) {
+                $videoId = Str::after($path, 'shorts/');
+            } else {
+                $videoId = $query['v'] ?? null;
+            }
+        } else {
+            return null;
+        }
+
+        if (! filled($videoId)) {
+            return null;
+        }
+
+        $videoId = preg_replace('/[^A-Za-z0-9_-]/', '', (string) $videoId);
+
+        return filled($videoId) ? $videoId : null;
     }
 
     public static function driverLicenseOptions()

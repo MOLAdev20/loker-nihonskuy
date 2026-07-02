@@ -149,14 +149,14 @@
       Sebelumnya: Riwayat Pendidikan
     </a>
     @if ($canGoNext)
-      <a href="{{ route('user.profile.form') }}"
+      <a href="{{ route('user.interview-answer') }}"
         class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800">
-        Selanjutnya: Review Data Pribadi
+        Selanjutnya: Pertanyaan Interview
       </a>
     @else
       <button type="button" disabled
         class="inline-flex cursor-not-allowed items-center justify-center rounded-xl bg-slate-300 px-4 py-2.5 text-sm font-semibold text-white">
-        Selanjutnya: Review Data Pribadi
+        Selanjutnya: Pertanyaan Interview
       </button>
     @endif
   </div>

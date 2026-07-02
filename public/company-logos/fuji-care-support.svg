@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Fuji Care Support logo">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#e879f9"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="128" fill="#fff"/>
+  <circle cx="128" cy="128" r="108" fill="url(#g)"/>
+  <path d="M128 78c17-19 49-6 49 20 0 33-49 60-49 60s-49-27-49-60c0-26 32-39 49-20z" fill="#fff"/>
+  <circle cx="128" cy="101" r="14" fill="url(#g)"/>
+</svg>

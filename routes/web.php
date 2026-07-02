@@ -8,18 +8,25 @@ use App\Http\Controllers\UserEducationController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UserWorkingExpController;
 use App\Http\Controllers\VacancyController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\UrgentVacancyController;
 use App\Http\Controllers\MatchingJobLandingController;
 use App\Http\Controllers\User\ResumeController;
 use App\Http\Controllers\User\AccountController;
+use App\Http\Controllers\User\CertificateController;
 use App\Http\Controllers\User\EducationController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\DocumentController;
+use App\Http\Controllers\User\InterviewAnswerController;
 use App\Http\Controllers\User\WorkExperienceController;
 use App\Http\Controllers\TSK\TskController;
 
 Route::get("/", [LandingController::class, "index"])->name("home");
 Route::get("/vacancies", [LandingController::class, "explore"])->name("vacancies");
+Route::get("/jp-company", [CompanyController::class, "landingIndex"])->name("jp.company");
+Route::get("/jp-company/{company}", [CompanyController::class, "landingShow"])->name("jp.company.detail");
+Route::get('/company-logo/{company}', [CompanyController::class, 'logo'])->whereNumber('company')->name('company.logo');
 Route::get("/vacancy/{id}", [LandingController::class, "detail"])->name("vacancy.detail");
 Route::get("/matching-job", [MatchingJobLandingController::class, "index"])->name("matching.job");
 Route::get("/matching-job/education-program", [MatchingJobLandingController::class, "onlyEducation"])->name("matching.job.education");
@@ -59,6 +66,7 @@ Route::prefix("admin")->group(function () {
 
         Route::prefix("users")->group(function () {
             Route::get("/", [UserController::class, "index"])->name("admin.users");
+            Route::post("/", [UserController::class, "store"])->name("admin.users.store");
 
             Route::prefix("{id}")->whereNumber("id")->group(function () {
                 Route::prefix("education")->group(function () {
@@ -86,6 +94,16 @@ Route::prefix("admin")->group(function () {
                 Route::get("/", [UserController::class, "showAccountDetail"])->name("admin.users.detail");
             });
         });
+
+        Route::prefix('jp-company')->name('admin.company.')->group(function () {
+            Route::get('/', [CompanyController::class, 'index'])->name('index');
+            Route::get('/create', [CompanyController::class, 'create'])->name('create');
+            Route::post('/', [CompanyController::class, 'store'])->name('store');
+            Route::get('/{company}', [CompanyController::class, 'show'])->whereNumber('company')->name('show');
+            Route::get('/{company}/edit', [CompanyController::class, 'edit'])->whereNumber('company')->name('edit');
+            Route::put('/{company}', [CompanyController::class, 'update'])->whereNumber('company')->name('update');
+            Route::delete('/{company}', [CompanyController::class, 'destroy'])->whereNumber('company')->name('destroy');
+        });
     });
 });
 
@@ -96,6 +114,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'showProfileForm'])->name('user.profile.form');
     Route::post('/profile', [ProfileController::class, 'storeProfile'])->name('user.profile.store');
     Route::post('/profile/upload-photo', [ProfileController::class, 'uploadProfilePicture'])->name('user.profile.upload-photo');
+    Route::post('/profile/jikoshoukai', [ProfileController::class, 'updateJikoshoukai'])->name('user.profile.jikoshoukai.store');
 
     Route::get('/print-resume', [ResumeController::class, 'download'])->name('user.resume.print');
 
@@ -110,6 +129,22 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/working-experience', [WorkExperienceController::class, 'store'])->name('user.working-experience.store');
     Route::put('/working-experience/{id}', [WorkExperienceController::class, 'update'])->name('user.working-experience.update');
     Route::delete('/working-experience/{id}', [WorkExperienceController::class, 'destroy'])->name('user.working-experience.destroy');
+
+    // Interview Answers
+    Route::get('/interview-answer', [InterviewAnswerController::class, 'index'])->name('user.interview-answer');
+    Route::post('/interview-answer', [InterviewAnswerController::class, 'store'])->name('user.interview-answer.store');
+
+    // Document
+    Route::get('/document', [DocumentController::class, 'index'])->name('user.document');
+    Route::post('/document', [DocumentController::class, 'store'])->name('user.document.store');
+    Route::get('/document/{document}', [DocumentController::class, 'show'])->whereNumber('document')->name('user.document.show');
+    Route::delete('/document/{document}', [DocumentController::class, 'destroy'])->whereNumber('document')->name('user.document.destroy');
+
+    // Certificate
+    Route::get('/certificate', [CertificateController::class, 'index'])->name('user.certificate');
+    Route::post('/certificate', [CertificateController::class, 'store'])->name('user.certificate.store');
+    Route::get('/certificate/{certificate}', [CertificateController::class, 'show'])->whereNumber('certificate')->name('user.certificate.show');
+    Route::delete('/certificate/{certificate}', [CertificateController::class, 'destroy'])->whereNumber('certificate')->name('user.certificate.destroy');
 
     // Contact Team Page
     Route::get("/contact-team", [ProfileController::class, "showConfirmPage"])->name("users.confirm");

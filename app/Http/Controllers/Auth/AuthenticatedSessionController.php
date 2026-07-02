@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         //     return redirect()->route('verification.notice');
         // }
 
-        return redirect()->intended(route('home', absolute: false));
+        return redirect()->intended(route('user.dashboard', absolute: false));
     }
 
     /**

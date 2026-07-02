@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreUserJikoshoukaiRequest;
 use App\Http\Requests\User\StoreUserProfileRequest;
 use App\Models\User\UserEducationHistory;
+use App\Models\User\UserInterviewAnswer;
 use App\Models\User\UserProfile;
 use App\Models\User\WorkExperience;
 use App\Support\FormWizardBuilder;
@@ -38,11 +40,13 @@ class ProfileController extends Controller
         $profile = UserProfile::where('user_id', auth()->id())->first();
         $educationHistoriesCount = UserEducationHistory::where('user_id', auth()->id())->count();
         $workExperiencesCount = WorkExperience::where('user_id', auth()->id())->count();
+        $interviewAnswer = UserInterviewAnswer::where('user_id', auth()->id())->first();
         $wizardSteps = FormWizardBuilder::buildSteps(
             'profile',
             (bool) $profile,
             $educationHistoriesCount > 0,
-            $workExperiencesCount > 0
+            $workExperiencesCount > 0,
+            (bool) $interviewAnswer
         );
 
         return view('user.profile-form', [
@@ -62,18 +66,40 @@ class ProfileController extends Controller
     public function showConfirmPage()
     {
         $profile = UserProfile::where('user_id', auth()->id())->first();
+        if (! $profile) {
+            return redirect()
+                ->route('user.profile.form');
+        }
+
         $educationHistories = UserEducationHistory::where('user_id', auth()->id())
             ->orderByDesc('id')
             ->get();
+        if ($educationHistories->isEmpty()) {
+            return redirect()
+                ->route('user.education-history');
+        }
+
         $workExperiences = WorkExperience::where('user_id', auth()->id())
             ->orderByDesc('id')
             ->get();
+        if ($workExperiences->isEmpty()) {
+            return redirect()
+                ->route('user.working-experience');
+        }
+
+        $interviewAnswer = UserInterviewAnswer::where('user_id', auth()->id())->first();
+
+        if (! $interviewAnswer) {
+            return redirect()
+                ->route('user.interview-answer');
+        }
 
         $wizardSteps = FormWizardBuilder::buildSteps(
-            'workExperience',
+            'confirm',
             (bool) $profile,
             $educationHistories->isNotEmpty(),
-            $workExperiences->isNotEmpty()
+            $workExperiences->isNotEmpty(),
+            true
         );
 
         $publicProfileUrl = route('public.candidates.show', auth()->id());
@@ -139,8 +165,31 @@ class ProfileController extends Controller
             ->with('status', 'Foto profile berhasil diperbarui.');
     }
 
+    public function updateJikoshoukai(StoreUserJikoshoukaiRequest $request)
+    {
+        $profile = UserProfile::where('user_id', auth()->id())->first();
+
+        if (! $profile) {
+            return redirect()
+                ->route('user.profile.form')
+                ->with('error', 'Data profil belum tersedia. Isi profil terlebih dahulu.');
+        }
+
+        $profile->update([
+            'jikoshoukai' => filled($request->validated('jikoshoukai'))
+                ? trim((string) $request->validated('jikoshoukai'))
+                : null,
+        ]);
+
+        return redirect()
+            ->route('user.dashboard')
+            ->with('status', 'Link video jikoshoukai berhasil disimpan.');
+    }
+
     private function mapProfilePayload(array $validatedData, ?string $currentProfilePicture = null): array
     {
+        $hasInterviewAnswer = UserInterviewAnswer::where('user_id', auth()->id())->exists();
+
         return [
             'profile_picture' => $currentProfilePicture ?: 'default.jpg',
             'full_name' => $validatedData['fullName'],
@@ -168,6 +217,11 @@ class ProfileController extends Controller
             'technical_experience' => $validatedData['technicalExperience'],
             'reason_for_leaving' => $validatedData['reasonForLeaving'] ?? null,
             'additional_info' => $validatedData['additionalInfo'] ?? null,
+            'jp_summary' => $hasInterviewAnswer
+                ? UserProfile::where('user_id', auth()->id())->value('jp_summary')
+                : toJapan($validatedData['summary']),
+            'jp_reason_for_leaving' => toJapan($validatedData['reasonForLeaving']),
+            'jp_additional_info' => toJapan($validatedData['additionalInfo']),
         ];
     }
 }

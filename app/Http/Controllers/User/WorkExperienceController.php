@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserWorkExperienceRequest;
 use App\Models\User\UserEducationHistory;
+use App\Models\User\UserInterviewAnswer;
 use App\Models\User\UserProfile;
 use App\Models\User\WorkExperience;
 use App\Support\FormWizardBuilder;
@@ -22,11 +23,13 @@ class WorkExperienceController extends Controller
         $workExperiences = WorkExperience::where('user_id', auth()->id())
             ->orderByDesc('id')
             ->get();
+        $interviewAnswer = UserInterviewAnswer::where('user_id', auth()->id())->first();
         $wizardSteps = FormWizardBuilder::buildSteps(
             'workExperience',
             (bool) $profile,
             $educationHistories->isNotEmpty(),
-            $workExperiences->isNotEmpty()
+            $workExperiences->isNotEmpty(),
+            (bool) $interviewAnswer
         );
 
         return view('user.working-experience-form', [

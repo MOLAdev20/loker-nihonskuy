@@ -2,12 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Vacancy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class LandingController extends Controller
 {
+    public function jpCompany()
+    {
+        $companies = Company::query()
+            ->orderByDesc('id')
+            ->get();
+
+        return view('landing.jp-company', [
+            'companies' => $companies,
+            'locationCount' => $companies->pluck('location')->filter()->unique()->count(),
+        ]);
+    }
+
+    public function jpCompanyDetail(string $slug)
+    {
+        return view('landing.jp-company-detail', [
+            'company' => $this->resolvePublicCompany($slug),
+        ]);
+    }
+
     public function index()
     {
         $jobs = $this->publicVacanciesQuery()
@@ -75,6 +96,125 @@ class LandingController extends Controller
     private function publicVacanciesQuery(): Builder
     {
         return Vacancy::query()->where('status', 1);
+    }
+
+    private function resolvePublicCompany(string $slug): Company
+    {
+        $companyId = (int) Str::before($slug, '-');
+
+        if ($companyId > 0) {
+            return Company::query()->findOrFail($companyId);
+        }
+
+        $company = Company::query()
+            ->get()
+            ->first(fn (Company $item) => Str::slug($item->name) === $slug);
+
+        abort_unless($company, 404);
+
+        return $company;
+    }
+
+    private function jpCompanies(): array
+    {
+        return [
+            [
+                'slug' => 'sakura-precision-manufacturing',
+                'name' => 'Sakura Precision Manufacturing',
+                'location' => 'Osaka, Jepang',
+                'initials' => 'SP',
+                'logo' => 'company-logos/sakura-precision-manufacturing.svg',
+                'from' => '#f43f5e',
+                'to' => '#fb923c',
+                'industry' => 'Manufacturing',
+                'established' => '1998',
+                'employees' => '850+',
+                'website' => 'sakura-precision.co.jp',
+                'overview' => 'Perusahaan manufaktur presisi yang berfokus pada komponen industri dan dukungan produksi untuk sektor otomotif dan elektronik.',
+                'specialties' => ['Precision Parts', 'CNC Machining', 'Quality Control', 'Assembly'],
+                'benefits' => ['Asrama', 'Lembur', 'Bonus Kinerja', 'Dukungan Transport'],
+            ],
+            [
+                'slug' => 'nihon-green-foods',
+                'name' => 'Nihon Green Foods',
+                'location' => 'Aichi, Jepang',
+                'initials' => 'NG',
+                'logo' => 'company-logos/nihon-green-foods.svg',
+                'from' => '#10b981',
+                'to' => '#2dd4bf',
+                'industry' => 'Food Processing',
+                'established' => '2006',
+                'employees' => '420+',
+                'website' => 'nihongreenfoods.jp',
+                'overview' => 'Pabrik pengolahan makanan dengan fokus pada kualitas bahan baku, kebersihan produksi, dan distribusi produk ke retail nasional.',
+                'specialties' => ['Food Packing', 'Cold Storage', 'Hygiene Standards', 'Distribution'],
+                'benefits' => ['Makan Gratis', 'Shift Malam', 'Asuransi', 'Training'],
+            ],
+            [
+                'slug' => 'tokyo-logistics-center',
+                'name' => 'Tokyo Logistics Center',
+                'location' => 'Tokyo, Jepang',
+                'initials' => 'TL',
+                'logo' => 'company-logos/tokyo-logistics-center.svg',
+                'from' => '#0f172a',
+                'to' => '#334155',
+                'industry' => 'Logistics',
+                'established' => '2011',
+                'employees' => '600+',
+                'website' => 'tokyologistics.jp',
+                'overview' => 'Pusat logistik dan pergudangan yang menangani distribusi barang untuk area metropolitan Tokyo dan sekitarnya.',
+                'specialties' => ['Warehouse', 'Sorting', 'Shipping', 'Inventory'],
+                'benefits' => ['Tunjangan Kehadiran', 'Asrama', 'Bonus Tahunan', 'Support TG2'],
+            ],
+            [
+                'slug' => 'hokkaido-tech-works',
+                'name' => 'Hokkaido Tech Works',
+                'location' => 'Hokkaido, Jepang',
+                'initials' => 'HT',
+                'logo' => 'company-logos/hokkaido-tech-works.svg',
+                'from' => '#0ea5e9',
+                'to' => '#22d3ee',
+                'industry' => 'Electronics',
+                'established' => '2004',
+                'employees' => '500+',
+                'website' => 'hokkaidotech.jp',
+                'overview' => 'Perusahaan teknologi yang memproduksi komponen elektronik dan mendukung proses perakitan perangkat konsumen.',
+                'specialties' => ['Electronics Assembly', 'Testing', 'Inspection', 'Packaging'],
+                'benefits' => ['Lembur', 'Tunjangan Shift', 'Makan Siang', 'Pelatihan'],
+            ],
+            [
+                'slug' => 'fuji-care-support',
+                'name' => 'Fuji Care Support',
+                'location' => 'Shizuoka, Jepang',
+                'initials' => 'FC',
+                'logo' => 'company-logos/fuji-care-support.svg',
+                'from' => '#8b5cf6',
+                'to' => '#e879f9',
+                'industry' => 'Care Worker',
+                'established' => '2013',
+                'employees' => '300+',
+                'website' => 'fujicaresupport.jp',
+                'overview' => 'Perusahaan layanan care worker yang berfokus pada pendampingan lansia, kebersihan, dan perawatan harian dengan standar tinggi.',
+                'specialties' => ['Caregiving', 'Daily Support', 'Facility Cleaning', 'Patient Assistance'],
+                'benefits' => ['Tunjangan Hijab', 'Toleransi Ibadah', 'Asrama', 'Support Kaigo'],
+            ],
+            [
+                'slug' => 'kansai-automotive-parts',
+                'name' => 'Kansai Automotive Parts',
+                'location' => 'Kyoto, Jepang',
+                'initials' => 'KA',
+                'logo' => 'company-logos/kansai-automotive-parts.svg',
+                'from' => '#f59e0b',
+                'to' => '#facc15',
+                'industry' => 'Automotive',
+                'established' => '1995',
+                'employees' => '1.200+',
+                'website' => 'kansaiauto.jp',
+                'overview' => 'Pemasok komponen otomotif untuk berbagai pabrikan kendaraan dengan proses produksi modern dan kontrol kualitas ketat.',
+                'specialties' => ['Auto Parts', 'Stamping', 'Inspection', 'Assembly'],
+                'benefits' => ['Bonus', 'Lembur', 'Tunjangan Kendaraan', 'Jaminan Kerja'],
+            ],
+        ];
     }
 
     private function advancedFilterOptions(): array

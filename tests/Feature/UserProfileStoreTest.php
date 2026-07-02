@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\User\UserProfile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -25,6 +26,91 @@ class UserProfileStoreTest extends TestCase
             'reason_for_leaving' => 'Ingin tantangan kerja yang lebih baik.',
             'additional_info' => 'Bersedia relokasi.',
         ]);
+    }
+
+    public function test_authenticated_user_can_store_jikoshoukai_youtube_link(): void
+    {
+        $user = User::factory()->create();
+
+        UserProfile::query()->create([
+            'user_id' => $user->id,
+            'profile_picture' => 'default.jpg',
+            'full_name' => 'User Kandidat',
+            'furigana_name' => 'Yuza Kandidaato',
+            'birth_date' => '1998-01-01',
+            'gender' => 'male',
+            'height' => 170,
+            'weight' => 60,
+            'marital_status' => 'single',
+            'nationality' => 'Indonesia',
+            'place_of_origin' => 'Bandung',
+            'current_address' => 'Bandung Barat',
+            'religion' => 'islam',
+            'is_wearing_hijab' => 'Tidak',
+            'prayer_requirement' => 'Normal',
+            'pork_tolerance' => 'Tidak',
+            'alcohol_tolerance' => 'Tidak',
+            'entry_date' => '2024-01-01',
+            'visa_expiry_date' => '2027-01-01',
+            'current_visa_type' => 'Tokutei Ginou',
+            'jlpt_level' => 'N3',
+            'has_driver_license' => 'Memiliki SIM A',
+            'work_start_date' => '2026-06-01',
+            'technical_experience' => 'Pernah magang di manufaktur.',
+        ]);
+
+        $response = $this->actingAs($user)
+            ->post(route('user.profile.jikoshoukai.store'), [
+                'jikoshoukai' => 'https://www.youtube.com/watch?v=qAxpv3cCHO8',
+            ]);
+
+        $response->assertRedirect(route('user.dashboard'));
+
+        $this->assertDatabaseHas('user_profile', [
+            'user_id' => $user->id,
+            'jikoshoukai' => 'https://www.youtube.com/watch?v=qAxpv3cCHO8',
+        ]);
+    }
+
+    public function test_authenticated_user_cannot_store_non_youtube_jikoshoukai_link(): void
+    {
+        $user = User::factory()->create();
+
+        UserProfile::query()->create([
+            'user_id' => $user->id,
+            'profile_picture' => 'default.jpg',
+            'full_name' => 'User Kandidat',
+            'furigana_name' => 'Yuza Kandidaato',
+            'birth_date' => '1998-01-01',
+            'gender' => 'male',
+            'height' => 170,
+            'weight' => 60,
+            'marital_status' => 'single',
+            'nationality' => 'Indonesia',
+            'place_of_origin' => 'Bandung',
+            'current_address' => 'Bandung Barat',
+            'religion' => 'islam',
+            'is_wearing_hijab' => 'Tidak',
+            'prayer_requirement' => 'Normal',
+            'pork_tolerance' => 'Tidak',
+            'alcohol_tolerance' => 'Tidak',
+            'entry_date' => '2024-01-01',
+            'visa_expiry_date' => '2027-01-01',
+            'current_visa_type' => 'Tokutei Ginou',
+            'jlpt_level' => 'N3',
+            'has_driver_license' => 'Memiliki SIM A',
+            'work_start_date' => '2026-06-01',
+            'technical_experience' => 'Pernah magang di manufaktur.',
+        ]);
+
+        $response = $this->from(route('user.dashboard'))
+            ->actingAs($user)
+            ->post(route('user.profile.jikoshoukai.store'), [
+                'jikoshoukai' => 'https://vimeo.com/123456',
+            ]);
+
+        $response->assertRedirect(route('user.dashboard'));
+        $response->assertSessionHasErrors('jikoshoukai');
     }
 
     private function getProfilePayload(): array

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Tokyo Logistics Center logo">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="128" fill="#fff"/>
+  <circle cx="128" cy="128" r="108" fill="url(#g)"/>
+  <g fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M70 140h38l22-28h56"/>
+    <path d="M84 164h34l16-20h52"/>
+    <circle cx="90" cy="176" r="10" fill="#fff" stroke="none"/>
+    <circle cx="166" cy="112" r="10" fill="#fff" stroke="none"/>
+  </g>
+</svg>

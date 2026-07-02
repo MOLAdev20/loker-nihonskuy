@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserEducationHistoryRequest;
 use App\Models\User\UserEducationHistory;
+use App\Models\User\UserInterviewAnswer;
 use App\Models\User\UserProfile;
 use App\Models\User\WorkExperience;
 use App\Support\FormWizardBuilder;
@@ -21,11 +22,13 @@ class EducationController extends Controller
             ->orderByDesc('id')
             ->get();
         $workExperiencesCount = WorkExperience::where('user_id', auth()->id())->count();
+        $interviewAnswer = UserInterviewAnswer::where('user_id', auth()->id())->first();
         $wizardSteps = FormWizardBuilder::buildSteps(
             'education',
             (bool) $profile,
             $educationHistories->isNotEmpty(),
-            $workExperiencesCount > 0
+            $workExperiencesCount > 0,
+            (bool) $interviewAnswer
         );
 
         return view('user.education-history-form', [
