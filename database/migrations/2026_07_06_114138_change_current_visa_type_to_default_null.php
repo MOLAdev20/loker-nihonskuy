@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('profile', function (Blueprint $table) {
-            $table->integer('account_id')->after('id');
+        Schema::table('user_profile', function (Blueprint $table) {
+            $table->string('current_visa_type', 255)->nullable()->change();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('profile', function (Blueprint $table) {
-            //
+        Schema::table('user_profile', function (Blueprint $table) {
+            $table->string('current_visa_type')->nullable(false)->comment('')->change();
         });
     }
 };

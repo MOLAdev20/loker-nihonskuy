@@ -143,23 +143,29 @@
       <div>
         <label class="{{ $labelClass }}" for="nationality">Kewarganegaraan <span
             class="text-red-600">*</span></label>
-        <input id="nationality" name="nationality" type="text"
-          value="{{ old('nationality', $profile?->nationality ?? '') }}"
-          class="{{ $inputClass }} @error('nationality') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
-          placeholder="Masukkan kewarganegaraan">
+        <select id="nationality" name="nationality"
+          class="{{ $inputClass }} @error('nationality') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
+          <option value="">Pilih kewarganegaraan</option>
+          @foreach ($formOptions['countryOptions'] as $option => $label)
+            <option value="{{ $option }}" @selected(strtolower(old('nationality', $profile?->nationality ?? '')) === $option)>{{ $label['id'] }}</option>
+          @endforeach
+        </select>
         @error('nationality')
           <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
         @enderror
       </div>
 
       <div>
-        <label class="{{ $labelClass }}" for="nationality">Domisili <span
+        <label class="{{ $labelClass }}" for="domicile">Domisili <span
             class="text-red-600">*</span></label>
-        <input id="nationality" name="nationality" type="text"
-          value="{{ old('nationality', $profile?->nationality ?? '') }}"
-          class="{{ $inputClass }} @error('nationality') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror"
-          placeholder="Masukkan kewarganegaraan">
-        @error('nationality')
+        <select id="domicile" name="domicile"
+          class="{{ $inputClass }} @error('domicile') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
+          <option value="">Pilih domisili</option>
+          @foreach ($formOptions['countryOptions'] as $option => $label)
+            <option value="{{ $option }}" @selected(strtolower(old('domicile', $profile?->domicile ?? '')) === $option)>{{ $label['id'] }}</option>
+          @endforeach
+        </select>
+        @error('domicile')
           <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
         @enderror
       </div>
@@ -329,8 +335,8 @@
       <div>
         <label class="{{ $labelClass }}" for="workStartDate">Tanggal Siap Mulai Kerja <span
             class="text-red-600">*</span></label>
-        <input id="workStartDate" name="workStartDate" type="date"
-          value="{{ old('workStartDate', optional($profile?->work_start_date)->format('Y-m-d')) }}"
+        <input id="workStartDate" name="workStartDate" type="text"
+          value="{{ old('workStartDate', $profile?->work_start_date ?? '') }}"
           class="{{ $inputClass }} @error('workStartDate') border-red-500 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-slate-400 focus:ring-slate-100 @enderror">
         @error('workStartDate')
           <p class="mt-1 text-xs text-red-600">{{ $message }}</p>

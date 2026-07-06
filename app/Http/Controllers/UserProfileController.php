@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\StoreUserProfileRequest;
 use App\Models\User;
 use App\Models\User\UserEducationHistory;
+use App\Models\User\UserInterviewAnswer;
 use App\Models\User\UserProfile;
 use App\Models\User\WorkExperience;
 use App\Support\AdminUserFormWizardBuilder;
@@ -21,12 +22,14 @@ class UserProfileController extends Controller
 
         $educationHistoriesCount = UserEducationHistory::where("user_id", $user->id)->count();
         $workExperiencesCount = WorkExperience::where("user_id", $user->id)->count();
+        $interviewCompleted = UserInterviewAnswer::where("user_id", $user->id)->exists();
         $wizardSteps = AdminUserFormWizardBuilder::buildSteps(
             "profile",
             $user->id,
             (bool) $user->userProfile,
             $educationHistoriesCount > 0,
             $workExperiencesCount > 0,
+            $interviewCompleted,
         );
 
         return view("admin.user.profile-form", [
@@ -40,6 +43,7 @@ class UserProfileController extends Controller
                 "prayOptions" => UserProfile::prayOptions(),
                 "driverLicenseOptions" => UserProfile::driverLicenseOptions(),
                 "japaneseCertificateOptions" => UserProfile::japaneseCertificateOptions(),
+                "countryOptions" => UserProfile::countryOptions(),
             ],
         ]);
     }
@@ -110,6 +114,7 @@ class UserProfileController extends Controller
             "weight" => $validatedData["weight"],
             "marital_status" => $validatedData["maritalStatus"],
             "nationality" => $validatedData["nationality"],
+            "domicile" => $validatedData["domicile"],
             "place_of_origin" => $validatedData["placeOfOrigin"],
             "current_address" => $validatedData["currentAddress"],
             "religion" => $validatedData["religion"],

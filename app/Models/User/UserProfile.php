@@ -21,6 +21,7 @@ class UserProfile extends Model
         'weight',
         'marital_status',
         'nationality',
+        'domicile',
         'place_of_origin',
         'current_address',
         'religion',
@@ -50,7 +51,6 @@ class UserProfile extends Model
             'birth_date' => 'date',
             'entry_date' => 'date',
             'visa_expiry_date' => 'date',
-            'work_start_date' => 'date',
         ];
     }
 
@@ -81,6 +81,20 @@ class UserProfile extends Model
                 "id" => "Lainnya",
                 "jp" => "その他"
             ]
+        ];
+    }
+
+    public static function countryOptions(): array
+    {
+        return [
+            'indonesia' => [
+                'id' => 'Indonesia',
+                'jp' => 'インドネシア',
+            ],
+            'jepang' => [
+                'id' => 'Jepang',
+                'jp' => '日本',
+            ],
         ];
     }
 

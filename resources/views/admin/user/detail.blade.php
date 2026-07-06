@@ -9,6 +9,7 @@
     $profile = $user->userProfile;
     $educationHistories = $user->educationHistories;
     $workExperiences = $user->workExperiences;
+    $interviewAnswer = $user->userInterviewAnswer;
     $displayName = $profile?->full_name ?? $user->name;
     $furiganaName = $profile?->furigana_name ?? $user->furigana_name;
     $emptyValue = '—';
@@ -58,7 +59,7 @@
     $genderJpLabels = ['male' => '男', 'female' => '女'];
     $maritalIdLabels = ['single' => 'Belum Menikah', 'married' => 'Menikah', 'divorce' => 'Cerai'];
     $maritalJpLabels = ['single' => 'なし', 'married' => 'あり', 'divorce' => 'なし'];
-    $nationalityJpLabels = ['jepang' => '日本', 'japan' => '日本', 'indonesia' => 'インドネシア'];
+    $countryOptions = \App\Models\User\UserProfile::countryOptions();
     $religionOptions = \App\Models\User\UserProfile::religionOptions();
     $hijabOptions = \App\Models\User\UserProfile::hijabOptions();
     $prayerOptions = \App\Models\User\UserProfile::prayOptions();
@@ -71,6 +72,35 @@
     $educationStatusOptions = \App\Models\User\UserEducationHistory::eduStatusOptions();
     $workingLocationOptions = \App\Models\User\WorkExperience::workingLocationOptions();
     $workingStatusOptions = \App\Models\User\WorkExperience::workingStatusOptions();
+    $interviewSections = [
+      [
+        'title' => 'Pengalaman Kerja Sebelumnya',
+        'items' => [
+          ['label' => ['id' => 'Pengalaman Kerja Sebelumnya', 'jp' => '以前の職歴'], 'value' => $interviewAnswer?->work_history],
+          ['label' => ['id' => 'Skill Teknis', 'jp' => '技術スキル'], 'value' => $interviewAnswer?->technical_skills],
+          ['label' => ['id' => 'Tantangan Komunikasi', 'jp' => 'コミュニケーション課題'], 'value' => $interviewAnswer?->comm_challenges],
+          ['label' => ['id' => 'Alasan Keluar Kerja', 'jp' => '退職理由'], 'value' => $interviewAnswer?->leave_reason],
+        ],
+      ],
+      [
+        'title' => 'Alasan dan Persiapan',
+        'items' => [
+          ['label' => ['id' => 'Alasan Melamar', 'jp' => '応募理由'], 'value' => $interviewAnswer?->apply_reason],
+          ['label' => ['id' => 'Persiapan Melamar', 'jp' => '応募準備'], 'value' => $interviewAnswer?->career_prep],
+          ['label' => ['id' => 'Gambaran Kepribadian', 'jp' => '性格'], 'value' => $interviewAnswer?->personality_review],
+          ['label' => ['id' => 'Cara Mengatasi Kendala', 'jp' => '課題への対応'], 'value' => $interviewAnswer?->problem_solving],
+        ],
+      ],
+      [
+        'title' => 'Motivasi dan Target',
+        'items' => [
+          ['label' => ['id' => 'Motivasi Bertahan', 'jp' => '継続意欲'], 'value' => $interviewAnswer?->stay_motivation],
+          ['label' => ['id' => 'Hal yang Ingin Dipelajari', 'jp' => '学びたいこと'], 'value' => $interviewAnswer?->learning_goals],
+          ['label' => ['id' => 'Target di Jepang', 'jp' => '日本での目標'], 'value' => $interviewAnswer?->japan_targets],
+          ['label' => ['id' => 'Impian Jangka Panjang', 'jp' => '長期目標'], 'value' => $interviewAnswer?->long_term_dream],
+        ],
+      ],
+    ];
     $resolveEducationOption = function (?string $value, array $options) use ($emptyValue) {
       if (! filled($value) || ! isset($options[$value])) {
         return ['id' => $value ?: $emptyValue, 'jp' => null];
@@ -85,14 +115,22 @@
 
       return ['id' => $options[$value]['id'], 'jp' => $options[$value]['jp']];
     };
-    $nationalityKey = strtolower(trim((string) ($profile?->nationality ?? '')));
+    $resolveCountryOption = function (?string $value) use ($countryOptions, $formatValue) {
+      $key = strtolower(trim((string) $value));
+
+      return [
+        'id' => $countryOptions[$key]['id'] ?? $formatValue($value),
+        'jp' => $countryOptions[$key]['jp'] ?? null,
+      ];
+    };
 
     $detailFields = [
       ['label' => ['id' => 'Tanggal Lahir', 'jp' => '生年月日'], 'value' => $formatLocalizedDate($profile?->birth_date)],
       ['label' => ['id' => 'Jenis Kelamin', 'jp' => '性別'], 'value' => ['id' => $genderIdLabels[$profile?->gender] ?? $emptyValue, 'jp' => $genderJpLabels[$profile?->gender] ?? null]],
       ['label' => ['id' => 'Umur', 'jp' => '年齢'], 'value' => ['id' => $profile?->age ?? $emptyValue]],
       ['label' => ['id' => 'Daerah Asal', 'jp' => '出身地'], 'value' => ['id' => $formatValue($profile?->place_of_origin)]],
-      ['label' => ['id' => 'Kewarganegaraan', 'jp' => '国籍'], 'value' => ['id' => $formatValue($profile?->nationality), 'jp' => $nationalityJpLabels[$nationalityKey] ?? null]],
+      ['label' => ['id' => 'Kewarganegaraan', 'jp' => '国籍'], 'value' => $resolveCountryOption($profile?->nationality)],
+      ['label' => ['id' => 'Domisili', 'jp' => '居住地'], 'value' => $resolveCountryOption($profile?->domicile)],
       ['label' => ['id' => 'Status Pernikahan', 'jp' => '婚姻状況'], 'value' => ['id' => $maritalIdLabels[$profile?->marital_status] ?? $emptyValue, 'jp' => $maritalJpLabels[$profile?->marital_status] ?? null]],
       ['label' => ['id' => 'Tinggi Badan', 'jp' => '身長'], 'value' => ['id' => filled($profile?->height) ? $profile->height . ' cm' : $emptyValue]],
       ['label' => ['id' => 'Berat Badan', 'jp' => '体重'], 'value' => ['id' => filled($profile?->weight) ? $profile->weight . ' kg' : $emptyValue]],
@@ -100,7 +138,7 @@
       ['label' => ['id' => 'Masa Berlaku Visa', 'jp' => '在留期限'], 'value' => $formatLocalizedDate($profile?->visa_expiry_date)],
       ['label' => ['id' => 'Level JLPT', 'jp' => 'JLPTレベル'], 'value' => ['id' => $japaneseCertificateOptions[$profile?->jlpt_level]['id'] ?? $formatValue($profile?->jlpt_level), 'jp' => $japaneseCertificateOptions[$profile?->jlpt_level]['jp'] ?? null]],
       ['label' => ['id' => 'Tanggal Masuk', 'jp' => '入国日'], 'value' => $formatLocalizedDate($profile?->entry_date)],
-      ['label' => ['id' => 'Mulai Kerja', 'jp' => '就業開始日'], 'value' => $formatLocalizedDate($profile?->work_start_date)],
+      ['label' => ['id' => 'Mulai Kerja', 'jp' => '就業開始日'], 'value' => ['id' => $profile?->work_start_date ?: $emptyValue]],
       ['label' => ['id' => 'Memiliki SIM', 'jp' => '運転免許'], 'value' => ['id' => $driverLicenseOptions[$profile?->has_driver_license]['id'] ?? $formatValue($profile?->has_driver_license), 'jp' => $driverLicenseOptions[$profile?->has_driver_license]['jp'] ?? null]],
     ];
 
@@ -266,7 +304,7 @@
               {{ $localizedText($profile?->created_at ? $profile->created_at->format('d M Y') . ' Tanggal dibuat' : $emptyValue, $profile?->created_at ? $profile->created_at->format('Y年m月d日') . ' 作成日' : $emptyValue) }}
             </div>
             <div class="flex items-center gap-2">
-            <a href="{{ route('admin.users.profile.form', $user->id) }}"
+            <a href="{{ route('admin.users.interview-answer.index', $user->id) }}"
               class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
               <x-icons.pencil size="14" />
               {{ $localizedText('Ubah Data', 'データ編集') }}
@@ -439,6 +477,45 @@
         @else
           <div class="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-8 text-center text-sm text-slate-500">
             No data provided.
+          </div>
+        @endif
+      </section>
+
+      <section class="rounded-2xl border border-slate-200 bg-white p-5">
+        <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500">
+            {{ $localizedText('Pertanyaan Interview', '面接質問') }}
+          </h2>
+          <a href="{{ route('admin.users.interview-answer.index', $user->id) }}"
+            class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+            <x-icons.pencil size="14" />
+            {{ $localizedText('Ubah Data', 'データ編集') }}
+          </a>
+        </div>
+
+        @if ($interviewAnswer)
+          <div class="space-y-4">
+            @foreach ($interviewSections as $section)
+              <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-4">
+                <h3 class="text-sm font-semibold text-slate-900">{{ $section['title'] }}</h3>
+                <div class="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
+                  @foreach ($section['items'] as $item)
+                    <div class="rounded-lg border border-slate-200 bg-white px-4 py-3">
+                      <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                        {{ $localizedText($item['label']['id'], $item['label']['jp']) }}
+                      </p>
+                      <p class="mt-2 whitespace-pre-line text-sm leading-6 text-slate-700">
+                        {{ $localizedText($item['value'] ?: $emptyValue, $item['value'] ?: null) }}
+                      </p>
+                    </div>
+                  @endforeach
+                </div>
+              </div>
+            @endforeach
+          </div>
+        @else
+          <div class="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-8 text-center text-sm text-slate-500">
+            {{ $localizedText('Belum ada data jawaban interview.', '面接回答データはまだありません。') }}
           </div>
         @endif
       </section>

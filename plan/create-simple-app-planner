@@ -1,0 +1,234 @@
+# PRD Create Simple Activity Planner App
+
+## Tujuan
+- Menyusun rencana pembuatan aplikasi Android Kotlin sederhana untuk pencatatan kegiatan harian user.
+- Melengkapi aplikasi yang sudah memiliki Splash Screen, Login, dan Logout berbasis `SharedPreferences`.
+- Menambahkan Dashboard, form tambah kegiatan, halaman daftar kegiatan, edit kegiatan, dan hapus kegiatan.
+- Menjaga instruksi tetap high level agar dapat diimplementasikan oleh junior mobile programmer atau AI model dengan kemampuan terbatas.
+
+## Catatan Hasil Penelusuran Project
+- Repository yang sedang terbuka saat ini berisi aplikasi Laravel/PHP, bukan struktur project Android/Kotlin.
+- Dokumen ini tetap disusun berdasarkan requirement Android Kotlin dari brief.
+- Implementer harus menerapkan dokumen ini pada project Android Kotlin yang relevan, bukan pada struktur Laravel/PHP yang ada di repository ini.
+- Jika source Android berada di repository atau folder lain, gunakan dokumen ini sebagai acuan scope dan kontrak fitur.
+
+## Ruang Lingkup
+- Dashboard pengguna setelah login.
+- Form tambah kegiatan harian.
+- Halaman Data Kegiatan berisi list kegiatan dengan `RecyclerView` dan `CardView`.
+- Fitur edit kegiatan melalui halaman baru bernama `Edit Kegiatan`.
+- Fitur hapus kegiatan dengan alert konfirmasi.
+- Penyimpanan data kegiatan secara lokal.
+- Integrasi navigasi antar screen sesuai flow aplikasi.
+
+## Di Luar Scope
+- Perubahan Splash Screen, karena sudah diimplementasikan.
+- Perubahan Login dan Logout, karena sudah diimplementasikan.
+- Integrasi backend/API.
+- Sinkronisasi cloud.
+- Multi-user kompleks selain pemisahan data berdasarkan user login jika struktur login existing sudah mendukung.
+- Search, filter, sorting lanjutan, pagination, kategori custom, upload gambar, reminder, alarm, atau notifikasi.
+- Redesign besar di luar kebutuhan screen yang disebutkan.
+
+## Asumsi Produk
+- Aplikasi berjalan secara lokal di Android.
+- User harus login terlebih dahulu sebelum mengakses Dashboard dan data kegiatan.
+- Login state sudah dikelola dengan `SharedPreferences`.
+- Data kegiatan dapat disimpan secara lokal. Untuk aplikasi sederhana, implementer boleh memakai `SharedPreferences` dengan format data terstruktur seperti JSON list. Jika project existing sudah memakai Room atau storage lokal lain, ikuti pola existing tersebut.
+- Kegiatan yang dihitung sebagai "hari ini" adalah kegiatan dengan tanggal yang sama dengan tanggal lokal perangkat user.
+
+## User Flow Utama
+### 1. Membuka Aplikasi
+- User membuka aplikasi.
+- Splash Screen tampil singkat sesuai implementasi existing.
+- Sistem mengecek status login dari `SharedPreferences`.
+- Jika sudah login, user diarahkan ke Dashboard.
+- Jika belum login, user diarahkan ke Login.
+
+### 2. Dashboard Pengguna
+- User melihat ringkasan total kegiatan hari ini dalam card.
+- User dapat menekan tombol untuk masuk ke halaman input kegiatan baru.
+- User tetap dapat logout melalui mekanisme yang sudah ada.
+
+### 3. Tambah Kegiatan
+- User membuka halaman input kegiatan baru dari Dashboard.
+- User mengisi jenis kegiatan, tanggal, lokasi kegiatan, dan catatan.
+- Setelah data valid dan disimpan, user diarahkan ke halaman Data Kegiatan.
+
+### 4. Melihat Data Kegiatan
+- User melihat daftar kegiatan yang sudah diinput.
+- Setiap item kegiatan tampil sebagai card di dalam `RecyclerView`.
+- Setiap card memiliki tombol edit dan hapus.
+
+### 5. Edit Kegiatan
+- User menekan tombol edit pada salah satu card kegiatan.
+- Sistem membuka halaman baru bernama `Edit Kegiatan`.
+- Form edit terisi data existing dari kegiatan yang dipilih.
+- Setelah perubahan disimpan, user kembali ke halaman Data Kegiatan dengan data terbaru.
+
+### 6. Hapus Kegiatan
+- User menekan tombol hapus pada salah satu card kegiatan.
+- Sistem menampilkan alert konfirmasi.
+- Jika user membatalkan, data tidak berubah.
+- Jika user menyetujui, data kegiatan dihapus dan daftar diperbarui.
+
+## Struktur Screen
+### 1. Splash Screen
+- Status: sudah ada dan sudah diimplementasikan.
+- Tidak perlu diubah kecuali diperlukan untuk menjaga navigasi ke login/dashboard tetap berjalan.
+
+### 2. Login Screen
+- Status: sudah ada dan sudah diimplementasikan.
+- Login dan logout tetap menggunakan `SharedPreferences` sesuai implementasi existing.
+- Jangan mengubah logic login kecuali ada bug yang langsung menghambat fitur kegiatan.
+
+### 3. Dashboard Screen
+- Menampilkan card total kegiatan hari ini.
+- Menampilkan tombol utama menuju form tambah kegiatan.
+- Secara visual harus sederhana, jelas, dan mudah digunakan.
+- Dashboard harus mengambil data kegiatan lokal untuk menghitung total kegiatan pada tanggal hari ini.
+
+### 4. Tambah Kegiatan Screen
+- Berisi form input kegiatan baru.
+- Field yang wajib tersedia:
+
+| Field | Tipe UI | Requirement |
+| --- | --- | --- |
+| Jenis kegiatan | Dropdown/Spinner | Wajib, pilihan: Olahraga, Belajar, Bekerja, Belanja |
+| Tanggal | Date input/Date picker | Wajib |
+| Lokasi kegiatan | Text input | Wajib |
+| Catatan | Text input multiline | Opsional atau wajib ringan sesuai pola validasi existing |
+
+- Setelah simpan berhasil, navigasi harus menuju halaman Data Kegiatan.
+
+### 5. Data Kegiatan Screen
+- Menampilkan daftar kegiatan dalam `RecyclerView`.
+- Setiap data kegiatan ditampilkan menggunakan `CardView`.
+- Isi card minimal menampilkan jenis kegiatan, tanggal, lokasi, dan catatan.
+- Setiap card memiliki tombol Edit dan Hapus.
+- Jika belum ada data, tampilkan empty state sederhana agar user paham bahwa belum ada kegiatan.
+
+### 6. Edit Kegiatan Screen
+- Halaman terpisah dari tambah kegiatan.
+- Judul halaman menggunakan teks `Edit Kegiatan`.
+- Form menggunakan field yang sama dengan tambah kegiatan.
+- Data existing harus terisi otomatis berdasarkan item yang dipilih.
+- Setelah simpan berhasil, update data lokal dan arahkan user kembali ke Data Kegiatan.
+
+## Kontrak Data Kegiatan
+Gunakan struktur data yang sederhana dan konsisten.
+
+| Properti | Tipe | Keterangan |
+| --- | --- | --- |
+| `id` | String/Long | Identifier unik untuk setiap kegiatan |
+| `type` | String | Salah satu dari `olahraga`, `belajar`, `bekerja`, `belanja` |
+| `date` | String/Date | Tanggal kegiatan |
+| `location` | String | Lokasi kegiatan |
+| `note` | String | Catatan kegiatan |
+| `createdAt` | String/Long | Waktu data dibuat |
+| `updatedAt` | String/Long | Waktu data terakhir diubah |
+
+## Aturan Validasi
+- Jenis kegiatan wajib dipilih dari daftar yang tersedia.
+- Tanggal kegiatan wajib diisi.
+- Lokasi kegiatan wajib diisi dan tidak boleh hanya spasi kosong.
+- Catatan boleh lebih fleksibel, tetapi tetap harus aman untuk disimpan dan ditampilkan.
+- Saat validasi gagal, tampilkan pesan error yang mudah dipahami dekat dengan field terkait.
+- Jangan menyimpan data jika input wajib belum valid.
+
+## Rencana Penyimpanan Data Lokal
+- Gunakan storage lokal sederhana yang paling sesuai dengan project Android existing.
+- Jika belum ada storage kegiatan, gunakan pendekatan sederhana:
+  - Simpan list kegiatan sebagai data terstruktur lokal.
+  - Pastikan setiap kegiatan memiliki `id` unik.
+  - Pastikan create, update, dan delete memodifikasi list yang sama.
+- Jika login existing menyimpan identitas user, data kegiatan sebaiknya dipisahkan per user agar data antar akun tidak tercampur.
+- Jangan menambah backend atau API karena tidak termasuk scope.
+
+## Rencana Navigasi
+- Setelah login berhasil: arahkan ke Dashboard.
+- Dari Dashboard: tombol tambah kegiatan membuka Tambah Kegiatan Screen.
+- Setelah tambah kegiatan sukses: arahkan ke Data Kegiatan Screen.
+- Dari Data Kegiatan Screen: tombol edit membuka Edit Kegiatan Screen dengan membawa `id` kegiatan.
+- Setelah edit sukses: kembali ke Data Kegiatan Screen.
+- Setelah hapus sukses: tetap di Data Kegiatan Screen dan refresh daftar.
+- Logout mengikuti flow existing dan menghapus login state sesuai implementasi yang sudah ada.
+
+## Prinsip UI/UX
+- Gunakan tampilan sederhana, bersih, dan mudah dipahami.
+- Prioritaskan keterbacaan data kegiatan.
+- Tombol aksi harus jelas: Tambah, Simpan, Edit, Hapus, Batal.
+- Alert hapus harus menjelaskan bahwa data akan dihapus dan membutuhkan persetujuan user.
+- Gunakan label berbahasa Indonesia sesuai brief.
+- Hindari desain yang terlalu kompleks atau fitur tambahan yang tidak diminta.
+
+## Prinsip Teknis
+- Gunakan Kotlin dan komponen Android native sesuai struktur project existing.
+- Pisahkan tanggung jawab screen, adapter RecyclerView, model data, dan helper storage.
+- Jangan menaruh semua logic di satu file jika project existing sudah memiliki pola pemisahan.
+- Gunakan adapter `RecyclerView` untuk menampilkan list kegiatan.
+- Gunakan `CardView` sebagai container visual item kegiatan.
+- Pastikan perubahan data langsung tercermin ketika user kembali ke Data Kegiatan Screen.
+- Jaga agar logic create, read, update, delete mudah dibaca dan tidak bercampur dengan logic login.
+
+## Tahapan Implementasi
+### Fase 1 - Review Project Android Existing
+- Pastikan lokasi source Android Kotlin yang benar.
+- Identifikasi implementasi Splash Screen, Login, Logout, dan `SharedPreferences`.
+- Identifikasi pola Activity/Fragment yang sudah dipakai agar screen baru mengikuti struktur existing.
+
+### Fase 2 - Kontrak Data dan Storage
+- Tetapkan model data kegiatan.
+- Siapkan mekanisme penyimpanan lokal untuk list kegiatan.
+- Pastikan storage mendukung tambah, ambil semua data, update berdasarkan `id`, hapus berdasarkan `id`, dan hitung kegiatan hari ini.
+
+### Fase 3 - Dashboard
+- Tambahkan card total kegiatan hari ini.
+- Tambahkan tombol menuju halaman tambah kegiatan.
+- Hubungkan Dashboard ke storage lokal untuk menghitung data berdasarkan tanggal hari ini.
+
+### Fase 4 - Tambah Kegiatan
+- Buat screen form tambah kegiatan.
+- Tambahkan dropdown jenis kegiatan, tanggal, lokasi, dan catatan.
+- Tambahkan validasi input.
+- Setelah simpan berhasil, arahkan user ke halaman Data Kegiatan.
+
+### Fase 5 - Data Kegiatan
+- Buat halaman daftar kegiatan.
+- Tampilkan data dengan `RecyclerView` dan `CardView`.
+- Tambahkan tombol edit dan hapus pada setiap card.
+- Tambahkan empty state saat data belum tersedia.
+
+### Fase 6 - Edit dan Hapus
+- Buat halaman `Edit Kegiatan`.
+- Isi form edit dari data kegiatan berdasarkan `id`.
+- Simpan perubahan ke storage lokal.
+- Tambahkan alert konfirmasi sebelum hapus data.
+- Refresh daftar setelah data dihapus.
+
+### Fase 7 - Finalisasi dan QA
+- Uji flow dari login sampai CRUD kegiatan.
+- Uji kondisi data kosong, input tidak valid, tambah data, edit data, hapus batal, dan hapus setuju.
+- Uji perhitungan total kegiatan hari ini di Dashboard.
+- Pastikan tidak ada perubahan di luar scope.
+
+## Kriteria Hasil
+- Splash Screen existing tetap berjalan.
+- Login dan logout existing berbasis `SharedPreferences` tetap berjalan.
+- Setelah login, user dapat melihat Dashboard.
+- Dashboard menampilkan total kegiatan pada hari ini.
+- Dashboard memiliki tombol menuju input kegiatan baru.
+- User dapat menambah kegiatan dengan jenis kegiatan, tanggal, lokasi, dan catatan.
+- Setelah tambah kegiatan berhasil, user diarahkan ke halaman Data Kegiatan.
+- Halaman Data Kegiatan menampilkan list kegiatan memakai `RecyclerView` dan `CardView`.
+- Setiap card kegiatan memiliki tombol edit dan hapus.
+- Tombol hapus menampilkan alert konfirmasi sebelum data dihapus.
+- Tombol edit membuka halaman baru `Edit Kegiatan`.
+- User dapat menyimpan perubahan dari halaman `Edit Kegiatan`.
+- Data yang ditambah, diedit, dan dihapus tersimpan secara lokal dan tampil konsisten.
+
+## Catatan Implementasi
+- Kerjakan hanya fitur yang dijelaskan dalam dokumen ini.
+- Jangan menambahkan fitur baru di luar scope seperti API, notifikasi, search, filter, kalender lanjutan, atau statistik tambahan.
+- Jangan mengubah Splash Screen, Login, dan Logout kecuali diperlukan untuk integrasi navigasi minimal.
+- Jika ada konflik antara pola dokumen ini dan pola project Android existing, ikuti pola project existing selama requirement utama tetap terpenuhi.

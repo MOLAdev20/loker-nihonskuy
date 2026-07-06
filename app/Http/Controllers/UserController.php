@@ -62,6 +62,7 @@ class UserController extends Controller
                 "userProfile",
                 "educationHistories" => fn($query) => $query->orderByDesc("date_of_entry")->orderByDesc("id"),
                 "workExperiences" => fn($query) => $query->orderByDesc("date_of_join")->orderByDesc("id"),
+                "userInterviewAnswer",
             ])
             ->findOrFail($id);
 

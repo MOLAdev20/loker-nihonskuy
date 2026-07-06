@@ -404,7 +404,7 @@ class ResumeExport implements FromArray, WithColumnWidths, WithDrawings, WithEve
             'marital_status' => $this->formatMaritalStatus($this->profile->marital_status),
             'age' => $this->formatAge($this->profile->birth_date),
             'current_visa_type' => $this->normalizeText($this->profile->current_visa_type),
-            'work_start_date' => $this->formatDate($this->profile->work_start_date),
+            'work_start_date' => $this->normalizeText($this->profile->work_start_date),
             'phone_number' => $this->resolveCandidatePhoneNumber(),
             default => $this->normalizeText($this->profile->{$field} ?? null),
         };

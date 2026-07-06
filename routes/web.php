@@ -5,6 +5,7 @@ use App\Http\Controllers\PublicCandidateController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserEducationController;
+use App\Http\Controllers\UserInterviewAnswerController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UserWorkingExpController;
 use App\Http\Controllers\VacancyController;
@@ -89,6 +90,11 @@ Route::prefix("admin")->group(function () {
                     Route::post("/", [UserWorkingExpController::class, "store"])->name("admin.users.working-experience.store");
                     Route::put("/{workExperienceId}", [UserWorkingExpController::class, "update"])->name("admin.users.working-experience.update");
                     Route::delete("/{workExperienceId}", [UserWorkingExpController::class, "destroy"])->name("admin.users.working-experience.destroy");
+                });
+
+                Route::prefix("interview-answer")->group(function () {
+                    Route::get("/", [UserInterviewAnswerController::class, "index"])->name("admin.users.interview-answer.index");
+                    Route::post("/", [UserInterviewAnswerController::class, "store"])->name("admin.users.interview-answer.store");
                 });
 
                 Route::get("/", [UserController::class, "showAccountDetail"])->name("admin.users.detail");

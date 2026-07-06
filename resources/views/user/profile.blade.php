@@ -69,11 +69,7 @@
           'male' => '男',
           'female' => '女',
       ];
-      $nationalityJapaneseLabels = [
-          'jepang' => '日本',
-          'japan' => '日本',
-          'indonesia' => 'インドネシア',
-      ];
+      $countryOptions = \App\Models\User\UserProfile::countryOptions();
       $religionOptions = \App\Models\User\UserProfile::religionOptions();
       $hijabOptions = \App\Models\User\UserProfile::hijabOptions();
       $prayerOptions = \App\Models\User\UserProfile::prayOptions();
@@ -126,7 +122,6 @@
           }
       }
 
-      $nationalityKey = strtolower(trim((string) $profile->nationality));
       $jlptValue = $profile->jlpt_level;
       $jikoshoukaiValue = old('jikoshoukai', $profile->jikoshoukai);
       $jikoshoukaiThumbnailUrl = $profile->jikoshoukai_thumbnail_url;
@@ -137,19 +132,29 @@
       $jlptDisplay = $japaneseCertificateOptions[$jlptValue]['id'] ?? ($legacyJlptDisplayMap[$jlptValue] ?? ($jlptValue ?: '-'));
       $jlptJapanese = $japaneseCertificateOptions[$jlptValue]['jp'] ?? (($jlptValue === 'none') ? '資格なし' : (($jlptValue === 'other') ? 'その他' : ($jlptValue ?: null)));
 
+      $resolveCountryOption = function (?string $value) use ($countryOptions, $emptyValue) {
+          $key = strtolower(trim((string) $value));
+
+          if (! filled($key) || ! isset($countryOptions[$key])) {
+              return ['id' => $value ?: $emptyValue, 'jp' => null];
+          }
+
+          return ['id' => $countryOptions[$key]['id'], 'jp' => $countryOptions[$key]['jp']];
+      };
       $personalInfoRows = [
           ['label' => ['id' => 'Tanggal Lahir', 'jp' => '生年月日'], 'value' => $formatLocalizedDate($profile->birth_date)],
           ['label' => ['id' => 'Jenis Kelamin', 'jp' => '性別'], 'value' => ['id' => $genderLabels[$profile->gender] ?? $emptyValue, 'jp' => $genderJapaneseLabels[$profile->gender] ?? null]],
           ['label' => ['id' => 'Umur', 'jp' => '年齢'], 'value' => ['id' => $profile->age ?? $emptyValue]],
           ['label' => ['id' => 'Daerah Asal', 'jp' => '出身地'], 'value' => ['id' => $profile->place_of_origin ?: $emptyValue]],
-          ['label' => ['id' => 'Kewarganegaraan', 'jp' => '国籍'], 'value' => ['id' => $profile->nationality ?: $emptyValue, 'jp' => $nationalityJapaneseLabels[$nationalityKey] ?? null]],
+          ['label' => ['id' => 'Kewarganegaraan', 'jp' => '国籍'], 'value' => $resolveCountryOption($profile->nationality)],
+          ['label' => ['id' => 'Domisili', 'jp' => '居住地'], 'value' => $resolveCountryOption($profile->domicile)],
           ['label' => ['id' => 'Tinggi Badan', 'jp' => '身長'], 'value' => ['id' => ($profile->height ?: $emptyValue) . ' cm']],
           ['label' => ['id' => 'Berat Badan', 'jp' => '体重'], 'value' => ['id' => ($profile->weight ?: $emptyValue) . ' kg']],
           ['label' => ['id' => 'Jenis Visa Saat Ini', 'jp' => '現在の在留資格'], 'value' => ['id' => $profile->current_visa_type ?: $emptyValue]],
           ['label' => ['id' => 'Masa Berlaku Visa', 'jp' => '在留期限'], 'value' => $formatLocalizedDate($profile->visa_expiry_date)],
           ['label' => ['id' => 'Level JLPT', 'jp' => 'JLPTレベル'], 'value' => ['id' => $jlptDisplay, 'jp' => $jlptJapanese]],
           ['label' => ['id' => 'Tanggal Masuk Jepang', 'jp' => '入国日'], 'value' => $formatLocalizedDate($profile->entry_date)],
-          ['label' => ['id' => 'Tanggal Mulai Kerja', 'jp' => '就業開始日'], 'value' => $formatLocalizedDate($profile->work_start_date)],
+          ['label' => ['id' => 'Tanggal Mulai Kerja', 'jp' => '就業開始日'], 'value' => ['id' => $profile->work_start_date ?: $emptyValue]],
           ['label' => ['id' => 'Memiliki SIM', 'jp' => '運転免許'], 'value' => ['id' => $driverLicenseOptions[$profile->has_driver_license]['id'] ?? ($profile->has_driver_license ?: $emptyValue), 'jp' => $driverLicenseOptions[$profile->has_driver_license]['jp'] ?? null]],
       ];
 

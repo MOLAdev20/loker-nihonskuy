@@ -59,6 +59,7 @@ class ProfileController extends Controller
                 'prayOptions' => UserProfile::prayOptions(),
                 'driverLicenseOptions' => UserProfile::driverLicenseOptions(),
                 'japaneseCertificateOptions' => UserProfile::japaneseCertificateOptions(),
+                'countryOptions' => UserProfile::countryOptions(),
             ]
         ]);
     }
@@ -200,6 +201,7 @@ class ProfileController extends Controller
             'weight' => $validatedData['weight'],
             'marital_status' => $validatedData['maritalStatus'],
             'nationality' => $validatedData['nationality'],
+            'domicile' => $validatedData['domicile'],
             'place_of_origin' => $validatedData['placeOfOrigin'],
             'current_address' => $validatedData['currentAddress'],
             'religion' => $validatedData['religion'],

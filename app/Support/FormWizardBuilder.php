@@ -14,6 +14,14 @@ class FormWizardBuilder
         return [
             [
                 'number' => 1,
+                'label' => 'Pertanyaan Interview',
+                'route' => route('user.interview-answer'),
+                'isActive' => $activeStep === 'interview',
+                'isCompleted' => $isInterviewCompleted,
+                'isAccessible' => $isProfileCompleted && $isEducationCompleted && $isWorkingExperienceCompleted,
+            ],
+            [
+                'number' => 2,
                 'label' => 'Informasi Pribadi',
                 'route' => route('user.profile.form'),
                 'isActive' => $activeStep === 'profile',
@@ -21,7 +29,7 @@ class FormWizardBuilder
                 'isAccessible' => true,
             ],
             [
-                'number' => 2,
+                'number' => 3,
                 'label' => 'Riwayat Pendidikan',
                 'route' => route('user.education-history'),
                 'isActive' => $activeStep === 'education',
@@ -29,20 +37,12 @@ class FormWizardBuilder
                 'isAccessible' => $isProfileCompleted,
             ],
             [
-                'number' => 3,
+                'number' => 4,
                 'label' => 'Riwayat Pekerjaan',
                 'route' => route('user.working-experience'),
                 'isActive' => $activeStep === 'workExperience',
                 'isCompleted' => $isWorkingExperienceCompleted,
                 'isAccessible' => $isProfileCompleted && $isEducationCompleted,
-            ],
-            [
-                'number' => 4,
-                'label' => 'Pertanyaan Interview',
-                'route' => route('user.interview-answer'),
-                'isActive' => $activeStep === 'interview',
-                'isCompleted' => $isInterviewCompleted,
-                'isAccessible' => $isProfileCompleted && $isEducationCompleted && $isWorkingExperienceCompleted,
             ],
             [
                 'number' => 5,
