@@ -5,7 +5,7 @@ use App\Http\Controllers\PublicCandidateController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserEducationController;
-use App\Http\Controllers\UserInterviewAnswerController;
+use App\Http\Controllers\Admin\UserManagement\Question\InterviewController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UserWorkingExpController;
 use App\Http\Controllers\VacancyController;
@@ -14,7 +14,6 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\UrgentVacancyController;
 use App\Http\Controllers\MatchingJobLandingController;
 use App\Http\Controllers\User\ResumeController;
-use App\Http\Controllers\User\AccountController;
 use App\Http\Controllers\User\CertificateController;
 use App\Http\Controllers\User\EducationController;
 use App\Http\Controllers\User\ProfileController;
@@ -70,17 +69,23 @@ Route::prefix("admin")->group(function () {
             Route::post("/", [UserController::class, "store"])->name("admin.users.store");
 
             Route::prefix("{id}")->whereNumber("id")->group(function () {
-                Route::prefix("education")->group(function () {
-                    Route::get("/", [UserEducationController::class, "index"])->name("admin.users.education.index");
-                    Route::post("/", [UserEducationController::class, "store"])->name("admin.users.education.store");
-                    Route::put("/{educationHistoryId}", [UserEducationController::class, "update"])->name("admin.users.education.update");
-                    Route::delete("/{educationHistoryId}", [UserEducationController::class, "destroy"])->name("admin.users.education.destroy");
+
+                Route::prefix("interview-answer")->whereNumber('id')->group(function () {
+                    Route::get("/", [InterviewController::class, "index"])->name("admin.users.interview-answer.index");
+                    Route::post("/", [InterviewController::class, "store"])->name("admin.users.interview-answer.store");
                 });
 
                 Route::prefix("profile")->group(function () {
                     Route::get("/", [UserProfileController::class, "showForm"])->name("admin.users.profile.form");
                     Route::post("/", [UserProfileController::class, "store"])->name("admin.users.profile.store");
                     Route::post("/upload-photo", [UserProfileController::class, "uploadProfilePicture"])->name("admin.users.profile.upload-photo");
+                });
+
+                Route::prefix("education")->group(function () {
+                    Route::get("/", [UserEducationController::class, "index"])->name("admin.users.education.index");
+                    Route::post("/", [UserEducationController::class, "store"])->name("admin.users.education.store");
+                    Route::put("/{educationHistoryId}", [UserEducationController::class, "update"])->name("admin.users.education.update");
+                    Route::delete("/{educationHistoryId}", [UserEducationController::class, "destroy"])->name("admin.users.education.destroy");
                 });
 
                 Route::get("/print-resume", [UserController::class, "printResume"])->name("admin.users.resume.print");
@@ -90,11 +95,6 @@ Route::prefix("admin")->group(function () {
                     Route::post("/", [UserWorkingExpController::class, "store"])->name("admin.users.working-experience.store");
                     Route::put("/{workExperienceId}", [UserWorkingExpController::class, "update"])->name("admin.users.working-experience.update");
                     Route::delete("/{workExperienceId}", [UserWorkingExpController::class, "destroy"])->name("admin.users.working-experience.destroy");
-                });
-
-                Route::prefix("interview-answer")->group(function () {
-                    Route::get("/", [UserInterviewAnswerController::class, "index"])->name("admin.users.interview-answer.index");
-                    Route::post("/", [UserInterviewAnswerController::class, "store"])->name("admin.users.interview-answer.store");
                 });
 
                 Route::get("/", [UserController::class, "showAccountDetail"])->name("admin.users.detail");
